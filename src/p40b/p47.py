@@ -715,3 +715,8 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m152: locker room + home buttons right under Play / Sim, in blue (Tyler 2026-11-14)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m152.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m153: every draft prospect has a high school + college career (Tyler 2026-11-14: "they all need stats if they're getting drafted")
+r("<small>${x.s}</small>","<small>${x.s}</small>${x.cs?'<br><small style=\"opacity:.8\">'+x.cs+'</small>':''}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m153.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

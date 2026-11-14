@@ -57,6 +57,9 @@ const TESTS=[
  {f:'ft1.js', why:'former teammates from the real records: every pro who shared a club and a year with you is tagged (and nobody else), his card says so; locker room + home buttons sit under Play/Sim in blue',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_allFound','A_noneWrong','B_cardTag','C_underPlaySim','C_blue'])if(d[k]!==true)return k+' = '+d[k];if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
 
+ {f:'gen1.js', why:'every draft prospect has a high school + college career (new players only), better picks had better college seasons, the board and his card show it, fixed after reload',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_allHaveCareer','B_betterPicksBetterStats','C_boardShows','D_cardShows','E_noneForExisting','F_survivesReload'])if(d[k]!==true)return k+' = '+JSON.stringify(d[k])+' '+JSON.stringify(d.B_earlyVsLate||'');if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 

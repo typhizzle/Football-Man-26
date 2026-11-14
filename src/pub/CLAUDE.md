@@ -718,3 +718,5 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
 ## S.T/S.pro team objects and cr1 caught it), Didd-E + Tommy Chew Toy (owner, ~80% of Goaty's events); m151 former
 ## teammates from real records (ftOf; card tag + post-game meetup); m152 locker room/home buttons under Play/Sim in blue;
 ## m144 simTd pts/15 (was 14: 57-58 TD sims). Gate 47/47.
+
+## V262 — m153: every draft prospect without a real record gets a HS+college career ONCE at class creation (S.pc gen:1; Tyler OK'd for NEW players only). Board fillers in the college->pro draft get careers but are NOT added to pro rosters (unchanged behavior). npbV shows a college line. Gate 48/48 (dr1 counts real players only).

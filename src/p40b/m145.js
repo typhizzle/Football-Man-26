@@ -37,7 +37,7 @@ window.pcDraftPool=function(){const out=[],taken=pcLeagueNames();try{S.T.forEach
 // once the draft is over, every real prospect who was taken joins the team that drafted him
 window.pcDrIns=function(){try{const D=S.dr;if(!D||!D.real||D.insDone||!Array.isArray(D.picks))return null;const out=[];
  if(!D.ndRec&&D.pk>=224){const yr=yrN();D.P.forEach(q=>{if(q&&q.pid&&!q.tk&&!q.me){const e=pcEnt(q.pid);if(e&&!e.o.some(o=>o[1]==='not drafted'))e.o.push([yr,'not drafted','',null])}});D.ndRec=1}
- D.picks.forEach(k=>{const q=D.P[k.pi];if(!q||!q.pid||q.me)return;const T=(S.pro||[])[k.ti];if(!T)return;out.push({pid:q.pid,n:q.n,pos:q.pos,ovr:q.ovr,pot:q.pot,pt:T.n,pk:k.pk})});
+ D.picks.forEach(k=>{const q=D.P[k.pi];if(!q||!q.pid||q.me)return;if((pcEnt(q.pid)||{}).gen)return;/* a made-up board name was never a league player: not added (unchanged) */const T=(S.pro||[])[k.ti];if(!T)return;out.push({pid:q.pid,n:q.n,pos:q.pos,ovr:q.ovr,pot:q.pot,pt:T.n,pk:k.pk})});
  return out}catch(e){return null}};
 (()=>{try{const _p=proAlumIn;proAlumIn=function(a,t,L){const before=L?L.map(x=>x&&x.n):[];const r=_p.apply(this,arguments);
  try{if(!L||!t||S.stage!='pro')return r;

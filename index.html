@@ -391,7 +391,7 @@ const npxVis=()=>!!(S&&S.npx&&((S.stage||'hs')=='hs'||S.npxd||S.stage=='draft'||
 // the full 7 x 32 board for a draft (other picks are regenerated from the save seed, so it costs almost nothing to store)
 function npbRows(yr){const B=S.npb&&S.npb[yr];if(!B)return[];const rr=rng((S.seed||1)*131+yr*7),all=S.col.flatMap(c=>c.t),pw=all.filter(t=>t.ab),nx={},rows=[];S.npx.forEach(p=>{if(p.pro&&p.pro.yr==yr)nx[p.pro.pk]=p});
 for(let pk=1;pk<=224;pk++){const ti=B.o[(pk-1)%32],p=nx[pk],a=rr(),b=rr(),c=rr(),d=rr(),e=rr();if(p){rows.push({pk,ti:p.pro.ti,n:p.n,pos:p.pos,s:p.sch,me:1});continue}const pool=pk<=96&&d<.75?pw:all,t=pool[e*pool.length|0];rows.push({pk,ti,n:NF[a*NF.length|0]+' '+NL[b*NL.length|0],pos:POSD[c*POSD.length|0],s:t?t.n:'State'})}return rows}
-function npbV(yr,rd){const R_=npbRows(yr).filter(x=>Math.ceil(x.pk/32)==rd);ui.innerHTML=`<div><h2>📋 ${yr} pro draft</h2><p class=tabs>${[1,2,3,4,5,6,7].map(i=>`<button class="${i==rd?'':'g'}" onclick="npbV(${yr},${i})">Rd ${i}</button>`).join('')}</p><div class=card><b>Round ${rd}</b> <small>picks ${(rd-1)*32+1}-${rd*32} · ★ = players you've followed</small>${R_.map(x=>`<div class=row style="font-size:16px;gap:6px;align-items:flex-start"><span style="min-width:0">${x.me?'<b>★ ':''}#${x.pk} ${x.n}${x.me?'</b>':''} <small>${x.pos}</small><br><small>${x.s}</small></span><small style="flex:none">${tAb(S.pro[x.ti])}</small></div>`).join('')}</div><button class=g onclick=npxV()>Back</button></div>`;ui.scrollTop=0}
+function npbV(yr,rd){const R_=npbRows(yr).filter(x=>Math.ceil(x.pk/32)==rd);ui.innerHTML=`<div><h2>📋 ${yr} pro draft</h2><p class=tabs>${[1,2,3,4,5,6,7].map(i=>`<button class="${i==rd?'':'g'}" onclick="npbV(${yr},${i})">Rd ${i}</button>`).join('')}</p><div class=card><b>Round ${rd}</b> <small>picks ${(rd-1)*32+1}-${rd*32} · ★ = players you've followed</small>${R_.map(x=>`<div class=row style="font-size:16px;gap:6px;align-items:flex-start"><span style="min-width:0">${x.me?'<b>★ ':''}#${x.pk} ${x.n}${x.me?'</b>':''} <small>${x.pos}</small><br><small>${x.s}</small>${x.cs?'<br><small style="opacity:.8">'+x.cs+'</small>':''}</span><small style="flex:none">${tAb(S.pro[x.ti])}</small></div>`).join('')}</div><button class=g onclick=npxV()>Back</button></div>`;ui.scrollTop=0}
 // drop them into their pro team (with the seasons they've played since the draft)
 function npxIns(a,t,L){if(!S.npx||!S.npxd)return;const pi=pIdx(t);if(pi<0)return;const me=a=='h.0'&&S.stage=='pro';S.npx.forEach(p=>{if(!p.pro||p.ins||p.pro.ti!=pi)return;p.ins=1;
 const age=19+p.off,x={n:p.n,pos:p.pos,num:p.num,ovr:p.T,cls:0,age,pot:npxPot(p),qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},npx:p.id,rs:p.pos=='QB'?+Math.pow(R(),2).toFixed(2):0},g=SG(p.pos),n=Math.max(0,yrN()-p.pro.yr),rr=rng((S.seed||1)+p.id*53);
@@ -10484,7 +10484,7 @@ window.pcDraftPool=function(){const out=[],taken=pcLeagueNames();try{S.T.forEach
 // once the draft is over, every real prospect who was taken joins the team that drafted him
 window.pcDrIns=function(){try{const D=S.dr;if(!D||!D.real||D.insDone||!Array.isArray(D.picks))return null;const out=[];
  if(!D.ndRec&&D.pk>=224){const yr=yrN();D.P.forEach(q=>{if(q&&q.pid&&!q.tk&&!q.me){const e=pcEnt(q.pid);if(e&&!e.o.some(o=>o[1]==='not drafted'))e.o.push([yr,'not drafted','',null])}});D.ndRec=1}
- D.picks.forEach(k=>{const q=D.P[k.pi];if(!q||!q.pid||q.me)return;const T=(S.pro||[])[k.ti];if(!T)return;out.push({pid:q.pid,n:q.n,pos:q.pos,ovr:q.ovr,pot:q.pot,pt:T.n,pk:k.pk})});
+ D.picks.forEach(k=>{const q=D.P[k.pi];if(!q||!q.pid||q.me)return;if((pcEnt(q.pid)||{}).gen)return;/* a made-up board name was never a league player: not added (unchanged) */const T=(S.pro||[])[k.ti];if(!T)return;out.push({pid:q.pid,n:q.n,pos:q.pos,ovr:q.ovr,pot:q.pot,pt:T.n,pk:k.pk})});
  return out}catch(e){return null}};
 (()=>{try{const _p=proAlumIn;proAlumIn=function(a,t,L){const before=L?L.map(x=>x&&x.n):[];const r=_p.apply(this,arguments);
  try{if(!L||!t||S.stage!='pro')return r;
@@ -10699,5 +10699,53 @@ window.lrMoveUp=function(){try{const root=ui&&ui.firstElementChild;if(!root)retu
  const mv=B.filter(b=>/^(lroom|homeWalk)\(\)$/.test(b.getAttribute('onclick')||''));if(!anchor||!mv.length)return;
  let at=anchor;mv.forEach(b=>{b.classList.remove('g');b.style.background='#2f6fd6';b.style.color='#fff';b.setAttribute('data-blue','1');at.insertAdjacentElement('afterend',b);at=b})}catch(e){}};
 (()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{if(S&&ui&&ui.style.display!='none')lrMoveUp()}catch(e){}return r}}catch(e){}})();
+// ===== 🎓 EVERY DRAFT PROSPECT HAS A HIGH SCHOOL + COLLEGE CAREER =====
+// Tyler, 2026-11-14: "they all need stats if they're getting drafted. Therefore, you can know if they're getting
+// drafted at the right spot." (He OK'd making these, for NEW players only: "Yes".)
+// A draft prospect who never played in this save (every one in a career that starts in the pros, and the
+// made-up names that fill a board) gets his high school and college seasons ONCE, the moment his class is
+// made: numbers that fit his position and how good he is, written into the same career record as everyone
+// else (S.pc, marked gen:1) and never changed after. Real players you played with keep their real seasons.
+// Players who already exist are never given a made-up past.
+window.HSN=['Highland','Riverside','Lincoln','Jefferson','Roosevelt','Westview','Eastside','North Valley','South Ridge','Central','Oak Grove','Cedar Creek','Lakeview','Hillcrest','Pine Bluff','Summit','Mesa Verde','Bayside','Fairview','Granite Bay','Stonebridge','Kingsway','Brookfield','Canyon','Liberty','Heritage','Mountain View','Red Oak','Willow Park','Harbor'];
+window.pcGenCareer=function(p,Y,seedK){try{const R_=pcS();const r=rng(hsh(String(p.n)+'|gen|'+Y+'|'+(seedK||'')));
+ const id='p'+(S.pidN=(S.pidN||0)+1);const age=p.age||22,yc=cl(age-18,3,4),q=cl(((p.ovr||60)-45)/40,0,1),pos=p.pos||'WR',G=typeof lgGrp=='function'?lgGrp(pos):pos;
+ const col=p.col||((S.col||[]).flatMap(c=>c.t.map(t=>t.n))[0])||'State University',hs=HSN[Math.floor(r()*HSN.length)]+' High School';
+ const line=(f,g)=>{const v=x=>Math.max(0,Math.round(x));const z={g,pc:0,pa:0,py:0,ptd:0,pint:0,car:0,ry:0,rtd:0,rec:0,recy:0,rectd:0,tkl:0,sck:0,intc:0},n=()=>.82+r()*.36;
+  if(G=='QB'){z.py=v((1300+2700*q)*f*n());z.pa=v(z.py/(7.2+2*q));z.pc=v(z.pa*(.56+.12*q));z.ptd=v(z.py/(125-20*q)*n());z.pint=v(z.py/(330+220*q)*n());z.car=v(55*f*n());z.ry=v(z.car*(2+3*r()));z.rtd=v(z.car/30*n())}
+  else if(G=='RB'){z.car=v((110+150*q)*f*n());z.ry=v(z.car*(4.4+1.4*q));z.rtd=v(z.ry/(95-20*q)*n());z.rec=v((12+18*q)*f*n());z.recy=v(z.rec*(7+3*r()))}
+  else if(G=='WR'){z.rec=v((24+52*q)*f*n());z.recy=v(z.rec*(12.5+3.5*r()));z.rectd=v(z.recy/(150-35*q)*n())}
+  else if(G=='TE'){z.rec=v((14+36*q)*f*n());z.recy=v(z.rec*(10.5+2.5*r()));z.rectd=v(z.recy/(140-30*q)*n())}
+  else if(G=='DL'){z.tkl=v((20+28*q)*f*n());z.sck=v((1.5+9*q)*f*n())}
+  else if(G=='LB'){z.tkl=v((40+62*q)*f*n());z.sck=v((.5+4.5*q)*f*n());z.intc=v((.2+1.6*q)*f*r()*1.6)}
+  else if(G=='DB'){z.tkl=v((24+36*q)*f*n());z.intc=v((.6+4.2*q)*f*n())}
+  return z};
+ const e=R_.p[id]={n:p.n,pos,r:[],o:[],a:[],gen:1,v:p.ovr};
+ const cy0=Y-yc,hy0=cy0-4;
+ for(let k=0;k<4;k++){const f=[.45,.6,.75,.85][k]*.8;e.r.push([hy0+k,'hs',hs,k+1,...pcStat(line(f,10+Math.floor(r()*3)))])}
+ e.o.push([cy0-1,'graduated',hs,col]);
+ for(let k=0;k<yc;k++){const f=yc==3?[.55,.85,1][k]:[.35,.65,.9,1][k];e.r.push([cy0+k,'col',col,k+1+(yc==3?1:0),...pcStat(line(f,11+Math.floor(r()*3)))])}
+ e.o.push([Y-1,'entered the draft',col,null]);
+ if(q>.85)e.a.push([Y-1,'col','All-American',col]);
+ return id}catch(e){return null}};
+// the last college season in one short line for the draft board
+window.pcSum=function(id){try{const e=S.pc&&S.pc.p&&S.pc.p[id];if(!e)return '';const c=e.r.filter(q=>q[1]==='col');if(!c.length)return '';
+ const t=c.reduce((a,q)=>{q.slice(4).forEach((v,i)=>a[i]=(a[i]||0)+(v||0));return a},[]),v=i=>t[i]||0,f=x=>(x|0).toLocaleString(),p=[];
+ if(v(2))p.push(f(v(3))+' pass yds, '+v(4)+' TD, '+v(5)+' INT');if(v(6)>40)p.push(f(v(7))+' rush yds, '+v(8)+' TD');if(v(9))p.push(v(9)+' rec, '+f(v(10))+' yds, '+v(11)+' TD');
+ if(v(12)||v(13)||v(14))p.push(v(12)+' tkl'+(v(13)?', '+v(13)+' sacks':'')+(v(14)?', '+v(14)+' INT':''));
+ return `College (${c.length} yr${c.length>1?'s':''}): `+(p.join(' · ')||c.reduce((a,q)=>a+(q[4]||0),0)+' games')}catch(e){return ''}};
+window.PCBN={k:-1,m:null};
+window.pcByName=function(n){try{const P=S.pc&&S.pc.p;if(!P)return null;const k=Object.keys(P).length;if(PCBN.k!==k||PCBN.s!==S){const m=new Map();for(const id in P)m.set(P[id].n,id);PCBN={k,m,s:S}}return PCBN.m.get(n)||null}catch(e){}return null};
+
+// every later pro draft: prospects with no real record get one (after m145 put the real ones in)
+(()=>{try{const _lc=lgClass;lgClass=function(Y){const out=_lc.apply(this,arguments);
+ try{pcS();out.forEach(p=>{if(p.pid&&S.pc.p[p.pid])return;const id=pcGenCareer(p,Y,'lg');if(id){p.pid=id;LGPID[p.n]=id}})}catch(e){}
+ return out}}catch(e){}})();
+// your own draft (college -> pro): the board's leftover made-up names get one too
+(()=>{try{const _d=draftStart;draftStart=function(){const was=S&&S.stage;const r=_d.apply(this,arguments);
+ try{if(was==='col'&&S.dr&&Array.isArray(S.dr.P)&&!S.dr.gen){const Y=yrN();S.dr.P.forEach(p=>{if(p.me||p.pid)return;const id=pcGenCareer({n:p.n,pos:p.pos,ovr:p.ovr,age:22,col:p.sch},Y,'dr');if(id)p.pid=id});S.dr.gen=1;save()}}catch(e){}
+ return r}}catch(e){}})();
+// the draft board shows each pick's college career
+(()=>{try{const _r=npbRows;npbRows=function(yr){const R=_r.apply(this,arguments);try{R.forEach(x=>{if(x.cs==null){const id=pcByName(x.n);x.cs=id?pcSum(id):''}})}catch(e){}return R}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

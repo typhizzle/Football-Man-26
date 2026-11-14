@@ -16,7 +16,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  let g=0;while(D.pk<224&&g++<400){dPick()}
  const me=D.mine||{ti:1,pk:200};proStart(me.ti,me.pk);o.stage=S.stage;
  // every real prospect who was drafted is on the roster of the team that drafted him, same id
- let onTeam=0,wrong=0,drafted=0;D.picks.forEach(k=>{const q=D.P[k.pi];if(!q.pid||q.me)return;drafted++;const T=S.pro[k.ti];const ti=S.T.indexOf(T);const L=rost('h.'+ti);if(L.some(x=>x&&x.pid===q.pid&&x.n===q.n))onTeam++;else{let found=false;S.T.forEach((t,i)=>{if(rost('h.'+i).some(x=>x&&x.pid===q.pid))found=true});if(found)wrong++}});
+ let onTeam=0,wrong=0,drafted=0;D.picks.forEach(k=>{const q=D.P[k.pi];if(!q.pid||q.me||(S.pc.p[q.pid]||{}).gen)return;drafted++;const T=S.pro[k.ti];const ti=S.T.indexOf(T);const L=rost('h.'+ti);if(L.some(x=>x&&x.pid===q.pid&&x.n===q.n))onTeam++;else{let found=false;S.T.forEach((t,i)=>{if(rost('h.'+i).some(x=>x&&x.pid===q.pid))found=true});if(found)wrong++}});
  o.B_drafted=drafted;o.B_onDraftingTeam=onTeam;o.B_allThere=onTeam===drafted&&drafted>0;o.B_onWrongTeam=wrong;
  // his pro card shows his college seasons
  let shown=0,checked=0;for(let i=0;i<S.T.length&&checked<10;i++){const L=rost('h.'+i);L.forEach((x,k)=>{if(checked>=10||!x||!x.pid||!(S.pc.p[x.pid]&&S.pc.p[x.pid].r.some(q=>q[1]==='col')))return;checked++;pCard(i,k);const t=ui.innerText||'';const e=S.pc.p[x.pid];if(t.includes('High school & college record')&&t.includes(e.r.filter(q=>q[1]==='col').slice(-1)[0][2])&&/drafted/.test(t))shown++})}
