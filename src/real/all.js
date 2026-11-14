@@ -30,6 +30,9 @@ const TESTS=[
  {f:'bk1.js', why:'restore an earlier save: menu button, lists backups, restores, stamps it now, nothing deleted',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_buttonOnMenu','B_listsBoth','C_restored','C_stampedNow','D_nothingLost'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
+ {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'int1.js',  why:'label + resolver work writes NOTHING to any save',
   check:o=>{const d=J(o);if(!d)return 'no JSON';
    if(d.err)return d.err;

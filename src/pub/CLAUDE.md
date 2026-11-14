@@ -649,3 +649,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   Short codes: same pieces under codes/CODE~i; readCode wrapper joins them before m94 sees the code.
 - cl1.js (gate 35): fake cloud enforcing 256 KB; old build: upload false, restore nothing.
 - V253 (m139): main menu '🛟 Restore an earlier save' lists every slot + its _b/_b2 device backups (name, stage, year, week, saved time); bkUse swaps (nothing deleted), stamps ts=now so an older cloud copy can't win, re-uploads. bk1.js (gate 36).
+- V254: the cloud NEVER replaces a save that exists on the device. cloudInit only fills EMPTY slots; a newer-stamped cloud copy becomes window.CLOFF[i] and the main menu asks (Keep this device / Use the cloud copy); choosing cloud keeps the device save in _b. Tyler: 'Make sure no Cloud backup bullshit restarts my seasons'. cl2.js (gate 37).
