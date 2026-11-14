@@ -594,3 +594,22 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   Open, NOT built (needs Tyler's OK because it edits m111): a swipe released in the sky past a man is
   not yet a deep ball over him (~50%). Swipe throws complete ~74% in tests; ~24% "pass broken up".
   Also: swAim is an existing m19 name — nm1.js would have caught my clash.
+
+## V247 (2026-11-14) — NO STAT INFLATION (m135) + skeleton skull
+- Season leaders = sum of CPU box scores (m116 szBuild -> bxGet -> bxMake -> bxSide). bxSide drew each
+  game from the final score: every 7 pts a TD (FGs only leftovers), rich team rushing, the lone RB got
+  EVERY rushing TD, and bxSplit hands leftover TDs to index 0 (WR1 scored nearly every game).
+  10 simulated seasons, old -> new: 2,000-yd rushers 72 -> 1; rush TD leader 34 -> 20; QBs with 40+
+  pass TD per season 10.3 -> 1.3; pass TD leader 54 -> 41; 20+ rec TD seasons 229 -> 1.
+- Fix (new path `_N`): bxTds (FGs first, ~2/game), tot 160+6.4*pts, RB carry share .6-.72, rush TDs
+  60% RB / rest QB (bxRbTd), pass share .48-.68, each TD to ONE man by weight (bxPick).
+- Games ALREADY PLAYED keep their box score: S.bxv={y,w} set on first load; bxNew() = game at/after it.
+  bxMake wrapped to expose the week (BXW). Your own games are stored verbatim (S.bx) and untouched.
+- Scoring itself is still ~27.6 ppg per team (NFL ~22.5) — not changed (changes results). HS/college use
+  the same code path but were NOT simulated (no HS/college save to test with).
+- st1.js (gate) fails if: >3 2,000-yd rushers/10 seasons, rush TD leader >27, >2 QBs/season at 40+ pass
+  TD, pass TD leader >52, >3 20+ rec TD seasons, rec TD leader avg >19 — or stats deflate too far, or a
+  played game's box score changes.
+- Skeleton outfits (SKEL hx4/5/6) drew a built-in skull over the head; now only if S.hat==null (never
+  chose). "No headwear" ('') shows his face; Skull mask headwear still draws it via hatOn. hat1.js.
+  Cowboy suits / horse head also have built-in head pieces — unchanged (not reported).

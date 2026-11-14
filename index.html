@@ -5629,7 +5629,7 @@ const SKEL={hx4:['#7b2cbf',0x7b2cbf],hx5:['#e8b923',0xe8b923],hx6:['#f2f2f2',0xf
 function cosModelX(id,base,B){let m;
  if(SKEL[id]){const C=SKEL[id][1],K=0x111111,F=-.29,Bk=.29;m=base({c1:'#111111',c2:'#111111',d:0,pc:'#111111'},0);B(1.16,.08,.64,K,0,1.96,0,m);
   // skull
-  B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m));
+  if(typeof S=='undefined'||!S||S.hat==null){B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m))}
   B(.12,.12,.12,C,0,2.03,0,m);
   // ribcage, sternum, collarbones, pelvis (front) + spine and ribs (back)
   B(.07,.62,.03,C,0,1.6,F,m);[-.27,.27].forEach(x=>B(.36,.05,.03,C,x,1.9,F,m));
@@ -6037,9 +6037,9 @@ const bxKey=(w,a,b)=>grK()+'|'+w+'|'+Math.min(a,b)+'|'+Math.max(a,b);
 // split a total into parts by weights (whole numbers that add up exactly)
 function bxSplit(tot,ws,r){const n=ws.map(w=>w*(.75+r()*.5)),s=n.reduce((a,b)=>a+b,0)||1;let out=n.map(x=>Math.floor(tot*x/s)),left=tot-out.reduce((a,b)=>a+b,0);for(let i=0;left>0;i=(i+1)%out.length){out[i]++;left--}return out}
 function bxSide(ti,pts,opts,r,real){const T=S.T,t=T[ti],L=rost('h.'+ti)||[],nm=k=>(L[k]&&L[k].n)||'—',isMe=ti==0;
- const tds=Math.max(0,Math.floor(pts/7)-(pts%7==6?0:0)),fg=Math.floor((pts-tds*7)/3);
- let pTD=Math.round(tds*(.5+r()*.25)),rTD=tds-pTD;
- let tot=Math.round(cl(185+pts*7.2+(r()-.5)*90,110,640)),sh=.5+r()*.18,py=Math.round(tot*sh),ry=tot-py;
+ const _N=typeof bxNew=='function'&&bxNew(),tds=_N?bxTds(pts,r):Math.max(0,Math.floor(pts/7)-(pts%7==6?0:0)),fg=Math.floor((pts-tds*7)/3);
+ let pTD=Math.round(tds*(_N?.48+r()*.2:.5+r()*.25)),rTD=tds-pTD;
+ let tot=Math.round(cl((_N?160+pts*6.4:185+pts*7.2)+(r()-.5)*90,110,640)),sh=.5+r()*.18,py=Math.round(tot*sh),ry=tot-py;
  let att=Math.max(12,Math.round(py/(6.4+r()*2))),cmp=Math.min(att,Math.round(att*(.56+r()*.14))),int=r()<.38?0:r()<.8?1:2,fum=r()<.7?0:1,sk=Math.floor(r()*4.2);
  let qbN=nm(0),qry=Math.round((r()-.2)*30),qrtd=0,qcar=3+Math.floor(r()*5);
  const RC=(opts&&opts.rc)||null,useReal=!!(real&&isMe&&RC);
@@ -6055,12 +6055,12 @@ function bxSide(ti,pts,opts,r,real){const T=S.T,t=T[ti],L=rost('h.'+ti)||[],nm=k
   rb2Y=rb2Car?Math.round(rb2Car*(3.8+r()*3.2)):0;
   ry=qry+rbY+rb2Y;tot=py+ry;
  }else{
-  car=cl(Math.round((ry-qry)/(3.6+r()*1.6)),13,30);rbCar=cl(Math.round(car*(.68+r()*.12)),7,24);rb2Car=Math.max(0,car-rbCar);
+  car=cl(Math.round((ry-qry)/(3.6+r()*1.6)),13,30);rbCar=cl(Math.round(car*(_N?.6+r()*.12:.68+r()*.12)),7,24);rb2Car=Math.max(0,car-rbCar);
   rbY=Math.round((ry-qry)*rbCar/Math.max(1,car));rb2Y=ry-qry-rbY;
  }
- const rbTD=Math.max(0,rTD-qrtd);
+ const _rbT=Math.max(0,rTD-qrtd),rbTD=_N&&!(real&&isMe)?bxRbTd(_rbT,r):_rbT;if(_N&&!(real&&isMe)&&_rbT>rbTD)qrtd+=_rbT-rbTD;
  // receiving: WR1, WR2, WR3, TE, RB
- const recK=[2,3,4,5,1],recW=[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=[13.2,12.4,11.2,10.6,7.6],raw=recC.map((c,i)=>c>0?c*av[i]*(.72+r()*.56):0),sm=raw.reduce((x,y)=>x+y,0)||1,P_=Math.max(0,py),out=raw.map(v=>Math.round(v*P_/sm));out.forEach((v,i)=>{if(recC[i]>0)out[i]=cl(v,recC[i]*2,recC[i]*(i==4?16:26))});const df=P_-out.reduce((x,y)=>x+y,0);let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df);return out})(),recT=bxSplit(pTD,[.34,.24,.12,.22,.08],r);
+ const recK=[2,3,4,5,1],recW=[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=[13.2,12.4,11.2,10.6,7.6],raw=recC.map((c,i)=>c>0?c*av[i]*(.72+r()*.56):0),sm=raw.reduce((x,y)=>x+y,0)||1,P_=Math.max(0,py),out=raw.map(v=>Math.round(v*P_/sm));out.forEach((v,i)=>{if(recC[i]>0)out[i]=cl(v,recC[i]*2,recC[i]*(i==4?16:26))});const df=P_-out.reduce((x,y)=>x+y,0);let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df);return out})(),recT=(_N&&typeof bxPick=='function'?bxPick(pTD,[.34,.24,.12,.22,.08],r):bxSplit(pTD,[.34,.24,.12,.22,.08],r));
  const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]})).filter(x=>x.c>0).sort((a,b)=>b.y-a.y);
  const fd=Math.round(tot/16+r()*4),d3a=10+Math.floor(r()*6),d3m=Math.round(d3a*(.25+Math.min(.35,pts/100)+r()*.1)),pen=3+Math.floor(r()*6);
  return{ti,n:tn(t),ab:ab(t),pts,tot,py,ry,fd,att,cmp,int,fum,sk,pen,penY:pen*(7+Math.floor(r()*4)),d3:d3m+'-'+d3a,
@@ -9943,5 +9943,29 @@ up=function(k){const c=upCost(k);if(S.q[k]>=99)return hub();if(S.pts<c){HM='+1 '
 // maximum from his table. Used by swipe-to-throw AND the slingshot. thrR() stays the maximum.
 window.thrD=function(p){p=Math.max(0,Math.min(1,+p||0));const pw=(S&&S.q&&S.q.pow)||60,lv=pwLv(),OLD=(14+pw*.55)*lv,NEW=pwYds(pw)*lv,K=.75;
  if(NEW<=OLD||p<=K)return p*Math.min(OLD,NEW);return K*OLD+(p-K)/(1-K)*(NEW-K*OLD)};
+// ===== 📏 No stat inflation: box scores follow real football =====
+// Tyler, 2026-11-14 (screenshots): five 2,000-yard rushers in one season with 25-30 rushing TD,
+// five receivers with 19-26 TD, passers in the high 40s. "Look in history how many 2,000-yard seasons
+// there even is" … "make sure it's fixed and never happens again a permanent fix" … "shouldn't happen in
+// high school, college, or anything else either."
+// Real history (NFL): 9 players ever ran for 2,000; 40+ passing TD is about one QB a season (some years
+// none); 20+ receiving TD has happened twice (Rice 22, Moss 23).
+// Cause: every CPU game's box score is drawn from the final score, and (1) every 7 points became a TD
+// (field goals only got the leftovers), (2) team rushing totals ran high, (3) the lone RB got every
+// rushing TD. Applies to every level, since all levels build box scores here.
+// Games ALREADY PLAYED keep the box score they had (their stats stay what happened): the new formula
+// starts with the first week played after this update, recorded per save in S.bxv.
+window.BXV=1;
+window.BXW=null;
+window.bxNew=function(){try{const v=S.bxv;if(!v)return false;const y=yrN(),w=BXW==null?(S.wk||0):BXW;return y>v.y||(y===v.y&&w>=v.w)}catch(e){return false}};
+// field goals first, then touchdowns out of what is left (about 2 FG tries a game)
+window.bxTds=function(pts,r){const f=r();const fgT=pts<10?(f<.5?0:1):pts<17?(f<.35?1:2):f<.15?1:f<.5?2:f<.85?3:4;return Math.max(0,Math.floor(Math.max(0,pts-3*fgT)/7))};
+// rushing TDs: the lead back gets most, not all (the QB and goal-line plays get the rest)
+window.bxRbTd=function(n,r){let k=0;for(let i=0;i<n;i++)if(r()<.6)k++;return k};
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{if(s&&!s.bxv){const o=S;S=s;let y=0;try{y=yrN()}catch(e){}S=o;s.bxv={y,w:(s.wk||0),v:BXV}}}catch(e){}return s}}catch(e){}})();
+(()=>{try{const _b=bxMake;bxMake=function(w){const o=BXW;BXW=w;try{return _b.apply(this,arguments)}finally{BXW=o}}}catch(e){}})();
+// touchdowns are whole events: each one goes to ONE man, picked by his share. (bxSplit handed the
+// leftovers to the No. 1 receiver first, so with 1-2 TDs a game he scored in nearly every game.)
+window.bxPick=function(n,ws,r){const out=ws.map(()=>0),s=ws.reduce((a,b)=>a+b,0)||1;for(let i=0;i<n;i++){let x=r()*s,k=0;while(k<ws.length-1&&x>=ws[k]){x-=ws[k];k++}out[k]++}return out};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

@@ -582,3 +582,20 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m133b: short/medium swipes keep their old distance; only full swipes reach the new max (swipe + slingshot)
 r("let d=Math.max(5,Math.min(1,p)*Rg);","let d=Math.max(5,typeof thrD=='function'?thrD(p):Math.min(1,p)*Rg);")
 r("k=slPow(m)*thrR();","k=(typeof thrD=='function'?thrD(slPow(m)):slPow(m)*thrR());")
+
+# m135: no stat inflation in CPU box scores (new games only; games already played keep their lines)
+r("const tds=Math.max(0,Math.floor(pts/7)-(pts%7==6?0:0)),fg=Math.floor((pts-tds*7)/3);",
+  "const _N=typeof bxNew=='function'&&bxNew(),tds=_N?bxTds(pts,r):Math.max(0,Math.floor(pts/7)-(pts%7==6?0:0)),fg=Math.floor((pts-tds*7)/3);")
+r("let tot=Math.round(cl(185+pts*7.2+(r()-.5)*90,110,640))","let tot=Math.round(cl((_N?160+pts*6.4:185+pts*7.2)+(r()-.5)*90,110,640))")
+r("rbCar=cl(Math.round(car*(.68+r()*.12)),7,24)","rbCar=cl(Math.round(car*(_N?.6+r()*.12:.68+r()*.12)),7,24)")
+r("const rbTD=Math.max(0,rTD-qrtd);","const _rbT=Math.max(0,rTD-qrtd),rbTD=_N&&!(real&&isMe)?bxRbTd(_rbT,r):_rbT;if(_N&&!(real&&isMe)&&_rbT>rbTD)qrtd+=_rbT-rbTD;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m135.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("let pTD=Math.round(tds*(.5+r()*.25)),rTD=tds-pTD;","let pTD=Math.round(tds*(_N?.48+r()*.2:.5+r()*.25)),rTD=tds-pTD;")
+r("recT=bxSplit(pTD,[.34,.24,.12,.22,.08],r)","recT=(_N&&typeof bxPick=='function'?bxPick(pTD,[.34,.24,.12,.22,.08],r):bxSplit(pTD,[.34,.24,.12,.22,.08],r))")
+
+# skeleton outfits: the built-in skull is a MASK. Tyler 2026-11-14: "I picked no headwear, but my skull
+# mask is still on." Drawn only if he has never chosen headwear (old look kept); "No headwear" shows his
+# face; the Skull mask headwear (hatOn) still puts the skull on.
+r("B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m));",
+  "if(typeof S=='undefined'||!S||S.hat==null){B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m))}")

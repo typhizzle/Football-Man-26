@@ -189,6 +189,17 @@ const TESTS=[
    let n=0,ok=0;Object.entries(d.cases||{}).forEach(([k,v])=>{if(/over/.test(k))return;n+=v.n;ok+=v.ok});
    if(n<20)return 'only '+n+' swipes tested';if(ok/n<.85)return ok+'/'+n+' swipes landed on the man they ended on';return null}},
 
+ {f:'st1.js', why:'NO STAT INFLATION: 10 simulated seasons of box scores look like real football; games already played keep their stats',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(d.markerSetOnLoad!==true)return 'played-games marker not set on load';if(d.playedGamesUnchanged!==true)return 'an already-played game changed its box score';
+   if(d.rush2000_total>3)return d.rush2000_total+' 2,000-yd rushers in 10 seasons';if(d.rushTDlead_max>27)return 'rush TD leader '+d.rushTDlead_max;
+   if(d.pass40_perSeason>2)return d.pass40_perSeason+' QBs/season with 40+ pass TD';if(d.passTDlead_max>52)return 'pass TD leader '+d.passTDlead_max;
+   if(d.rec20_total>3)return d.rec20_total+' 20+ rec TD seasons';if(d.recTDlead_avg>19)return 'rec TD leader avg '+d.recTDlead_avg;
+   if(d.rushLead_avg<1400||d.passTDlead_avg<32||d.recYlead_avg<1300)return 'stats DEFLATED too far';return null}},
+
+ {f:'hat1.js', why:'skeleton outfit: No headwear really takes the skull mask off',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_skullWhenNeverChose','B_noSkullWithNoHeadwear'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

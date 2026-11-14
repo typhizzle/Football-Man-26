@@ -1,42 +1,8 @@
-// Halloween keepsake: eligibility, no auto-grant, one-time, survives the event ending.
-// Also renders every hat for a reference image.
+// Tyler 2026-11-14: "I picked no headwear, but my skull mask is still on." The skeleton outfit's built-in
+// skull is drawn only if no headwear choice was ever made; "No headwear" shows his own face.
 const H=require('/home/claude/real/h.js'),fs=require('fs');
-(async()=>{
- const {b,pg,errs}=await H.open({});
- const save=fs.readFileSync('/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/saveX.json','utf8');
- const o=await pg.evaluate(async(j)=>{
-  const s=await readCode(j);S=s;SLOT=1;LASTJ='';
-  const out={hats:HATS.map(h=>h[0]+' = '+h[1])};
-  // ---- eligibility ----
-  S.hwd={c:[]};out.eligNoClaims=hwHatElig();        // claimed nothing -> not eligible
-  S.hwd={c:[2]};out.eligOneClaim=hwHatElig();       // claimed one     -> eligible
-  out.doneBefore=hwHatDone();
-  // ---- nothing is granted just by LOOKING ----
-  hwHatV();out.afterViewing=S.hwHat||null;
-  hwHatSel('witch');out.afterSelecting=S.hwHat||null;   // previewing must not grant
-  out.previewVar=HWPICK;
-  // ---- only the confirm grants it ----
-  hwHatKeep();out.afterConfirm=S.hwHat||null;
-  out.doneAfter=hwHatDone();
-  // ---- one-time: a second attempt must not change it ----
-  HWPICK='skull';hwHatKeep();out.afterSecondAttempt=S.hwHat;
-  // ---- button hidden once claimed ----
-  out.btnAfterClaim=(hwHatBtn()||'').length;
-  S.hwHat=null;out.btnWhenUnclaimed=(hwHatBtn()||'').length>0;
-  // ---- a save that never claimed an award gets nothing ----
-  S.hwd={c:[]};out.btnIneligible=(hwHatBtn()||'').length;
-  return out;
- },save);
- console.log('hats:');o.hats.forEach(h=>console.log('   '+h));
- console.log('\neligible with 0 claims :',o.eligNoClaims,'(must be false)');
- console.log('eligible with 1 claim  :',o.eligOneClaim,'(must be true)');
- console.log('granted by opening     :',o.afterViewing,'(must be null)');
- console.log('granted by previewing  :',o.afterSelecting,'(must be null)  preview held =',o.previewVar);
- console.log('granted by CONFIRM     :',o.afterConfirm);
- console.log('second attempt changes :',o.afterSecondAttempt,'(must stay witch)');
- console.log('button len after claim :',o.btnAfterClaim,'(must be 0)');
- console.log('button shown unclaimed :',o.btnWhenUnclaimed,'(must be true)');
- console.log('button len ineligible  :',o.btnIneligible,'(must be 0)');
- console.log('ERRS:',errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,4));
- await b.close();
-})();
+(async()=>{const {b,pg}=await H.open({});const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');
+const r=await pg.evaluate(async(j)=>{const out={};try{const s=await readCode(j);S=s;
+ const count=hat=>{if(hat===undefined)delete S.hat;else S.hat=hat;const m=outfitM('hx6');let n=0,skull=0;m.traverse(o=>{if(o.isMesh){n++;const p=o.position;if(Math.abs(p.y-2.37)<.01&&Math.abs(o.geometry.parameters.width-.68)<.01)skull++}});return {n,skull}};
+ out.neverChose=count(undefined);out.noHeadwear=count('');out.A_skullWhenNeverChose=out.neverChose.skull===1;out.B_noSkullWithNoHeadwear=out.noHeadwear.skull===0;
+}catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);console.log(JSON.stringify(r));await b.close()})();

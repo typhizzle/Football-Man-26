@@ -1,10 +1,23 @@
-const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:800,h:500});const w=ms=>new Promise(r=>setTimeout(r,ms));await w(1200);
-const r=await pg.evaluate(async()=>{const o=[];const sl=ms=>new Promise(r=>setTimeout(r,ms));SLOT=1;newC();start();startGame0(1,'reg');try{tossClear()}catch(e){}ovHide();g.paused=0;
- // field goal from the Special menu
- g.y=70;g.los=70;g.dn=4;g.tg=5;g.stage='call';g.cat='Special';pui();const btn=[...document.querySelectorAll('button')].find(e=>/^Special/.test(e.textContent.trim()));if(btn)btn.click();await sl(100);const fgCard=[...document.querySelectorAll('*')].find(e=>e.children.length==0&&/Field Goal/.test(e.textContent));o.push('FG card: '+(fgCard?fgCard.textContent:'none'));pick('Special',1);await sl(450);hut();o.push('after hut ph '+g.ph+' kk '+!!g.kk);let n=0;while(n++<400&&g.ph=='kick'){kTick(1/60)}o.push('kick resolved, ph '+g.ph+' msg '+(g.msg||g.note||''));
- // punt
- ovHide();g.ph='pre';g.y=30;g.los=30;g.dn=4;g.tg=8;pick('Special',0);await sl(450);hut();o.push('punt ph '+g.ph+' kk '+!!g.kk);n=0;while(n++<600&&g.ph=='kick'){kTick(1/60)}o.push('punt resolved, ph '+g.ph);
- return o.join('\n')});console.log(r);
-// interception return: force an INT and steer the QB into the returner
-console.log(await pg.evaluate(()=>{try{ovHide();g.ph='pre';g.y=40;g.los=40;g.dn=1;g.tg=10;g.sel=['Short',0];g.stage='line';setup(0);g.ui=0;pui();hut();const P=g.pl;const d=P.db[0];P.ir={d,t:0,tk:0};d.x=P.qb.x;d.y=P.qb.y+12;let n=0;while(n++<900&&!P.done){const dx=d.x-P.qb.x,dy=d.y-P.qb.y,l=Math.hypot(dx,dy)||1;inp={x:dx/l,y:dy/l};intTick(P,1/60)}return 'INT return over: done '+P.done+' msg '+(g.msg||'')}catch(e){return 'INT err '+e.message}}));
-console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();
+// NO STAT INFLATION (Tyler 2026-11-14). Plays whole pro seasons of CPU box scores and compares the
+// leaders to real NFL history. Fails on V246 (2,000-yd rushers every season, 25+ rushing TD, 20+ rec TD).
+const H=require('/home/claude/real/h.js'),fs=require('fs');
+(async()=>{const {b,pg}=await H.open({});
+const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');const OLD=!!process.env.OLD;
+const r=await pg.evaluate(async(j,OLD)=>{const out={};try{const s=await readCode(j);S=s;SLOT=1;LASTJ='';
+ // games already played keep their box score: week 0 built under the save's own marker vs the old formula
+ {const G=S.gr||{},w0=Object.keys(G)[0],gm=G[w0]&&G[w0][0];if(gm){const keep=S.bxv;out.markerSetOnLoad=!!keep&&keep.y===yrN();const a1=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv={y:99999,w:0};const a0=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv=keep;out.playedGamesUnchanged=a1===a0}}
+ S.bxv=OLD?{y:99999,w:0}:{y:0,w:0};S.bx={};
+ const NS=10,seasons=[];
+ for(let sn=0;sn<NS;sn++){const tot={};const add=(ti,n,k,v)=>{const key=ti+'|'+n;(tot[key]=tot[key]||{n,ry:0,rtd:0,ptd:0,py:0,recy:0,rectd:0})[k]+=v||0};
+  let pts=0,gms=0;
+  for(let wk=0;wk<17;wk++){const T=[...Array(32).keys()].sort(()=>Math.random()-.5);
+   for(let i=0;i<32;i+=2){const a=T[i],bb=T[i+1];let sc=simGame(teff(S.T[a]),teff(S.T[bb]));if(sc[0]==sc[1])sc[0]+=3;pts+=sc[0]+sc[1];gms+=2;
+    const x=bxMake(10000+sn*40+wk,a,bb,sc[0],sc[1],null);
+    [[a,x.A],[bb,x.B]].forEach(([ti,A])=>{(A.rush||[]).forEach(p=>{add(ti,p.n,'ry',p.y);add(ti,p.n,'rtd',p.td)});(A.pass||[]).forEach(p=>{add(ti,p.n,'ptd',p.td);add(ti,p.n,'py',p.y)});(A.rec||[]).forEach(p=>{add(ti,p.n,'recy',p.y);add(ti,p.n,'rectd',p.td)})})}}
+  const P=Object.values(tot),mx=k=>Math.max(...P.map(x=>x[k])),cnt=(k,v)=>P.filter(x=>x[k]>=v).length;
+  seasons.push({ppg:+(pts/gms).toFixed(1),rush2000:cnt('ry',2000),rushLead:mx('ry'),rushTDlead:mx('rtd'),pass40:cnt('ptd',40),passTDlead:mx('ptd'),rec20:cnt('rectd',20),recTDlead:mx('rectd'),recYlead:mx('recy'),rec1500:cnt('recy',1500),passYlead:mx('py')})}
+ const avg=k=>+(seasons.reduce((a,x)=>a+x[k],0)/NS).toFixed(1),sum=k=>seasons.reduce((a,x)=>a+x[k],0),max=k=>Math.max(...seasons.map(x=>x[k]));
+ Object.assign(out,{seasons:NS,ppg:avg('ppg'),rush2000_total:sum('rush2000'),rushLead_avg:avg('rushLead'),rushLead_max:max('rushLead'),rushTDlead_avg:avg('rushTDlead'),rushTDlead_max:max('rushTDlead'),
+  pass40_perSeason:avg('pass40'),passTDlead_avg:avg('passTDlead'),passTDlead_max:max('passTDlead'),passYlead_avg:avg('passYlead'),rec20_total:sum('rec20'),recTDlead_avg:avg('recTDlead'),recYlead_avg:avg('recYlead'),rec1500_perSeason:avg('rec1500')});
+}catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j,OLD);
+console.log(JSON.stringify(r,null,1));await b.close()})();
