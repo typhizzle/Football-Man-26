@@ -636,3 +636,15 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   white visitor like everyone. Clash fallback: visitor to its c2, then black. g.home=0 me home / 1 away.
   Meshes are built once per player in sy() from g.mj/g.oj — set before the first draw (startGame0 does).
   hm1.js (gate 34). Verified with home vs away screenshots. Alternates: later (Tyler).
+
+## V252 (2026-11-14) — CLOUD SAVES IN PIECES (m138). A real loss happened.
+- Tyler: "I simulated, and then now I'm back at the very beginning". Cause (measured): slot cloud doc
+  106 KB before the 11-14 updates, 225 KB at week 13 after (seal + coach records), cap 256 KB. Past it,
+  cdocPut failed, cloudQ swallowed the error, the cloud kept an old copy, and cloudInit restored it when
+  the device copy was missing. I had flagged the size issue and kept building. NEVER grow the save
+  without checking the cloud doc size.
+- m138: cdPut2 writes gz save in 180 KB pieces (pieces first, head {z,n,tag,v:2} last), cdGet2 joins
+  them (tag must match), old {z}/{j} docs still load; cloudQ/cloudInit replaced (cdocGet is a CONST, so
+  cloudInit had to be replaced, not wrapped); upload failure -> cloudWarn: S.cloudErr + on-screen HM.
+  Short codes: same pieces under codes/CODE~i; readCode wrapper joins them before m94 sees the code.
+- cl1.js (gate 35): fake cloud enforcing 256 KB; old build: upload false, restore nothing.

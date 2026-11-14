@@ -22,6 +22,11 @@ const J=o=>{try{return JSON.parse(o.slice(o.indexOf('{'),o.lastIndexOf('}')+1))}
 
 const TESTS=[
  // ---- the record and the seal ----
+ {f:'cl1.js', why:'CLOUD SAVES: a save bigger than one cloud document uploads in pieces, restores exactly (same week, same save), short codes work, failures are shown, old backups still load',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if((d.pageErrors||[]).length)return d.pageErrors[0];
+   for(const k of ['A_uploaded','A_noWarning','B_restored','B_sameWeek','B_sameTs','B_padKept','B_rostersBack','C_shortCodeLoads','D_failureShown','E_oldFormatLoads'])if(d[k]!==true)return k+' = '+d[k];
+   if(!(d.A_pieces>1))return 'test save did not need pieces';if(d.A_biggestDocKB>250)return 'a cloud piece is '+d.A_biggestDocKB+' KB';return null}},
+
  {f:'int1.js',  why:'label + resolver work writes NOTHING to any save',
   check:o=>{const d=J(o);if(!d)return 'no JSON';
    if(d.err)return d.err;
