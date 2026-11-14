@@ -616,3 +616,17 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - V248: Tyler asked to fix his inflated season. bxRedo(s): once per save, if the season in progress when m135 shipped is not closed yet (pro: S.sled!==S.py), S.bxv.w=0 so every CPU game of it uses the new formula. Closed (archived, sealed) seasons are NOT rewritten. 11-07 save at wk13: rush leader 1296, pass TD 28, rec TD 14.
 - Gate 32: bx1.js — every CPU + stored game: QB c/y/td == sum of receivers; season ledger passTD==recTD per team. st1 also caps 40+ pass-TD QBs in any ONE season at 4 (real: ~19 such seasons 2004-2025, max 3 in a season).
 - V249: pass TD share .46-.64, RB rush-TD share .58. 3x10 seasons: 40+ pass-TD QBs 0.3-0.8/season (max 2), pass TD leader 38-41. LESSON: my commit chain used grep's exit code, so a CLOSED gate still committed (tests only). Always gate on 'GATE OPEN' text before committing a build.
+
+## V250 (2026-11-14) — controller support PHASE 1 (m136)
+- Tyler's full controller spec (Madden-style passing + ball-carrier, menus everywhere, PC screens) is in
+  the ledger verbatim. Phase 1 built: Gamepad API poll each frame (ctlStep), Xbox vs PS by id (check
+  "xbox|045e" FIRST — "Xbox Wireless Controller" also contains "Wireless Controller"), CTL.mode pad/kbm
+  (any mouse/key/touch switches back), body.ctlpad + .ctlf highlight, ctlRoot = #ov (if it has buttons)
+  else walk scene else #ui; spatial D-pad/L-stick nav with hold-repeat 300/110ms; A clicks (inputs get
+  focus, selects cycle), B clicks the last Back/Leave/Close/✕ button; Start pauses a game.
+  Walk scenes: L-stick -> LR.joy, R-stick -> LR.yaw/pitch, A -> #lra or nearest object, B -> Leave.
+  Field: L-stick writes kb.x/kb.y (same as arrows), A/B/X/Y/RB (R1) throw to P.wr[0..4] lead point
+  via doThrow (basic; the hold meter is phase 2), R-stick L/R juke, up truck, B spin via mvmove.
+  Labels drawn over receivers on the 2D overlay. ctl1.js (gate 33).
+- Do NOT exist in the game (told Tyler): stiff arm, hurdle, dive, sprint, lob/touch/bullet.
+- Random surname pool includes real NFL surnames seen on the field (Nacua, Prescott).

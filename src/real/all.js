@@ -204,6 +204,11 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.games<300)return 'only '+d.games+' games checked';
    if(d.badCount)return d.badCount+' games/seasons do not add up: '+d.bad[0];if(d.seasonMismatch)return d.seasonMismatch+' teams season totals off';return null}},
 
+ {f:'ctl1.js', why:'controller phase 1: Xbox/PS detection, menu highlight + D-pad + A select + B back, overlays, keyboard takes over, QB stick, A/B/X/Y/RB throws, locker-room walk + look',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if((d.pageErrors||[]).length)return d.pageErrors[0];
+   for(const k of ['A_xboxIsXbox','A_padMode','A_highlight','B_movedDown','C_aOpensSettings','D_bGoesBack','E_overlayOpen','E_highlightInOverlay','E_bClosesOverlay','F_keyboardTakesOver','G_ps','H_stickMoves','H_stickReleases','I_throwToA','J_inWalk','J_walks','J_looks','J_stops','K_rbThrows'])
+    if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

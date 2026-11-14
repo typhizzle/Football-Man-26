@@ -599,3 +599,7 @@ r("recT=bxSplit(pTD,[.34,.24,.12,.22,.08],r)","recT=(_N&&typeof bxPick=='functio
 # face; the Skull mask headwear (hatOn) still puts the skull on.
 r("B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m));",
   "if(typeof S=='undefined'||!S||S.hat==null){B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.345,m)});B(.07,.09,.03,K,0,2.3,-.345,m);B(.42,.03,.03,K,0,2.19,-.345,m);[-.13,-.045,.045,.13].forEach(x=>B(.02,.1,.03,K,x,2.19,-.346,m))}")
+
+# m136: controller support phase 1 (menus everywhere, walking, QB movement, run moves, basic receiver-button throws)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m136.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
