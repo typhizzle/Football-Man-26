@@ -773,3 +773,4 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
   benched behind a 93-95 QB nobody listed. Now S.qr = the room the list showed (qroom(t) captured BEFORE enroll).
   tc1's C_hub "flake" was this bug (found by looping 100 takeovers). dr1 C_cardsShowCollege still flakes rarely: a pro
   roster man with a college record and no draft event (pid link by name/seal fit suspected) -> OPEN.
+- PUBLISHED V 0.0.1.0009 (2026-11-14): gate 66/66, private v267, friends v89, GitHub main 73f2af0.
