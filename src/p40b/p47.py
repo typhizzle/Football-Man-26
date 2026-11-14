@@ -519,3 +519,11 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m125: coaches' lives matter - permanent id + career record for every coach and GM
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m125.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m126: clothing brands are rivals - one house at a time, own events, own celebrities
+r("S.spe={k,L,done:[]};if(L.length)S.fmsg",
+  "try{if(typeof brWeekFilter=='function')brWeekFilter(L)}catch(e){}S.spe={k,L,done:[]};if(L.length)S.fmsg")
+r("const fansC=CELB.map(celOb).filter(celCanCome),others=CELB.map(celOb).filter(o=>!fansC.some(x=>x.id==o.id)&&",
+  "const fansC=CELB.map(celOb).filter(celCanCome).filter(o=>typeof brOkAt!='function'||brOkAt(v,o.id)),others=CELB.map(celOb).filter(o=>(typeof brOkAt!='function'||brOkAt(v,o.id))&&!fansC.some(x=>x.id==o.id)&&")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m126.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

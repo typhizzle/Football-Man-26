@@ -115,6 +115,17 @@ const TESTS=[
    return null}},
 
  // ---- the shop ----
+ {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';
+   if(d.B_rivalSigned)return d.B_rivalSigned+' rival brands signed you';
+   if(!d.E_brandEvents||!d.F_signedOffers||!d.F_unsignedOffers)return 'no events generated to test against';
+   for(const k of ['E_rivalEvents','E_wrongCelebrity','F_signedRival','F_signedWrongCel','F_unsignedWrongCel'])if(d[k])return k+' = '+d[k];
+   if((d.G_celebsInTwoHouses||[]).length)return 'celebs in two houses: '+d.G_celebsInTwoHouses.join(', ');
+   for(const k of ['A_existingDealsUntouched','B_rivalOfferLocked','B_sameBrandStillOk','C_unsignedCanSignAny','D_allMultiYear','H_rivalRenewalRefused','I_screenSaysSigned'])
+    if(d[k]!==true)return k+' = '+d[k];
+   return null}},
+
  {f:'cr1.js', why:'every coach has a permanent id and career; seasons recorded with real W-L; retired coaches kept, never removed',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.A_coaches||d.A_withId!==d.A_coaches)return 'coaches without id: '+(d.A_coaches-d.A_withId);

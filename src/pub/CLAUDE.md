@@ -513,3 +513,15 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   `staffV` with insertAdjacentHTML (no innerHTML reassign — TRAP 1).
 - Harness `cr1.js` (gate now 17). NOT done yet: coaches moving between levels (HS→college→pro)
   and the frozen levels progressing — that is a gameplay change; per Tyler, NEW SAVES ONLY.
+
+## V234 (2026-11-14) — clothing brands are rivals (m126)
+- Old rule: one deal per CATEGORY (SPB[2]), so Goatie's apparel + Jorton sneakers + Nyk cleats at
+  once. 11-07 save holds Goatie's + Jorton — HONOURED until they run out; never cancelled.
+- Clothing houses (`BRCLOTH`): Goatie's (all lines), Jorton, Nyk, Over Armored, Liger, Yawnverse,
+  Sharts (= Shart Shoes). `brMine()` = houses you're signed with. Rival = clothing offer from a
+  house not in brMine(). Wrapped: spOk/spSign/spRenSign (blocked), spEns (non-clothing offers ≥2
+  yrs and tier ≥2 — "big deals only"), spEvOffers (brand forced to yours; celeb must be that
+  house's or unaffiliated), spV (explainer card, insertAdjacentHTML). Source patches: spWeek runs
+  `brWeekFilter(L)` before `S.spe={k,L,done:[]}`; evWalk crowd filtered by `brOkAt(v,id)`.
+- Harness `br1.js` (gate 18). Before: 2 rivals signed, 44/137 rival events, 107 wrong-brand celebs.
+  After: 0/0/0. Walk-event crowd checked at function level only (3D scene not inspected).
