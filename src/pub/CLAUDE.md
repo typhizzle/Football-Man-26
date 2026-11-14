@@ -726,3 +726,5 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
 ## V264 — m156 play as an existing college QB (new-career screen; tcList = every college starter this season; tcGo: enroll + rating search + class). Gate 51/51. Childbirth spec in progress: real pro calendar = 22 in-season advances (no Pro Bowl week) + 8 offseason = 3.75/advance.
 
 ## V265 — m157 pro calendar clock (23 in-season incl. new Pro Bowl week + 8 x 3.625 offseason = 52), pregnancy on the clock (15%/0.1%, hidden 2 wks, birth at 39, she can say no, one at a time). Gate 51/52 + dr1 flaky (passed 2 reruns; investigating).
+
+## VERSION: V 0.0.1.0008 = the kids release (Tyler: "Once you add kids, you can move the version number again"). Still: only bump for big updates.

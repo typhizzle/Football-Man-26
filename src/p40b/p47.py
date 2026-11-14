@@ -733,3 +733,61 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 r("<button class=g onclick=tkStart()>🎭 Play as an existing pro QB</button>","<button class=g onclick=tkStart()>🎭 Play as an existing pro QB</button><button class=g onclick=tcStart()>🎓 Play as an existing college QB</button>")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m156.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m157: pro calendar clock, Pro Bowl week, pregnancy + birth on the clock, Sims-style scene (Tyler 2026-11-14 spec)
+r("const nx=e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':",
+  "const nx=e.t=='pbw'?'🌴 Pro Bowl week · the Ultra Bowl is next week':e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':")
+r("<button onclick=play()>${e.t=='bye'||e.t=='ppbye'?'Continue':",
+  "<button onclick=play()>${e.t=='bye'||e.t=='ppbye'||e.t=='pbw'?'Continue':")
+r("${e.t!='bye'&&e.t!='ppbye'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?",
+  "${e.t!='bye'&&e.t!='ppbye'&&e.t!='pbw'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m157.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m158: raising your kids + the athlete path (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m158.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m159: Pro Bowl voting + All-Star rosters + Pro Bowl week for everyone (Tyler 2026-11-14)
+r("if(sc>=135||(S.gs.length&&avg(S.gs)>=78))aw.push('Pro Bowl')",
+  "if((typeof pbMe=='function'&&pbMe()!==null)?pbMe():(sc>=135||(S.gs.length&&avg(S.gs)>=78)))aw.push('Pro Bowl')")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m159.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-14: "Once you add kids, you can move the version number again"
+assert h.count("V 0.0.1.0007")==3, h.count("V 0.0.1.0007")
+h=h.replace("V 0.0.1.0007","V 0.0.1.0008")
+
+# m160: your games record who really had the ball (Tyler 2026-11-14)
+r("rcar:{...(g.rcar||{})}}}catch(e){}const r=_e.apply(this,arguments);",
+  "rcar:{...(g.rcar||{})},pst:JSON.parse(JSON.stringify(g.pst||{}))}}catch(e){}const r=_e.apply(this,arguments);")
+r("S.bx=S.bx||{};S.bx[bxKey(pre.w,0,pre.oi)]=bx;","S.bx=S.bx||{};S.bx[bxKey(pre.w,0,pre.oi)]=(typeof bxReal=='function'?bxReal(bx,pre):bx);")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m160.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# Tyler 2026-11-14: "I have it selected as buzz cut, and I'm still bald ... That should never happen unless I pick bald".
+# The skeleton suit built the body with no hair (the skull used to cover the head); with no skull (no headwear / a hat),
+# his own hair is drawn.
+r("if(SKEL[id]){const C=SKEL[id][1],K=0x111111,F=-.29,Bk=.29;m=base({c1:'#111111',c2:'#111111',d:0,pc:'#111111'},0);",
+  "if(SKEL[id]){const C=SKEL[id][1],K=0x111111,F=-.29,Bk=.29;m=base({c1:'#111111',c2:'#111111',d:0,pc:'#111111'},(typeof S!='undefined'&&S&&S.hat!=null)?1:0);")
+# m161: Frank Castle -> Deep passer (Tyler asked)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m161.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m162: Equip everywhere up top + Halloween costumes off the fancy-event list (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m162.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m163: fans = one running total that only goes up, max 9 billion, real numbers in messages (Tyler 2026-11-14)
+r("const v=Math.min(b*pf*athF()*((typeof fanLegacy=='function')?fanLegacy():1),9e9*athF());return v<1000",
+  "let v=Math.min(b*pf*athF()*((typeof fanLegacy=='function')?fanLegacy():1),9e9*athF());if(typeof fanHold=='function')v=fanHold(v,p);return v<1000")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m163.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m164: sponsorships on/off + 5-step meter (middle = the old 7 offers); Pot McGee week 2 + playoffs (Tyler 2026-11-14)
+r("pool.forEach(b=>{if(pick.length<7&&!pick.includes(b))pick.push(b)});","pool.forEach(b=>{if(pick.length<(typeof spN=='function'?spN():7)&&!pick.includes(b))pick.push(b)});")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m164.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m165: fumbles follow the carrying rating, played and simmed (Tyler 2026-11-14)
+r("const f=cl(.011*Math.pow(d.str/70,1.5)*(70/(isq?S.q.sec:c.hands))*(sk?1.7:1)*(isq?1+Math.max(0,S.q.pow-65)*.008:1),.002,.08)",
+  "const f=cl((typeof fumHit=='function'?fumHit(isq?S.q.sec:c.hands)*Math.pow(d.str/70,1.2)*(sk?1.4:1):.011*Math.pow(d.str/70,1.5)*(70/(isq?S.q.sec:c.hands))*(sk?1.7:1)*(isq?1+Math.max(0,S.q.pow-65)*.008:1)),.0002,.08)")
+assert h.count("fum:R()<.12?1:0")>=1 and h.count("fum:R()<.15?1:0")>=1
+h=h.replace("fum:R()<.12?1:0","fum:(typeof simFum=='function'?simFum():(R()<.12?1:0))").replace("fum:R()<.15?1:0","fum:(typeof simFum=='function'?simFum():(R()<.15?1:0))")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m165.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
