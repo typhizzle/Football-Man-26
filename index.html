@@ -4321,10 +4321,10 @@ function celF(o){const m=femM({c1:o.c1,c2:o.c2,pc:o.pc},1.2,{sk:o.sk,hr:o.hr,hcl
 // ---------- brands and sponsorship contracts ----------
 // [id, brand, category (one active deal per category), what you do, tier needed, pay multiplier, fans when signed]
 const SPB=[
-['goat_ap',"Goatie's",'apparel','the face of the Goatie\'s apparel line',1,1.15,2],
-['goat_uw',"Goatie's Underwear",'underwear','underwear billboards (yes, those billboards)',2,.9,2],
-['goat_gr',"Goatie's Gear",'gear','gloves, sleeves and visor on game day',1,.75,1],
-['goat_jy',"Goatie's Jerseys",'jersey','your own signature jersey line',3,1.7,4],
+['goat_ap',"Goaty's",'apparel','the face of the Goaty\'s apparel line',1,1.15,2],
+['goat_uw',"Goaty's Underwear",'underwear','underwear billboards (yes, those billboards)',2,.9,2],
+['goat_gr',"Goaty's Gear",'gear','gloves, sleeves and visor on game day',1,.75,1],
+['goat_jy',"Goaty's Jerseys",'jersey','your own signature jersey line',3,1.7,4],
 ['jorton','Jorton','sneakers','your own signature sneaker',3,2.2,4],
 ['jorton_c','Jorton','cleats','Jorton cleats on game day',2,1.4,2],
 ['nyk','Nyk','cleats','Nyk cleats and training shoes',2,1.5,2],
@@ -4345,7 +4345,7 @@ const SPNEED=[0,15000,80000,400000];
 function spPay(mult){const st=S.stage||'hs',f=Math.max(1000,myFans());const b=st=='pro'?250000*Math.sqrt(f/1e6):6000*Math.sqrt(f/5e4);return Math.max(st=='pro'?50000:1000,Math.round(b*mult*athM()/500)*500)}
 function spEns(){S.spc=S.spc||[];if(!(S.stage=='col'||S.stage=='pro'))return S.spo=S.spo||{k:'',L:[]};const k=dk();if(S.spo&&S.spo.k==k)return S.spo;
  const r=rng((S.seed||1)*131+hsh(String(k))),act=S.spc.map(c=>c.cat),pool=SPB.filter(b=>!act.includes(b[2])&&(!/^tb/.test(b[0])||tbOk())).sort(()=>r()-.5),pick=[];
- if(!act.includes('apparel')&&!pool.slice(0,6).some(b=>b[0]=='goat_ap')){const g=SPB.find(b=>b[0]=='goat_ap');pick.push(g)} // Goatie's is the main brand: always in the mix
+ if(!act.includes('apparel')&&!pool.slice(0,6).some(b=>b[0]=='goat_ap')){const g=SPB.find(b=>b[0]=='goat_ap');pick.push(g)} // Goaty's is the main brand: always in the mix
  pool.forEach(b=>{if(pick.length<7&&!pick.includes(b))pick.push(b)});
  const L=pick.map(b=>({id:b[0],b:b[1],cat:b[2],what:b[3],tier:b[4],yrs:1+(r()*3|0),pay:spPay(b[5]*(.85+r()*.3)),fan:b[6],t:0}));
  // celebrity brand offers: only from stars who are fans of yours and know who you are
@@ -4368,7 +4368,7 @@ function spWeek(){if(!S||!(S.stage=='col'||S.stage=='pro'))return;const k=wkKey(
  if(f>=30000&&r()<(last>=80?.45:.22))L.push({k:'pot',n:'The Pot McGee Show',d:'Pot wants you on the show this week.'});
  if(f>=400000&&S.galaY!=yr&&r()<.12)L.push({k:'gala',n:'The Mett Gala',d:'The biggest fashion night of the year. Wear your best suit.'});
  try{spEvWeek(L,r)}catch(e){}
- if(f>=60000&&r()<.25){const ev=[['Goatie\'s launch party','goat'],['Nyk House of Hype','nyk'],['Jorton Brand Night','jor'],['Celebrity charity gala','char'],['Album release party','alb']][ri(0,4)];L.push({k:'party',n:ev[0],d:'Red carpet, music, and celebrities. Go meet people.',v:ev[1]})}
+ if(f>=60000&&r()<.25){const ev=[['Goaty\'s launch party','goat'],['Nyk House of Hype','nyk'],['Jorton Brand Night','jor'],['Celebrity charity gala','char'],['Album release party','alb']][ri(0,4)];L.push({k:'party',n:ev[0],d:'Red carpet, music, and celebrities. Go meet people.',v:ev[1]})}
  if(f>=40000&&r()<.18)L.push({k:'stream',n:'Stream with '+STRM[ri(0,STRM.length-1)],d:'Hop on a live stream and play some games.'});
  if(f>=1000000&&S.feastY!=yr&&r()<.07)L.push({k:'feast',n:'Mr Feast collab',d:'"Last to leave the end zone wins $250,000."'});
  if(f>=20000&&r()<.22){const sg=!(S.songs||[]).some(x=>x.k=='rbs')&&r()<.6?'rbs':['hot','pg'][r()<.5?0:1];L.push({k:'studio',song:sg,n:sg=='rbs'?'TyPhizzle & Wesscoastt: "Real Ballaz Swang"':'Feature on "'+(sg=='hot'?'Hot Boys':'P Giddy')+'" (Remix)',d:sg=='rbs'?'Their new song "Real Ballaz Swang" has an open verse with your name on it.':'TyPhizzle & Wesscoastt want you on the '+(sg=='hot'?'Hot Boys':'P Giddy')+' remix.'})}
@@ -4376,7 +4376,7 @@ function spWeek(){if(!S||!(S.stage=='col'||S.stage=='pro'))return;const k=wkKey(
  try{if(typeof brWeekFilter=='function')brWeekFilter(L)}catch(e){}S.spe={k,L,done:[]};if(L.length)S.fmsg=(S.fmsg?S.fmsg+' ':'')+'📅 New invite'+(L.length>1?'s':'')+': '+L.map(x=>x.n).join(', ')+'. Check 🤝 Sponsors.'}
 function spEv(i){const E=S.spe;if(!E||!E.L[i]||E.done.includes(i))return;const e=E.L[i];talk('mate',e.n,e.d,'happy',[[['party','gala','studio','pot'].includes(e.k)?'🚶 Go there':'▶️ Do it','spEv2('+i+',0)'],['⏩ Sim it','spEv2('+i+',1)'],['↩️ Back to player menu','ovHide();hub()']])}
 function spEv2(i,sim){const E=S.spe;if(!E||!E.L[i]||E.done.includes(i))return;let e=E.L[i];E.done.push(i);save();ovHide();if(sim)return spSim(e);
- if(e.k=='studio')return studioWalk(e.song||'rbs');if(e.k=='pot')return potWalk();if(e.k=='gala'){S.galaY=yrN();return evWalk('gala')}if(e.k=='party'){if(!e.cel){const bn={goat:"Goatie's",nyk:'Nyk',jor:'Jorton'}[e.v];const c_=bn&&brEvCel(bn);if(c_)e={...e,cel:c_}}EV_X=e;const r_=evWalk(e.v||'goat');EV_X=null;return r_}if(e.k=='stream')return streamEv(e.n.replace('Stream with ',''));if(e.k=='feast'){S.feastY=yrN();return feastEv()}if(e.k=='dude')return dudeEv()}
+ if(e.k=='studio')return studioWalk(e.song||'rbs');if(e.k=='pot')return potWalk();if(e.k=='gala'){S.galaY=yrN();return evWalk('gala')}if(e.k=='party'){if(!e.cel){const bn={goat:"Goaty's",nyk:'Nyk',jor:'Jorton'}[e.v];const c_=bn&&brEvCel(bn);if(c_)e={...e,cel:c_}}EV_X=e;const r_=evWalk(e.v||'goat');EV_X=null;return r_}if(e.k=='stream')return streamEv(e.n.replace('Stream with ',''));if(e.k=='feast'){S.feastY=yrN();return feastEv()}if(e.k=='dude')return dudeEv()}
 function potShow(){const Q=['Pot McGee here, baby! Are you the best QB in the country right now?','Be honest: who is the most overrated team you have played?','What is your pregame meal? Our viewers NEED to know.','If you could throw to one receiver in history, who is it?'][ri(0,3)];
  talk('reporter','Pot McGee',Q,'happy',[['🔥 Hype: "Nobody can stop us."','potAns(\'hype\')'],['🙏 Humble: "All credit to my line."','potAns(\'humble\')'],['😂 Funny: tell a joke on air','potAns(\'funny\')'],['😤 Roast your next opponent','potAns(\'roast\')']])}
 function potAns(k){const d={hype:[4,-1,0,'Pot is FIRED UP. The clip goes viral.'],humble:[2,2,2,'Pot loves it. "That is a leader right there."'],funny:[3,0,1,'The whole set is crying laughing.'],roast:[5,-2,-1,'Pot is screaming. Your next opponent saw it.']}[k];S.pop=cl((S.pop||40)+d[0],0,100);S.trust=cl((S.trust||50)+d[1],0,100);S.tt=cl((S.tt||50)+d[2],0,100);const fee=S.stage=='pro'?25000:0;S.cash=(S.cash||0)+fee;hapAdd(1);
@@ -4945,7 +4945,7 @@ function potAns(k){pmBuild();const V=PMV;for(let i=0;i<V.n&&V.i<V.q.length;i++){
 const tbOk=()=>S.stage=='pro'&&(S.aw||[]).some(a=>/Ultra Bowl Champion/i.test(a));
 var EV_X=null;
 // one-time paid appearances: a brand event where you meet a specific celebrity
-function spEvOffers(r,L){const f=myFans();if(f<40000)return;const C=CELB.map(celOb).filter(o=>o.id!='potmcgee'&&f>=CEL_NEED[o.tier]*.35).sort(()=>r()-.5).slice(0,2),B=["Goatie's",'Nyk','Liger','Over Armored','Yawnverse','Sharts','Jorton'];
+function spEvOffers(r,L){const f=myFans();if(f<40000)return;const C=CELB.map(celOb).filter(o=>o.id!='potmcgee'&&f>=CEL_NEED[o.tier]*.35).sort(()=>r()-.5).slice(0,2),B=["Goaty's",'Nyk','Liger','Over Armored','Yawnverse','Sharts','Jorton'];
  C.forEach((o,i)=>{const b=B[(r()*B.length)|0];L.push({id:'ev_'+o.id,b:b+' x '+o.n,cat:'event',what:'one-night appearance at a '+b+' event with '+o.n+' (you meet '+(o.fem?'her':'him')+')',tier:0,yrs:0,pay:Math.round(spPay(.35)/500)*500,fan:2,t:0,cel:o.id,brand:b})})}
 function spEvSign(o){o.t=1;S.cash=(S.cash||0)+o.pay;S.pop=cl((S.pop||40)+1,0,100);const k=wkKey();if(!S.spe||S.spe.k!=k)S.spe={k,L:[],done:[]};
  S.spe.L.push({k:'party',v:'spn',brand:o.brand,cel:o.cel,n:o.brand+' event with '+celBy(o.cel).n,d:'You booked it. '+celBy(o.cel).n+' will be there.'});
@@ -4968,12 +4968,12 @@ function spRenSign(i,yes){const o=(S.spRen||[])[i];if(!o)return;S.spRen.splice(i
 function calumSave(){try{const L=S.ro&&S.ro['h.0'];if(!L||S.calum)return;const tn=S.T&&S.T[0]?S.T[0].n:'';S.calum=L.slice(1).filter(x=>x&&x.ovr>=64&&x.n!=S.name).sort((a,b)=>b.ovr-a.ovr).slice(0,10).map(x=>({n:x.n,pos:x.pos,num:x.num,ovr:x.ovr,col:tn}))}catch(e){}}
 function proAlumIn(a,t,L){if(S.stage!='pro'||!S.calum||!S.calum.length||!t||!L)return;S.calum.forEach(p=>{if(!p.pt){const T=S.T||[];if(T.length<2)return;p.pt=T[1+Math.abs(hsh(p.n+(S.seed||1)))%(T.length-1)].n}if(p.pt!=t.n||L.some(x=>x&&x.n==p.n))return;
  let k=-1,lo=1e9;L.forEach((x,j)=>{if(j>0&&x&&x.pos==p.pos&&!x.al&&x.ovr<lo){lo=x.ovr;k=j}});if(k<0)return;L[k]={...L[k],n:p.n,num:p.num,ovr:cl(Math.max(L[k].ovr,p.ovr-6+(S.py||1)*2),45,95),al:2}})}
-function exmFW(O){const lv=S.stage||'hs';if(lv=='hs')return;let Lo=[];try{Lo=rost('h.'+g.oi)}catch(e){return}const A=Lo.filter(x=>x&&x.al).slice(0,2);if(!A.length)return;const Ot=g.o,oj={c1:Ot.c1,c2:Ot.c2,d:Ot.d||0,pc:Ot.pc||'#dcdcdc',nc:lum(Ot.c1)>.5?'#000':'#fff'};
- A.forEach((p,i)=>{const x=15+i*2.4,z=-55+i*2.6,m=mk3(oj,1.2,0,{nm:String(p.n).split(' ').pop().toUpperCase().slice(0,10),num:p.num},{sk:Math.abs(hsh(p.n))%6,hr:1+Math.abs(hsh(p.n))%3,hcl:'#1b1b1b',fh:Math.abs(hsh(p.n+'f'))%3,ht:1,bd:1},1);m.position.set(x,0,z);m.rotation.y=Math.atan2(x,z+50);PL.add(m);const s=lbl('Former teammate');s.position.set(0,3.5,0);s.scale.set(3.2,.8,1);m.add(s);O.push({k:'fexm',n:p.n,pos:p.pos,al:p.al,x,z,m})})}
-function exmAct(o){const F=g.fw||(g.fw={}),w=g&&g.w,where=o.al==2?'at '+((S.calum||[]).find(x=>x.n==o.n)||{}).col:'back in high school',lines=w?['Yo! You still got it, huh? Proud of you, bro.','Man, '+where+' we used to dream about games like this. Good game.','You cooked us today. Respect, for real.']:['Ha! Not today, bro. Remember who taught you that route?','Good game, man. Just like '+where+', I always got the last laugh.','You played good, we just got you today. Love you bro.'];
+function exmFW(O){const lv=S.stage||'hs';if(lv=='hs')return;let Lo=[];try{Lo=rost('h.'+g.oi)}catch(e){return}const A=Lo.filter(x=>x&&(x.al||(typeof ftOf=='function'&&ftOf(x)))).slice(0,2);if(!A.length)return;const Ot=g.o,oj={c1:Ot.c1,c2:Ot.c2,d:Ot.d||0,pc:Ot.pc||'#dcdcdc',nc:lum(Ot.c1)>.5?'#000':'#fff'};
+ A.forEach((p,i)=>{const x=15+i*2.4,z=-55+i*2.6,m=mk3(oj,1.2,0,{nm:String(p.n).split(' ').pop().toUpperCase().slice(0,10),num:p.num},{sk:Math.abs(hsh(p.n))%6,hr:1+Math.abs(hsh(p.n))%3,hcl:'#1b1b1b',fh:Math.abs(hsh(p.n+'f'))%3,ht:1,bd:1},1);m.position.set(x,0,z);m.rotation.y=Math.atan2(x,z+50);PL.add(m);const s=lbl('Former teammate');s.position.set(0,3.5,0);s.scale.set(3.2,.8,1);m.add(s);O.push({k:'fexm',n:p.n,pos:p.pos,al:p.al||(typeof ftAl=='function'?ftAl(p):1)||1,x,z,m})})}
+function exmAct(o){const F=g.fw||(g.fw={}),w=g&&g.w,where=(typeof ftWhere=='function'&&ftWhere(o.n))||(o.al==2?'at '+((S.calum||[]).find(x=>x.n==o.n)||{}).col:'back in high school'),lines=w?['Yo! You still got it, huh? Proud of you, bro.','Man, '+where+' we used to dream about games like this. Good game.','You cooked us today. Respect, for real.']:['Ha! Not today, bro. Remember who taught you that route?','Good game, man. Just like '+where+', I always got the last laugh.','You played good, we just got you today. Love you bro.'];
  talk('mate',o.n+' ('+o.pos+', former teammate)',lines[ri(0,lines.length-1)],w?'happy':'smug',[[F['exm'+o.n]?'🤝 Good to see you':'🤝 Dap him up','exmDap(\''+o.n.replace(/'/g,'')+'\')'],['📱 Stay connected','exmNum(\''+o.n.replace(/'/g,'')+'\',\''+o.pos+'\','+(o.al||1)+')'],['See you around','ovHide()']])}
 function exmDap(n){const F=g.fw||(g.fw={});ovHide();if(F['exm'+n])return;F['exm'+n]=1;S.tt=cl((S.tt||50)+1,0,100);S.pop=cl((S.pop||40)+1,0,100);save();lrStat()}
-function exmNum(n,pos,al){const P=phEns(),id='exm:'+n;if(!P.c.some(c=>c.id==id))P.c.push({id,n,role:'Former teammate ('+(al==2?'college':'high school')+', '+pos+')',pers:'loyal',team:'',th:[]});save();talk('mate',n,'Bet. Hit me up anytime.','happy',[['Bet','ovHide()']],'📱 '+n+' is in your phone now.')}
+function exmNum(n,pos,al){const P=phEns(),id='exm:'+n;if(!P.c.some(c=>c.id==id))P.c.push({id,n,role:'Former teammate ('+(al==3?'pro':al==2?'college':'high school')+', '+pos+')',pers:'loyal',team:'',th:[]});save();talk('mate',n,'Bet. Hit me up anytime.','happy',[['Bet','ovHide()']],'📱 '+n+' is in your phone now.')}
 
 // ===================== better texting =====================
 // one clean prompt with the whole conversation, real context, and how this person should talk
@@ -5007,7 +5007,7 @@ function phCanned(c,extra){if(extra&&/INVITE/.test(extra))return R()<.6?['Yeah I
  const L={hype:['YOOO 🔥🔥','LET\'S GOOO','you him fr'],chill:['bet','lol fr','aight cool'],joker:['lmao who let you have a phone','😂😂 nah','say less clown'],serious:['Watched your film. Lots to clean up.','Focus up this week.'],trash:['you still talking? 😂','we\'ll see','cute'],loyal:['always got you bro','proud of you man'],mom:['Did you eat today? ❤️','Call me later baby','So proud of you!'],dad:['Proud of you, son.','Keep your head down and work.','Call your mother.'],sib:['ew','lol ok','can I have tickets'],coach:['Film at 7.','Be early.','Good. Keep working.'],agent:['Let\'s talk numbers soon.','I\'m working on something big for you.'],rival:['Good luck next time.','Respect.'],gf:['❤️','miss you','text me after practice 😘'],celeb:['yo 🔥','appreciate you','we gotta link soon','in the studio rn, hit you later']}[p]||['ok','for sure','lol'];return pk(L)}
 // ===================== BRAND ROSTERS: the celebrities who rep each brand, and you can recruit more =====================
 // starting faces (real-life counterparts where there is one: Travis Scoot -> Jorton, Drizzle & Billie Eyelash -> Nyk)
-const BRDEF={"Goatie's":['typhizzle','wesscoastt'],'Jorton':['tscoot'],'Nyk':['drizzle','beyelash'],'Liger':['islice'],'Over Armored':['jpall'],'Yawnverse':['jblackk'],'Sharts':['lbawl'],'Shart Shoes':['lbawl'],'Scalp & Knees':['jbowl'],'LeJarn James':[],'Tim Brody 12':[],'Tim Brody Football':[]};
+const BRDEF={"Goaty's":['typhizzle','wesscoastt'],'Jorton':['tscoot'],'Nyk':['drizzle','beyelash'],'Liger':['islice'],'Over Armored':['jpall'],'Yawnverse':['jblackk'],'Sharts':['lbawl'],'Shart Shoes':['lbawl'],'Scalp & Knees':['jbowl'],'LeJarn James':[],'Tim Brody 12':[],'Tim Brody Football':[]};
 const brKey=b=>String(b||'').split(' (')[0].replace(/ (Underwear|Gear|Jerseys)$/,'');
 function brRoster(k){S.brR=S.brR||{};const add=S.brR[k]||[],left=(S.brL||{})[k]||[];return [...new Set([...(BRDEF[k]||[]),...add])].filter(id=>!left.includes(id)&&celBy(id))}
 function brOf(id){return Object.keys({...BRDEF,...(S.brR||{})}).filter(k=>brRoster(k).includes(id))}
@@ -6615,8 +6615,8 @@ function wrCut(w,P){const nx=w.wp&&w.wp[0];if(!nx)return;const dx=nx[0]-w.x,dy=n
   const wT=w?Math.max(.25,Math.hypot(w.x-q.x,w.y-q.y)/v):0,wOk=w&&Math.hypot(w.x+(w.vx||0)*wT-lx,w.y+(w.vy||0)*wT-ly)<4;if(ad<18&&!wOk){let best=null,bs=-9;P.wr.forEach(r=>{const wd=Math.hypot(r.x-q.x,r.y-q.y);if(wd>13)return;const T=Math.max(.25,wd/v),ex=r.x+(r.vx||0)*T-(q.vx||0)*T*.3,ey=r.y+(r.vy||0)*T-(q.vy||0)*T*.3,rx=ex-q.x,ry=ey-q.y,rl=Math.hypot(rx,ry)||1,c=(ax*rx+ay*ry)/rl;if(c>.85&&ad<rl*1.5+4){const sc=c-rl/60;if(sc>bs){bs=sc;best={r,ex,ey}}}});
    if(best){w=best.r;lx=best.ex;ly=best.ey;P.shov=1}}}}catch(e){}return _d.call(this,w,lx,ly)}})();
 // ===================== 🐆 Tommy Chew Toy + 🎤 dating Reporter Mia =====================
-// Tommy Chew Toy: meme rapper, owns Goaties, rolls with TyPhizzle and Wesscoastt, has a crush on GloGorilla. Leopard onesie, fur hood, pink pompoms.
-try{CELB.push(['tchew','Tommy Chew Toy','tommychewtoy',0,0,1,'#3b2618',0,1,1,'#f4f2ec','#f4f2ec','#f4f2ec','wildcat',1,'meme rapper and owner of the Goaties brand, best friends with TyPhizzle and Wesscoastt, chaotic and funny, will not stop talking about his crush on GloGorilla','curly',['Goaties','a Goaties streetwear collab']])}catch(e){}
+// Tommy Chew Toy: meme rapper, owns Goaty\'s, rolls with TyPhizzle and Wesscoastt, has a crush on GloGorilla. Leopard onesie, fur hood, pink pompoms.
+try{CELB.push(['tchew','Tommy Chew Toy','tommychewtoy',0,0,1,'#3b2618',0,1,1,'#f4f2ec','#f4f2ec','#f4f2ec','wildcat',1,'meme rapper and owner of the Goaty\'s brand, best friends with TyPhizzle and Wesscoastt, chaotic and funny, will not stop talking about his crush on GloGorilla','curly',['Goaty\'s','a Goaty\'s streetwear collab']])}catch(e){}
 try{if(typeof CEL_REAL!='undefined')CEL_REAL.tchew='(original character)'}catch(e){}
 try{FKNOWN.unshift([/^Tommy Chew Toy$/,{s:0,h:'#3b2618',st:'curly',e:'#4a3020'}])}catch(e){}
 // the look: white wildcat-print onesie with colored spots, unzipped to the waist (chest and belly out), hood down with white fur trim, pink cuffs, pink pompoms, big wavy brown hair
@@ -7568,7 +7568,7 @@ try{
   ['ft_nyk','Nyk speed cleats',6500,'Light as nothing.'],
   ['ft_ua','Over Armored cleats',3000,'Built like a toolbox.'],
   ['ft_liger','Liger sprint cleats',2600,'Loud stripes, louder owner.'],
-  ['ft_goat',"Goatie's turf shoes",2200,'For the guy who already made it.']];
+  ['ft_goat',"Goaty's turf shoes",2200,'For the guy who already made it.']];
  const HEAD=[
   ['wh_band','Headband',150,'Keeps the sweat out of your reads.'],
   ['wh_helm','Football helmet',900,'The classic. Always fits.'],
@@ -9699,22 +9699,22 @@ window.coachV=function(){const R_=crS(S);if(!R_)return hub();
  return r}}catch(e){}})();
 // ===== 👕 Clothing brands are rivals: one at a time, their own events, their own celebrities =====
 // Tyler, 2026-11-14: "only one brand can sign you at a time, especially because clothing brands
-// are rivals" … "if they're signed with Goaty's then they should only be able to go to Goatie's
+// are rivals" … "if they're signed with Goaty's then they should only be able to go to Goaty's
 // events" … "If you're not signed though, you can get invites to go to their events from the
 // people from their brands. Make sure every celebrity is with the right brand." Other brands:
 // "only if they're live big time deals … multi-years … big signings".
-// Measured on the 11-07 save: signed with Goatie's AND Jorton at once. Deals already signed are
+// Measured on the 11-07 save: signed with Goaty's AND Jorton at once. Deals already signed are
 // honoured until they run out — nothing in a save is cancelled. The rule applies to new signings.
 
-window.BRCLOTH=["Goatie's",'Jorton','Nyk','Over Armored','Liger','Yawnverse','Sharts'];
+window.BRCLOTH=["Goaty's",'Jorton','Nyk','Over Armored','Liger','Yawnverse','Sharts'];
 window.brFam=function(b){try{let k=brKey(b);if(k==='Shart Shoes')k='Sharts';return BRCLOTH.includes(k)?k:null}catch(e){return null}};
 // the clothing houses you are signed with right now (old saves may hold two; both honoured)
 window.brMine=function(){try{return [...new Set((S.spc||[]).filter(c=>c.cat!=='celeb'&&c.cat!=='event').map(c=>brFam(c.b)).filter(Boolean))]}catch(e){return []}};
 // the clothing house a celebrity reps (a celebrity reps one house at most)
 window.brCelFams=function(id){try{return [...new Set(brOf(id).map(brFam).filter(Boolean))]}catch(e){return []}};
-window.brEvFam=function(v){try{if(v&&typeof v==='object')return brFam(v.brand)||({goat:"Goatie's",nyk:'Nyk',jor:'Jorton'})[v.v]||null;
+window.brEvFam=function(v){try{if(v&&typeof v==='object')return brFam(v.brand)||({goat:"Goaty's",nyk:'Nyk',jor:'Jorton'})[v.v]||null;
  if(v==='spn'||v==='party')return (typeof EV_X!='undefined'&&EV_X&&EV_X.brand)?brFam(EV_X.brand):null;
- return ({goat:"Goatie's",nyk:'Nyk',jor:'Jorton'})[v]||((typeof EV_X!='undefined'&&EV_X&&EV_X.brand)?brFam(EV_X.brand):null)}catch(e){return null}};
+ return ({goat:"Goaty's",nyk:'Nyk',jor:'Jorton'})[v]||((typeof EV_X!='undefined'&&EV_X&&EV_X.brand)?brFam(EV_X.brand):null)}catch(e){return null}};
 // may this celebrity be at this brand's event? Only that house's people, or people with no house.
 window.brOkAt=function(v,id){try{const f=brEvFam(v);if(!f)return true;const c=brCelFams(id);return !c.length||c.includes(f)}catch(e){return true}};
 // is this offer from a rival of the house you are with?
@@ -10434,7 +10434,7 @@ window.bxForm=function(ti){try{const v=S.sfv;if(!v)return 1;const y=yrN();if(y<=
 // other way. From the next season your simmed games use points/14 with the same season form as everyone:
 // a 99 on a ~30-point team averages high 30s, a great year reaches the high 40s, an off year the low 30s.
 window.simTd=function(pts,gsv,old){try{const v=S.sfv;if(!v||yrN()<=v.y)return old;
- return Math.max(0,Math.min(5,Math.round((pts/14+(gsv||0)*.5)*bxForm(0))))}catch(e){return old}};
+ return Math.max(0,Math.min(5,Math.round((pts/15+(gsv||0)*.5)*bxForm(0))))}catch(e){return old}};
 // Tyler, 2026-11-14: "receivers and tight ends really do play a big part on the quarterback success ... even a
 // mid quarterback could be up there in stats because they have good receivers". In simmed games the passing
 // share of a team's touchdowns and yards now also follows its pass catchers (WR1-3 + TE) against the league:
@@ -10624,21 +10624,36 @@ rupdCard=function(){try{const L=Object.keys(PWNAMES).map(n=>[n,PWNAMES[n][0],PWN
  return `<div class=card><b>📈 Ratings update · Nov 14, 2026 · throwing power</b><br><small>Max throw distance in the pros (high school throws 85% of it, college 93.5%).</small>${L.map(x=>`<div class=row style="font-size:16px"><span>${esc(x[0])}</span><span>💪 ${x[1]} · <b>${x[2]} yds</b></span></div>`).join('')}</div>`}catch(e){return ''}};
 rupdTag=function(n){try{const p=PWNAMES[n];return p?` <small>💪 ${p[0]} arm</small>`:''}catch(e){return ''}};
 // ===== 👕 GOATIE'S ROSTER + YEEZERS =====
-// Tyler, 2026-11-14: "only certain people should be signed to Goatie's for now ... Tommy Chew Toy is the owner
+// Tyler, 2026-11-14: "only certain people should be signed to Goaty's for now ... Tommy Chew Toy is the owner
 // obviously, and then TyPhizzle and Wesscoastt signed ... [Michael Jackson] ... Matty Gafford is signed with
-// Goatie's, so is Eric Darnold, so is Coleridge Loud, so is Nuka Biten and Hooper Bol. No Pix and Markie Goata
-// are Goatie's sponsors. Add Yeezers as its own brand ran by Kanye, shoes popularly known as Yeezers."
-// Celebrities who rep Goatie's: TyPhizzle, Wesscoastt, Michael Jaxon (owner: Tommy Chew Toy). Anyone YOU
+// Goaty's, so is Eric Darnold, so is Coleridge Loud, so is Nuka Biten and Hooper Bol. No Pix and Markie Goata
+// are Goaty's sponsors. Add Yeezers as its own brand ran by Kanye, shoes popularly known as Yeezers."
+// Celebrities who rep Goaty's: TyPhizzle, Wesscoastt, Michael Jaxon (owner: Tommy Chew Toy). Anyone YOU
 // recruited to a brand in your own save stays (that was your doing). Yeezers: Kanye Westley's shoe line, a
 // clothing house like Jorton (so it is a rival of the others: one house at a time).
-try{BRDEF["Goatie's"]=['typhizzle','wesscoastt','mjaxon'];BRDEF['Yeezers']=['kyeast']}catch(e){}
+try{BRDEF["Goaty's"]=['typhizzle','wesscoastt','mjaxon','diddly'];BRDEF['Yeezers']=['kyeast']}catch(e){}
 try{if(!BRCLOTH.includes('Yeezers'))BRCLOTH.push('Yeezers')}catch(e){}
 try{if(!SPB.some(b=>b[0]==='yeez'))SPB.push(['yeez','Yeezers','sneakers',"your own Yeezers colorway (Kanye Westley's shoe line)",2,1.6,3])}catch(e){}
-window.BRATH={"Goatie's":{own:'Tommy Chew Toy',ath:['Matty Gafford','Eric Darnold','Coleridge Loud','Nuka Biten','Hooper Bol','No Pix','Markie Goata']},
+window.BRATH={"Goaty's":{own:'Tommy Chew Toy',ath:['Matty Gafford','Eric Darnold','Coleridge Loud','Nuka Biten','Hooper Bol','No Pix','Markie Goata']},
  'Yeezers':{own:'Kanye Westley',ath:[]}};
 window.brAthTxt=function(k){const a=BRATH[k];if(!a)return '';return `<br><small>Owner: ${esc(a.own)}${a.ath.length?' · Athletes: '+a.ath.map(esc).join(', '):''}</small>`};
 (()=>{try{const _c=brCard;brCard=function(){const B=myBrands();if(!B.length)return '';
  return `<div class=card><b>👕 Brand families</b>${B.map(k=>{const R_=brRoster(k);return `<div style="font-size:15px;margin:4px 0"><b>${esc(k)}</b><br><small>You${R_.length?', '+R_.map(id=>esc(celBy(id).n)).join(', '):''}</small>${brAthTxt(k)}</div>`}).join('')}<small>Become friends with celebrities, then get them to rep your brands (at events, after games, or by text).</small></div>`}}catch(e){}})();
+
+// Tyler, 2026-11-14: "Diddy can stay with Goaty's, also Goaty's is the correct spelling". Didd-E reps Goaty's.
+// The build spells it Goaty's everywhere (p47), and every save is corrected on load: deals, offers, brand
+// rosters, the news feed. Only the brand's spelling changes; nothing else in the save.
+window.goatyFix=function(s){try{if(!s||s.goatyV)return s;const old='Goat'+'ie',fx=v=>v.split(old+"'s").join("Goaty's").split(old+'s').join("Goaty's");
+ // walk the save and fix the TEXT in place: objects shared between lists (S.T and S.pro share teams) stay shared
+ const seen=new Set(),walk=o=>{if(!o||typeof o!=='object'||seen.has(o))return;seen.add(o);
+  for(const k of Object.keys(o)){const v=o[k];if(typeof v==='string'){if(v.indexOf(old)>=0)o[k]=fx(v)}else if(v&&typeof v==='object')walk(v);
+   if(!Array.isArray(o)&&k.indexOf(old)>=0){const nk=fx(k);if(!(nk in o)){o[nk]=o[k];delete o[k]}}}};
+ walk(s);s.goatyV=1;return s}catch(e){return s}};
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{s=goatyFix(s)}catch(e){}return s}}catch(e){}})();
+// Tyler, 2026-11-14: "Tommy Chew Toy can be at most Goaty's events, he's the owner, maybe he's at 75-80% of
+// them". He reps Goaty's (so he only shows at Goaty's events), and a Goaty's event's celebrity is him 78% of the time.
+try{if(!BRDEF["Goaty's"].includes('tchew'))BRDEF["Goaty's"].unshift('tchew')}catch(e){}
+(()=>{try{const _e=brEvCel;brEvCel=function(brand){try{if(brKey(brand)==="Goaty's"&&typeof celBy=='function'&&celBy('tchew')&&R()<.74)return 'tchew'}catch(e){}return _e.apply(this,arguments)}}catch(e){}})();
 // ===== 📺 EVERY DRAFT, WATCHABLE — AND LIVE WHEN IT HAPPENS =====
 // Tyler, 2026-11-14: "if you can watch the first two, you should be able to watch all of them, right? Should
 // show all of them ... should be able to watch any of the drafts happen live, not just the later."
@@ -10655,5 +10670,34 @@ window.drWatch=function(y){S.dcSeen=S.dcSeen||{};S.dcSeen[y]=1;try{save()}catch(
 (()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const Y=S&&S.dcLive;if(Y&&!(S.dcSeen||{})[Y]&&S.stage=='pro'&&ui.style.display!='none'){const d=ui.firstElementChild;if(d&&!d.querySelector('[data-drlive]')){const c=document.createElement('div');c.className='card';c.setAttribute('data-drlive','1');
  c.innerHTML=`<b>📺 The ${Y} PFL Draft is on now</b><br><small>Every pick, live from the stage.</small><button onclick="drWatch(${Y})">Watch it live</button><button class=g onclick="S.dcSeen=S.dcSeen||{};S.dcSeen[${Y}]=1;save();hub()">Not now (it stays in the draft list)</button>`;
  const h2=d.querySelector('h2');if(h2&&h2.nextSibling)d.insertBefore(c,h2.nextSibling);else d.prepend(c)}}}catch(e){}return r}}catch(e){}})();
+// ===== 🤝 FORMER TEAMMATES, FROM THE REAL RECORDS =====
+// Tyler (EPLM): "former college teammate, former high school teammate, former pro teammate ... have them wait
+// after the game." The game only knew the handful of teammates it had copied over by hand (x.al). Now a former
+// teammate is anyone whose recorded season shares a club and a year with one of yours: high school and
+// college from the career record (S.pc), the pros from his season rows. His card says so, and when you play
+// his team he waits for you after the game (the existing meet-up), saying where you played together.
+window.ftMine=function(){const out=[];try{const y0=S.y0||2022;(S.hist||[]).forEach((h,i)=>{const y=String(h.y);const lv=/^C/.test(y)?'col':/^P/.test(y)?'pro':'hs';const c=(S.htm||[])[i];if(c)out.push([y0+i,lv,c])});
+ if(S.T&&S.T[0])out.push([yrN(),S.stage=='pro'?'pro':S.stage=='col'?'col':'hs',S.stage=='pro'?tn(S.T[0]):S.T[0].n])}catch(e){}return out};
+window.ftOf=function(x){try{if(!x||!x.n||x.n===S.name)return null;const M=ftMine();if(!M.length)return null;const cur=M[M.length-1];
+ const rows=[];const e=x.pid&&S.pc&&S.pc.p&&S.pc.p[x.pid];if(e)e.r.forEach(q=>rows.push([q[0],q[1],q[2]]));
+ (x.h||[]).forEach(q=>{if(q&&q[0]>=2022&&S.pro&&S.pro[q[1]])rows.push([q[0],'pro',tn(S.pro[q[1]])])});
+ const hit={};rows.forEach(r=>{if(r[0]===cur[0]&&r[2]===cur[2])return;   // this season, same team: a teammate, not a former one
+  if(M.some(m=>m[0]===r[0]&&m[2]===r[2])){const k=r[1]+'|'+r[2];(hit[k]=hit[k]||{lv:r[1],club:r[2],yrs:[]}).yrs.push(r[0])}});
+ const H=Object.values(hit);if(!H.length){if(x.al==2)return {lv:'col',club:'',yrs:[]};if(x.al==1)return {lv:'hs',club:'',yrs:[]};return null}
+ const ord={pro:3,col:2,hs:1};H.sort((a,b)=>Math.max(...b.yrs)-Math.max(...a.yrs)||ord[b.lv]-ord[a.lv]);return H[0]}catch(e){return null}};
+window.ftAl=function(x){const f=ftOf(x);return f?({hs:1,col:2,pro:3})[f.lv]:0};
+window.ftTxt=function(f){if(!f)return '';const lv={hs:'high school',col:'college',pro:'pro'}[f.lv];const y=f.yrs.length?(Math.min(...f.yrs)===Math.max(...f.yrs)?' '+Math.min(...f.yrs):' '+Math.min(...f.yrs)+'–'+Math.max(...f.yrs)):'';return `Former ${lv} teammate${f.club?' · '+f.club:''}${y}`};
+window.ftWhere=function(n){try{let x=null;S.T.forEach((t,i)=>{(rost('h.'+i)||[]).forEach(y=>{if(y&&y.n===n)x=y})});const f=x&&ftOf(x);if(!f)return null;return f.lv=='pro'?'back on the '+f.club:f.lv=='col'?'at '+(f.club||'college'):'back in high school'}catch(e){return null}};
+(()=>{try{const _c=pCard;pCard=function(i,j){const r=_c.apply(this,arguments);try{const L=rost('h.'+i),x=L&&L[j];const f=x&&!(i==0&&j==0)&&ftOf(x);if(f){const h2=ui.querySelector('h2');if(h2&&!ui.querySelector('[data-ft]'))h2.insertAdjacentHTML('afterend',`<p data-ft=1><b style="color:#ffe93b">🤝 ${esc(ftTxt(f))}</b></p>`)}}catch(e){}return r}}catch(e){}})();
+// ===== 🚪🏠 LOCKER ROOM + HOME RIGHT UNDER PLAY / SIM =====
+// Tyler, 2026-11-14: "move [Enter the] locker room [and Walk around] your house at the top where you play your
+// games or sim games in the same section ... put it under. Just make their icons blue because the play game
+// icon will already be green". Both buttons move from lower in the player menu to just under Play game /
+// Sim game, in blue. Same buttons, same actions.
+window.lrMoveUp=function(){try{const root=ui&&ui.firstElementChild;if(!root)return;
+ const B=[...root.querySelectorAll('button')];const anchor=B.find(b=>/simUser\(\)/.test(b.getAttribute('onclick')||''))||B.find(b=>/^play\(\)/.test(b.getAttribute('onclick')||''));
+ const mv=B.filter(b=>/^(lroom|homeWalk)\(\)$/.test(b.getAttribute('onclick')||''));if(!anchor||!mv.length)return;
+ let at=anchor;mv.forEach(b=>{b.classList.remove('g');b.style.background='#2f6fd6';b.style.color='#fff';b.setAttribute('data-blue','1');at.insertAdjacentElement('afterend',b);at=b})}catch(e){}};
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{if(S&&ui&&ui.style.display!='none')lrMoveUp()}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

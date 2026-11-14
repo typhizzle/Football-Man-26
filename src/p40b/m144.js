@@ -17,7 +17,7 @@ window.bxForm=function(ti){try{const v=S.sfv;if(!v)return 1;const y=yrN();if(y<=
 // other way. From the next season your simmed games use points/14 with the same season form as everyone:
 // a 99 on a ~30-point team averages high 30s, a great year reaches the high 40s, an off year the low 30s.
 window.simTd=function(pts,gsv,old){try{const v=S.sfv;if(!v||yrN()<=v.y)return old;
- return Math.max(0,Math.min(5,Math.round((pts/14+(gsv||0)*.5)*bxForm(0))))}catch(e){return old}};
+ return Math.max(0,Math.min(5,Math.round((pts/15+(gsv||0)*.5)*bxForm(0))))}catch(e){return old}};
 // Tyler, 2026-11-14: "receivers and tight ends really do play a big part on the quarterback success ... even a
 // mid quarterback could be up there in stats because they have good receivers". In simmed games the passing
 // share of a team's touchdowns and yards now also follows its pass catchers (WR1-3 + TE) against the league:

@@ -706,3 +706,15 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
   (Kanye Westley) added to BRCLOTH/SPB/BRDEF. Open question: who is "Darry"?
 - m150 every draft (S.npb + held S.dc) listed + watchable (npbRows reads S.dc picks); offseason draft offered LIVE in hub.
 - TRAP: a new test file name must not reuse an existing one (I overwrote ub1.js; restored, mine is sb1.js).
+
+## ⛔ STANDING RULE (Tyler, 2026-11-14): "no changes should cause anything ... Unless I tell you to change something, the game should remain the game"
+- A change does ONLY what Tyler asked. No side effects on anything else. If a fix would change anything he
+  didn't ask about (stats, ratings, rosters, records, menus, saves), STOP and ask him first.
+- Every gate test that compares before/after must stay strict; a new module must leave every other check unchanged.
+## Records (Tyler, same day): "the record should be beatable, I don't want you to limit them ... very, very hard
+## and unlikely". NO caps on season totals. Real 55-TD record: set 2013, broken ~3 times in 1984-2013, never since
+## → aim for a CPU/sim breaking it about once in many careers. sim1 fails only if 56+ happens 2+ times in 8 seasons.
+## V261 — m149 Goaty's (spelling everywhere; saves fixed IN PLACE by walking strings — a JSON copy broke the shared
+## S.T/S.pro team objects and cr1 caught it), Didd-E + Tommy Chew Toy (owner, ~80% of Goaty's events); m151 former
+## teammates from real records (ftOf; card tag + post-game meetup); m152 locker room/home buttons under Play/Sim in blue;
+## m144 simTd pts/15 (was 14: 57-58 TD sims). Gate 47/47.

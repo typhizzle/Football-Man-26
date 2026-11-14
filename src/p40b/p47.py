@@ -698,3 +698,20 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m147+: the rushing TDs the QB and lead back don't get go to the other ball carrier (st1 caught a 34-TD back)
 r("...(rb2Car>2?[{n:nm(3),p:'WR',c:Math.min(3,rb2Car),y:rb2Y,td:0}]:[])]",
   "...((rb2Car>2||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[])]")
+
+
+# Tyler 2026-11-14: "Goaty's is the correct spelling" (after every module is in). Single-quoted spots get an escaped quote.
+h=h.replace("Goatie\\'s","Goaty\\'s").replace("Goaties","Goaty\\'s").replace("Goatie's","Goaty's")
+assert "Goatie" not in h
+
+# m151: former teammates from the real records (EPLM)
+r("const A=Lo.filter(x=>x&&x.al).slice(0,2);","const A=Lo.filter(x=>x&&(x.al||(typeof ftOf=='function'&&ftOf(x)))).slice(0,2);")
+r("O.push({k:'fexm',n:p.n,pos:p.pos,al:p.al,x,z,m})","O.push({k:'fexm',n:p.n,pos:p.pos,al:p.al||(typeof ftAl=='function'?ftAl(p):1)||1,x,z,m})")
+r("where=o.al==2?'at '+((S.calum||[]).find(x=>x.n==o.n)||{}).col:'back in high school'","where=(typeof ftWhere=='function'&&ftWhere(o.n))||(o.al==2?'at '+((S.calum||[]).find(x=>x.n==o.n)||{}).col:'back in high school')")
+r("role:'Former teammate ('+(al==2?'college':'high school')+', '+pos+')'","role:'Former teammate ('+(al==3?'pro':al==2?'college':'high school')+', '+pos+')'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m151.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m152: locker room + home buttons right under Play / Sim, in blue (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m152.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
