@@ -42,6 +42,9 @@ const TESTS=[
  {f:'aw5.js', why:'award ballots show every finalist\'s season, never just "99 OVR" (Tyler screenshot 2026-11-14)',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.A_noOvrOnlyLines!==true)return d.ovrOnly+' finalists show only OVR, e.g. '+(d.examples||[])[0];if(!(d.finalistsShown>20))return 'only '+d.finalistsShown+' finalists';return null}},
 
+ {f:'sim1.js', why:'NOBODY OWNS THE SIM: 8 simmed seasons from Tyler\'s 99 OVR save: at least 3 different MVPs, nobody wins more than 5 of 8, no season past 56 passing TD, you lead passing TDs at most 6 of 8',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.distinct<3)return 'only '+d.distinct+' MVP winners: '+JSON.stringify(d.mvps);if(d.maxShare>5)return 'one man won '+d.maxShare+' of 8: '+JSON.stringify(d.mvps);if(d.maxTD>56)return 'a '+d.maxTD+' TD season';if(d.meLed>6)return 'you led passing TDs '+d.meLed+' of 8 seasons';if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 

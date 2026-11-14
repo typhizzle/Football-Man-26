@@ -680,3 +680,5 @@ STANDING RULES from this:
   Heisman/Golden Arm/O'Brine/team titles for CPU players.
 
 ## V257 (V 0.0.1.0006) — m143 award ballots: finalists with ln "NN OVR" get their real season (awLn: season row, else box-score total so far, else OL note). Gate aw5.
+
+## V258 (V 0.0.1.0007) — m144 season form (bxForm: per team-season .78-1.22 on the passing TD share, from the first season after the update: S.sfv) + simTd (your simmed TD = pts/14+gs*.5 times form; was pts/12 → 54-60 TD years). 24-season measure: you 5 MVPs, Drako 6 (was 9/16), 9 different winners, max 48 TD. Gate sim1 is a RANDOM guardrail (>=3 MVP winners, nobody >5/8, max TD 56, you lead TDs <=6/8): it caught nothing on one old-build run, so treat it as a tripwire, not proof. Root cause still open: top CPU offenses score 38-43 ppg (real best ~30-34).

@@ -642,3 +642,13 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m143.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 assert h.count("V 0.0.1.0005")==3, h.count("V 0.0.1.0005")
 h=h.replace("V 0.0.1.0005","V 0.0.1.0006")
+
+# m144: season form for every team's passing game, CPU and your simmed games (Tyler 2026-11-14: "make sure that that's not OP")
+r("let pTD=Math.round(tds*(_N?.46+r()*.18:.5+r()*.25)),rTD=tds-pTD;",
+  "let pTD=Math.min(tds,Math.round(tds*(_N?.46+r()*.18:.5+r()*.25)*(typeof bxForm=='function'?bxForm(ti):1))),rTD=tds-pTD;")
+r("td:Math.min(5,Math.round(sg[0]/12+gs()*.5)),int:R()<.5?ri(0,2):0,sk:ri(0,4),ry:ri(0,30),fum:R()<.12?1:0};addStats(st,w,k=='pp')",
+  "td:(typeof simTd=='function'?simTd(sg[0],gs(),Math.min(5,Math.round(sg[0]/12+gs()*.5))):Math.min(5,Math.round(sg[0]/12+gs()*.5))),int:R()<.5?ri(0,2):0,sk:ri(0,4),ry:ri(0,30),fum:R()<.12?1:0};addStats(st,w,k=='pp')")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m144.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+assert h.count("V 0.0.1.0006")==3, h.count("V 0.0.1.0006")
+h=h.replace("V 0.0.1.0006","V 0.0.1.0007")
