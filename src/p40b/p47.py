@@ -555,3 +555,13 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m130: every player's award counts match League History (only ever raised; shared names untouched)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m130.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m131: all-time leaders list each man once for award categories
+r("const L=LBP(LBS[LBV.lv][LBV.c]||'').concat(lbIn(LBV.lv,LBV.c))",
+  "const L=(typeof lbMerge=='function'?lbMerge(LBP(LBS[LBV.lv][LBV.c]||''),lbIn(LBV.lv,LBV.c),LBV.c):LBP(LBS[LBV.lv][LBV.c]||'').concat(lbIn(LBV.lv,LBV.c)))")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m131.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# version label bump (Tyler, 2026-11-14: "Next update, make it 0003. I want to see if the updates on my home screen app")
+assert h.count("V 0.0.1.0002")==3, h.count("V 0.0.1.0002")
+h=h.replace("V 0.0.1.0002","V 0.0.1.0003")

@@ -159,6 +159,12 @@ const TESTS=[
    if(d.D_idempotent!==true)return 'not idempotent';if(d.F_cardShowsDPOY3!==true)return 'career card does not show DPOY x3';
    return null}},
 
+ {f:'aw4.js', why:'award counts agree everywhere: League History, career card, All-time leaders (one line per man)',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!d.rows||!d.rows.length)return 'nothing checked';
+   if(d.mismatches)return d.mismatches+' disagreements: '+d.rows.filter(r=>!r.ok).map(r=>r.n+' '+r.k+' hist '+r.history+' rec '+r.record+' card '+r.card+' leaders '+r.leaders).join('; ');
+   if(d.screenFerretLines!==1)return 'leaders screen shows Meters Ferret '+d.screenFerretLines+' times';
+   return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

@@ -162,7 +162,7 @@ Use the `ArtifactData` tool on the private artifact URL:
 - **Go step by step when walking him through anything** (he's on a phone; one action at a
   time, confirm, then next). Don't dump all steps if he's clearly lost.
 - **Stop wasting usage** — be efficient, no unnecessary searches or re-reads.
-- **Version stays `V 0.0.1.0002`** until a big batch of changes.
+- **Version stays `V 0.0.1.0003`** until a big batch of changes.
 - **Never delete players or stats.** Never change/regenerate in-game history without
   permission. Don't remove features unless told.
 - **Leave / X button on every menu.**
@@ -566,3 +566,7 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   Once per season (S.awHist). 11-07 save: 30 awards raised across 18 players (Ferret DPOY 1→3,
   Fallon MVP 1→5, Rodney MVP 0→4 …). pristine1 now accepts award RAISES only; aw3.js (gate 24).
   2026-2028 DPOY/OPOY/SBM are blank in League History (never recorded) — not invented.
+- V243 = label V 0.0.1.0003 (Tyler asked, to test Home Screen updates). m131: All-time leaders keep ONE
+  line per man for award categories (history list + player record were both listed: Ferret 2+3,
+  Rodney 4+4). m130's map renamed AWHK — the game already has a global AWK (ring/sbm/mvp/opoy/dpoy).
+  aw4.js (gate 25) checks history = record = card = leaders, and the rendered leaders screen.

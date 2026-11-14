@@ -6,11 +6,11 @@
 // (the simulated seasons, every season you played, and your own corrections). A player's count may only go UP to
 // what that history says; it is never lowered. A NAME IS NOT AN IDENTITY: if two men in the save
 // share a name, neither is touched (reported in S.awHist.shared). Re-checked once per season.
-window.AWK={mvp:'mvp',opoy:'opoy',dpoy:'dpoy',sbm:'sbm'};
+window.AWHK={mvp:'mvp',opoy:'opoy',dpoy:'dpoy',sbm:'sbm'};
 window.awHistFix=function(s){try{if(!s||!s.T||s.stage!=='pro')return null;const o=S;S=s;let out=null;
  try{const y=yrN();if(s.awHist&&s.awHist.y===y)return s.awHist;
   const G=lhLeague()||[],have=new Set(G.map(r=>r.yr)),L=(typeof LGH0!='undefined'?LGH0:[]).filter(r=>!have.has(r.yr)).concat(G),cnt={};
-  L.forEach(r=>{Object.keys(AWK).forEach(k=>{const n=String(r[k]||'').replace(/^▶\s*/,'').trim();if(!n)return;(cnt[n]=cnt[n]||{})[k]=((cnt[n]||{})[k]||0)+1})});
+  L.forEach(r=>{Object.keys(AWHK).forEach(k=>{const n=String(r[k]||'').replace(/^▶\s*/,'').trim();if(!n)return;(cnt[n]=cnt[n]||{})[k]=((cnt[n]||{})[k]||0)+1})});
   const all=[],byN={};sealWalk(s,x=>{if(!x||!x.n||x.n===s.name)return;all.push(x);(byN[x.n]=byN[x.n]||new Set()).add(x.pid||x)});
   let raised=0;const shared=[],who=[];
   all.forEach(x=>{const c=cnt[x.n];if(!c)return;if(byN[x.n].size>1){if(!shared.includes(x.n))shared.push(x.n);return}
