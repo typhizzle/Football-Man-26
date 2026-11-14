@@ -16,9 +16,16 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  // and every non-stat starter at 99, to catch any random 100
  let n99=0;for(let i=5;i<32;i++)rost('h.'+i).forEach((x,k)=>{if(k>2&&k!=11&&x&&!/^(LT|LG|C|RG|RT|K)$/.test(x.pos)){x.ovr=99;x.age=27;delete x.hq;n99++}});
  let rnd=0;for(let t=0;t<20;t++){hist100();for(let i=5;i<32;i++)rost('h.'+i).forEach((x,k)=>{if(k>2&&k!=11&&x&&x.hq===1)rnd++})}
+ // sustained: an RB at 2,005 this year after 2,010 last year -> 100; after 1,500 last year -> not
+ const yr=yrN();const rbA=rost('h.6')[1],rbB=rost('h.7')[1];
+ fake[6]=JSON.parse(JSON.stringify(_ps(6)||{}));fake[7]=JSON.parse(JSON.stringify(_ps(7)||{}));
+ [6,7].forEach(i=>{const f=fake[i];f.P=f.P||{a:3000,b:10,c:10};f.Ru=f.Ru||{a:0,b:0};f.Re=f.Re||{a:0,b:0};f.Sk=f.Sk||{a:0};f.P.b=10;f.Ru.a=2005});
+ [rbA,rbB].forEach(x=>{x.ovr=99;x.age=26;delete x.hq;x.h=(x.h||[]).filter(r=>r[0]!==yr-1)});
+ rbA.h.push([yr-1,0,2010,12,300,2]);rbB.h.push([yr-1,0,1500,9,200,1]);
  hist100();PS=_ps;
  out.A_43tdNot100=q3.hq!==1&&!(S.h100||[]).some(s=>s.startsWith(q3.n+' '));
  out.B_recordSeasonIs100=q4.hq===1&&(S.h100||[]).some(s=>s.startsWith(q4.n+' '));
+ out.D_twoStraightNearRecordIs100=rbA.hq===1;out.D_oneGoodYearNot100=rbB.hq!==1;
  out.C_randomHundreds=rnd;out.C_candidates=n99;
 }catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);
 console.log(JSON.stringify(r,null,1));await b.close()})();

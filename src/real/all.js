@@ -121,6 +121,8 @@ const TESTS=[
    if(d.B_recordSeasonIs100!==true)return 'a record season did NOT make a 100';
    if(!d.C_candidates)return 'no candidates to test random 100s';
    if(d.C_randomHundreds)return d.C_randomHundreds+' random 100s';
+   if(d.D_twoStraightNearRecordIs100!==true)return 'two straight near-record seasons did NOT make a 100';
+   if(d.D_oneGoodYearNot100!==true)return 'one near-record season after a normal one made a 100';
    return null}},
 
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',

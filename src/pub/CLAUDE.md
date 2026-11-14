@@ -540,3 +540,6 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   own single-season record (`recGet('pro',c,1)`, starts at real records, e.g. 55 TD). Random hq=1
   removed; the 50% "keep 100" (hq=2) path untouched. Existing 100s keep their rating.
 - Harness `h100.js` (gate 19): before 43-TD → 100 and 311 random 100s/20 seasons; after none.
+- V236: second road to 100 (Tyler: "multiple 2,000 yard seasons in a row"): this season AND last
+  season ≥95% of the league record (`h2Run`, `H2CLOSE=.95`). Last season read from his own x.h rows
+  (q: row[3] pass TD; r/w/d: row[2]); a row without that stat never counts. h100.js covers both paths.
