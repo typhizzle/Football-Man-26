@@ -565,3 +565,11 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # version label bump (Tyler, 2026-11-14: "Next update, make it 0003. I want to see if the updates on my home screen app")
 assert h.count("V 0.0.1.0002")==3, h.count("V 0.0.1.0002")
 h=h.replace("V 0.0.1.0002","V 0.0.1.0003")
+
+# m132: real pro playoff bracket with seeds + records; records added to HS and CFP brackets
+r("lab=i=>i==null?'TBD':(P.sd&&P.sd[i]?P.sd[i]+' ':'')+T[i].n.split(' ')[0].slice(0,7),",
+  "lab=i=>i==null?'TBD':(P.sd&&P.sd[i]?P.sd[i]+' ':'')+T[i].n.split(' ')[0].slice(0,6)+' '+(T[i].w||0)+'-'+(T[i].l||0),")
+r("lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,7);",
+  "lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,6)+' '+(T[i].w||0)+'-'+(T[i].l||0);")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m132.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

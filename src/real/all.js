@@ -165,6 +165,11 @@ const TESTS=[
    if(d.screenFerretLines!==1)return 'leaders screen shows Meters Ferret '+d.screenFerretLines+' times';
    return null}},
 
+ {f:'pb1.js', why:'pro playoffs have a real bracket: all 14 seeds with records, every score, the champion',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(d.B_seeds!==14)return 'seeds '+d.B_seeds;if(d.C_games!==13)return 'games '+d.C_games;
+   for(const k of ['A_hasBracket','B_allSeedsWithRecord','C_champShown','C_everyScoreShown','D_onScreen'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

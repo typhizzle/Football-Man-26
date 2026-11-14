@@ -845,7 +845,7 @@ async function impS(i){try{const s=await readCode($('#xc').value);SLOT=i;S=s;LAS
 function settings(){ui.innerHTML=`<div><h2>Settings</h2><div class=card><label>Game length: <b id=dv2>${S.dur}</b> min (applies to your next game)<input type=range min=2 max=10 value=${Math.min(10,S.dur)} oninput="S.dur=+this.value;dv2.textContent=this.value;save()"></label></div><div class=card><b>Injuries</b><br><small>Injuries are rare and only happen on contact. Turning them off also heals everyone who is hurt right now.</small><div class=row style="gap:8px"><button class="${S.noInj?'g':''}" onclick="if(S.noInj)injToggle()">On</button><button class="${S.noInj?'':'g'}" onclick="if(!S.noInj)injToggle()">Off</button></div></div><div class=card><b>Graphics</b><br><small>Sharp looks best. Smooth runs faster on older or hot phones (lower resolution, no shadows). Saved on this device.</small><div class=row style="gap:8px"><button class="${GFX=='lo'?'g':''}" onclick="gfxSet('hi')">Sharp</button><button class="${GFX=='lo'?'':'g'}" onclick="gfxSet('lo')">Smooth</button></div></div><div class=card><b>Road to the draft</b><br><small>How each pre-draft event plays out.</small>${[['cb','Scouting Combine'],['pd','Pro Day'],['iv','Pre-draft visits']].map(([k,n])=>`<label>${n}<select onchange="dpsSet('${k}',this.value)">${[['play','Play it'],['sim','Simulate'],['skip','Skip']].map(([v,l])=>`<option value=${v} ${dps(k)==v?'selected':''}>${l}`).join('')}</select></label>`).join('')}<label>Draft night<select onchange="dpsSet('dn',this.value)"><option value=show ${dps('dn')=='show'?'selected':''}>Full show (green room, commissioner, walk to the stage)<option value=quick ${dps('dn')=='quick'?'selected':''}>Quick draft board</select></label></div><div class=card><label>Locker room camera speed: <b id=lsv>${Math.round((S.lsens||1)*100)}%</b><input type=range min=30 max=200 value=${Math.round((S.lsens||1)*100)} oninput="S.lsens=this.value/100;lsv.textContent=this.value+'%';save()"></label></div><div class=card><b>Backup save code</b><br><small>A copy of this career you can keep anywhere. Import it from the main menu if a save is ever lost or you switch devices.</small><textarea id=xc style="width:100%;height:90px;font:12px monospace;background:#1a1a1a;color:#fff;border:3px solid #000" readonly></textarea><p id=xm></p><button class=g onclick=expS()>Create and copy save code</button></div><button class=g onclick=hub()>Back</button></div>`}
 function jumpCol(){S.yr=4;S.po=null;S.sum=null;addOffers(1);S.yr=5;endC()}
 function bracket(){const P=S.po;if(!P)return '';const T=S.T,H=P.hist||[],ORD=[[0,7,3,4,1,6,2,5],[0,3,1,2],[0,1],[0]],XS=[2,102,202,302],BW=92,RH=16,Y0=24,SP=66,
-lab=i=>i==null?'TBD':(P.sd&&P.sd[i]?P.sd[i]+' ':'')+T[i].n.split(' ')[0].slice(0,7),
+lab=i=>i==null?'TBD':(P.sd&&P.sd[i]?P.sd[i]+' ':'')+T[i].n.split(' ')[0].slice(0,6)+' '+(T[i].w||0)+'-'+(T[i].l||0),
 mt=(r,k)=>{const x=H[r];if(x&&x[k])return{a:x[k][0],b:x[k][1],w:x[k][2],sa:x[k][3],sb:x[k][4]};if(P.r==r&&P.L.length>1){const L=P.L,n=L.length;return{a:L[k],b:L[n-1-k]}}return{a:null,b:null}},cy=[[],[],[],[]];let s='';
 for(let r=0;r<4;r++)ORD[r].forEach((k,sl)=>{cy[r][sl]=r==0?Y0+sl*SP+RH:(cy[r-1][sl*2]+cy[r-1][sl*2+1])/2});
 ['ROUND OF 16','QUARTERS','SEMIS','FINAL'].forEach((t,r)=>s+=`<text x=${XS[r]+BW/2} y=14 text-anchor=middle font-size=10 fill="#ffe93b" font-weight=700>${t}</text>`);
@@ -958,7 +958,7 @@ function cfpSetup(){CRC=null;const f=cfpField().f;S.cb={sd:f,r:0,hist:[],out:!f.
 function cfpPairs(){const c=S.cb,f=c.sd,H=c.hist;if(c.r==0)return[[f[4],f[11]],[f[5],f[10]],[f[6],f[9]],[f[7],f[8]]];const w=H[c.r-1].map(x=>x[2]);if(c.r==1)return[[f[0],w[3]],[f[3],w[0]],[f[1],w[2]],[f[2],w[1]]];return c.r==2?[[w[0],w[1]],[w[2],w[3]]]:[[w[0],w[1]]]}
 function cfpAdv(uw){injTick();const c=S.cb,P=c.pairs,H=[],inR=P.some(x=>x.includes(0));P.forEach(([a,b])=>{let w,sa,sb;if(!c.out&&(a==0||b==0)){w=uw?0:(a==0?b:a);const q=g&&g.s?g.s:[0,0];sa=a==0?q[0]:q[1];sb=a==0?q[1]:q[0]}else{w=simW(a,b);sa=LASTS[0];sb=LASTS[1]}H.push([a,b,w,sa,sb])});
 c.hist.push(H);c.r++;c.out=c.out||(inR&&!H.some(x=>x[2]==0));if(c.r>=4){c.done=1;c.champ=H[0][2]}else c.pairs=cfpPairs();if(c.out&&!c.done)cfpAdv(0)}
-function cfpSvg(c0){const c=c0||S.cb,T=S.T,H=c.hist,f=c.sd,XS=[2,102,202,302],BW=92,RH=16,SP=60,Y0=24,RO=[3,0,2,1],sn=i=>c.sd.indexOf(i)+1,lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,7);
+function cfpSvg(c0){const c=c0||S.cb,T=S.T,H=c.hist,f=c.sd,XS=[2,102,202,302],BW=92,RH=16,SP=60,Y0=24,RO=[3,0,2,1],sn=i=>c.sd.indexOf(i)+1,lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,6)+' '+(T[i].w||0)+'-'+(T[i].l||0);
 const mt=(r,k)=>{if(H[r]&&H[r][k])return{a:H[r][k][0],b:H[r][k][1],w:H[r][k][2],sa:H[r][k][3],sb:H[r][k][4]};if(c.r==r&&c.pairs[k])return{a:c.pairs[k][0],b:c.pairs[k][1]};if(r==1)return{a:[f[0],f[3],f[1],f[2]][k],b:null};return{a:null,b:null}},cy=[[],[],[],[]];let s='';
 for(let sl=0;sl<4;sl++){cy[0][sl]=Y0+sl*SP*1.0+RH;cy[1][sl]=cy[0][sl]}cy[2]=[(cy[1][0]+cy[1][1])/2,(cy[1][2]+cy[1][3])/2];cy[3]=[(cy[2][0]+cy[2][1])/2];
 ['FIRST ROUND','QUARTERS','SEMIS','FINAL'].forEach((t,r)=>s+=`<text x=${XS[r]+BW/2} y=14 text-anchor=middle font-size=10 fill="#ffe93b" font-weight=700>${t}</text>`);
@@ -9864,5 +9864,44 @@ window.awHistFix=function(s){try{if(!s||!s.T||s.stage!=='pro')return null;const 
 window.lbMerge=function(A,B,c){try{const aw=['ring','sbm','mvp','opoy','dpoy'].includes(c);if(!aw)return A.concat(B);
  const by={};A.concat(B).forEach(e=>{if(!e||!e.n)return;const k=e.n;if(!by[k]||e.v>by[k].v||(e.v===by[k].v&&(e.me||e.cpu)))by[k]=Object.assign({},by[k]&&by[k].t&&!e.t?{t:by[k].t}:{},e)});
  return Object.values(by)}catch(e){return A.concat(B)}};
+// ===== 🏈 A real playoff bracket, with every team's seed and record =====
+// Tyler, 2026-11-14: "there needs to be a real bracket for the playoffs whenever you're looking at it.
+// And then it should include the team record so I can see who had a better record and … the lower
+// seeds and all that". The pro playoffs were only a text list. This draws the bracket: both
+// conferences (Wild Card → Divisional → Conference), then the Ultra Bowl. Every team shows seed,
+// short name and regular-season record; played games show the score and the winner in bold.
+// The NFL-style reseed is real, so the Divisional games are drawn as they were actually paired.
+window.tRec=function(t){try{return (t.w||0)+'-'+(t.l||0)+((t.t||0)?'-'+t.t:'')}catch(e){return ''}};
+window.ppSvg=function(){try{const B=S.pb;if(!B||!B.sd)return '';const T=S.T,esc_=s=>String(s).replace(/[<&>"]/g,'');
+ const seed=i=>{for(const c of ['RFC','LFC']){const k=B.sd[c].indexOf(i);if(k>=0)return k+1}return ''};
+ const conf=i=>B.sd.RFC.includes(i)?'RFC':B.sd.LFC.includes(i)?'LFC':'';
+ const games=(r,c)=>{const H=B.hist[r];if(H)return H.filter(g=>r===3||conf(g[0])===c).map(g=>({a:g[0],b:g[1],w:g[2],sa:g[3],sb:g[4]}));
+  if(B.r===r&&!B.done&&B.pairs)return B.pairs.filter(p=>r===3||conf(p[0])===c).map(p=>({a:p[0],b:p[1]}));return []};
+ const W=104,RH=17,XS=[2,116,230],CW=344;let s='',y0=0;
+ const row=(x,y,i,sc,win)=>{if(i==null){s+=`<rect x=${x} y=${y} width=${W} height=${RH} fill="#1b2633" stroke="#000"/><text x=${x+5} y=${y+12} font-size=10 fill="#8aa">TBD</text>`;return}
+  const me=i===0,nm=esc_(tAb(T[i]));
+  s+=`<rect x=${x} y=${y} width=${W} height=${RH} fill="${win?'#2d6a4f':me?'#8a4510':'#1b2633'}" stroke="#000"/>`+
+   `<text x=${x+4} y=${y+12} font-size=10 fill="#ffe93b" font-weight=700>${seed(i)}</text>`+
+   `<text x=${x+15} y=${y+12} font-size=10 fill="#fff" font-weight=${win?700:400}>${nm}</text>`+
+   `<text x=${x+46} y=${y+12} font-size=9 fill="#c6d2dc">${tRec(T[i])}</text>`+
+   (sc!=null?`<text x=${x+W-4} y=${y+12} font-size=10 fill="#fff" text-anchor=end font-weight=${win?700:400}>${sc}</text>`:'')};
+ const game=(x,y,g)=>{row(x,y,g.a,g.sa,g.w!=null&&g.w===g.a);row(x,y+RH,g.b,g.sb,g.w!=null&&g.w===g.b)};
+ ['RFC','LFC'].forEach(c=>{
+  s+=`<text x=2 y=${y0+12} font-size=11 fill="#ffe93b" font-weight=700>${c}</text>`;
+  ['WILD CARD','DIVISIONAL','CONFERENCE'].forEach((t,r)=>s+=`<text x=${XS[r]+W/2} y=${y0+12} font-size=9 fill="#c6d2dc" text-anchor=middle>${t}</text>`);
+  const top=y0+18;
+  // wild card: the 1 seed's bye, then 2v7, 3v6, 4v5
+  const one=B.sd[c][0];row(XS[0],top,one,'BYE',false);
+  const wc=games(0,c);const W0=wc.length?wc:[[2,7],[3,6],[4,5]].map(([p,q])=>({a:B.sd[c][p-1],b:B.sd[c][q-1]}));
+  W0.forEach((g,k)=>game(XS[0],top+RH+6+k*(RH*2+6),g));
+  const dv=games(1,c);for(let k=0;k<2;k++)game(XS[1],top+RH*0.5+k*(RH*2+30),dv[k]||{a:k?null:one,b:null});
+  const cc=games(2,c);game(XS[2],top+RH*1.5+20,cc[0]||{a:null,b:null});
+  y0=top+RH+6+3*(RH*2+6)+10});
+ const ub=games(3);s+=`<text x=${CW/2} y=${y0+12} font-size=11 fill="#ffe93b" font-weight=700 text-anchor=middle>ULTRA BOWL</text>`;
+ game(CW/2-W/2,y0+18,ub[0]||{a:null,b:null});
+ if(B.done&&B.champ!=null)s+=`<text x=${CW/2} y=${y0+18+RH*2+14} font-size=12 fill="#ffe93b" font-weight=700 text-anchor=middle>🏆 ${esc_(tn(T[B.champ]))}</text>`;
+ const H=y0+18+RH*2+22;
+ return `<div class=card><b>Playoff bracket</b> <small>seed · team · regular-season record · score</small><svg viewBox="0 0 ${CW} ${H}" style="width:100%;height:auto;display:block;margin-top:6px">${s}</svg></div>`}catch(e){return ''}};
+(()=>{try{const _p=ppHtml;ppHtml=function(){const r=_p.apply(this,arguments);try{return ppSvg()+r}catch(e){return r}}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

@@ -570,3 +570,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   line per man for award categories (history list + player record were both listed: Ferret 2+3,
   Rodney 4+4). m130's map renamed AWHK — the game already has a global AWK (ring/sbm/mvp/opoy/dpoy).
   aw4.js (gate 25) checks history = record = card = leaders, and the rendered leaders screen.
+- V244 (m132): pro playoff bracket SVG (ppSvg, prepended to ppHtml): both conferences WC/DIV/CONF + Ultra Bowl, seed + tAb + W-L + scores, winner green. HS bracket() and cfpSvg labels now carry W-L (name cut to 6 chars) — NOT visually checked (no HS/college save to screenshot). pb1.js (gate 26).
