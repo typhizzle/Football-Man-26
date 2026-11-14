@@ -485,3 +485,17 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   puppeteer-core in `real/node_modules` and Chromium under `/opt/pw-browsers` automatically.
 - Source is also committed to `typhizzle/Football-Man-26` under `src/` (save snapshot and request
   transcript kept OUT — public repo).
+
+## V232 (2026-11-14) — linemen and kickers get a career (m124)
+- `seasonEnd` did `if(!g)return;` for SG(pos)=='' (LT/LG/C/RG/RT and K): 192 men in the 11-07
+  save had NO season ever recorded. Now each season is written to `x.hp` as `[year, club]`
+  (same canonical club index as x.h). Its OWN list — never x.h (stat-less rows in x.h get
+  invented numbers). A ROW not a year: two clubs in one year both kept.
+- `sealCheck` wrapped: x.hp sealed as a multiset (`seal[pid].hpL`); deleted/wiped seasons come
+  back; current season open like x.h. `hxMerge` wrapped to show hp rows; `firstYr` ignores hp.
+- `pCard` patched (source, via r()): Season-by-season now shows for positions with no stat group
+  ("season played · no stats kept for this position"), and the 16-season display cap is gone.
+- Past seasons of linemen/kickers are NOT recreated (years never written down; inventing banned).
+- Harness `hp1.js` (gate now 16): fails on V231 (0/192), passes on V232 (192/192).
+- Known, not yet fixed: `pEdit` age change slices x.h (seal restores) and generates rows with sVals
+  (invented). Seasons only recorded in the PRO stage — HS/college NPC careers are the next gap.

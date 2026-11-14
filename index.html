@@ -271,7 +271,7 @@ if(!g)continue;const sh=g=='q'?(o>=72?1:Math.min(1,Math.max(.05,(o-58)/14))):Mat
 const CAP={pyd:[0,84000],ptd:[1,600],int:[2,1e9],cmp:[3,7300],qry:[4,5800],ryd:g=='r'?[0,16500]:null,cyd:[0,20000],sk:[0,180]},c=x.cs;let f=1;for(const k in CAP){const v=CAP[k];if(v&&c[k]&&k!='int'&&(g!='q'||['pyd','ptd','cmp','qry'].includes(k)))f=Math.min(f,v[1]/c[k])}if(f<1){x.cs={};x.h.forEach(l=>{for(let j=2;j<l.length;j++)l[j]=Math.round(l[j]*f);csAdd(x,g,l.slice(2))})}}
 // end of a pro season: everybody's stat line, records, league awards (runs once per season)
 function seasonEnd(){if(S.stage!='pro'||S.sled===S.py)return;S.sled=S.py;const yr=yrN(),y=''+yr;S.T.forEach((t,i)=>{const s=PS(i),pi=pIdx(t),L=rost('h.'+i),gp=t.w+t.l||17,r=rng((S.seed||1)+i*77+S.py*7+3);
-L.forEach((x,k)=>{if(i==0&&k==0)return;const g=SG(x.pos);x.ny=(x.ny||0)+1;x.h=x.h||[];tmAdd(x,pi);if(!g)return;let v;
+L.forEach((x,k)=>{if(i==0&&k==0)return;const g=SG(x.pos);x.ny=(x.ny||0)+1;x.h=x.h||[];tmAdd(x,pi);if(!g){try{hpAdd(x,yr,pi)}catch(e){}return}let v;
 const _zv=(typeof szArchiveV=='function')?szArchiveV(i,x,g):null;
 if(_zv)v=_zv;else if(s&&k==0)v=[s.P.a,s.P.b,s.P.c,Math.round(s.P.a/(10.8+r()*1.6)),...sVals('q',x.ovr,gp,1,r,(x.rs||0)*agQ(x.age)).slice(4)];else if(s&&k==1)v=[s.Ru.a,s.Ru.b];else if(s&&k==2)v=[s.Re.a,s.Re.b];else if(s&&k==11)v=[s.Sk.a];else v=sVals(g,x.ovr,gp,(k==23?.03+cl(((i==0?S.injg:(L[0]&&L[0].gm))||0)/gp,0,1):(SLF[k]||.4))*agF(x.age,g),r,x.rs);if(x.gm>0)v=v.map(n=>Math.round(n*Math.max(0,gp-x.gm)/gp));
 x.h.push([yr,pi,...v]);csAdd(x,g,v);const nm=abbr(x.n),c=x.cs,sv={};if(g=='q'){sv.pyd=v[0];sv.ptd=v[1];sv.cmp=v[3];sv.qry=v[4]}else if(g=='r'){sv.ryd=v[0];sv.rtd=v[1]}else if(g=='w'){sv.cyd=v[0];sv.ctd=v[1]}else if(g=='d')sv.sk=v[0];
@@ -307,7 +307,7 @@ function pCard(i,j){const L=rost('h.'+i),x=L[j];if(!x)return;if(i==0&&j==0&&S.st
 const hd=g=='q'?'Pass yds / TD / INT / Cmp / QB rush':g=='r'?'Rush yds / TD':g=='w'?'Rec yds / TD':g=='d'?'Sacks':g=='b'?'INT / Tackles':'',cl=g=='q'?`${(c.pyd||0).toLocaleString()} pass yds · ${c.ptd||0} TD · ${c.int||0} INT · ${(c.qry||0).toLocaleString()} rush yds`:g=='r'?`${(c.ryd||0).toLocaleString()} rush yds · ${c.rtd||0} TD`:g=='w'?`${(c.cyd||0).toLocaleString()} rec yds · ${c.ctd||0} TD`:g=='d'?`${c.sk||0} sacks`:g=='b'?`${c.dint||0} INT · ${(c.tkl||0).toLocaleString()} tackles`:'';
 const al=[['r','💍 Rings'],['mvp','MVP'],['opoy','OPOY'],['dpoy','DPOY'],['oroy','OROY'],['droy','DROY'],['sbm','Ultra Bowl MVP']].filter(([k])=>a[k]).map(([k,n])=>n+' ×'+a[k]).join(' · ');
 ui.innerHTML=`<div><h2>#${x.num} ${x.n}</h2>${hsOn()&&x.gr?`<p>${clsN[x.gr]}${x.gr>=3?(x.cm?' · committed to '+x.cm:x.gr==4&&x.cm===null?' · no scholarship offers':' · uncommitted'):''}</p>`:''}${x.inj?`<p style="color:#ff6b6b">🚑 ${x.inj.t} · ${x.inj.w>=90?'out for the season':'out '+x.inj.w+' more week'+(x.inj.w==1?'':'s')}</p>`:''}<p><small>${x.pos} · ${tn(T)} · age ${x.age??'-'} · ${x.ovr}${x.pot!=null?'/'+x.pot:''} OVR</small></p><div class=card><b>Career</b><br><small>${(x.tm&&x.tm.length?x.tm:[tAb(T)]).join(', ')} · ${x.ny||0} season${x.ny==1?'':'s'}</small>${cl?'<br>'+cl:''}${al?'<br>'+al:''}</div>
-${g&&H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.slice(0,16).map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?'<small style="opacity:.65">season played · stats not recorded</small>':r.slice(2,g=='q'?7:4).map(n=>n.toLocaleString()).join(' / ')}</span></div>`).join('')}</div>`:''}<button class=g onclick="rosT(${i})">Back to roster</button></div>`;ui.scrollTop=0}
+${H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?(g?'<small style="opacity:.65">season played · stats not recorded</small>':'<small style="opacity:.65">season played · no stats kept for this position</small>'):r.slice(2,g=='q'?7:4).map(n=>n.toLocaleString()).join(' / ')}</span></div>`).join('')}</div>`:''}<button class=g onclick="rosT(${i})">Back to roster</button></div>`;ui.scrollTop=0}
 // ===== GOAT lists: QBs only + all positions; career-mode players (you and CPU) can crack both
 const GOAT2='Tim Brody|QB|NE, TB|7 rings · 5 SB MVP · 3 MVP;Jerry Rice|WR|SF, OAK, SEA|3 rings · SB MVP · 2 OPOY;Joe Montana|QB|SF, KC|4 rings · 3 SB MVP · 2 MVP;Pete Manling|QB|IND, DEN|2 rings · SB MVP · 5 MVP;Ricky MaClones|QB|KC|3 rings · 3 SB MVP · 2 MVP;Lawrence Taylor|LB|NYG|2 rings · MVP · 3 DPOY;John Elway|QB|DEN|2 rings · SB MVP · MVP;Drew Brees|QB|SD, NO|1 ring · SB MVP · 2 OPOY;Emmitt Smith|RB|DAL, ARI|3 rings · SB MVP · MVP;Ray Lewis|LB|BAL|2 rings · SB MVP · 2 DPOY;Eric Darnold|DT|LAR|1 ring · 3 DPOY;Rob Gronkowski|TE|NE, TB|4 rings;Tractor Swift|TE|KC|3 rings;Walter Payton|RB|CHI|1 ring · MVP;Reggie White|DE|PHI, GB, CAR|1 ring · 2 DPOY;Randy Moss|WR|MIN, OAK, NE, TEN, SF|OROY · 156 rec TD;Brett Favre|QB|ATL, GB, NYJ, MIN|1 ring · 3 MVP;Deion Sanders|CB|ATL, SF, DAL, WAS, BAL|2 rings · DPOY;Charles Woodson|CB/S|OAK, GB|1 ring · DPOY · DROY;Barry Sanders|RB|DET|MVP · 2 OPOY;Jim Brown|RB|CLE|3 MVP · NFL title (pre-Super Bowl);Rod Woodson|CB/S|PIT, SF, BAL, OAK|1 ring · DPOY;Ed Reed|S|BAL, HOU, NYJ|1 ring · DPOY;Matty Gafford|QB|DET, LAR|1 ring · MVP;Warren Sapp|DT|TB, OAK|1 ring · DPOY'.split(';').map(e=>{const[n,pos,t,acc]=e.split('|');return{n,pos,t,acc}});
 const accTxt=(r,s,m,d)=>[r?r+' ring'+(r>1?'s':''):'',s?(s>1?s+' ':'')+'SB MVP':'',m?(m>1?m+' ':'')+'MVP':'',d?(d>1?d+' ':'')+'DPOY':''].filter(Boolean).join(' · ')||'—';
@@ -9526,6 +9526,72 @@ window.lawSealCheck=function(s){try{
   for(let i=1;i<=6;i++){let d=null;try{d=load(i)}catch(e){d=null}n=Math.max(n,owned(d))}
   return n};
  window.hwPicksLeft=()=>Math.max(0,hwPicksOwed()-hwPicksUsed());
+}catch(e){}})();
+// ===== 🔒 EVERY PLAYER'S LIFE MATTERS — linemen and kickers get a career =====
+// seasonEnd() did `if(!g)return;` for any position with no stat group, so every offensive
+// lineman and every kicker played season after season with NOTHING written down. In
+// Tyler's 11-07 save that was 192 men (160 OL, 32 K) with no career on record at all.
+//
+// From now on each season they play is recorded in x.hp as [year, club]:
+//  - its OWN list, never x.h. A stat-less row inside x.h was once found by an older
+//    backfill and filled with invented numbers. No stat code reads x.hp.
+//  - a ROW, not a year: a man traded mid-season keeps both clubs for that year.
+//  - no stat line, because the game keeps none for these positions. The card says so.
+//  - the club is the same canonical index seasonEnd writes into x.h for everyone else.
+// Seasons they played BEFORE this existed are not recreated: the years were never written
+// down, and making them up is forbidden. Nothing already in a save is altered.
+
+window.hpAdd=function(x,yr,ti){try{
+ if(!x||yr==null||ti==null)return;
+ x.hp=x.hp||[];
+ if(!x.hp.some(r=>r&&r[0]===yr&&r[1]===ti))x.hp.push([yr,ti]);
+ x.hp.sort((a,b)=>(a[0]||0)-(b[0]||0));
+}catch(e){}};
+
+// ---- the seal, extended to x.hp: matched as a MULTISET of exact rows ----
+(()=>{try{const _sc=window.sealCheck;if(typeof _sc!='function')return;
+ window.sealCheck=function(s,opts){
+  const res=_sc.apply(this,arguments);
+  try{if(!s||!s.seal)return res;
+   const nowY=sealNow(s);let back=0;
+   sealWalk(s,x=>{
+    const old=x.pid&&s.seal[x.pid];if(!old)return;
+    const cur=(x.hp||[]).filter(r=>r&&r[0]!=null);
+    if(!old.hpL){old.hpL=cur.map(r=>JSON.stringify(r));return}   // first sight
+    const curL=cur.map(r=>JSON.stringify(r)),used=curL.map(()=>false);
+    // a sealed season may not disappear. The season still being played is open.
+    old.hpL.forEach(sr=>{
+     let want;try{want=JSON.parse(sr)}catch(e){return}
+     if(nowY&&want[0]>=nowY)return;
+     const i=curL.findIndex((c,k)=>!used[k]&&c===sr);
+     if(i>=0){used[i]=true;return}
+     x.hp=x.hp||[];x.hp.push(want.slice());back++;
+    });
+    if(back)x.hp.sort((a,b)=>(a[0]||0)-(b[0]||0));
+    // growth: a season newly played joins the seal
+    (x.hp||[]).forEach(r=>{const sr=JSON.stringify(r);
+     const have=old.hpL.filter(q=>q===sr).length,now=(x.hp||[]).filter(q=>JSON.stringify(q)===sr).length;
+     for(let n=have;n<now;n++)old.hpL.push(sr)});
+   });
+   if(back){s.sealFix=(s.sealFix||0)+back;res&&(res.added=(res.added||0)+back);
+    try{if(typeof txAdd=='function')txAdd(s,'the record','altered','restored','history restored: '+back+' lineman/kicker season(s) put back')}catch(e){}}
+  }catch(e){}
+  return res};
+}catch(e){}})();
+
+// ---- the career card lists them with everyone else's seasons, newest first ----
+(()=>{try{const _hm=window.hxMerge;if(typeof _hm!='function')return;
+ window.hxMerge=function(x){const a=_hm.apply(this,arguments)||[];
+  try{(x&&x.hp||[]).forEach(r=>{if(r&&r[0]!=null)a.push(r.slice())});
+   a.sort((p,q)=>(q[0]||0)-(p[0]||0))}catch(e){}
+  return a};
+}catch(e){}})();
+
+// ---- the report counts them ----
+(()=>{try{const _r=window.sealReport;if(typeof _r!='function')return;
+ window.sealReport=function(){const o=_r.apply(this,arguments)||{};
+  try{let n=0,men=0;sealWalk(S,x=>{const k=(x.hp||[]).length;n+=k;if(k)men++});o.statlessSeasons=n;o.statlessPlayersWithSeasons=men}catch(e){}
+  return o};
 }catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

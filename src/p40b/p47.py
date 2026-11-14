@@ -507,3 +507,11 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # version label bump (Tyler, 2026-11-14: "You can change it to V 0.0.1.0002")
 assert h.count("V 0.0.1.0001")==3, h.count("V 0.0.1.0001")
 h=h.replace("V 0.0.1.0001","V 0.0.1.0002")
+
+# m124: linemen and kickers get a career (x.hp rows written at season end, sealed, shown)
+r("tmAdd(x,pi);if(!g)return;let v;",
+  "tmAdd(x,pi);if(!g){try{hpAdd(x,yr,pi)}catch(e){}return}let v;")
+r("""${g&&H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.slice(0,16).map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?'<small style="opacity:.65">season played · stats not recorded</small>'""",
+  """${H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?(g?'<small style="opacity:.65">season played · stats not recorded</small>':'<small style="opacity:.65">season played · no stats kept for this position</small>')""")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m124.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

@@ -115,6 +115,17 @@ const TESTS=[
    return null}},
 
  // ---- the shop ----
+ {f:'hp1.js', why:'linemen and kickers get every season recorded (x.hp), sealed row by row, shown on the card; nothing old altered',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(!d.A_linemenAndKickers)return 'no linemen/kickers found';
+   if(d.A_gotThisSeason!==d.A_linemenAndKickers)return d.A_gotThisSeason+'/'+d.A_linemenAndKickers+' got this season';
+   if(d.A_onTheirOwnClub!==d.A_linemenAndKickers)return 'season filed on the wrong club';
+   if(d.C_oldRowsLost)return d.C_oldRowsLost+' old rows LOST';
+   if(d.C_recordsAltered)return d.C_recordsAltered+' records ALTERED';
+   for(const k of ['B_noStatlessRowInH','B_qbsStillRecorded','D_deletedSeasonBack','D_wipedCareerBack','D_twoClubsOneYearBothKept','E_settles','F_linemanCardShowsSeason','F_kickerCardShowsSeason','F_noInventedNumbers','G_firstYrIgnoresHp'])
+    if(d[k]!==true)return k+' = '+d[k];
+   return null}},
+
  {f:'hw1.js', why:'Halloween keepsake is ONE gift: waits in the menu until picked, never offered again even if browser storage forgets',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    for(const k of ['A_offered','D_stillWaitingAfterLater','B_hidden','B_secondKeepBlocked','B_saveHoldsPick','C_notOfferedAgain','C2_freshDeviceNotOffered','E_bothKept','F_menuWritesNothing'])
