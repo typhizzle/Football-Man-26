@@ -43,8 +43,8 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  // F: the career card SHOWS it (rendered screen, not the function)
  const card=p=>{if(!p)return '';pCard(p[0],p[1]);return ui.innerText||ui.textContent||''};
  const t1=card(pick.ol),t2=card(pick.k);
- out.F_linemanCardShowsSeason=t1.includes('Season by season')&&t1.includes(String(yr))&&/no stats kept/i.test(t1);
- out.F_kickerCardShowsSeason=t2.includes('Season by season')&&t2.includes(String(yr))&&/no stats kept/i.test(t2);
+ out.F_linemanCardShowsSeason=(t1.includes('Season by season')||t1.includes('📇 Career'))&&t1.includes(String(yr))&&/no stats kept/i.test(t1);
+ out.F_kickerCardShowsSeason=(t2.includes('Season by season')||t2.includes('📇 Career'))&&t2.includes(String(yr))&&/no stats kept/i.test(t2);
  out.F_noInventedNumbers=!/\d+\s*\/\s*\d+/.test((t1.split('Season by season')[1]||'').split('Back')[0]);
  // D: the seal holds the new season. Seal a past row, then attack it.
  const find=pid=>{let f=null;walk(x=>{if(x.pid===pid)f=x});return f};

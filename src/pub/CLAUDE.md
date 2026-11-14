@@ -720,3 +720,5 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
 ## m144 simTd pts/15 (was 14: 57-58 TD sims). Gate 47/47.
 
 ## V262 — m153: every draft prospect without a real record gets a HS+college career ONCE at class creation (S.pc gen:1; Tyler OK'd for NEW players only). Board fillers in the college->pro draft get careers but are NOT added to pro rosters (unchanged behavior). npbV shows a college line. Gate 48/48 (dr1 counts real players only).
+
+## V263 — m154 one card, a whole career (📇 Career replaces "Season by season" + HS/college list; awards per year from LGH0 + S.law + S.pc; Ultra Bowl title years) · m155 coaches move between levels, NEW saves only (S.cmv2 set in start()). Gate 50/50. Coaching spec: specs/coaching-career-spec.md (PLM first).

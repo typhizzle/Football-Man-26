@@ -31,7 +31,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
   const L=rost('h.'+ti);const x=L.find(y=>y&&y.pid===b.x.pid);if(x){found++;if(x.cls===1)cls1++}else miss.push(b.n+' → '+b.cm)});
  o.D_gradsAtCollege=found;o.D_toSmallSchools=noCol;o.D_missing=miss.slice(0,5);o.D_allThere=miss.length===0&&found>0;o.D_freshmen=cls1===found;
  // E: his card shows his high-school season and where he came from
- {const b=com.find(c=>S.T.some(t=>t.n===c.cm));if(b){const ti=S.T.findIndex(t=>t.n===b.cm);const L=rost('h.'+ti);const k=L.findIndex(y=>y&&y.pid===b.x.pid);if(k>0){pCard(ti,k);const t=ui.innerText||'';o.E_cardShowsHS=t.includes('High school & college record')&&t.includes(String(yr0))&&t.includes(b.club)&&t.includes(b.cm)}}}
+ {const b=com.find(c=>S.T.some(t=>t.n===c.cm));if(b){const ti=S.T.findIndex(t=>t.n===b.cm);const L=rost('h.'+ti);const k=L.findIndex(y=>y&&y.pid===b.x.pid);if(k>0){pCard(ti,k);const t=ui.innerText||'';o.E_cardShowsHS=(t.includes('High school & college record')||t.includes('📇 Career'))&&t.includes(String(yr0))&&t.includes(b.club)&&t.includes(b.cm)}}}
  // F: a college season closes: every college player has his row; classes move up; seniors leave on the record; nobody removed
  const colBefore=[];S.T.forEach((t,i)=>{(rost('h.'+i)||[]).forEach((x,k)=>{if(x&&!(i==0&&k==0))colBefore.push({x,i,club:t.n,cls:x.cls,pid:pcId(x),n:x.n,pos:x.pos,skip:x.npx!=null||x.yq!=null||(k==0&&x.qs)})})});
  const ids0=new Set(Object.keys(R_));

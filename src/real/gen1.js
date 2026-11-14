@@ -17,7 +17,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  // C: the draft board shows it
  npbV(Y,1);o.C_boardShows=/College \(\d yr/.test(ui.innerText||'');
  // D: the rookie's card shows his high school and college seasons
- let shown=false;S.T.forEach((t,i)=>{if(shown)return;(rost('h.'+i)||[]).forEach((x,k)=>{if(shown||!x||!x.dr||x.dr.y!==Y)return;pCard(i,k);const tx=ui.innerText||'';shown=tx.includes('High school & college record')&&/High School/.test(tx)})});o.D_cardShows=shown;
+ let shown=false;S.T.forEach((t,i)=>{if(shown)return;(rost('h.'+i)||[]).forEach((x,k)=>{if(shown||!x||!x.dr||x.dr.y!==Y)return;pCard(i,k);const tx=ui.innerText||'';shown=(tx.includes('High school & college record')||tx.includes('📇 Career'))&&/High School/.test(tx)})});o.D_cardShows=shown;
  // E: nobody who already existed was given a made-up past
  const gen=Object.values(S.pc.p).filter(e=>e.gen);o.E_noneForExisting=gen.every(e=>!existing.has(e.n));o.generated=gen.length;
  // F: fixed forever: same after save + reload
