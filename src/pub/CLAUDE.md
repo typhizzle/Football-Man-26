@@ -648,3 +648,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   cloudInit had to be replaced, not wrapped); upload failure -> cloudWarn: S.cloudErr + on-screen HM.
   Short codes: same pieces under codes/CODE~i; readCode wrapper joins them before m94 sees the code.
 - cl1.js (gate 35): fake cloud enforcing 256 KB; old build: upload false, restore nothing.
+- V253 (m139): main menu '🛟 Restore an earlier save' lists every slot + its _b/_b2 device backups (name, stage, year, week, saved time); bkUse swaps (nothing deleted), stamps ts=now so an older cloud copy can't win, re-uploads. bk1.js (gate 36).

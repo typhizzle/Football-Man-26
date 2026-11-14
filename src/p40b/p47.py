@@ -611,3 +611,7 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m138: cloud saves split into pieces (any size fits), failures shown, short codes for big saves
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m138.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m139: restore an earlier save (the device's two backups per slot), from the main menu
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m139.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

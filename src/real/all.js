@@ -27,6 +27,9 @@ const TESTS=[
    for(const k of ['A_uploaded','A_noWarning','B_restored','B_sameWeek','B_sameTs','B_padKept','B_rostersBack','C_shortCodeLoads','D_failureShown','E_oldFormatLoads'])if(d[k]!==true)return k+' = '+d[k];
    if(!(d.A_pieces>1))return 'test save did not need pieces';if(d.A_biggestDocKB>250)return 'a cloud piece is '+d.A_biggestDocKB+' KB';return null}},
 
+ {f:'bk1.js', why:'restore an earlier save: menu button, lists backups, restores, stamps it now, nothing deleted',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_buttonOnMenu','B_listsBoth','C_restored','C_stampedNow','D_nothingLost'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'int1.js',  why:'label + resolver work writes NOTHING to any save',
   check:o=>{const d=J(o);if(!d)return 'no JSON';
    if(d.err)return d.err;
