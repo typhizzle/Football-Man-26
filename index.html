@@ -772,7 +772,7 @@ function userForm(gr,w){if(S.stage!='pro')return;const bad=gr<60||(!w&&gr<64);if
 if(S.ubs>=3&&S.ubs<=6&&!S.ubsd&&R()<(S.ubs-2)*.25){const d=ri(1,2),was=qo(S.q);for(const k in S.q)S.q[k]=cl(S.q[k]-d,25,100);S.ubsd=1;S.rgp=Math.max(S.rgp||0,Math.min(was,99));S.fmsg=`Rough stretch: ${S.ubs} bad games in a row cost you ${d} OVR${was>=100?' and your 100 rating':''}. ${was>=100?'Win MVP while rated 99 to earn the 100 back.':'Train to win it back.'}`}}
 // CPU: historic seasons by 99s turn into 100s (about as rare as real life)
 function hist100(){if(S.stage!='pro')return;const out=[];S.T.forEach((t,i)=>{const s=PS(i);if(!s)return;const L=rost('h.'+i);
-const ok=x=>x&&x.ovr>=99&&!RGT[(x.age||25)+1],chk=(k,v,hi,el,lab)=>{const x=L[k];if(!ok(x)||(i==0&&k==0))return;x.hq=(v>=hi||(typeof h2Run=='function'&&h2Run(x,v,hi)))?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab}${v<hi?', 2nd straight near-record season':''})`)};
+const ok=x=>x&&x.ovr>=99&&!RGT[(x.age||25)+1],chk=(k,v,hi,el,lab)=>{const x=L[k];if(!ok(x)||(i==0&&k==0))return;x.hq=(v>=hi||(typeof h2Run=='function'&&h2Run(x,v,hi)))?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab}${v<hi?', 3rd straight near-record season':''})`)};
 chk(0,s.P.b,h1R('ptd',43),37,s.P.b+' pass TD');chk(1,s.Ru.a,h1R('ryd',1900),1700,s.Ru.a.toLocaleString()+' rush yds');chk(2,s.Re.a,h1R('cyd',1880),1650,s.Re.a.toLocaleString()+' rec yds');chk(11,s.Sk.a,h1R('sk',20),15,s.Sk.a+' sacks');
 L.forEach((x,k)=>{if(k==0||k==1||k==2||k==11||!ok(x)||/^(LT|LG|C|RG|RT|K)$/.test(x.pos))return;const v=R();x.hq=v<.5?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, historic season)`)})});S.h100=out}
 // CPU in-season: chip back the points lost to age regression
@@ -9782,5 +9782,13 @@ window.h2Run=function(x,v,hi){try{if(!(hi>0)||hi===Infinity)return false;const c
 // not just total touchdowns. that was meant for QBs". QB near-record bar = 46 passing TD with the
 // starting book (55); it scales with the record if the record is broken. RB/WR/sacks stay at 95%.
 (()=>{const _r=window.h2Run;window.h2Run=function(x,v,hi){try{if(SG(x.pos)==='q'){const o=H2CLOSE;H2CLOSE=46/55;try{return _r(x,v,hi)}finally{H2CLOSE=o}}}catch(e){}return _r(x,v,hi)}})();
+// Tyler, 2026-11-14: "come close th[ree or] four seasons in a row, two seasons in a row. that's been
+// done before … It's gonna be a rare thing". Near-record road now needs THREE straight seasons
+// (this one and the two before it), each from his own recorded rows.
+window.H2N=3;
+(()=>{const _r=window.h2Run;window.h2Run=function(x,v,hi){try{if(!_r(x,v,hi))return false;
+ const ratio=SG(x.pos)==='q'?46/55:H2CLOSE,c=hi*ratio,y=yrN();
+ for(let k=2;k<H2N;k++){const p=h2Prev(x,y-k);if(p==null||p<c)return false}
+ return true}catch(e){return false}}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

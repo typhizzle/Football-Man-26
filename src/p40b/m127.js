@@ -20,3 +20,11 @@ window.h2Run=function(x,v,hi){try{if(!(hi>0)||hi===Infinity)return false;const c
 // not just total touchdowns. that was meant for QBs". QB near-record bar = 46 passing TD with the
 // starting book (55); it scales with the record if the record is broken. RB/WR/sacks stay at 95%.
 (()=>{const _r=window.h2Run;window.h2Run=function(x,v,hi){try{if(SG(x.pos)==='q'){const o=H2CLOSE;H2CLOSE=46/55;try{return _r(x,v,hi)}finally{H2CLOSE=o}}}catch(e){}return _r(x,v,hi)}})();
+// Tyler, 2026-11-14: "come close th[ree or] four seasons in a row, two seasons in a row. that's been
+// done before … It's gonna be a rare thing". Near-record road now needs THREE straight seasons
+// (this one and the two before it), each from his own recorded rows.
+window.H2N=3;
+(()=>{const _r=window.h2Run;window.h2Run=function(x,v,hi){try{if(!_r(x,v,hi))return false;
+ const ratio=SG(x.pos)==='q'?46/55:H2CLOSE,c=hi*ratio,y=yrN();
+ for(let k=2;k<H2N;k++){const p=h2Prev(x,y-k);if(p==null||p<c)return false}
+ return true}catch(e){return false}}})();

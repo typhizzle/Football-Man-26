@@ -538,4 +538,4 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m127.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 # m127b: or two straight seasons within 5% of the record
 r("x.hq=v>=hi?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab})`)",
-  "x.hq=(v>=hi||(typeof h2Run=='function'&&h2Run(x,v,hi)))?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab}${v<hi?', 2nd straight near-record season':''})`)")
+  "x.hq=(v>=hi||(typeof h2Run=='function'&&h2Run(x,v,hi)))?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab}${v<hi?', 3rd straight near-record season':''})`)")
