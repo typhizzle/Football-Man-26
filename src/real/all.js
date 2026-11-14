@@ -151,6 +151,14 @@ const TESTS=[
    if(d.maxPot>2&&!(d.maxPot===3&&d.pbInterview>0))return 'Pot McGee '+d.maxPot+' in a season';
    return null}},
 
+ {f:'aw3.js', why:'every player award count matches League History (only ever raised; shared names untouched); the card shows it',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(d.A_ferretDPOY!==d.A_historyFerret||!d.A_historyFerret)return 'Meters Ferret DPOY '+d.A_ferretDPOY+' vs history '+d.A_historyFerret;
+   if(d.B_playersShort)return d.B_playersShort+' awards still short: '+d.B_list.join(', ');
+   if(d.C_awardsLowered)return d.C_awardsLowered+' awards LOWERED';
+   if(d.D_idempotent!==true)return 'not idempotent';if(d.F_cardShowsDPOY3!==true)return 'career card does not show DPOY x3';
+   return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

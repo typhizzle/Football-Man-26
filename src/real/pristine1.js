@@ -52,8 +52,14 @@ const SAVE='/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scra
      o.diffs.push(key+' ('+was.n+'): HISTORY CHANGED\n      was '+was.h+'\n      now '+JSON.stringify(x.h||[]));
     if(JSON.stringify(x.tm||[])!==was.tm)
      o.diffs.push(key+' ('+was.n+'): teams '+was.tm+' -> '+JSON.stringify(x.tm||[]));
-    if(JSON.stringify(x.aw||{})!==was.aw)
-     o.diffs.push(key+' ('+was.n+'): awards '+was.aw+' -> '+JSON.stringify(x.aw||{}));
+    if(JSON.stringify(x.aw||{})!==was.aw){
+     // Approved by Tyler 2026-11-14 ("just make it accurate for everyone"): award counts may be RAISED
+     // to match League History (m130; exactness proven by aw3.js). Any award that goes DOWN, or
+     // disappears, is still a change to existing data and fails this test.
+     const A=JSON.parse(was.aw),B=x.aw||{};const down=Object.keys(A).some(k=>(B[k]||0)<(A[k]||0));
+     if(down)o.diffs.push(key+' ('+was.n+'): awards '+was.aw+' -> '+JSON.stringify(B));
+     else (o.awRaised=o.awRaised||[]).push(was.n);
+    }
    });
    // what the load ADDED, which is allowed, reported so it is never a surprise
    o.added={};

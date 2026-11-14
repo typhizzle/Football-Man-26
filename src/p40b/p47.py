@@ -551,3 +551,7 @@ r("Your class — ","First class followed — ",5)
 # m129: no invite spam - studio 3/yr and each song once, Pot McGee 2/yr (+Pro Bowl interview), parties 4/yr
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m129.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m130: every player's award counts match League History (only ever raised; shared names untouched)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m130.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

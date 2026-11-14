@@ -560,3 +560,9 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   (+1 "Pro Bowl interview" if `Pro yr N: Pro Bowl` for this or last pro year), brand parties 4.
   ev1.js (gate 23): before 6 studio/12 Pot/6 parties a season + 45 repeat songs; after 2/3/4, 0 repeats.
   NOTE yrN is a CONST — tests advance the year by pushing S.hist rows.
+- V242 (m130), APPROVED by Tyler 2026-11-14 ("just make it accurate for everyone"): player award
+  counts (mvp/opoy/dpoy/sbm) raised to match League History = LGH0 (≤2025) + lhLeague() (2026+ incl.
+  sim years and corrections). Only ever raised; a name shared by two men in the save is skipped.
+  Once per season (S.awHist). 11-07 save: 30 awards raised across 18 players (Ferret DPOY 1→3,
+  Fallon MVP 1→5, Rodney MVP 0→4 …). pristine1 now accepts award RAISES only; aw3.js (gate 24).
+  2026-2028 DPOY/OPOY/SBM are blank in League History (never recorded) — not invented.
