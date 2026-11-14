@@ -1,0 +1,10 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+pg.on('dialog',d=>d.accept('Texas Ballaz'));
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+const ev=async(f,...a)=>{try{return await pg.evaluate(f,...a)}catch(e){return 'ERR '+e.stack.slice(0,500)}};
+console.log(await ev(j=>{SLOT=1;S=mig(JSON.parse(j));S.spwk=null;spWeek();S.spe.L=[{k:'studio',song:'rbs',n:'Studio',d:'x'},{k:'party',n:'Party',d:'y',v:'goat'}];S.spe.done=[];spV();spEv(0);const t=ov.innerText;spEv2(0,0);return t+' | '+LR.O.map(o=>o.k).join(',')},sj));
+await wait(1500);await pg.screenshot({path:'bw/st1.png'});
+console.log(await ev(()=>{lrAct(LR.O.find(o=>o.k=='smic'));const a=ov.innerText.slice(0,80);songPick('rbs');songMake('rbs','hard');const b=ov.innerText;lrAct(LR.O.find(o=>o.k=='sguy'));return a+' || '+b+' || '+ov.innerText.slice(0,90)}));
+console.log(await ev(()=>{ovHide();stAct({k:'eexit'});spEv2(1,1);return ov.innerText.slice(0,200)}));
+console.log(await ev(()=>{ovHide();celRoom();return LR.O.filter(o=>o.cid=='typhizzle'||o.cid=='wesscoastt').length}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

@@ -1,0 +1,3 @@
+const H=require('./h.js'),fs=require('fs');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+const sv=fs.readFileSync('/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/save6.json','utf8');
+console.log(await pg.evaluate((sv)=>{localStorage.setItem('footballman_v1_6',sv);SLOT=6;S=load(6);hub();const o=[];lhV('aw');o.push(ui.innerText.split('\n').filter(l=>/^20(2[6-9]|3[01])/.test(l)).join(' | '));lhV('sb');o.push(ui.innerText.split('\n').filter(l=>/20(2[6-9]|3[01]) season/.test(l)).length+' SB rows');return o.join('\n')},sv));console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

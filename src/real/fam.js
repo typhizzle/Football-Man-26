@@ -1,0 +1,2 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+const r=await pg.evaluate(()=>{SLOT=1;newC();start();ovHide();window.confirm=()=>true;S.fam=null;famEns();famEd();document.querySelector('#fpr').value='mom';famSave();famV();return S.fam.par+' '+!!S.fam.dad+' '+ui.innerHTML.includes('Raised by your mom')});console.log(r,errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

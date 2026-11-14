@@ -1,0 +1,12 @@
+const H=require('./h.js');const key=process.argv[2]||'fire';(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const C=require('/home/claude/t41/ctx.js');await pg.evaluate(()=>{SLOT=1;newC();start();ovHide()});await pg.evaluate(C.DRV+';window.step=step;');
+await pg.evaluate(()=>{let n=0;while(n++<6000){if(S.stage=='col'&&S.wk>=3)break;if(!step())break}ovHide()});
+await pg.evaluate(k=>{S.cb={sd:[0,1,2,3,4,5,6,7,8,9,10,11],r:0,hist:[],out:false,pairs:[[0,5],[1,2],[3,4],[6,7]]};S.cb.bw=[k,'cheer','beer','dog','gamer','snake','gv','smoke','sls','hot','truck'];startGame(5,'cfp')},key);
+await wait(2600);await pg.screenshot({path:`/home/claude/real/bw/${key}_pre.png`});
+await pg.evaluate(()=>{if(BWA)bwNext();if(BWA)bwNext()});await wait(300);
+await pg.evaluate(()=>{g.s=[14,10];g.clk=1800;ovHide();chk(1)});await wait(key=='rodeo'?8500:3000);await pg.screenshot({path:`/home/claude/real/bw/${key}_half.png`});
+await pg.evaluate(()=>{if(BWA)bwNext();if(BWA)bwNext()});await wait(300);
+await pg.evaluate(()=>{g.s=[31,24];g.clk=3600;ovHide();g.half=1;chk(1)});await wait(key=='fire'?6800:3500);await pg.screenshot({path:`/home/claude/real/bw/${key}_post.png`});
+await pg.evaluate(()=>{if(BWA)bwNext();if(BWA)bwNext()});await wait(300);await pg.screenshot({path:`/home/claude/real/bw/${key}_end.png`});
+console.log(key,await pg.evaluate(()=>g.title+' | '+(ov.innerText||'').slice(0,80)));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)));await b.close()})();

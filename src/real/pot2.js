@@ -1,0 +1,11 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+const ev=async(f,...a)=>{try{return await pg.evaluate(f,...a)}catch(e){return 'ERR '+e.stack.slice(0,400)}};
+console.log(await ev(j=>{SLOT=1;S=mig(JSON.parse(j));potWalk();return LR.O.map(o=>o.k).join(',')},sj));
+await wait(1500);await pg.screenshot({path:'bw/pot2.png'});
+await ev(()=>{LR.p.z-=8;LR.p.x=3;LR.yaw=-.4});await wait(1500);await pg.screenshot({path:'bw/pot3.png'});
+console.log(await ev(()=>{const o=LR.O.find(o=>o.k=='pshot');LR.p.x=o.x;LR.p.z=o.z;LR.yaw=1.2;lrAct(o);return ov.innerText.slice(0,200)}));
+await ev(()=>{potShot(1)});await wait(700);await pg.screenshot({path:'bw/pot4.png'});await wait(1800);
+console.log(await ev(()=>ov.innerText.slice(0,200)+' | '+$('#lrh').textContent));
+console.log(await ev(()=>{ovHide();lrAct(LR.O.find(o=>o.k=='ppot'));return ov.innerText.slice(0,80)}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

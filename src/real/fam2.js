@@ -1,0 +1,4 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+console.log(await pg.evaluate(j=>{SLOT=1;S=mig(JSON.parse(j));famEns();S.fam.locked=0;S.fam.mode='random';famEd();document.querySelector('#dady').value='5';document.querySelector('#dadf').value='0';document.querySelector('#momy').value='2';document.querySelector('#sbn').value='Kayla';document.querySelector('#sbg').value='s';document.querySelector('#sbh').value='4';document.querySelector('#sby').value='3';famSib();famRead();const P=FY_ED;homeV();const hz=ui.innerText.match(/(City condo|Townhouse|Beach house|Texas ranch|Penthouse|Private island)/g);return JSON.stringify({dad:[P.dad.hr,P.dad.fh],mom:P.mom.hr,sib:P.sibs.slice(-1)[0]})+' | houses: '+hz},sj));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

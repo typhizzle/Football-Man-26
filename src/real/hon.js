@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:844,h:390});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+await pg.evaluate(()=>{SLOT=1;newC();start();S.aw=['Year 1: Division Champions','Year 2: State Champions','Year 2: State Player of the Year','Year 3: State Champions','Year 3: National HS Player of the Year','Year 3: Division Champions'];lroom();ovHide();LR.p.x=-17;LR.p.z=-2.5;LR.yaw=1.5708;LR.pitch=.15;LR.dist=-3;LR.cpos=null});
+await wait(1600);await pg.screenshot({path:'/home/claude/real/lr/hon.png'});console.log(errs.filter(e=>!/ERR_FAILED/.test(e)));await b.close()})();

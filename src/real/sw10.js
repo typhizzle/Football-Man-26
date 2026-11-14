@@ -1,0 +1,5 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+console.log(await pg.evaluate(async()=>{SLOT=1;newC();start();S.q.acc=99;const o=[];
+ startGame0(1,'reg');try{tossClear()}catch(e){}ovHide();g.sel=['Deep',0];g.stage='line';g.ui=0;hut();await new Promise(r=>setTimeout(r,900));g.paused=1;const P=g.pl,q=P.qb,w=P.wr[0],T=Math.hypot(w.x-q.x,w.y-q.y)/(16+S.q.pow*.1),ex=w.x+w.vx*T,ey=w.y+w.vy*T,s=pj(ex,ey,0),O0=swBall();
+ let O=pj(q.x,q.y,0);const vz=v3.z;if(CAMI!=1&&v3.z>1)O=swBall();const G=upj(s[0],s[1]);o.push('O '+O.map(Math.round)+' vz '+vz.toFixed(2)+' x0 '+O0.map(Math.round)+' near '+Math.hypot(O0[0]-O[0],O0[1]+10-O[1]).toFixed(0)+' lim '+(Math.min(W,H)*.22).toFixed(0)+' G '+(G&&G.map(v=>v.toFixed(1)))+' q '+q.x.toFixed(1)+','+q.y.toFixed(1)+' lead '+ex.toFixed(1)+','+ey.toFixed(1)+' Rg '+thrR().toFixed(1)+' s '+s.map(Math.round));
+ const L=swGround(O[0],O[1],(s[0]-O[0])/Math.hypot(s[0]-O[0],s[1]-O[1]),(s[1]-O[1])/Math.hypot(s[0]-O[0],s[1]-O[1]),20);o.push('L20 '+L.map(v=>v.toFixed(1)));return o.join('\n')}));await b.close()})();

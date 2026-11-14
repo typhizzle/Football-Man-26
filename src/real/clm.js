@@ -1,0 +1,10 @@
+const H=require('./h.js'),C=require('/home/claude/t41/ctx.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+await pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));localStorage.clear();SLOT=1;newC();start()},C.DRV);
+await pg.evaluate(()=>{let n=0;while(n++<300&&(S.yr||1)<2){if(!step())break}hub()});await wait(500);
+const btn=await pg.$$eval('#ui button',bs=>bs.map(b=>b.textContent));console.log(btn.filter(t=>/Hallo/.test(t)));
+await pg.evaluate(()=>{[...document.querySelectorAll('#ui button')].find(b=>/Halloween/.test(b.textContent)).scrollIntoView()});
+const hb=await pg.$$('#ui button');for(const h of hb){const t=await h.evaluate(b=>b.textContent);if(/Halloween/.test(t)){await h.click();break}}await wait(400);
+console.log('screen:',await pg.evaluate(()=>ui.innerText.slice(0,120).replace(/\n/g,' | ')));
+const cb=await pg.$$('#ui button');let clicked=0;for(const h of cb){const t=await h.evaluate(b=>b.textContent);if(t=='Claim'){const box=await h.boundingBox();console.log('box',JSON.stringify(box));await h.click();clicked=1;break}}await wait(400);
+console.log('clicked',clicked,'after:',await pg.evaluate(()=>ui.innerText.slice(0,400).replace(/\n/g,' | ')+' cash '+S.cash+' hwd '+JSON.stringify(S.hwd)));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,6));await b.close()})();

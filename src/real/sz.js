@@ -1,0 +1,5 @@
+const H=require('./h.js'),C=require('/home/claude/t41/ctx.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+await pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));SLOT=1;newC();start()},C.DRV);
+for(const stg of ['hs','col','draft','pro']){const r=await pg.evaluate((stg)=>{let n=0;while(n++<3000&&(S.stage||'hs')==stg){if(!step())break}return (S.stage||'hs')+' '+JSON.stringify(S).length},stg);console.log(r)}
+console.log(await pg.evaluate(()=>{let n=0;while(n++<1500&&S.py<4){if(!step())break}save();let tot=0;const o=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i),v=localStorage.getItem(k);tot+=k.length+v.length;o.push(k+':'+v.length)}const ro=JSON.stringify(S.ro).length;return 'py'+S.py+' S='+JSON.stringify(S).length+' ro='+ro+' total='+tot+' | '+o.join(', ')+' | biggest keys: '+Object.keys(S).map(k=>[k,JSON.stringify(S[k]||'').length]).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x.join('=')).join(' ')}));
+await b.close()})();

@@ -1,0 +1,2 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:700});await new Promise(r=>setTimeout(r,1200));
+console.log(await pg.evaluate(()=>{SLOT=1;newC();start();tkGo(tkList()[0].i);const W=S.psch||pSched();const T=S.T,bye={};T.forEach((t,i)=>{const ws=[];W.forEach((wk,w)=>{if(!wk.some(p=>p[0]==i||p[1]==i))ws.push(w+1)});bye[t.n]=ws});const hist={};Object.values(bye).forEach(a=>{const k=a.join(',');hist[k]=(hist[k]||0)+1});return 'weeks '+W.length+' bye pattern counts '+JSON.stringify(hist)}));await b.close()})();

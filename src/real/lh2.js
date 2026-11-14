@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const w=ms=>new Promise(r=>setTimeout(r,ms));await w(1200);
+console.log(await pg.evaluate(()=>{SLOT=1;newC();start();S.law={3:{yr:2031,w:{MVP:{n:S.name,me:1},SBMVP:{n:'Joe Test'},OPOY:{n:'Al Pha'},DPOY:{n:'Be Ta'}},fin:{w:tn(S.pro[5]),l:tn(S.pro[20]),wc:TA[5],lc:TA[20],sc:'27-20',me:0}},2:{yr:2030,w:{MVP:{n:'Old Guy'}}}};lhV('sb');const a=[...ui.querySelectorAll('.card')].slice(0,3).map(c=>c.innerText).join(' || ');lhV('tm');return a+' ## '+ui.innerText.match(/Pittsburgh[^\n]*\n[^\n]*\n[^\n]*/)}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

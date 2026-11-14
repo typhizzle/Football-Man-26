@@ -1,0 +1,12 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+const ev=async(f,...a)=>{try{return await pg.evaluate(f,...a)}catch(e){return 'ERR '+e.stack.slice(0,400)}};
+console.log(await ev(j=>{SLOT=1;S=mig(JSON.parse(j));S.spo=null;const O=spEns();return 'offers: '+O.L.map(o=>o.b+'['+o.cat+']').join(' | ')+' | TB present: '+O.L.some(o=>/Tim Brody/.test(o.b))},sj));
+console.log(await ev(()=>{const O=spEns(),i=O.L.findIndex(o=>o.cat=='event');if(i<0)return 'no event offer';spSign(i);return HM+' | invites: '+S.spe.L.map(e=>e.n).join(', ')}));
+console.log(await ev(()=>{const e=S.spe.L.findIndex(x=>x.v=='spn');spEv(e);spEv2(e,0);const t=$('#lrh').textContent;const c=LR.O.filter(o=>o.k=='eceleb').map(o=>o.n);evExit();return t+' | celebs: '+c.join(',')}));
+console.log(await ev(()=>{S.spc=[{id:'nyk',b:'Nyk',cat:'cleats',what:'x',pay:20000,left:1,f0:50000}];S.gs=[90,85];spYear();spV();return (S.spRen||[]).map(o=>o.b+' $'+o.pay).join(',')+' | card '+/Re-sign offers/.test(ui.innerText)}));
+console.log(await ev(()=>{const t=S.T.find(x=>(S.alum||[]).some(a=>a.cm==x.n));if(!t)return 'no alum team';const oi=S.T.indexOf(t);const L=rost('h.'+oi);return t.n+': '+L.filter(x=>x.al).map(x=>x.n+' '+x.pos).join(',')}));
+console.log(await ev(async()=>{const t=S.T.find(x=>(S.alum||[]).some(a=>a.cm==x.n));const oi=S.T.indexOf(t);startGame0(oi,'reg');await new Promise(r=>setTimeout(r,500));g.s=[28,14];g.w=1;fieldWalk();const o=LR.O.find(o=>o.k=='fexm');if(!o)return 'no fexm';lrAct(o);return ov.innerText.replace(/\n/g,' ').slice(0,200)}));
+await wait(1200);await pg.screenshot({path:'bw/exm.png'});
+console.log(await ev(()=>{const c={pers:'mom',n:'Sharon James',id:'mom',th:[{f:'me',t:'hey mom'}]};const a=phCanned(c);c.th.push({f:'them',t:a},{f:'me',t:'we won tonight!'});const b2=phCanned(c);c.th.push({f:'me',t:'how are you?'});return a+' | '+b2+' | '+phCanned(c)+' || prompt ok: '+/Answer what he actually said/.test(phPrompt(c))}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

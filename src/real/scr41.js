@@ -1,0 +1,14 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));const sh=async n=>{await wait(250);await pg.screenshot({path:`/home/claude/real/thr/s41_${n}.png`,fullPage:false})};
+await pg.evaluate(()=>{SLOT=1;newC();start();S.stars=5;S.nr=40;for(let i=0;i<6;i++)addOffers(1);hub();S.wk=mkSched().length});await sh('hub');
+await pg.evaluate(()=>{lgsV('p',2022)});await sh('lgsP');
+await pg.evaluate(()=>{ui.scrollTop=1500});await sh('lgsP2');
+await pg.evaluate(()=>{ui.scrollTop=3200});await sh('lgsP3');
+await pg.evaluate(()=>{lgsV('c',2022)});await sh('lgsC');
+await pg.evaluate(()=>{uCard(29)});await sh('ucard');
+await pg.evaluate(()=>{offers()});await sh('offers');
+await pg.evaluate(()=>{const i=S.off.findIndex(o=>cfP4(o.conf));offerView(Math.max(0,i))});await sh('offerView');
+await pg.evaluate(()=>{ui.scrollTop=600});await sh('offerView2');
+await pg.evaluate(()=>{colList('c')});await sh('colList');
+await pg.evaluate(()=>{goatV('qb');ui.scrollTop=900});await sh('goat');
+await pg.evaluate(()=>{gpV()});await sh('gspn');
+console.log(JSON.stringify(errs.filter(e=>!/ERR_FAILED/.test(e))));await b.close()})();

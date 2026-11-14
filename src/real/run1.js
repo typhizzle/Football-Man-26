@@ -1,0 +1,4 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+await pg.evaluate(async()=>{SLOT=1;newC();start();startGame0(1,'reg');pui();await new Promise(r=>setTimeout(r,450))});
+console.log(await pg.evaluate(()=>{const res=[];for(let k=0;k<12;k++){try{ovHide();if(g.ph=='opp'){applyO();ovHide()}if(g.ph!='pre'){res.push('ph '+g.ph);continue}g.y=20;g.dn=1;g.tg=10;g.sel=['Run',0];g.tab='Run';hut();const y0=g.los;let t=0;while(g.ph=='live'&&t<900){inp={x:0,y:1};upd(.033);const P=g.pl;if(P&&P.car){P.car.vx=0;P.car.vy=P.car.sp;P.car.stum=0}t++}res.push((g.out?g.out.k:'?')+' '+Math.round((g.out?g.out.y:0)-y0)+' '+(g.out?g.out.tx:''));if(g.ph=='dead'){g.dt=0;after()}}catch(e){res.push('ERR '+e.message)}}return res.join('\n')}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,6));await b.close()})();

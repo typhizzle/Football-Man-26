@@ -1,0 +1,5 @@
+const H=require('./h.js'),C=require('/home/claude/t41/ctx.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));
+await pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));SLOT=1;newC();start()},C.DRV);
+console.log(await pg.evaluate(()=>{let k=0;while(k++<10&&(S.wk||0)<3)step();try{play()}catch(e){}ovHide();g.ph='ovr';g.o=g.o||S.T[g.oi];g.m=g.m||S.T[0];g.s=[21,14];g.w=1;fieldWalk();const o=LR.O.find(x=>x.k=='fopp');g.fw.ask=1;fwAct(o);const opts=[...ov.querySelectorAll('button')].map(b=>b.textContent).join(' | ');g.jsYes=1;fwOpp(2);for(let i=0;i<300&&LR.js;i++)lrTick(1/60);ovHide();lrExit();
+ const hsJ=JSON.stringify((S.jsw||[]).map(j=>j.n+' #'+j.num));let n=0;while(n++<5000&&S.stage!='col'){if(!step())break}wardV('cas','');const inCol=/jersey/.test(ui.innerText);return 'HS options: '+opts+'\nHS jerseys: '+hsJ+'\nstill in Clothing in college: '+inCol}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

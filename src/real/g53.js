@@ -1,0 +1,18 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+const ev=async(f,...a)=>{try{return await pg.evaluate(f,...a)}catch(e){return 'ERR '+e.stack.slice(0,500)}};
+console.log(await ev(j=>{SLOT=1;S=mig(JSON.parse(j));famEns();homeWalk();return LR.O.map(o=>o.k).join(',')},sj));
+await wait(1500);await pg.screenshot({path:'bw/gar1.png'});
+console.log(await ev(()=>{LR.p.z-=3;LR.yaw=.5;return troList().length}));await wait(1500);await pg.screenshot({path:'bw/gar2.png'});
+console.log(await ev(()=>{lrAct(LR.O.find(o=>o.k=='htrs'));return ov.innerText.slice(0,160)}));
+console.log(await ev(()=>{ovHide();hmExit(1);S.cash=5e7;hzMove('apt');return ov.innerText.slice(0,120)+' | hz='+S.hz}));
+await pg.click('#ov button');await wait(300);
+console.log(await ev(()=>'after yes hz='+S.hz));
+console.log(await ev(()=>{hmExit&&0;homeWalk();return LR.O.map(o=>o.k).join(',')}));await wait(1500);await pg.screenshot({path:'bw/apt2.png'});
+console.log(await ev(()=>{hmExit(1);S.fam.locked=0;S.fam.mode='random';famEd();return 'ed'}));
+await pg.click('button[onclick="famSave()"]');await wait(200);
+console.log(await ev(()=>ov.innerText.slice(0,120)));
+await pg.click('#ov button');await wait(300);
+console.log(await ev(()=>'fam locked='+S.fam.locked+' mode='+S.fam.mode));
+console.log(await ev(()=>{const c=captEns();return JSON.stringify(c)}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+console.log(await pg.evaluate(()=>{const o=[];SLOT=2;newC();start();S.yr=4;addOffers(1);S.yr=5;endC();enroll(S.off[0].n);S.cy=3;mkCsum();declare();dpFinish();let n=0;while(!S.dr.mine&&n++<300)dPick();proStart(S.dr.mine?S.dr.mine.ti:0,S.dr.mine?S.dr.mine.pk:0);hub();
+ S.hist.push({y:'P1'},{y:'P2'},{y:'P3'},{y:'P4'});lhV('sb');o.push(ui.innerText.split('\n').filter(l=>/202[5-9] season/.test(l)).slice(0,4).join(' | '));lhV('aw');o.push(ui.innerText.split('\n').filter(l=>/^202[6-9]/.test(l)).slice(0,4).join(' | '));return o.join('\n')}));console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

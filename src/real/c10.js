@@ -1,0 +1,9 @@
+const H=require('./h.js'),C=require('/home/claude/t41/ctx.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));
+await pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));},C.DRV);
+const code=require('fs').readFileSync('/mnt/user-data/attachments/c57e6934-02ef-509f-85a1-506e72ebaaa1/c59330c6-attachment.txt','utf8').trim();
+console.log(await pg.evaluate(()=>{localStorage.clear();SLOT=2;newC();start();return 'new career confs '+S.col.length+' c10 '+S.c10}));
+console.log(await pg.evaluate(()=>{let n=0;while(n++<4000&&(S.stage||'hs')!='col'){if(!step())break}return 'col: confs '+S.col.length+' teams '+S.T.length+' my '+S.col[S.T[0].cf].n+' schedule games/team ok '+S.csch.every(w=>w.every(([a,b])=>S.T[a]&&S.T[b]))}));
+await b.close();const P2=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));await P2.pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));},C.DRV);console.log(await P2.pg.evaluate(async c=>{localStorage.clear();SLOT=1;const s=await readCode(c);localStorage.setItem(K+'_1',JSON.stringify(s));S=load(1);const before=S.col.length+' confs';let g=0;const cy=S.cy;while(S.stage=='col'&&S.cy==cy&&g++<60)step();
+ const me=S.T[0].n,ok=S.csch.every(w=>w.every(([a,b])=>S.T[a]&&S.T[b]));let k=0;while(S.stage=='col'&&S.wk<4&&k++<20)step();CRC=null;const C=crCalc();
+ const mv=(S.c10mv||[]);return 'moved '+mv.length+': '+mv.slice(0,40).join(' | ')+'\nBronny: '+before+' -> '+S.col.length+' confs, cy '+S.cy+' wk '+S.wk+' me '+me+' sched ok '+ok+' rank #'+C.pos[0]+' rec '+C.W[0]+'-'+C.L[0]+' lastIdx '+((S.crLast&&S.crLast.n)?S.crLast.n.indexOf('Lakeshore Lakers'):'none')+' top8 '+C.ord.slice(0,8).map(i=>S.T[i].n.split(' ')[0]+' '+C.W[i]+'-'+C.L[i]).join(', ')},code));
+console.log(errs.concat(P2.errs).filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await P2.b.close()})();

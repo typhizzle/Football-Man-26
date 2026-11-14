@@ -1,0 +1,12 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+await pg.evaluate(()=>{SLOT=1;newC();start();hub();});
+const btn=await pg.evaluate(()=>[...document.querySelectorAll('#ui button')].map(b=>b.textContent).filter(t=>/Halloween/.test(t)));console.log(btn);
+await pg.evaluate(()=>{[...document.querySelectorAll('#ui button')].find(b=>/Halloween/.test(b.textContent)).click()});await wait(300);
+await pg.screenshot({path:'/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/gift1.png'});
+await pg.evaluate(()=>{[...document.querySelectorAll('#ui button')].find(b=>/Claim free/.test(b.textContent)).click()});await wait(300);
+console.log(await pg.evaluate(()=>[S.hwg,S.inv,document.querySelector('#ui').innerText.slice(0,300)]));
+await pg.evaluate(()=>{[...document.querySelectorAll('#ui button')].find(b=>/Wear one/.test(b.textContent)).click()});await wait(300);
+await pg.evaluate(()=>{[...document.querySelectorAll('#ui button')].find(b=>/Equip/.test(b.textContent)&&/Skeleton/.test(b.parentElement.textContent)).click()});await wait(300);
+console.log(await pg.evaluate(()=>[S.wear,S.cos]));
+await pg.screenshot({path:'/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/gift2.png'});
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

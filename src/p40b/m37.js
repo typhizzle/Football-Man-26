@@ -1,0 +1,21 @@
+
+// ===================== YOUR STATS: season card on every hub, your spot on the leaderboard, season-by-season career table =====================
+function myRk(){try{const D=LD(),o={},f=(k,key)=>{const s=[...D[k]].sort((x,y)=>(y[key]||0)-(x[key]||0)),i=s.findIndex(x=>x.me);return i>=0?[i+1,s.length]:null};o.Y=f('P','a');o.T=f('P','b');o.R=f('Ru','a');return o}catch(e){return{}}}
+const ordS=n=>n+(n%10==1&&n%100!=11?'st':n%10==2&&n%100!=12?'nd':n%10==3&&n%100!=13?'rd':'th');
+function myCard(){const s=S.ss||{},st=S.stage||'hs',r=myRk(),lab=st=='pro'?'the league':st=='col'?'college football':'the state';
+ const rk=[r.Y&&(s.yds||0)>0?`<b>${ordS(r.Y[0])}</b> in passing yards`:'',r.T&&(s.td||0)>0?`<b>${ordS(r.T[0])}</b> in passing TDs`:'',r.R&&(s.ry||0)>0?`<b>${ordS(r.R[0])}</b> in rushing yards`:''].filter(Boolean);
+ return `<div class=card><b>📊 Your ${yrN()} season</b> <small>${s.g||0} games · ${s.w||0}-${s.l||0}</small><br>${sline(s)}${rk.length?`<br><small>Among all of ${lab}: ${rk.join(' · ')}</small>`:''}<div class=tabs><button class=g onclick=career()>Season-by-season stats</button><button class=g onclick="ldAll('P')">Leaderboard</button></div></div>`}
+const prt=s=>{const a=s.att||0;if(!a)return '-';const c=cl(((s.cmp/a)-.3)*5,0,2.375),y=cl(((s.yds/a)-3)*.25,0,2.375),t=cl((s.td/a)*20,0,2.375),i=cl(2.375-(s.int/a)*25,0,2.375);return ((c+y+t+i)/6*100).toFixed(1)};
+function seasRows(){const H=S.hist||[],y0=S.y0||2022,R_=[];H.forEach((x,i)=>{const y=x.y,lv=typeof y=='number'?'HS '+CLS[cl(y,1,4)-1]:String(y)[0]=='C'?'College '+(CLS[cl(+String(y).slice(1),1,4)-1]||''):'Pro yr '+String(y).slice(1);R_.push({yr:y0+i,lv,tm:(S.htm||[])[i]||'',s:x})});
+ const cur=S.ss;if(cur&&(cur.g||0)>0&&S.stage!='draft'&&!S.ret){const st=S.stage||'hs',lv=st=='hs'?'HS '+CLS[cl(S.yr||1,1,4)-1]:st=='col'?'College '+(rsLbl()||CLS[cl(S.cy||1,1,4)-1]):'Pro yr '+(S.py||1);R_.push({yr:yrN(),lv:lv+' (now)',tm:S.T&&S.T[0]?S.T[0].n:'',s:cur,now:1})}return R_}
+function career(){const NM={hs:'High school',col:'College',pro:'Pro'},RL={hs:'Playoff games count toward season and career totals (typical high school record keeping).',col:'Postseason games count toward NCAA season and career totals.',pro:'Postseason stats are kept separate and are NOT added to career regular-season totals.'};let h='';
+ for(const k of ['hs','col','pro']){const b=S.cst&&S.cst[k];if(!b)continue;const t=Z();for(const f in t)t[f]=b.reg[f]+(k=='pro'?0:b.post[f]);h+=`<div class=card><b>${NM[k]}</b><br><small>${RL[k]}</small><p>Regular season (${b.reg.w}-${b.reg.l}): ${sline(b.reg)}</p><p>Postseason (${b.post.w}-${b.post.l}): ${sline(b.post)}</p><p><b>Career total:</b> ${sline(t)}</p></div>`}
+ const R_=seasRows(),th='style="padding:3px 5px;text-align:right;white-space:nowrap"',tl='style="padding:3px 5px;text-align:left;white-space:nowrap"';
+ const tbl=R_.length?`<div class=card><b>Season by season</b>${R_.map(r=>{const s=r.s;return `<div style="border-top:1px solid #fff3;padding:6px 0${r.now?';background:#ffe93b1c':''}"><div style="display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap"><b>${r.yr} · ${r.lv}</b><small>${s.g||0} G · ${s.w||0}-${s.l||0}</small></div>${r.tm?`<small style="display:block">${r.tm}</small>`:''}<div style="font-size:16px">${s.cmp||0}/${s.att||0}${s.att?' ('+Math.round(s.cmp/s.att*100)+'%)':''} · ${(s.yds||0).toLocaleString()} yds · ${s.td||0} TD · ${s.int||0} INT</div><small style="display:block">Rating ${prt(s)} · ${s.ry||0} rush yds · ${s.rtd||0} rush TD · ${((s.yds||0)+(s.ry||0)).toLocaleString()} total yds · ${(s.td||0)+(s.rtd||0)} total TD</small></div>`}).join('')}<small>Seasons played before this update don't have a team saved.</small></div>`:'';
+ ui.innerHTML=`<div><h2>Career stats</h2>${tbl}${h||'<div class=card>No games played yet.</div>'}<button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0}
+
+// ===================== dating pace =====================
+// gains shrink as the relationship gets serious
+function relG(n){const a=(S.gf&&S.gf.aff)||0;return Math.max(1,Math.round(n*(a>=80?.4:a>=65?.65:1)))}
+// existing saves: a new relationship can't already be sky high
+function relFix(s){const f=s&&s.gf;if(!f||f.af2||f.status!='dating')return;f.af2=1;const w=f.wks||0;if(w<=10)f.aff=Math.min(f.aff,38+w*3)}

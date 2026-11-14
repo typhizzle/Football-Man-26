@@ -1,0 +1,12 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+pg.on('dialog',d=>{console.log('DIALOG',d.message().slice(0,60));d.accept()});
+const sj=require('fs').readFileSync('/tmp/claude-0/sv/save.json','utf8');
+await pg.evaluate(j=>{SLOT=1;S=mig(JSON.parse(j));famEns();homeWalk()},sj);await wait(800);console.log('a');
+console.log(await pg.evaluate(()=>{hmAct(LR.O.find(x=>x.k=='hbed'));return ov.innerText.slice(0,80)}));
+console.log(await pg.evaluate(()=>{hmExit(1);return 'exit'}));
+console.log(await pg.evaluate(()=>{S.cash=5e7;S.stage='pro';hzMove('mansion');return S.hz}));
+console.log(await pg.evaluate(()=>{S.hzi=S.hzi||[];['tv3','gm2','gy2','pool','tr','heli','th'].forEach(i=>S.hzi.push(i));S.gf.home=1;homeWalk();return LR.O.map(x=>x.k).join(',')}));
+await wait(1500);await pg.screenshot({path:'/home/claude/real/bw/home2.png'});
+const r2=await pg.evaluate(async()=>{hmExit(1);S.stage='col';phoneV();phMsgs();const P=phEns();phThread(0);const c=P.c[0];document.querySelector('#phin').value='hey mom how are you';await phSend();return P.c.map(x=>x.n).join(', ')+' || '+JSON.stringify(c.th).slice(0,300)});console.log(r2);
+await pg.screenshot({path:'/home/claude/real/bw/phone1.png'});
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

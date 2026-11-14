@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1200));
+console.log(await pg.evaluate(()=>{SLOT=1;newC();start();const o=['count '+CELB.length+' '+['vvelvet','fbolt','nnate','ppete','rrex','wwinnie'].map(id=>celBy(id)&&celBy(id).n).join(', '),'tswiff vibe: '+celBy('tswiff').vibe.slice(0,60)];try{celRoom();o.push('celroom objs '+LR.O.length+' has velvet '+LR.O.some(x=>/Velvet/.test(x.n||'')))}catch(e){o.push('celroom err '+e.message)}return o.join('\n')}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));await b.close()})();

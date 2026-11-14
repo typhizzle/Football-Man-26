@@ -1,0 +1,4 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+await pg.evaluate(async()=>{SLOT=1;newC();start();startGame0(1,'reg');pui();await new Promise(r=>setTimeout(r,450))});
+for(const mode of ['new','old']){console.log(mode,await pg.evaluate((mode)=>{if(mode=='old')window.purF=()=>1;const res=[];for(let k=0;k<40;k++){try{ovHide();if(g.ph=='opp'){applyO();ovHide()}if(g.ph!='pre'){g.ph='pre'}g.y=20;g.dn=1;g.tg=10;g.s=[0,0];g.clk=100;g.sel=['Run',k%3];g.tab='Run';hut();const y0=g.los;let t=0;inp={x:0,y:0};while(g.ph=='live'&&t<1500){upd(.033);t++}res.push(Math.round((g.out?g.out.y:0)-y0));if(g.ph=='dead'){g.pl=null;g.ph='pre'}}catch(e){res.push('E')}}const n=res.filter(x=>typeof x=='number');return 'avg '+(n.reduce((a,b)=>a+b,0)/n.length).toFixed(1)+' 20+: '+n.filter(x=>x>=20).length+' td: '+n.filter(x=>x>=80).length+' | '+res.join(',')},mode))}
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,6));await b.close()})();

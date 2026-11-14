@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const W=390,Hh=844;const {b,pg,errs}=await H.open({w:W,h:Hh});const wait=ms=>new Promise(r=>setTimeout(r,ms));
+for(const CAM of [0,1,2]){const r=await pg.evaluate(async(CAM)=>{SLOT=1;if(!S){newC();start()}startGame0(1,'reg');g.sel=['Short',0];g.stage='line';pui();await new Promise(r=>setTimeout(r,450));CAMI=CAM;LY=0;LP=-.04;hut();await new Promise(r=>setTimeout(r,1300));const P=g.pl,q=P.qb;return{ok:swOK(),ph:g.ph,paused:g.paused,watch:g.watch,wf:P.wf,car:P.car===q,air:!!P.air,passed:P.passed,qy:q.y,los:g.los,t:P.call&&P.call.t,lk,aim,CAMI}},CAM);console.log(JSON.stringify(r))}
+console.log(JSON.stringify(errs));await b.close()})();

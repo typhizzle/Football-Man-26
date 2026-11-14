@@ -1,0 +1,2 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));
+console.log(await pg.evaluate(()=>{for(let i=1;i<=6;i++){try{localStorage.removeItem(K+'_'+i)}catch(e){}}SLOT=5;tkStart();const a=ui.innerText.slice(0,400);SLOT=1;newC();start();S.tk=1;S.stage='pro';S.py=1;save();SLOT=5;tkStart();return a+'\n----\n'+ui.innerText.slice(0,500)}));console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

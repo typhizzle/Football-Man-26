@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:800,h:400});const w=ms=>new Promise(r=>setTimeout(r,ms));await w(1200);
+await pg.evaluate(async()=>{SLOT=1;newC();start();startGame0(1,'reg');try{tossClear()}catch(e){}ovHide();g.paused=0;pick('Short',0)});await w(800);
+console.log(await pg.evaluate(()=>{const m=g.pl.ol[0].m,t={};m.traverse(c=>{t[c.type]=(t[c.type]||0)+1});const L=[];m.traverse(c=>{if(c.isMesh){const q=new THREE.Box3().setFromObject(c);L.push([c.geometry.type,q.min.y.toFixed(2),q.max.y.toFixed(2),q.min.z.toFixed(2),q.max.z.toFixed(2)].join(" "))}});return JSON.stringify(t)+"\n"+L.join("\n")}));await b.close()})();

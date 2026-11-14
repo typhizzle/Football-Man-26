@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844,file:process.argv[2]});
+console.log(await pg.evaluate(async()=>{SLOT=1;newC();start();S.stage='pro';studioWalk('rbs');await new Promise(r=>setTimeout(r,800));const ex=LR.O.find(o=>o.k=='eexit'),q=prj(ex.x,1.8,ex.z);lrTap(q[0],q[1]);await new Promise(r=>setTimeout(r,3500));const still=!!(LR&&LR.studio);const d=LR?Math.hypot(LR.p.x-ex.x,LR.p.z-ex.z).toFixed(1):'-';const btn=document.querySelector('#lra button');return 'still in studio: '+still+' dist to door '+d+' near-button: '+(btn&&btn.textContent)}));
+console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3));await b.close()})();

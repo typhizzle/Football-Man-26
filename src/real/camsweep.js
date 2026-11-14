@@ -1,0 +1,4 @@
+const H=require('./h.js');(async()=>{const W=+process.argv[2]||390,Hh=+process.argv[3]||844,tag=process.argv[4]||'p';const P=JSON.parse(process.argv[5]);const {b,pg,errs}=await H.open({w:W,h:Hh});
+await pg.evaluate(async()=>{SLOT=1;newC();start();startGame0(1,'reg');g.sel=['Deep',0];g.stage='line';pui();await new Promise(r=>setTimeout(r,450));hut();await new Promise(r=>setTimeout(r,700));g.paused=1});
+for(let i=0;i<P.length;i++){await pg.evaluate(p=>{CAMI=0;window.camGame=function(qq,qx,por){const asp=W/H,[fv,pt,fo,hw]=p,hf=Math.atan(Math.tan(fv*Math.PI/360)*asp),D=hw/Math.tan(hf),fz=-((qq?qq.y:g.y)+fo),fx=fxs*.45;cm.position.set(fx,Math.sin(pt)*D,fz+Math.cos(pt)*D);cm.lookAt(fx,0,fz);return fv}},P[i]);await new Promise(r=>setTimeout(r,500));await pg.screenshot({path:`/home/claude/real/sw${i}_${tag}.png`})}
+await b.close()})();

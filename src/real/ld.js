@@ -1,0 +1,1 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,6));console.log(await pg.evaluate(()=>typeof offHtml+' '+typeof faV+' '+typeof hwFix+' '+typeof mkPsum));await b.close()})();

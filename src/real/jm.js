@@ -1,0 +1,3 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));
+console.log(await pg.evaluate(()=>{SLOT=4;newC();start();const L=tkList();const last=L[L.length-1];const q=[QBP.findIndex(x=>x[0]=='Jack Mascott'),JSON.stringify(QBB.find(x=>x[0]=='Jack Mascott')),JSON.stringify(PKS.find(x=>x[2]=='Jack Mascott'))];
+ try{start()}catch(e){};tkGo(last.i);ovHide();S.pro.forEach((t,k)=>rost('p.'+k));const f=rosFind('Jack Mascott');return 'last '+last.n+' team '+last.team+' | '+q.join(' ')+' | found '+(f?f.k+':'+f.s:'none')+' | me '+S.name+' team '+tn(S.T[0])+' ro0 '+rost('h.0').slice(0,1).concat(rost('h.0').slice(23)).map(x=>x.n).join(',')}));await b.close()})();

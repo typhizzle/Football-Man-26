@@ -1,0 +1,5 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});
+console.log(await pg.evaluate(async()=>{SLOT=1;newC();start();scene("field");startGame0(1,"reg");g.sel=["Deep",0];g.stage="line";pui();await new Promise(r=>setTimeout(r,500));hut();await new Promise(r=>setTimeout(r,700));let o='';scn.traverse(m=>{if(m.geometry){m.geometry.computeBoundingBox();const bb=m.geometry.boundingBox.clone().applyMatrix4(m.matrixWorld);if(bb.max.y>45&&bb.max.x>200){o+='verts '+m.geometry.attributes.position.count+' attrs '+Object.keys(m.geometry.attributes)+' groups '+m.geometry.groups.length+' mat '+(Array.isArray(m.material)?m.material.map(x=>x.type+x.color.getHexString()).join(','):m.material.type+' vc '+m.material.vertexColors)+' parent '+(m.parent===scn)+'\n';
+ // find vertices with y>20
+ const P=m.geometry.attributes.position;let hi=[];for(let i=0;i<P.count;i++){if(P.getY(i)>33)hi.push([P.getX(i),P.getY(i),P.getZ(i)].map(v=>v.toFixed(0)).join(','))}o+='hi verts: '+hi.length+' sample '+[...new Set(hi)].slice(0,20).join(' | ')}}});return o}));
+await b.close()})();

@@ -1,0 +1,4 @@
+const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});await new Promise(r=>setTimeout(r,1500));
+const code=require('fs').readFileSync('/mnt/user-data/attachments/c57e6934-02ef-509f-85a1-506e72ebaaa1/c59330c6-attachment.txt','utf8').trim();
+console.log(await pg.evaluate(async c=>{localStorage.clear();SLOT=1;const s=await readCode(c);localStorage.setItem(K+'_1',JSON.stringify(s));S=load(1);confFix();crReplay();CRC=null;const C=crCalc(),T=S.T;
+ const f=n=>T.findIndex(t=>t.n==n);return ['USC Protectors','Ohio State Brutes','Ridgemont Falcons'].map(n=>{const i=f(n);return n+' #'+C.pos[i]+' RS '+window._RS[i].toFixed(1)+' : '+C.gl[i].map(x=>(x.w?'W ':'L ')+T[x.o].n.split(' ').slice(0,2).join(' ')+'(#'+C.pos[x.o]+') '+x.m).join(', ')}).join('\n')},code));await b.close()})();
