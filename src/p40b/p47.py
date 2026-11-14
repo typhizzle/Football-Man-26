@@ -543,3 +543,7 @@ r("x.hq=v>=hi?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos
 # m128: made-up colleges rated as the small schools (ratings only, once per save)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m128.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# draft class screen: the followed group is NOT Tyler's class (Tyler 2026-11-14: "It says my class, but
+# that's not my class. That's just the first class that I put in the game.")
+r("Your class — ","First class followed — ",5)

@@ -7165,11 +7165,11 @@ window.npxClassNow=function(){
   ):'';
 
   const body=now+
-   sec('🎤 Your class — declaring','Seniors, plus the juniors who are coming out.',G[0].sort(byOvr))+
-   sec('🤔 Your class — undecided juniors','Could still go either way.',G[1].sort(byOvr))+
-   sec('🎓 Your class — staying in college','Back for another year.',G[2].sort(byOvr))+
-   sec('🏟 Your class — already in the pros','',pro.sort(byPick))+
-   sec('🏫 Your class — still in high school','',hs.sort(byPick));
+   sec('🎤 First class followed — declaring','Seniors, plus the juniors who are coming out.',G[0].sort(byOvr))+
+   sec('🤔 First class followed — undecided juniors','Could still go either way.',G[1].sort(byOvr))+
+   sec('🎓 First class followed — staying in college','Back for another year.',G[2].sort(byOvr))+
+   sec('🏟 First class followed — already in the pros','',pro.sort(byPick))+
+   sec('🏫 First class followed — still in high school','',hs.sort(byPick));
   const yrs=Object.keys(S.npb||{}).sort();
   const Y=(typeof yrN=='function')?yrN():'';
   ui.innerHTML=`<div><h2>🌟 ${S.npxd?'Draft class':(S.stage||'hs')=='hs'?'Future draft class':'Upcoming pro draft'}${Y?' · '+Y:''}</h2>`+

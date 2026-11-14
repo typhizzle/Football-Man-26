@@ -554,3 +554,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   history touched. `col1.js` (gate 21): 19/64 above median and max 92 -> 5/64, max 80.
 - OPEN: new saves generate ~40-74 random-name schools (UN+MS) beside Tyler's ~49 names; dropping
   them leaves 1-5-team conferences, so new-save conferences must be rebuilt. Not done.
+- V240: draft class screen (m97) said "Your class — …" for the npx followed group (the first class put in the game, 2027-28). Renamed to "First class followed — …" via r(...,5) in p47. ncl1.js (gate 22). Lesson: I first relabelled the TITLE from code-reading and made it worse (the screen is the current 2035 class); the rendered-text test caught it.

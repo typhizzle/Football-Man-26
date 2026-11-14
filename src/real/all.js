@@ -139,6 +139,10 @@ const TESTS=[
    if(d.B_runsOnce!==true)return 'rating pass runs more than once';
    return null}},
 
+ {f:'ncl1.js', why:'the draft class screen does not call the first followed class "your class"',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   for(const k of ['A_noYourClass','B_labelledFollowed','C_titleIsThisSeason','D_hasBack'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';
