@@ -665,3 +665,16 @@ STANDING RULES from this:
 - kp1 must pass before ANY publish. It replays the exact loss and fails on V0003.
 - NO SILENT ONE-TIME CHANGES TO A SAVE (like bxRedo). List them for Tyler and get his OK before shipping.
 - Any new code that writes a slot key must go through setItem (it will) — never bypass with other storage.
+
+## V256 (V 0.0.1.0005) — m141 card clubs + m142 HIGH SCHOOL & COLLEGE CAREERS (gates pl2, pc1)
+- m141: cards list clubs only from season rows since uY0() (2022) + tx log + current club. genHist (league
+  creation) made up pre-2022 rows/clubs for everyone (Ferret's 2021 KC). x.tm is NOT trusted for display.
+  TA is indexed by S.pro order (tAb uses pIdx); S.T order differs (user team at 0) — never TA[i] for S.T[i].
+- m142: S.pc = {p:{pid:{n,pos,r:[[yr,lv,club,cls,g,pc,pa,py,ptd,pint,car,ry,rtd,rec,recy,rectd,tkl,sck,intc]],
+  o:[[yr,what,where,detail]], a:[[yr,lv,award,club]]}}, g:[[pid,cm,gradYr,pos,num,ovr]], done, aged}.
+  Hooks: nextYr (PCYR = closing year; hsAge seniors -> 'graduated' + commitment), colNext (record, then
+  pcColAge: classes up, seniors leave on record, freshmen in), declare, hsAlumIn (committed grads placed at
+  their college with same pid; QBs as backups at L[23+]). College rosters had cls 0 → pcCls (1-4 by name hash).
+  ~27 KB compressed per season. Cards: pcRowsHtml is READ-ONLY (pl2 caught a write).
+- Not yet: college → pro (draft class from real college players), former-teammate tags, awards beyond
+  Heisman/Golden Arm/O'Brine/team titles for CPU players.

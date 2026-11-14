@@ -1559,9 +1559,9 @@ function coverTick(t,por,dt){const m=PL.cv;if(!m)return;coverQB(m,t);
 const att=PL.cvm!='menu',sw=Math.sin(t*.22)*.14,push=att?Math.sin(t*.18)*.6:0,a=PL.cry-.75+sw,D=(att?(por?11.5:12.5):(por?19:12.5))-push,cx=-Math.sin(a)*D,cz=-46-Math.cos(a)*D,cy=att?(por?2.7:2.6):(por?3.2:2.9),F=[0,2.5,-46],fv=por?58:42;
 const dx=F[0]-cx,dz=F[2]-cz,dl=Math.hypot(dx,dz),rx=-dz/dl,rz=dx/dl,nx=att?(por?0:.32):(por?0:-.66),ny=att?(por?-.06:-.04):(por?.4:-.02),th=Math.tan(fv*Math.PI/360),asp=W/H;
 cm.fov=fv;cm.position.set(cx,cy,cz);cm.lookAt(F[0]-rx*dl*nx*th*asp,F[1]-dl*(ny-(PL.dy||0))*th,F[2]-rz*dl*nx*th*asp);cm.updateMatrixWorld();cm.updateProjectionMatrix();ttlFit()}
-let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0004</small></div>`;ui.scrollTop=0}
+let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0005</small></div>`;ui.scrollTop=0}
 function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=6;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
-ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0004</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
+ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0005</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
 // a clear "scroll for more" hint whenever a screen runs past the bottom
 function scrH(){let e=$('#scrh');if(!e){e=document.createElement('div');e.id='scrh';e.innerHTML='▼ Scroll for more ▼';e.onclick=()=>ui.scrollBy({top:ui.clientHeight*.7,behavior:'smooth'});document.body.appendChild(e)}const show=ui.style.display!='none'&&!(typeof LR!='undefined'&&LR)&&cv.style.display!='block'&&ui.scrollHeight-ui.clientHeight-ui.scrollTop>40;e.style.display=show?'block':'none'}
 function scene(m){M=m;SPIN=0;const ind=m=='lock'||m=='iv'||m=='drf';FLD.visible=EZ.visible=!ind;LOK.visible=ind;if(m!='lock'&&$('#lrw')){$('#lrw').style.display='none';LR=null}if(m!='cmb'){const cw=$('#cmbw');if(cw)cw.style.display='none'}DYN.visible=m=='game';CHR.visible=m=='game';PL.visible=m!='game';LOSm.visible=FDm.visible=m=='game';scn.background=m=='lock'?new T3.Color(0x24323f):ind?new T3.Color(0x07080b):m=='cover'?NIGHT:SKY;scn.fog=ind?null:m=='cover'?new T3.Fog(0x0b1730,70,220):new T3.Fog(0xcdeeff,90,240);{const hm=scn.children.find(c=>c instanceof T3.HemisphereLight);if(hm)hm.intensity=m=='cover'?.5:.95;sun.intensity=m=='cover'?.35:.7}if(m=='lock')lockP();else if(m=='field')pract();else if(m=='cover')coverP()}
@@ -4139,7 +4139,7 @@ function babyYear(){if(!S.preg)return;const g=S.preg.g,n=(g=='b'?NF[ri(0,NF.leng
 function kidsHtml(){const K=S.kids||[];if(!K.length&&!S.preg)return '';return `<div class=card><b>👶 Your kids</b>${S.preg?'<p><small>A baby '+(S.preg.g=='b'?'boy':'girl')+' is on the way.</small></p>':''}${K.map((k,i)=>`<div class=row style="font-size:16px"><span>${esc(k.n)} <small>${k.g=='b'?'Son':'Daughter'} · age ${k.age}</small></span><button class=g onclick="kidName(${i})">Rename</button></div>`).join('')}</div>`}
 function kidName(i){const k=(S.kids||[])[i];if(!k)return famV();const n=prompt('Name your '+(k.g=='b'?'son':'daughter')+':',k.n.split(' ')[0]);if(n&&n.trim())k.n=n.trim().slice(0,20)+' '+lastN();save();famV()}
 function kidsYear(){(S.kids||[]).forEach(k=>k.age++)}
-// ===================== V 0.0.1.0004 · nicer 3D homes (cutaway walls + decor) =====================
+// ===================== V 0.0.1.0005 · nicer 3D homes (cutaway walls + decor) =====================
 // Walls between the camera and you drop down to a short stub (dollhouse view), so you can always see inside.
 function hmCut(L,C){(L.hw||[]).forEach(w=>{const out=w.ax=='z'?(C.z-w.v)*w.sg>-.2:(C.x-w.v)*w.sg>-.2;if(out===w.cut)return;w.cut=out;w.m.scale.y=out?.12:1;w.m.position.y=out?w.h*.06:w.h/2;(w.ex||[]).forEach(e=>e.visible=!out)})}
 function hmDecor(id,sz,W,D,x1,x2,zb,zf,z0,pal,hw,O){const P=PL,wb=hw[0],wL=hw[1],wR=hw[2],on=(w,m)=>{(w.ex=w.ex||[]).push(m);return m};
@@ -10289,5 +10289,113 @@ window.plClubs=function(x,T){try{if(!x)return [];
  return ok}catch(e){return (x&&x.tm)||[]}};
 // how many listed clubs were dropped because nothing records them (for the gate and the audit)
 window.plUnproven=function(x,T){const s=new Set(plClubs(x,T));return (x.tm||[]).filter(a=>!s.has(a))};
+// ===== 🧬 EVERY PLAYER'S LIFE MATTERS — high school and college careers, kept like the pros =====
+// Tyler, 2026-11-14: "just however you're following careers in pro, just make sure it goes the same from
+// high school to college throughout ... make sure everyone's career is kept up with properly ... And all
+// their stats and awards. And years they've played. And teams they've played for."
+// What the game did (measured): every high-school senior was ERASED at the end of each year and a random
+// freshman took his spot (only your own committed teammates were remembered); college players never aged,
+// never graduated and never left; nobody below the pros had a season-by-season record.
+// Now:
+//  - every player at every level has a permanent id and a career record S.pc.p[pid]: one row per season
+//    [year, level, club, class, games, the season stats added up from that season's box scores], his
+//    awards, and every exit (graduated, committed to X, left college). It only ever GROWS.
+//  - a senior who graduates is never erased: his record stays, with where he committed. When the college
+//    level is played, every committed graduate shows up on his college's roster with the same id and his
+//    high-school seasons, in the right class.
+//  - college players move up a class every year; seniors leave (recorded) and a freshman class comes in.
+//  - nothing already in a save is rewritten or invented: records start from the season this is first
+//    played; years before that are shown as not recorded.
+
+window.pcS=function(s){s=s||S;if(!s)return null;s.pc=s.pc||{p:{},g:[],v:1};s.pc.p=s.pc.p||{};s.pc.g=s.pc.g||[];return s.pc};
+window.pcId=function(x){try{if(!x||!x.n)return null;const R_=pcS();
+ // a NAME IS NOT AN IDENTITY, but an id on an object the game re-used for a different man is not his either
+ if(x.pid&&R_.p[x.pid]&&R_.p[x.pid].n!==x.n)x.pid=null;
+ if(!x.pid)x.pid='p'+(S.pidN=(S.pidN||0)+1);
+ if(!R_.p[x.pid])R_.p[x.pid]={n:x.n,pos:x.pos||'',r:[],o:[],a:[]};return x.pid}catch(e){return null}};
+const PCLV={hs:'High school',col:'College',pro:'Pro'};
+const pcStat=z=>{if(!z)return [0];const a=[z.g,z.pc,z.pa,z.py,z.ptd,z.pint,z.car,z.ry,z.rtd,z.rec,z.recy,z.rectd,z.tkl,z.sck,z.intc].map(v=>+v||0);while(a.length>1&&!a[a.length-1])a.pop();return a};
+// college rosters were made without a class year (every man read class 0, so nobody ever left). On first
+// sight a man gets one, the same way the game makes college rosters elsewhere (1-4, fixed by his name).
+window.pcCls=function(x){try{if(S&&S.stage=='col'&&x&&!x.cls&&!x.qs)x.cls=1+(Math.abs(hsh(String(x.n)+'|cls'))%4);return x.cls}catch(e){return 0}};
+window.pcLevel=function(){return S&&S.stage=='col'?'col':S&&S.stage=='hs'?'hs':null};
+
+// a season closes at the high-school or college level: every player on every roster gets his row
+window.pcClose=function(lv){try{if(!S||!S.T||!lv)return 0;const R_=pcS(),yr=yrN(),key=lv+yr;if((R_.done||(R_.done={}))[key])return 0;
+ let D={};try{szCache=null;D=szGet()||{}}catch(e){}
+ const titles={};try{if(lv=='col'&&S.cb&&S.cb.champ!=null)titles[S.cb.champ]='National Champions';if(lv=='hs'&&S.po&&S.po.L&&S.po.L.length==1)titles[S.po.L[0]]='State Champions';(S.cch||[]).forEach(i=>{if(lv=='col'&&!titles[i])titles[i]='Conference Champions'})}catch(e){}
+ const named={};try{if(lv=='col'){const c=S.csum||{};(c.heis||[]).forEach((n,k)=>{n=String(n).replace(/^▶ /,'');named[n]=named[n]||[];named[n].push(k?'Heisman finalist':'Heisman Trophy')});if(c.ga)(named[c.ga]=named[c.ga]||[]).push('Golden Arm Award');if(c.qa)(named[c.qa]=named[c.qa]||[]).push("O'Brine Award (best QB)")}}catch(e){}
+ let n=0;S.T.forEach((t,i)=>{let L=null;try{L=rost('h.'+i)}catch(e){}if(!L)return;const club=t.n;
+  L.forEach((x,k)=>{if(!x||!x.n||(i==0&&k==0))return;const id=pcId(x);if(!id)return;const e=R_.p[id];
+   if(e.r.some(q=>q[0]===yr&&q[1]===lv))return;
+   if(lv=='col')pcCls(x);const cls=lv=='hs'?(x.gr||null):(x.cls||null);
+   e.r.push([yr,lv,club,cls,...pcStat((D[i]||{})[x.n])]);n++;
+   if(titles[i])e.a.push([yr,lv,titles[i],club]);
+   (named[x.n]||[]).forEach(a=>e.a.push([yr,lv,a,club]))})});
+ R_.done[key]=1;return n}catch(e){return 0}};
+
+// ---- high school: seniors graduate (recorded, never erased) ----
+(()=>{try{const _a=hsAge;hsAge=function(){try{if(S&&S.ro&&S.stage!='col'&&S.stage!='pro'){const R_=pcS(),yr=window.PCYR||yrN();   // the year that is closing (nextYr has already filed it)
+  Object.keys(S.ro).forEach(a=>{if(a[0]!='h')return;const L=S.ro[a];if(!Array.isArray(L))return;const t=gt(a);
+   L.forEach((x,j)=>{if(!x||(a=='h.0'&&j==0)||x.npx!=null||!x.gr||x.gr<4)return;const id=pcId(x);if(!id)return;const e=R_.p[id];
+    if(e.o.some(q=>q[0]===yr&&q[1]==='graduated'))return;
+    e.o.push([yr,'graduated',(t&&t.n)||'',x.cm||null]);
+    if(x.cm)R_.g.push([id,x.cm,yr,x.pos,x.num,x.ovr])})})}}catch(e){}
+ return _a.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _n=nextYr;nextYr=function(){try{if(S&&S.stage!='col'&&S.stage!='pro'&&!(S.yr>4)){window.PCYR=yrN();pcClose('hs')}}catch(e){}try{return _n.apply(this,arguments)}finally{window.PCYR=0}}}catch(e){}})();
+
+// ---- college: the season is recorded, then every class moves up and seniors leave ----
+window.pcColAge=function(yr){try{const R_=pcS();let left=0,up=0,fr=0;
+ S.T.forEach((t,i)=>{const L=S.ro&&S.ro['h.'+i];if(!Array.isArray(L))return;
+  L.forEach((x,k)=>{if(!x||(i==0&&k==0)||x.npx!=null||x.yq!=null||(k==0&&x.qs))return;
+   const id=pcId(x);const e=R_.p[id];const c=x.cls||1;
+   if(c>=4){e.o.push([yr,x.ovr>=78?'left college for the draft':'graduated',t.n,null]);left++;
+    const rs=rng(hsh(x.n)+yr*37+i);const nw={n:NF[rs()*NF.length|0]+' '+NL[rs()*NL.length|0],pos:x.pos,num:x.num,ovr:cl(Math.round((t.ovr||60)-10+(rs()-.5)*14),35,88),cls:1,dn:x.dn};
+    L[k]=nw;pcId(nw);R_.p[nw.pid].o.push([yr+1,'joined',t.n,'freshman']);fr++}
+   else{x.cls=c+1;x.ovr=cl((x.ovr||50)+ri(0,4),30,99);up++}})});
+ return {left,up,fr}}catch(e){return null}};
+(()=>{try{const _c=colNext;colNext=function(){let yr=0;try{if(S&&S.stage=='col'){yr=yrN();pcClose('col')}}catch(e){}
+ const r=_c.apply(this,arguments);
+ try{if(yr&&S.stage=='col'&&!S.cdone){const R_=pcS();R_.aged=R_.aged||{};if(!R_.aged[yr]){R_.aged[yr]=1;pcColAge(yr);save()}}}catch(e){}
+ return r}}catch(e){}})();
+(()=>{try{const _d=declare;declare=function(){try{if(S&&S.stage=='col')pcClose('col')}catch(e){}return _d.apply(this,arguments)}}catch(e){}})();
+
+// ---- committed graduates show up at their college, same man, same record ----
+window.pcGradIdx=function(){const R_=pcS();if(R_._gi&&R_._gi.n===R_.g.length)return R_._gi.m;const m={};R_.g.forEach(q=>{(m[q[1]]=m[q[1]]||[]).push(q)});
+ Object.defineProperty(R_,'_gi',{value:{n:R_.g.length,m},enumerable:false,configurable:true,writable:true});return m};
+(()=>{try{const _h=hsAlumIn;hsAlumIn=function(a,t,L){const r=_h.apply(this,arguments);
+ try{if(L&&S.stage=='col'&&!L.pcC){L.forEach(x=>{if(x)pcCls(x)});L.pcC=1}}catch(e){}
+ try{if(!t||!L||S.stage!='col')return r;const G=pcGradIdx()[t.n];if(!G||!G.length)return r;if(L.pcG===G.length)return r;
+  const yr=yrN(),R_=pcS();
+  G.forEach(([id,cm,gy,pos,num,ovr])=>{const e=R_.p[id];if(!e)return;const yrs=yr-gy;if(yrs<1||yrs>4)return;
+   if(L.some(x=>x&&(x.pid===id)))return;
+   const same=L.findIndex(x=>x&&x.al&&x.n===e.n&&!x.pid);if(same>0){L[same].pid=id;return}
+   let k=-1,lo=1e9;L.forEach((x,j)=>{if(j>0&&x&&x.pos==pos&&x.npx==null&&!x.al&&!x.pid&&x.yq==null&&!x.qs&&x.ovr<lo){lo=x.ovr;k=j}});
+   if(k<0)L.forEach((x,j)=>{if(j>0&&x&&x.pos==pos&&x.npx==null&&!x.al&&x.yq==null&&!x.qs&&!(R_.p[x.pid]&&R_.p[x.pid].r.length)&&x.ovr<lo){lo=x.ovr;k=j}});
+   const nx={n:e.n,pos,num,ovr:cl((ovr||50)+2*yrs,40,95),cls:Math.min(4,yrs),al:1,pid:id};
+   // a college roster has one quarterback slot (the starter comes from the QB room): a committed QB joins as a backup
+   if(k<0&&pos==='QB'){let z=23;while(L[z])z++;nx.bq=1;L[z]=nx}else if(k<0)return;else L[k]=nx;
+   if(!e.o.some(q=>q[1]==='joined'&&q[2]===t.n))e.o.push([gy+1,'joined',t.n,'committed from high school'])});
+  L.pcG=G.length}catch(e){}
+ return r}}catch(e){}})();
+
+// ---- every load: give every player at the level being played his id (additive only) ----
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{if(s&&(s.stage=='hs'||s.stage=='col')&&s.ro){const o=S;S=s;try{pcS(s);for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach((x,j)=>{if(x&&x.n&&!(k=='h.0'&&j==0)){pcId(x);if(s.stage=='col')pcCls(x)}})}}finally{S=o}}}catch(e){}return s}}catch(e){}})();
+
+// ---- the player card: high school and college seasons, awards, exits ----
+window.pcRowsHtml=function(x){try{const R_=S&&S.pc,e=R_&&R_.p&&x&&x.pid&&R_.p[x.pid];   // read-only: a card never writes to the saveif(!e||(!e.r.length&&!e.o.length&&!e.a.length))return '';
+ const g=SG(x.pos),cl_=(lv,c)=>c?(lv=='hs'?['','Fr','So','Jr','Sr'][c]||'':(['','Fr','So','Jr','Sr'][c]||'')):'';
+ const line=q=>{const s=q.slice(4),v=i=>s[i]||0;const G=v(0);const p=[];
+  if(v(2))p.push(v(1)+'/'+v(2)+', '+v(3).toLocaleString()+' pass yds, '+v(4)+' TD, '+v(5)+' INT');
+  if(v(6))p.push(v(7).toLocaleString()+' rush yds, '+v(8)+' TD');
+  if(v(9))p.push(v(9)+' rec, '+v(10).toLocaleString()+' yds, '+v(11)+' TD');
+  if(v(12)||v(13)||v(14))p.push(v(12)+' tkl'+(v(13)?', '+v(13)+' sacks':'')+(v(14)?', '+v(14)+' INT':''));
+  return (G?G+' G · ':'')+(p.join(' · ')||'<small style="opacity:.65">no stats in the box scores</small>')};
+ const rows=e.r.slice().sort((a,b)=>a[0]-b[0]).map(q=>`<div class=row style="font-size:15px;align-items:flex-start"><span>${q[0]} ${esc(q[2])} <small>${PCLV[q[1]]} ${cl_(q[1],q[3])}</small></span><span style="text-align:right">${line(q)}</span></div>`).join('');
+ const aw=e.a.map(q=>`${q[0]} ${esc(q[2])}`).join(' · ');
+ const ev=e.o.map(q=>`${q[0]} ${q[1]}${q[1]=='graduated'&&q[3]?' — committed to '+esc(q[3]):q[1]=='graduated'?' from '+esc(q[2]):q[1]=='joined'?' '+esc(q[2])+(q[3]?' ('+q[3]+')':''):' — '+esc(q[2])}`).join(' · ');
+ const lv=[...new Set(e.r.map(q=>q[1]))].map(l=>PCLV[l]).join(', ');
+ return `<div class=card data-pc=1><b>High school &amp; college record</b><br><small>${e.r.length} season${e.r.length==1?'':'s'} recorded${lv?' · '+lv:''} · clubs: ${[...new Set(e.r.map(q=>q[2]))].map(esc).join(', ')||'—'}</small>${rows}${aw?`<br><small>🏅 ${aw}</small>`:''}${ev?`<br><small>${ev}</small>`:''}<br><small style="opacity:.6">Seasons before records began are not shown.</small></div>`}catch(e){return ''}};
+(()=>{try{const _c=pCard;pCard=function(i,j){const r=_c.apply(this,arguments);try{const L=rost('h.'+i),x=L&&L[j];if(x&&!(i==0&&j==0)){const h=pcRowsHtml(x);const d=ui.firstElementChild;if(h&&d&&!d.querySelector('[data-pc]')){const back=[...d.querySelectorAll('button')].pop();if(back)back.insertAdjacentHTML('beforebegin',h);else d.insertAdjacentHTML('beforeend',h)}}}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

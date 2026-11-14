@@ -628,3 +628,9 @@ assert h.count("t:(x.tm||[]).join(', ')")==2, h.count("t:(x.tm||[]).join(', ')")
 h=h.replace("t:(x.tm||[]).join(', ')","t:(typeof plClubs=='function'?plClubs(x):(x.tm||[])).join(', ')")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m141.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m142: high school and college careers kept like the pros (Tyler 2026-11-14: "make sure it goes the same from high school to college throughout")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m142.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+assert h.count("V 0.0.1.0004")==3, h.count("V 0.0.1.0004")
+h=h.replace("V 0.0.1.0004","V 0.0.1.0005")

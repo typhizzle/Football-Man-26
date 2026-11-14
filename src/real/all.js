@@ -36,6 +36,9 @@ const TESTS=[
  {f:'pl2.js', why:'A CARD ONLY LISTS CLUBS A PLAYER REALLY PLAYED FOR: every card checked against his seasons since 2022, the moves log and his club now (Meters Ferret never KC); save untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.A_ferretNoKC!==true)return 'Ferret card: '+d.A_ferretCard;if(d.B_unrecordedClubsShown!==0)return d.B_unrecordedClubsShown+' cards show a club never played for, e.g. '+(d.B_examples||[])[0];if(d.C_currentClubMissing!==0)return d.C_currentClubMissing+' cards miss the current club';if(d.D_saveUntouched!==true)return 'save changed';if(!(d.cards>700))return 'only '+d.cards+' cards rendered';if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
 
+ {f:'pc1.js', why:'HIGH SCHOOL AND COLLEGE CAREERS KEPT LIKE THE PROS: every player gets each season (club, class, box-score stats), seniors graduate on the record (never erased), committed grads arrive at their college with the same id, college classes move up, nobody removed, survives reload',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_allHaveSeason','B_seniorsKept','B_commitWritten','C_noDuplicate','D_allThere','D_freshmen','E_cardShowsHS','F_allHaveSeason','F_movedUp','F_seniorsLeftOnRecord','F_nobodyRemoved','G_survivesReload'])if(d[k]!==true)return k+' = '+d[k];if(d.A_wrongClub||d.A_wrongStats)return 'wrong club/stats '+d.A_wrongClub+'/'+d.A_wrongStats;if(!(d.sizeZ<120000))return 'record too big '+d.sizeZ;if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
