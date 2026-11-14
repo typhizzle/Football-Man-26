@@ -525,3 +525,11 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   `brWeekFilter(L)` before `S.spe={k,L,done:[]}`; evWalk crowd filtered by `brOkAt(v,id)`.
 - Harness `br1.js` (gate 18). Before: 2 rivals signed, 44/137 rival events, 107 wrong-brand celebs.
   After: 0/0/0. Walk-event crowd checked at function level only (3D scene not inspected).
+
+## Publishing change (2026-11-14): GitHub Pages is live from `main`
+- Tyler is dropping Netlify and using GitHub: https://typhizzle.github.io/Football-Man-26/
+- After every gated build: copy to repo `index.html`, commit on the session branch, then
+  `git push origin HEAD:main` (fast-forward). Pages deploys in ~40s ("pages build and deployment").
+  The sandbox can't fetch github.io; confirm via the Actions run list instead.
+- Brand rule clarified by Tyler: a save already holding two houses keeps both until one ends,
+  then one from there (exactly what m126 does).
