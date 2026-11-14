@@ -720,3 +720,16 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 r("<small>${x.s}</small>","<small>${x.s}</small>${x.cs?'<br><small style=\"opacity:.8\">'+x.cs+'</small>':''}")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m153.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m154: one card, a whole career (EPLM)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m154.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m155: coaches move between levels, new saves only (Tyler: "progress from high school to college to pro")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m155.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m156: play as an existing college QB (Tyler 2026-11-14)
+r("<button class=g onclick=tkStart()>🎭 Play as an existing pro QB</button>","<button class=g onclick=tkStart()>🎭 Play as an existing pro QB</button><button class=g onclick=tcStart()>🎓 Play as an existing college QB</button>")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m156.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

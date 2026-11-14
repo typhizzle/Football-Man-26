@@ -66,6 +66,9 @@ const TESTS=[
  {f:'cm1.js', why:'coaches move between levels in NEW saves only (a winning college coach to a pro opening, on his record, his school replaces him); existing saves never',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_existingUntouched','B_movedUp','B_recordSaysSo','B_schoolReplaced'])if(d[k]!==true)return k+' = '+d[k];if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
 
+ {f:'tc1.js', why:'play as an existing college QB: button on the new-career screen, any college starter, his school/class/rating at week 1, the season plays on',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_button','A_list','B_name','B_school','B_class','B_rating','B_notInHisOwnRoom','C_week1','C_simmed','C_hub'])if(d[k]!==true)return k+' = '+d[k];if(d.B_stage!=='col')return 'stage '+d.B_stage;if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
