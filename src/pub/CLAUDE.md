@@ -614,3 +614,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   chose). "No headwear" ('') shows his face; Skull mask headwear still draws it via hatOn. hat1.js.
   Cowboy suits / horse head also have built-in head pieces — unchanged (not reported).
 - V248: Tyler asked to fix his inflated season. bxRedo(s): once per save, if the season in progress when m135 shipped is not closed yet (pro: S.sled!==S.py), S.bxv.w=0 so every CPU game of it uses the new formula. Closed (archived, sealed) seasons are NOT rewritten. 11-07 save at wk13: rush leader 1296, pass TD 28, rec TD 14.
+- Gate 32: bx1.js — every CPU + stored game: QB c/y/td == sum of receivers; season ledger passTD==recTD per team. st1 also caps 40+ pass-TD QBs in any ONE season at 4 (real: ~19 such seasons 2004-2025, max 3 in a season).

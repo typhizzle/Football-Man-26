@@ -18,6 +18,6 @@ const r=await pg.evaluate(async(j,OLD)=>{const out={};try{const s=await readCode
   seasons.push({ppg:+(pts/gms).toFixed(1),rush2000:cnt('ry',2000),rushLead:mx('ry'),rushTDlead:mx('rtd'),pass40:cnt('ptd',40),passTDlead:mx('ptd'),rec20:cnt('rectd',20),recTDlead:mx('rectd'),recYlead:mx('recy'),rec1500:cnt('recy',1500),passYlead:mx('py')})}
  const avg=k=>+(seasons.reduce((a,x)=>a+x[k],0)/NS).toFixed(1),sum=k=>seasons.reduce((a,x)=>a+x[k],0),max=k=>Math.max(...seasons.map(x=>x[k]));
  Object.assign(out,{seasons:NS,ppg:avg('ppg'),rush2000_total:sum('rush2000'),rushLead_avg:avg('rushLead'),rushLead_max:max('rushLead'),rushTDlead_avg:avg('rushTDlead'),rushTDlead_max:max('rushTDlead'),
-  pass40_perSeason:avg('pass40'),passTDlead_avg:avg('passTDlead'),passTDlead_max:max('passTDlead'),passYlead_avg:avg('passYlead'),rec20_total:sum('rec20'),recTDlead_avg:avg('recTDlead'),recYlead_avg:avg('recYlead'),rec1500_perSeason:avg('rec1500')});
+  pass40_perSeason:avg('pass40'),pass40_maxOneSeason:max('pass40'),passTDlead_avg:avg('passTDlead'),passTDlead_max:max('passTDlead'),passYlead_avg:avg('passYlead'),rec20_total:sum('rec20'),recTDlead_avg:avg('recTDlead'),recYlead_avg:avg('recYlead'),rec1500_perSeason:avg('rec1500')});
 }catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j,OLD);
 console.log(JSON.stringify(r,null,1));await b.close()})();

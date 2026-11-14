@@ -193,12 +193,16 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(d.markerSetOnLoad!==true)return 'played-games marker not set on load';if(d.seasonRedone!==true)return 'the inflated in-progress season was not redone';if(d.playedGamesNowRealistic!==true)return 'played games of the inflated season still use the old formula';
    if(d.rush2000_total>3)return d.rush2000_total+' 2,000-yd rushers in 10 seasons';if(d.rushTDlead_max>27)return 'rush TD leader '+d.rushTDlead_max;
-   if(d.pass40_perSeason>2)return d.pass40_perSeason+' QBs/season with 40+ pass TD';if(d.passTDlead_max>52)return 'pass TD leader '+d.passTDlead_max;
+   if(d.pass40_perSeason>2)return d.pass40_perSeason+' QBs/season with 40+ pass TD';if(d.pass40_maxOneSeason>4)return d.pass40_maxOneSeason+' QBs with 40+ pass TD in one season (real max 3)';if(d.passTDlead_max>52)return 'pass TD leader '+d.passTDlead_max;
    if(d.rec20_total>3)return d.rec20_total+' 20+ rec TD seasons';if(d.recTDlead_avg>19)return 'rec TD leader avg '+d.recTDlead_avg;
    if(d.rushLead_avg<1400||d.passTDlead_avg<32||d.recYlead_avg<1300)return 'stats DEFLATED too far';return null}},
 
  {f:'hat1.js', why:'skeleton outfit: No headwear really takes the skull mask off',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_skullWhenNeverChose','B_noSkullWithNoHeadwear'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
+ {f:'bx1.js', why:'every box score adds up: QB completions/yards/TD = what his receivers caught, every game and every season',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.games<300)return 'only '+d.games+' games checked';
+   if(d.badCount)return d.badCount+' games/seasons do not add up: '+d.bad[0];if(d.seasonMismatch)return d.seasonMismatch+' teams season totals off';return null}},
 
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
