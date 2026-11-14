@@ -652,3 +652,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m144.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 assert h.count("V 0.0.1.0006")==3, h.count("V 0.0.1.0006")
 h=h.replace("V 0.0.1.0006","V 0.0.1.0007")
+
+# m144+: simmed passing yards also follow the pass catchers (Tyler 2026-11-14: "receivers and tight ends really do play a big part")
+r("sh=.5+r()*.18,py=Math.round(tot*sh)","sh=cl((.5+r()*.18)*(typeof bxRecv=='function'?(1+(bxRecv(ti)-1)*.6):1),.4,.75),py=Math.round(tot*sh)")

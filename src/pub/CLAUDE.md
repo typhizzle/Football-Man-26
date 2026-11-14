@@ -682,3 +682,7 @@ STANDING RULES from this:
 ## V257 (V 0.0.1.0006) — m143 award ballots: finalists with ln "NN OVR" get their real season (awLn: season row, else box-score total so far, else OL note). Gate aw5.
 
 ## V258 (V 0.0.1.0007) — m144 season form (bxForm: per team-season .78-1.22 on the passing TD share, from the first season after the update: S.sfv) + simTd (your simmed TD = pts/14+gs*.5 times form; was pts/12 → 54-60 TD years). 24-season measure: you 5 MVPs, Drako 6 (was 9/16), 9 different winners, max 48 TD. Gate sim1 is a RANDOM guardrail (>=3 MVP winners, nobody >5/8, max TD 56, you lead TDs <=6/8): it caught nothing on one old-build run, so treat it as a tripwire, not proof. Root cause still open: top CPU offenses score 38-43 ppg (real best ~30-34).
+
+## V259 (still V 0.0.1.0007) — receivers matter in the sim: bxRecv (WR1-3+TE weighted ovr vs league, +-12%) on the passing TD share (inside bxForm, combined clamp .75-1.2) and on the passing yard share (60% strength). Same-rated QBs: best 8 receiving groups ~28 TD vs worst 8 ~20. 24 seasons: 10 different MVPs, you 4, max 55.
+**VERSION RULE (Tyler 2026-11-14): "you don't have to move the number until the next drastic change" — bump the V 0.0.1.000N label only for big updates.**
+Tyler: balancing is for SIMULATED seasons only; games he plays keep what happened.
