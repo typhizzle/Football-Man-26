@@ -499,3 +499,17 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - Harness `hp1.js` (gate now 16): fails on V231 (0/192), passes on V232 (192/192).
 - Known, not yet fixed: `pEdit` age change slices x.h (seal restores) and generates rows with sVals
   (invented). Seasons only recorded in the PRO stage — HS/college NPC careers are the next gap.
+
+## V233 (2026-11-14) — coaches' lives matter (m125)
+- Coaches live in `t.cch` (HC) and `t.gmr` (GM): {n,o,a,y,b,nb,w,l,gm}. 11-07 save: 212 HC + 32 GM
+  + 28 in `S.cpool`. No id, no per-season record. `staffYear()` REPLACED retiring coaches (gone
+  forever) and the pool is trimmed to 60 (`.slice(-60)` — erased). Only the level being played
+  (S.T) runs the carousel; in a pro save the 140 college + 40 HS coaches are frozen.
+- `m125.js`: permanent `c.cid` (copies keep it); registry `S.cr.c[cid]` = {n,g,rows:[[yr,lvl,club,W,L]],
+  hired,out,st,pre}. Append-only; nobody removed. Rows written in a `staffYear` wrapper from the
+  club's own W-L (yrN() at that moment is still the finished season — measured: 2035 before,
+  2036 after). Exits: fired (in pool after) / retired / left. `pre` = totals before records began,
+  shown as such, never split into invented years. Screens `crV()` / `crCard(cid)`; button added to
+  `staffV` with insertAdjacentHTML (no innerHTML reassign — TRAP 1).
+- Harness `cr1.js` (gate now 17). NOT done yet: coaches moving between levels (HS→college→pro)
+  and the frozen levels progressing — that is a gameplay change; per Tyler, NEW SAVES ONLY.

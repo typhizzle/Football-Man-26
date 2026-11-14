@@ -115,6 +115,15 @@ const TESTS=[
    return null}},
 
  // ---- the shop ----
+ {f:'cr1.js', why:'every coach has a permanent id and career; seasons recorded with real W-L; retired coaches kept, never removed',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(!d.A_coaches||d.A_withId!==d.A_coaches)return 'coaches without id: '+(d.A_coaches-d.A_withId);
+   if(!d.B_seasonsRecorded)return 'no coach seasons recorded';
+   if(d.B_missingOrWrong)return d.B_missingOrWrong+' coach seasons missing or wrong W-L';
+   for(const k of ['C_retiredStillThere','C_retiredMarked','C_hisSeasonKept','C_replacementHired','D_nobodyRemoved','F_buttonOnCoachScreen','F_listShowsRetired','F_cardShowsSeasonAndExit','H_survivesReload'])
+    if(d[k]!==true)return k+' = '+d[k];
+   return null}},
+
  {f:'hp1.js', why:'linemen and kickers get every season recorded (x.hp), sealed row by row, shown on the card; nothing old altered',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.A_linemenAndKickers)return 'no linemen/kickers found';

@@ -515,3 +515,7 @@ r("""${g&&H.length?`<div class=card><b>Season by season</b><br><small>${hd}</sma
   """${H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?(g?'<small style="opacity:.65">season played · stats not recorded</small>':'<small style="opacity:.65">season played · no stats kept for this position</small>')""")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m124.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m125: coaches' lives matter - permanent id + career record for every coach and GM
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m125.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
