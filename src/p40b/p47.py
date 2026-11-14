@@ -591,7 +591,7 @@ r("rbCar=cl(Math.round(car*(.68+r()*.12)),7,24)","rbCar=cl(Math.round(car*(_N?.6
 r("const rbTD=Math.max(0,rTD-qrtd);","const _rbT=Math.max(0,rTD-qrtd),rbTD=_N&&!(real&&isMe)?bxRbTd(_rbT,r):_rbT;if(_N&&!(real&&isMe)&&_rbT>rbTD)qrtd+=_rbT-rbTD;")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m135.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
-r("let pTD=Math.round(tds*(.5+r()*.25)),rTD=tds-pTD;","let pTD=Math.round(tds*(_N?.48+r()*.2:.5+r()*.25)),rTD=tds-pTD;")
+r("let pTD=Math.round(tds*(.5+r()*.25)),rTD=tds-pTD;","let pTD=Math.round(tds*(_N?.46+r()*.18:.5+r()*.25)),rTD=tds-pTD;")
 r("recT=bxSplit(pTD,[.34,.24,.12,.22,.08],r)","recT=(_N&&typeof bxPick=='function'?bxPick(pTD,[.34,.24,.12,.22,.08],r):bxSplit(pTD,[.34,.24,.12,.22,.08],r))")
 
 # skeleton outfits: the built-in skull is a MASK. Tyler 2026-11-14: "I picked no headwear, but my skull

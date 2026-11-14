@@ -6038,7 +6038,7 @@ const bxKey=(w,a,b)=>grK()+'|'+w+'|'+Math.min(a,b)+'|'+Math.max(a,b);
 function bxSplit(tot,ws,r){const n=ws.map(w=>w*(.75+r()*.5)),s=n.reduce((a,b)=>a+b,0)||1;let out=n.map(x=>Math.floor(tot*x/s)),left=tot-out.reduce((a,b)=>a+b,0);for(let i=0;left>0;i=(i+1)%out.length){out[i]++;left--}return out}
 function bxSide(ti,pts,opts,r,real){const T=S.T,t=T[ti],L=rost('h.'+ti)||[],nm=k=>(L[k]&&L[k].n)||'—',isMe=ti==0;
  const _N=typeof bxNew=='function'&&bxNew(),tds=_N?bxTds(pts,r):Math.max(0,Math.floor(pts/7)-(pts%7==6?0:0)),fg=Math.floor((pts-tds*7)/3);
- let pTD=Math.round(tds*(_N?.48+r()*.2:.5+r()*.25)),rTD=tds-pTD;
+ let pTD=Math.round(tds*(_N?.46+r()*.18:.5+r()*.25)),rTD=tds-pTD;
  let tot=Math.round(cl((_N?160+pts*6.4:185+pts*7.2)+(r()-.5)*90,110,640)),sh=.5+r()*.18,py=Math.round(tot*sh),ry=tot-py;
  let att=Math.max(12,Math.round(py/(6.4+r()*2))),cmp=Math.min(att,Math.round(att*(.56+r()*.14))),int=r()<.38?0:r()<.8?1:2,fum=r()<.7?0:1,sk=Math.floor(r()*4.2);
  let qbN=nm(0),qry=Math.round((r()-.2)*30),qrtd=0,qcar=3+Math.floor(r()*5);
@@ -9961,7 +9961,7 @@ window.bxNew=function(){try{const v=S.bxv;if(!v)return false;const y=yrN(),w=BXW
 // field goals first, then touchdowns out of what is left (about 2 FG tries a game)
 window.bxTds=function(pts,r){const f=r();const fgT=pts<10?(f<.5?0:1):pts<17?(f<.35?1:2):f<.15?1:f<.5?2:f<.85?3:4;return Math.max(0,Math.floor(Math.max(0,pts-3*fgT)/7))};
 // rushing TDs: the lead back gets most, not all (the QB and goal-line plays get the rest)
-window.bxRbTd=function(n,r){let k=0;for(let i=0;i<n;i++)if(r()<.6)k++;return k};
+window.bxRbTd=function(n,r){let k=0;for(let i=0;i<n;i++)if(r()<.58)k++;return k};
 // Tyler, 2026-11-14: "if you could fix my one season with the inflated stats that would be nice". The
 // season being played when this shipped is redone once with the new numbers, from week 1, as long as it
 // has not been closed yet (closed seasons are sealed history and are NOT rewritten). His own games are
