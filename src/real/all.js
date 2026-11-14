@@ -165,6 +165,11 @@ const TESTS=[
     if(d[k]!==true)return k+' = '+d[k];
    return null}},
 
+ {f:'hw2.js', why:'Halloween keepsake travels with the save code into a brand-new copy (GitHub / a friend's phone): offered if never picked, kept and not re-offered if picked',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   for(const k of ['A_newCopyOffersTreat','C_notOfferedTwice','C_keepsakeCameWithSave'])if(d[k]!==true)return k+' = '+d[k];
+   return null}},
+
  {f:'shop1.js', why:'Halloween out of the store; owned costumes, wardrobe and keepsake intact',
   check:o=>{const d=J(o);if(!d)return 'no JSON';
    if(d.err)return d.err;

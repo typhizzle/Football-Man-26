@@ -1,9 +1,22 @@
-const H=require('./h.js'),C=require('/home/claude/t41/ctx.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
-await pg.evaluate(()=>{localStorage.clear();menu();menuMain()});await wait(1500);await pg.screenshot({path:'/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/hm_0.png'});
-for(const i of [1,2,3,4,5,6]){await pg.evaluate(()=>hatSet(1));await wait(900);await pg.screenshot({path:'/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/hm_'+i+'.png'})}
-await pg.evaluate((DRV)=>{(0,eval)(DRV.replace(/\nvar /g,'\nwindow.').replace(/^var /,'window.'));SLOT=1;newC();start()},C.DRV);
-await pg.evaluate(()=>{let n=0;while(n++<5000&&(S.stage||'hs')!='col'){if(!step())break}S.cash=1e6;});
-console.log(await pg.evaluate(()=>{hub();const has=/Halloween Event/.test(ui.innerText);hwEventV();const a=ui.innerText.slice(0,500);hwClaim();const b=ui.innerText.slice(0,200);return has+' | '+a.replace(/\n/g,' | ')+'\n>> '+b.replace(/\n/g,' | ')+' cash '+S.cash}));
-console.log(await pg.evaluate(()=>{(S.inv=S.inv||[]).push('hx1','hx2','hx3');S.hwdec=1;S.dogBand=1;famEns().dogs=[{n:'Rex',b:(Object.keys(DOGC)[0])}];S.dogMine=1;return wrOpts('cas').map(x=>x[1]).join(', ')}));
-for(const id of ['hx1','hx2','hx3']){await pg.evaluate((id)=>{S.wear=null;wrEns();S.wear.cas=id;homeWalk();LR.yaw=Math.PI},id);await wait(1700);await pg.screenshot({path:'/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/hx_'+id+'.png'});await pg.evaluate(()=>hmExit(1))}
-console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,8));await b.close()})();
+// Halloween keepsake travels WITH the save code. Tyler 2026-11-14: "make sure when I give it to my
+// friend, he gets it too, even through like his copy … if he copies his code, he can get it through
+// that save when he pastes it". Fresh storage = a brand-new copy of the game (GitHub, another phone).
+const H=require('/home/claude/real/h.js'),fs=require('fs');
+(async()=>{const {b,pg}=await H.open({});
+const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');
+const r=await pg.evaluate(async(j)=>{const out={};try{
+ const clr=()=>{for(const k of Object.keys(localStorage))localStorage.removeItem(k)};
+ const bar=()=>{try{return hwkBar()||''}catch(e){return 'ERR'}};
+ const imp=async code=>{clr();const s=await readCode(code);S=s;SLOT=1;LASTJ='';save();try{zFlush()}catch(e){}};
+ clr();let s=await readCode(j);S=s;SLOT=1;LASTJ='';save();try{zFlush()}catch(e){}
+ // 1: friend trick-or-treated, never picked; copies his code; pastes it into a NEW copy
+ let code=await mkCode();out.codeKind=String(code).slice(0,4);
+ await imp(code);out.A_newCopyOffersTreat=bar().includes('Open your treat');
+ // he picks it there
+ hwkOpen(0);hwkShow();const pick=HWPICK;hwkKeep();out.B_picked=pick;
+ // 2: he copies that save again and pastes it into ANOTHER new copy
+ code=await mkCode();await imp(code);
+ out.C_notOfferedTwice=bar()==='';
+ out.C_keepsakeCameWithSave=hwHats(S).includes(pick);
+}catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);
+console.log(JSON.stringify(r,null,1));await b.close()})();

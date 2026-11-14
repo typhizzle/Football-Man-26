@@ -545,3 +545,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   (q: row[3] pass TD; r/w/d: row[2]); a row without that stat never counts. h100.js covers both paths.
 - V237: QB near-record bar = 46 PASSING TD (ratio 46/55 of the record), two straight seasons. Tyler: "46 passing touchdowns, not just total touchdowns". Must already be 99 OVR (hist100 ok()).
 - V238: near-record road needs THREE straight seasons (H2N=3). Tyler: "come close th[ree or] four seasons in a row … It's gonna be a rare thing".
+- 2026-11-14: hw2.js (gate 20) — keepsake travels with a save code into a fresh copy. Tyler: keep the claim available as a TEMPORARY feature while friends move to GitHub; remove the claim later when he says.
