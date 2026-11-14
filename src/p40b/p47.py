@@ -655,3 +655,46 @@ h=h.replace("V 0.0.1.0006","V 0.0.1.0007")
 
 # m144+: simmed passing yards also follow the pass catchers (Tyler 2026-11-14: "receivers and tight ends really do play a big part")
 r("sh=.5+r()*.18,py=Math.round(tot*sh)","sh=cl((.5+r()*.18)*(typeof bxRecv=='function'?(1+(bxRecv(ti)-1)*.6):1),.4,.75),py=Math.round(tot*sh)")
+
+# m145: college to the pros — draft classes are the real college players (Tyler 2026-11-14: "make sure it goes the same from high school to college throughout")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m145.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m146: the Ultra Bowl MVP ballot is one real box score of the final (Tyler 2026-11-14: "Did two quarterbacks play in the Super Bowl actually?")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m146.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("  if(r.at==='lost')return;\n  // a college player who is no longer on a roster",
+  "  if(r.at==='lost'||r.at==='away'||(typeof pcAway=='function'&&pcAway(s,n)))return;\n  // a college player who is no longer on a roster")
+
+# m147: QB rushing TDs follow the QB's style (Tyler 2026-11-14: Ham Luther "19 rushing touchdowns ... he's not really a running quarterback")
+r("const _rbT=Math.max(0,rTD-qrtd),rbTD=_N&&!(real&&isMe)?bxRbTd(_rbT,r):_rbT;if(_N&&!(real&&isMe)&&_rbT>rbTD)qrtd+=_rbT-rbTD;",
+  "const _rbT=Math.max(0,rTD-qrtd),_sp=_N&&!(real&&isMe)?(typeof bxRbSplit=='function'?bxRbSplit(_rbT,r,qbN):{rb:bxRbTd(_rbT,r),qb:0}):{rb:_rbT,qb:0},rbTD=_sp.rb;if(_N&&!(real&&isMe)&&typeof bxRbSplit!='function'&&_rbT>rbTD)qrtd+=_rbT-rbTD;else qrtd+=_sp.qb;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m147.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("let qbN=nm(0),qry=Math.round((r()-.2)*30),qrtd=0","let qbN=nm(0),qry=(_N&&typeof qbRunY=='function')?qbRunY(nm(0),r()):Math.round((r()-.2)*30),qrtd=0")
+
+# m148: Ham Luther 2036 fix, simmed training points 1/3, instant starter, ratings card (Tyler 2026-11-14 afternoon)
+assert h.count("S.pts+=athP(2+(w?1:0));")==3, h.count("S.pts+=athP(2+(w?1:0));")
+h=h.replace("S.pts+=athP(2+(w?1:0));","S.pts+=athP(typeof simPts=='function'?simPts(st,w):2+(w?1:0));")
+assert h.count("if(!S.bench&&S.gs.length>=3")==2, h.count("if(!S.bench&&S.gs.length>=3")
+h=h.replace("if(!S.bench&&S.gs.length>=3","if(!S.bench&&!S.instS&&S.gs.length>=3")
+r("isStarter=()=>qo(S.q)>=S.sq-2,","isStarter=()=>!!S.instS||qo(S.q)>=S.sq-2,")
+r("pStarter=()=>qo(S.q)>=S.sq-2,","pStarter=()=>!!S.instS||qo(S.q)>=S.sq-2,")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m148.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m149: Goatie's roster + Yeezers (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m149.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m150: every draft listed and watchable, live when it happens (Tyler 2026-11-14)
+r("const ys=Object.keys(S.npb||{}).filter(y=>+y>=yrN());x+=ys.map(y=>`<button class=g onclick=\"dnWatch(${y})\">📺 Watch round 1 of the ${y} draft</button><button class=g onclick=\"npbV(${y},1)\">📋 ${y} draft: all 7 rounds</button>`).join('');",
+  "x+=(typeof drBtns=='function'?drBtns():'');")
+r("   yrs.map(y=>`<button onclick=\"dnWatch(${y})\">📺 Watch round 1 of the ${y} draft</button><button class=g onclick=\"npbV(${y},1)\">📋 ${y} draft: all 7 rounds (224 picks)</button>`).join('')+",
+  "   (typeof drBtns=='function'?drBtns():yrs.map(y=>`<button onclick=\"dnWatch(${y})\">📺 Watch round 1 of the ${y} draft</button>`).join(''))+")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m150.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m147+: the rushing TDs the QB and lead back don't get go to the other ball carrier (st1 caught a 34-TD back)
+r("...(rb2Car>2?[{n:nm(3),p:'WR',c:Math.min(3,rb2Car),y:rb2Y,td:0}]:[])]",
+  "...((rb2Car>2||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[])]")

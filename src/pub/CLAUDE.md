@@ -686,3 +686,23 @@ STANDING RULES from this:
 ## V259 (still V 0.0.1.0007) — receivers matter in the sim: bxRecv (WR1-3+TE weighted ovr vs league, +-12%) on the passing TD share (inside bxForm, combined clamp .75-1.2) and on the passing yard share (60% strength). Same-rated QBs: best 8 receiving groups ~28 TD vs worst 8 ~20. 24 seasons: 10 different MVPs, you 4, max 55.
 **VERSION RULE (Tyler 2026-11-14): "you don't have to move the number until the next drastic change" — bump the V 0.0.1.000N label only for big updates.**
 Tyler: balancing is for SIMULATED seasons only; games he plays keep what happened.
+
+## V260 (label stays V 0.0.1.0007) — m145-m150 (gates dr1, sb1, tl1, dw1)
+- m145 college→pro: draftStart board slots filled by real college leavers (cls4 + cls3 ovr>=80, slot keeps its
+  pro rating); drafted ones placed ONCE (S.dr.ins) on the drafting team's BENCH (25+) — starter slots got
+  reclaimed by named-player code and an insert-every-rost loop OOM'd the page. Later pro drafts: lgClass slots
+  take S.pc players whose class leaves that year (pcDraftYear); LGPID maps name→pid in lgAdd. Names already in
+  the pro league are never put on a board (lgDedup would delete one). plSync (m117) filed every college player
+  as RETIRED age 34 on going pro: pcAway() now marks them 'away' (they live in S.pc).
+- m146 Ultra Bowl ballot = bxMake(99,...) box of the real final (S.pb.hist last round); m99 made one invented
+  "big game" per finalist (two TB QBs). Only from the next final; past seasons untouched.
+- m147 QB rushing: per-TD QB share by QBSTY style (Mobile .28, scrambler .2, balanced .12, deep/pocket .06),
+  the rest 66% lead back / rest other carrier; QB rush yds by style. Old code gave the QB 42% of all non-RB rush
+  TDs (Ham Luther 19). Rush TD leader now avg 20 / max 22 over 10 sims.
+- m148: fixHL36 (ONLY Ham Luther p1081 2036 row 19→2 rush TD, seal h + hL + cs + ballot text; Tyler asked) ·
+  simPts (simmed games = played formula / 3, fractional carry S.simB) · instant starter S.instS (Settings;
+  isStarter/pStarter + no grade benching) · rupdCard = throwing power list, Coleridge -1 removed.
+- m149 Goatie's = typhizzle, wesscoastt, mjaxon (+ owner Tommy Chew Toy, athletes list BRATH); Yeezers
+  (Kanye Westley) added to BRCLOTH/SPB/BRDEF. Open question: who is "Darry"?
+- m150 every draft (S.npb + held S.dc) listed + watchable (npbRows reads S.dc picks); offseason draft offered LIVE in hub.
+- TRAP: a new test file name must not reuse an existing one (I overwrote ub1.js; restored, mine is sb1.js).
