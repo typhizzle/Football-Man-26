@@ -22,10 +22,16 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  [6,7].forEach(i=>{const f=fake[i];f.P=f.P||{a:3000,b:10,c:10};f.Ru=f.Ru||{a:0,b:0};f.Re=f.Re||{a:0,b:0};f.Sk=f.Sk||{a:0};f.P.b=10;f.Ru.a=2005});
  [rbA,rbB].forEach(x=>{x.ovr=99;x.age=26;delete x.hq;x.h=(x.h||[]).filter(r=>r[0]!==yr-1)});
  rbA.h.push([yr-1,0,2010,12,300,2]);rbB.h.push([yr-1,0,1500,9,200,1]);
+ // QB: 46 passing TD two years running -> 100; 46 this year after 40 last year -> not
+ const qA=rost('h.8')[0],qB=rost('h.9')[0];
+ [8,9].forEach(i=>{const f=fake[i]=JSON.parse(JSON.stringify(_ps(i)||{}));f.P=f.P||{a:4500,b:0,c:10};f.Ru=f.Ru||{a:0,b:0};f.Re=f.Re||{a:0,b:0};f.Sk=f.Sk||{a:0};f.P.b=46});
+ [qA,qB].forEach(x=>{x.ovr=99;x.age=27;delete x.hq;x.h=(x.h||[]).filter(r=>r[0]!==yr-1)});
+ qA.h.push([yr-1,0,4800,46,9,400,300,2]);qB.h.push([yr-1,0,4300,40,9,380,300,2]);
  hist100();PS=_ps;
  out.A_43tdNot100=q3.hq!==1&&!(S.h100||[]).some(s=>s.startsWith(q3.n+' '));
  out.B_recordSeasonIs100=q4.hq===1&&(S.h100||[]).some(s=>s.startsWith(q4.n+' '));
  out.D_twoStraightNearRecordIs100=rbA.hq===1;out.D_oneGoodYearNot100=rbB.hq!==1;
+ out.E_qb46TwiceIs100=qA.hq===1;out.E_qb46OnceNot100=qB.hq!==1;
  out.C_randomHundreds=rnd;out.C_candidates=n99;
 }catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);
 console.log(JSON.stringify(r,null,1));await b.close()})();

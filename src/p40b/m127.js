@@ -16,3 +16,7 @@ window.h2Prev=function(x,y){try{const g=SG(x.pos),ix=g==='q'?3:2;let v=0,any=0;
  (x.h||[]).forEach(r=>{if(r&&r[0]===y&&r.length>ix){v+=(+r[ix]||0);any=1}});return any?v:null}catch(e){return null}};
 window.h2Run=function(x,v,hi){try{if(!(hi>0)||hi===Infinity)return false;const c=hi*H2CLOSE;if(!(v>=c))return false;
  const p=h2Prev(x,yrN()-1);return p!=null&&p>=c}catch(e){return false}};
+// Tyler, 2026-11-14: "multiple seasons of 46 or 47 touchdowns in a row" … "46 passing touchdowns,
+// not just total touchdowns. that was meant for QBs". QB near-record bar = 46 passing TD with the
+// starting book (55); it scales with the record if the record is broken. RB/WR/sacks stay at 95%.
+(()=>{const _r=window.h2Run;window.h2Run=function(x,v,hi){try{if(SG(x.pos)==='q'){const o=H2CLOSE;H2CLOSE=46/55;try{return _r(x,v,hi)}finally{H2CLOSE=o}}}catch(e){}return _r(x,v,hi)}})();

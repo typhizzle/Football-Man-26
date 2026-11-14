@@ -122,6 +122,8 @@ const TESTS=[
    if(!d.C_candidates)return 'no candidates to test random 100s';
    if(d.C_randomHundreds)return d.C_randomHundreds+' random 100s';
    if(d.D_twoStraightNearRecordIs100!==true)return 'two straight near-record seasons did NOT make a 100';
+   if(d.E_qb46TwiceIs100!==true)return 'QB with 46 pass TD two years running did NOT make a 100';
+   if(d.E_qb46OnceNot100!==true)return 'QB with 46 pass TD once made a 100';
    if(d.D_oneGoodYearNot100!==true)return 'one near-record season after a normal one made a 100';
    return null}},
 
