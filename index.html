@@ -1069,7 +1069,7 @@ ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} re
 function phub(){if(S.ret)return legacy();if(S.fmsg){HM=(HM?HM+' ':'')+S.fmsg;S.fmsg=''}scene('lock');const T=S.T,m=T[0],Q=S.q,e=pevt(),st=pStarter(),H2=injTag(HM),c=tc(),N={acc:'Accuracy',pow:'Throw power',awr:'Awareness',mob:'Speed',sec:'Carrying',trk:'Truck'};HM='';if(e.t=='sum'&&!S.psum)mkPsum();let main='';
 if(e.t=='fa')main=`<b>Free agency</b><p><small>Your contract is up. Pick your next team.</small></p>${S.fa.map((o,i)=>`<div class=row style="font-size:18px;gap:4px"><span>${tn(T[o.ti])}<br><small>$${o.sal}M/yr · ${o.yrs} yrs · ${o.gtd}% gtd · bonus $${o.bonus}M${o.ci?" · 🗣 say on the coach":""}${o.gi?" · 🗣 say on the GM":""}</small></span><button class=g onclick="faSign(${i})">Sign</button></div>`).join('')}`;
 else if(e.t=='sum'){const s=S.psum;main=`<b>Season ${S.py} complete</b><p>Record ${s.rec} · Ultra Bowl champion: ${s.champ}<br>${s.aw.length?'Awards: '+s.aw.join(', '):'No awards this season.'}<br>Paid this season: $${s.pay.toLocaleString()}</p>${lawHtml()}${proOffHtml()}${S.py>=3&&!S.extd&&S.ct.yrs>0?'<button class=g onclick=negotiate()>Negotiate an extension</button>':''}${S.py>=2&&S.treq!=S.py?'<button class=g onclick=treq()>Request a trade</button>':''}<button class=g onclick=retireNow()>Retire</button>`}
-else{const nx=e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':(e.t=='pp'?PRN[S.pb.r]:'Week '+(S.wk+1))+' vs '+tn(T[e.o])+' (team rating '+T[e.o].ovr+')'+rvTag(e.o);main=`<b>${nx}</b><br><button onclick=play()>${e.t=='bye'||e.t=='ppbye'?'Continue':st?(gsOk()?gsLbl():'Play game'):'Watch from the bench (sim)'}</button>${e.t!='bye'&&e.t!='ppbye'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}`}
+else{const nx=e.t=='pbw'?'🌴 Pro Bowl week · the Ultra Bowl is next week':e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':(e.t=='pp'?PRN[S.pb.r]:'Week '+(S.wk+1))+' vs '+tn(T[e.o])+' (team rating '+T[e.o].ovr+')'+rvTag(e.o);main=`<b>${nx}</b><br><button onclick=play()>${e.t=='bye'||e.t=='ppbye'||e.t=='pbw'?'Continue':st?(gsOk()?gsLbl():'Play game'):'Watch from the bench (sim)'}</button>${e.t!='bye'&&e.t!='ppbye'&&e.t!='pbw'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}`}
 const D={};T.forEach((t,i)=>(D[t.dv]=D[t.dv]||[]).push(i));const dl=Object.keys(D).sort((a,b)=>(b==m.dv)-(a==m.dv));
 ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} #${S.num} · QB ${qo(Q)}</h2><div style="font-weight:700;color:#7bed9f;margin:-4px 0 4px">💵 $${(S.cash||0).toLocaleString()}</div>${relTop()}<p><small>${tn(m)} · Pro season ${S.py} · age ${S.age} · ${S.arch||'QB'}${potTxt()}<br>Contract $${S.ct.sal}M/yr · ${S.ct.yrs} yr${S.ct.yrs==1?'':'s'} left · record ${m.w}-${m.l}</small></p>
 <div class=card>${H2?`<p><b>${H2}</b></p>`:''}<p>${st?'<b>Starting QB</b>':'<b>Backup QB</b> <small>'+S.vet+' starts ('+S.sq+') vs you '+qo(Q)+'</small>'} · Coach grade <b>${S.gs.length?gl(avg(S.gs)):'-'}</b><br><small>Head ${cLine(T[0])}</small></p>${main}</div>${S.gsave?gsH():''}${lrInfo()}${myCard()}
@@ -10824,5 +10824,69 @@ window.tcGo=function(k){const e=tcList()[k];if(!e)return;try{
  S.cy=Math.min(4,e.cls);S.qr=(S.qr||[]).filter(x=>x.n!==e.n);S.sq=S.qr.length?S.qr[0].ovr:50;
  try{const L=rost('h.0');L[0]={n:S.name,pos:'QB',num:+S.num,ovr:qo(S.q),qp:1}}catch(err){}
  HM='🎓 You are '+e.n+', '+['','freshman','sophomore','junior','senior'][S.cy]+' QB at '+e.team+'. Week 1 is up.';save();hub()}catch(err){console.warn(err);hub()}};
+// ===== 🗓 PRO CALENDAR CLOCK · 🌴 PRO BOWL WEEK · 👶 PREGNANCY (pro career) =====
+// Tyler, 2026-11-14 (spec "PROFESSIONAL RELATIONSHIP, PREGNANCY, AND CHILDBIRTH SYSTEM" + answers):
+//  - "Add a pro bowl week in between the conference championship and Super Bowl" -> in-season = 18 regular
+//    (bye included) + Wild Card + Divisional + Conference + Pro Bowl + Ultra Bowl = 23 advances.
+//  - a pro year = 52 simulated weeks: each in-season advance = 1 week, each of the 8 offseason advances =
+//    (52 - 23) / 8 = 3.625 weeks (computed from the calendar, not hard-coded).
+//  - every successful Woo-hoo rolls on its own: 15% when trying, 0.1% when not ("the game should let them know
+//    that they had one anyways"). The result is HIDDEN; she finds out ~2 simulated weeks after conception and
+//    tells you; the baby is born at ~39 simulated weeks after conception. One pregnancy at a time.
+//  - the clock is WHERE YOU ARE in the year (never a count of taps): nothing double-counts or gets skipped, and
+//    a jump across several weeks (e.g. knocked out of the playoffs) still crosses every milestone, in order.
+// College pregnancy keeps the old behaviour until Tyler sends the college calendar.
+window.CAL={reg:18,po:['Wild Card','Divisional','Conference Championship','Pro Bowl week','Ultra Bowl'],off:8,year:52};
+window.calIns=function(){return CAL.reg+CAL.po.length};
+window.calOffW=function(){return (CAL.year-calIns())/CAL.off};
+// position in the year, in simulated weeks from the first regular-season week
+window.calPos=function(s){s=s||S;try{const ins=calIns();
+ if(s.ofs)return ins+(s.ofs.w||0)*calOffW();
+ if(s.pb){const r=Math.min(4,s.pb.r||0),fin=s.pb.done||s.pb.out;let p=CAL.reg+Math.min(r,3);if(r>=3&&(s.pb.pbw||fin))p+=1;if(fin)p=ins;return p}
+ return Math.min(CAL.reg,s.wk||0)}catch(e){return 0}};
+window.calT=function(s){s=s||S;return ((s.py||1)-1)*CAL.year+calPos(s)};
+
+// ---- 🌴 Pro Bowl week: an advance of its own between the Conference Championship and the Ultra Bowl ----
+(()=>{try{const _e=pevt;pevt=function(){const e=_e.apply(this,arguments);try{const B=S.pb;if(B&&B.r===3&&!B.pbw&&!B.done&&!B.out&&e&&(e.t==='pp'||e.t==='ppbye'))return {t:'pbw'}}catch(x){}return e}}catch(e){}})();
+window.pbwDo=function(){try{if(S.pb){S.pb.pbw=1;HM='🌴 Pro Bowl week. The league\'s best are in town; the Ultra Bowl is next week.'}save()}catch(e){}return hub()};
+(()=>{try{const _p=pplay;pplay=function(){try{if(pevt().t==='pbw')return pbwDo()}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _s=psim;psim=function(e){if(e&&e.t==='pbw')return pbwDo();return _s.apply(this,arguments)}}catch(e){}})();
+
+// ---- 👶 pregnancy ----
+window.pgS=function(){S.pg=S.pg||{enc:[],cur:null,hist:[]};return S.pg};
+window.pgTick=function(){try{if(!S||S.stage!=='pro')return;const P=pgS(),now=calT();
+ // an old-style pregnancy ("arrives next season") moves onto the clock, already told
+ if(S.preg&&!P.cur){P.cur={t0:now-2,g:S.preg.g,who:(S.gf&&S.gf.n)||'',disc:1,tr:1,mig:1};S.preg=null}
+ const c=P.cur;if(!c)return;
+ if(!c.disc&&now-c.t0>=2){c.disc=1;c.dt=now;const F=(c.who||'Babe').split(' ')[0];
+  talk('gf',F,c.tr?'Babe... I have something to tell you. I\'m pregnant! 👶':'Babe... sit down. I know we weren\'t trying... but I\'m pregnant. 👶','happy',[['😭❤️','ovHide()']],'A baby '+(c.g=='b'?'boy':'girl')+' is on the way'+(c.tr?'':' (even though you weren\'t trying)')+'. Due in about '+Math.max(1,Math.round(39-(now-c.t0)))+' weeks.');save()}
+ if(c.disc&&now-c.t0>=39){const g=c.g,n=(g=='b'?NF[ri(0,NF.length-1)]:FN2[ri(0,FN2.length-1)])+' '+lastN();
+  (S.kids=S.kids||[]).push({n,g,age:0,born:yrN(),bt:now,mom:c.who,ct:c.t0});P.hist.push({...c,bt:now,kid:n});P.cur=null;hapAdd(8);
+  HM=(HM?HM+' ':'')+'👶 Your '+(g=='b'?'son':'daughter')+' '+n.split(' ')[0]+' was born! Rename them in Family.';save()}}catch(e){}};
+(()=>{try{const _h=hub;hub=function(){try{pgTick()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+window.pgPend=function(){return S&&S.pg&&S.pg.cur&&!S.pg.cur.disc?S.pg.cur:null};
+// her answer: she can say no, and a no is respected (nothing lost)
+window.wooYes=function(){const g_=S.gf;if(!g_)return false;const lastNo=g_.noW===wkKey();return !lastNo&&R()<cl((g_.aff-15)/60,.25,.95)};
+(()=>{try{const _w=hmWoo2;hmWoo2=function(t){if(!S||S.stage!=='pro')return _w.apply(this,arguments);
+ const g_=S.gf;if(!g_)return;ovHide();
+ if(!wooYes()){g_.noW=wkKey();return talk('gf',g_.n.split(' ')[0],['Not tonight, babe. I\'m exhausted.','Rain check? I just want to cuddle tonight.','Not in the mood tonight. Tomorrow, maybe.'][ri(0,2)],'happy',[['❤️ Okay','ovHide()']])}
+ hapAdd(2);g_.aff=cl(g_.aff+relG(1),0,100);try{wooScene()}catch(e){}
+ const P=pgS(),now=calT(),hit=!P.cur&&R()<(t?.15:.001);P.enc.push([now,t?1:0,hit?1:0]);if(P.enc.length>60)P.enc.shift();
+ if(hit)P.cur={t0:now,g:R()<.5?'b':'g',who:g_.n,disc:0,tr:t?1:0};   // hidden: nothing is said until she finds out
+ save();lrStat()}}catch(e){}})();
+
+// ---- 🛏 the scene: Sims style, under the covers, censored ----
+window.wooScene=function(){if(!LR||!LR.O)return;const bed=LR.O.find(o=>o.k=='hbed');if(!bed)return;const bx_=bed.x-1.8,bz=bed.z,h=$('#lrh');
+ const gfo=LR.O.find(o=>o.k=='hgf'),pm=LR.pm,hide=[pm,gfo&&gfo.m].filter(Boolean);hide.forEach(m=>m.visible=false);
+ const G=new T3.Group();PL.add(G);const skin=x=>new T3.MeshLambertMaterial({color:x});
+ const head=(x,c,hc)=>{const m=new T3.Mesh(new T3.BoxGeometry(.42,.42,.42),skin(c));m.position.set(x,1.2,bz-1.15);G.add(m);const hr=new T3.Mesh(new T3.BoxGeometry(.44,.14,.44),skin(hc));hr.position.set(x,1.43,bz-1.15);G.add(hr)};
+ head(bx_-.45,0xc68642,0x1b1b1b);head(bx_+.45,0xf1c27d,(S.gf&&S.gf.hc)?hexC(S.gf.hc):0x5a3825);
+ const bl=new T3.Mesh(new T3.BoxGeometry(2.5,.55,2.5),skin(0xf6d6e6));bl.position.set(bx_,1.15,bz+.2);G.add(bl);
+ // the censor: a pixel mosaic over the covers
+ const cv=document.createElement('canvas');cv.width=cv.height=8;const cx=cv.getContext('2d');for(let i=0;i<8;i++)for(let j=0;j<8;j++){const p=[[198,134,66],[241,194,125],[246,214,230],[230,170,190],[180,120,90]][Math.floor(Math.random()*5)];cx.fillStyle=`rgb(${p})`;cx.fillRect(i,j,1,1)}
+ const tx=new T3.CanvasTexture(cv);tx.magFilter=T3.NearestFilter;tx.minFilter=T3.NearestFilter;const cz=new T3.Mesh(new T3.BoxGeometry(2.1,.9,.05),new T3.MeshBasicMaterial({map:tx}));cz.position.set(bx_,1.75,bz+.2);G.add(cz);
+ let b=null;try{b=bnr('❤️ ❤️ ❤️','#ff4f8b');b.position.set(bx_,3,bz);b.scale.set(5,.7,1);G.add(b)}catch(e){}
+ if(h)h.textContent='❤️ Under the covers... ❤️';let t=0;const iv=setInterval(()=>{t+=.08;bl.scale.y=1+Math.abs(Math.sin(t*9))*.35;bl.rotation.z=Math.sin(t*7)*.05;cz.lookAt&&LR&&LR.cam&&cz.lookAt(LR.cam.position);if(b)b.position.y=3+Math.sin(t*3)*.2},80);
+ setTimeout(()=>{clearInterval(iv);try{PL.remove(G)}catch(e){}hide.forEach(m=>m.visible=true);if(h)h.textContent='❤️ ...'},4500)};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

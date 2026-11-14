@@ -69,6 +69,9 @@ const TESTS=[
  {f:'tc1.js', why:'play as an existing college QB: button on the new-career screen, any college starter, his school/class/rating at week 1, the season plays on',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_button','A_list','B_name','B_school','B_class','B_rating','B_notInHisOwnRoom','C_week1','C_simmed','C_hub'])if(d[k]!==true)return k+' = '+d[k];if(d.B_stage!=='col')return 'stage '+d.B_stage;if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
 
+ {f:'pg1.js', why:'pro calendar 23 + 8 x 3.625 = 52 weeks (Pro Bowl week between the Conference Championship and the Ultra Bowl), pregnancy hidden 2 weeks then told, birth at 39+ weeks across seasons, offseason conception, 15% / 0.1% rolls, one pregnancy at a time, she can say no',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_calendar','B_noDoubleCount','B_pbw','C_yearIs52','D_hiddenAfter1wk','D_toldAt2wks','E_born','E_at39','F_offseasonDiscovery','F_bornFromOffseason','G_tryRate15','G_notTrying','H_onePregnancy','I_canSayNo'])if(d[k]!==true)return k+' = '+d[k];if(d.B_offseasonSteps!==8)return 'offseason steps '+d.B_offseasonSteps;if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 

@@ -25,7 +25,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  const und=D.P.filter(p=>p.pid&&!p.tk&&!p.me);o.D_undrafted=und.length;o.D_undraftedRecorded=und.every(p=>S.pc.p[p.pid].o.some(q=>q[1]==='not drafted'));
  // E: the next pro draft: the college players whose class leaves that year come out, with their college record
  const left=Object.keys(S.pc.p).filter(id=>{const e=S.pc.p[id];return pcDraftYear(e)});o.E_stillInCollege=left.length;
- let guard=0;while(guard++<200){const e=pevt();if(e.t=='pro'||e.t=='pp')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
+ let guard=0;while(guard++<200){const e=pevt();if(e.t=='pro'||e.t=='pp'||e.t=='pbw')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
  pNext();const Y=yrN();try{if(!(S.dc&&S.dc[Y]&&S.dc[Y].done))lgDraft()}catch(e){o.lgErr=e.message}
  const dc=S.dc&&S.dc[Y];o.E_year=Y;o.E_picks=dc?dc.picks.length:0;
  let rp=0;const ex=[];(dc&&dc.picks||[]).forEach(p=>{let x=null;S.T.forEach((t,i)=>{rost('h.'+i).forEach(y=>{if(y&&y.n===p.n&&y.dr&&y.dr.y===Y)x=y})});if(x&&x.pid&&S.pc.p[x.pid]&&S.pc.p[x.pid].r.some(q=>q[1]==='col')){rp++;if(ex.length<3)ex.push(p.n+' ('+p.col+') → '+p.tm)}});

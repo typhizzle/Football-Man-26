@@ -4,7 +4,7 @@
 const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg,errs}=await H.open({file:process.env.SM_FILE});const j=fs.readFileSync('/home/claude/specs/simothy-2035.json','utf8');
 const out=await pg.evaluate(async(j)=>{const o={seasons:[]};try{window.confirm=()=>true;window.alert=()=>{};S=mig(JSON.parse(j));SLOT=4;LASTJ='';
- for(let s=0;s<8;s++){if(S.psum)pNext();let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
+ for(let s=0;s<8;s++){if(S.psum)pNext();let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp'||e.t=='pbw')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
   const F=szFlat().filter(x=>x.py>0&&!(x.ti===0&&x.n===S.name)).sort((a,b)=>b.ptd-a.ptd);const L=S.law&&S.law[S.py];
   o.seasons.push({me:S.ss.td,top:F[0]?F[0].ptd:0,topN:F[0]?F[0].n:'',mvp:L&&L.w&&L.w.MVP?L.w.MVP.n:'?'})}
  const M={};o.seasons.forEach(z=>M[z.mvp]=(M[z.mvp]||0)+1);o.mvps=M;o.distinct=Object.keys(M).length;o.maxShare=Math.max(...Object.values(M));

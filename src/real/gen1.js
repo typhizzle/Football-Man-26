@@ -4,7 +4,7 @@ const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg,errs}=await H.open({file:process.env.GN_FILE});const j=fs.readFileSync('/home/claude/specs/simothy-2037.json','utf8');
 const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;window.alert=()=>{};S=mig(JSON.parse(j));SLOT=4;LASTJ='';
  const existing=new Set();for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&x.n)existing.add(x.n)})}
- let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
+ let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp'||e.t=='pbw')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
  pNext();const Y=yrN();if(!(S.dc&&S.dc[Y]&&S.dc[Y].done))lgDraft();const dc=S.dc[Y];o.year=Y;o.picks=dc.picks.length;
  if(typeof pcByName!='function'){o.err='prospects have no careers';return o}
  // A: every pick has a high school + college career

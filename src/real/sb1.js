@@ -3,7 +3,7 @@
 const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg,errs}=await H.open({file:process.env.UB_FILE});const j=fs.readFileSync('/home/claude/specs/simothy-2037.json','utf8');
 const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;window.alert=()=>{};S=mig(JSON.parse(j));SLOT=4;LASTJ='';
- let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
+ let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp'||e.t=='pbw')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
  const A=S.law[S.py];const C=(A&&A.c&&A.c.SBMVP)||[];o.cands=C.map(c=>c.n+' '+c.pos+' · '+c.ln);
  const champ=tAb(S.T[S.pb.champ]);o.A_allChampion=C.every(c=>c.tm===champ);
  o.A_oneQB=C.filter(c=>c.pos==='QB'&&/ yds, \d+ TD, \d+ INT/.test(c.ln)).length<=1;

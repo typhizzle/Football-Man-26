@@ -724,3 +724,5 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
 ## V263 — m154 one card, a whole career (📇 Career replaces "Season by season" + HS/college list; awards per year from LGH0 + S.law + S.pc; Ultra Bowl title years) · m155 coaches move between levels, NEW saves only (S.cmv2 set in start()). Gate 50/50. Coaching spec: specs/coaching-career-spec.md (PLM first).
 
 ## V264 — m156 play as an existing college QB (new-career screen; tcList = every college starter this season; tcGo: enroll + rating search + class). Gate 51/51. Childbirth spec in progress: real pro calendar = 22 in-season advances (no Pro Bowl week) + 8 offseason = 3.75/advance.
+
+## V265 — m157 pro calendar clock (23 in-season incl. new Pro Bowl week + 8 x 3.625 offseason = 52), pregnancy on the clock (15%/0.1%, hidden 2 wks, birth at 39, she can say no, one at a time). Gate 51/52 + dr1 flaky (passed 2 reruns; investigating).
