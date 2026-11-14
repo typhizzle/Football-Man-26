@@ -115,6 +115,12 @@ const TESTS=[
    return null}},
 
  // ---- the shop ----
+ {f:'hw1.js', why:'Halloween keepsake is ONE gift: waits in the menu until picked, never offered again even if browser storage forgets',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   for(const k of ['A_offered','D_stillWaitingAfterLater','B_hidden','B_secondKeepBlocked','B_saveHoldsPick','C_notOfferedAgain','C2_freshDeviceNotOffered','E_bothKept','F_menuWritesNothing'])
+    if(d[k]!==true)return k+' = '+d[k];
+   return null}},
+
  {f:'shop1.js', why:'Halloween out of the store; owned costumes, wardrobe and keepsake intact',
   check:o=>{const d=J(o);if(!d)return 'no JSON';
    if(d.err)return d.err;

@@ -470,3 +470,18 @@ inventing replacements is forbidden.
 
 Note: the "2 corrections during load" reported for V228/V229 were THIS bug misfiring, not
 the game altering data. `correctionsEverMade` is now 0 on a clean load.
+
+## V231 (2026-11-14) — Halloween keepsake is ONE gift
+- Tyler: "It's supposed to be a one time gift. I was just given another." Cause: picks-left was
+  counted only from browser storage (`fm_hwkeep`), which is per copy of the game / per device.
+  A save opened where that storage was empty was offered the treat again.
+- `m123.js`: a pick already written into ANY save (`s.hwHats`/`s.hwHat`, current S or slots 1-6)
+  counts as used. Read-only — writes nothing to any save; extra picks already owned are kept.
+- Harness `hw1.js` (in the gate, now 15): offered until picked, stays after "later", gone after a
+  pick, NOT re-offered when browser storage is wiped (fails on V230), menu writes nothing.
+- Setup note: harnesses read the save from the old scratchpad path
+  `/tmp/claude-0/-home-claude/c57e6934-.../scratchpad/saveX.json` and `/tmp/claude-0/sv/save.json`.
+  In a new container, symlink both to `specs/tyler-save-snapshot-2026-11-07.json`. `h.js` now finds
+  puppeteer-core in `real/node_modules` and Chromium under `/opt/pw-browsers` automatically.
+- Source is also committed to `typhizzle/Football-Man-26` under `src/` (save snapshot and request
+  transcript kept OUT — public repo).

@@ -499,3 +499,7 @@ r("const T=S.T[i],g=SG(x.pos),H=(x.h||[]).slice().reverse(),c=x.cs||{},a=x.aw||{
 
 r("""<span>${r[0]} ${TA[r[1]]||''}</span><span>${r.slice(2,g=='q'?7:4).map(n=>n.toLocaleString()).join(' / ')}</span>""",
   """<span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?'<small style="opacity:.65">season played · stats not recorded</small>':r.slice(2,g=='q'?7:4).map(n=>n.toLocaleString()).join(' / ')}</span>""")
+
+# m123: Halloween keepsake is one gift - a pick already in any save counts as used
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m123.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
