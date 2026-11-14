@@ -39,6 +39,9 @@ const TESTS=[
  {f:'pc1.js', why:'HIGH SCHOOL AND COLLEGE CAREERS KEPT LIKE THE PROS: every player gets each season (club, class, box-score stats), seniors graduate on the record (never erased), committed grads arrive at their college with the same id, college classes move up, nobody removed, survives reload',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_allHaveSeason','B_seniorsKept','B_commitWritten','C_noDuplicate','D_allThere','D_freshmen','E_cardShowsHS','F_allHaveSeason','F_movedUp','F_seniorsLeftOnRecord','F_nobodyRemoved','G_survivesReload'])if(d[k]!==true)return k+' = '+d[k];if(d.A_wrongClub||d.A_wrongStats)return 'wrong club/stats '+d.A_wrongClub+'/'+d.A_wrongStats;if(!(d.sizeZ<120000))return 'record too big '+d.sizeZ;if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
 
+ {f:'aw5.js', why:'award ballots show every finalist\'s season, never just "99 OVR" (Tyler screenshot 2026-11-14)',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.A_noOvrOnlyLines!==true)return d.ovrOnly+' finalists show only OVR, e.g. '+(d.examples||[])[0];if(!(d.finalistsShown>20))return 'only '+d.finalistsShown+' finalists';return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 

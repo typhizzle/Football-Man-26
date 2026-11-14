@@ -634,3 +634,11 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m142.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 assert h.count("V 0.0.1.0004")==3, h.count("V 0.0.1.0004")
 h=h.replace("V 0.0.1.0004","V 0.0.1.0005")
+
+# m143: award ballots show every finalist's season (Tyler 2026-11-14 screenshot: "Doesn't show all stats")
+assert h.count("${c.ln||''}")==2, h.count("${c.ln||''}")
+h=h.replace("${c.ln||''}","${(typeof awLn=='function'?awLn(c,A.yr||yrN()):(c.ln||''))}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m143.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+assert h.count("V 0.0.1.0005")==3, h.count("V 0.0.1.0005")
+h=h.replace("V 0.0.1.0005","V 0.0.1.0006")

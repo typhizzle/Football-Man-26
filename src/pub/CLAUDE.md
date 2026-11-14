@@ -678,3 +678,5 @@ STANDING RULES from this:
   ~27 KB compressed per season. Cards: pcRowsHtml is READ-ONLY (pl2 caught a write).
 - Not yet: college → pro (draft class from real college players), former-teammate tags, awards beyond
   Heisman/Golden Arm/O'Brine/team titles for CPU players.
+
+## V257 (V 0.0.1.0006) — m143 award ballots: finalists with ln "NN OVR" get their real season (awLn: season row, else box-score total so far, else OL note). Gate aw5.
