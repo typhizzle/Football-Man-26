@@ -615,3 +615,16 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m139: restore an earlier save (the device's two backups per slot), from the main menu
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m139.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m140: a save never goes backwards (Tyler 2026-11-14: "every season saves exactly the week that it's at ... even in future updates" / "Fix it")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m140.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+assert h.count("V 0.0.1.0003")==3, h.count("V 0.0.1.0003")
+h=h.replace("V 0.0.1.0003","V 0.0.1.0004")
+
+# m141: a card only lists clubs a player really played for (Tyler 2026-11-14: "Miles Garrett's not playing for the Chiefs when he never played for the Chiefs")
+r("(x.tm&&x.tm.length?x.tm:[tAb(T)]).join(', ')","(typeof plClubs=='function'?plClubs(x,T):(x.tm&&x.tm.length?x.tm:[tAb(T)])).join(', ')")
+assert h.count("t:(x.tm||[]).join(', ')")==2, h.count("t:(x.tm||[]).join(', ')")
+h=h.replace("t:(x.tm||[]).join(', ')","t:(typeof plClubs=='function'?plClubs(x):(x.tm||[])).join(', ')")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m141.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

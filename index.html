@@ -296,7 +296,7 @@ function lawSet(a,i){const A=S.law[S.py],c=A.c[a][i],o=A.w[a];if(!c||c.me)return
 let LBV={lv:'pro',c:'pyd'};
 function lbIn(lv,c){const out=[],aw=AWK[c];if(lv=='col'){const C=S.cst&&S.cst.col;if(C){const v={pyd:'yds',ptd:'td',ryd:'ry',rtd:'rtd'}[c];if(v){const t=(C.reg[v]||0)+(C.post[v]||0);if(t)out.push({n:abbr(S.name),v:t,t:S.cschool||'',me:1})}}return out}
 if(S.cst&&S.cst.pro){const P=S.cst.pro.reg,L=lgcy(),v=aw?{ring:L.rings,sbm:L.sbm,mvp:L.mvp,opoy:L.parts[3][1],dpoy:0}[c]:{pyd:P.yds,ptd:P.td,cmp:P.cmp,ryd:P.ry,rtd:P.rtd}[c];if(v)out.push({n:abbr(S.name),v,t:(S.utm||[tAb(S.T[0])]).join(', '),me:1})}
-const add=x=>{const v=aw?x.aw&&x.aw[aw]:x.cs&&x.cs[c];if(v)out.push({n:abbr(x.n),v,t:(x.tm||[]).join(', '),cpu:1})};if(S.stage=='pro')S.T.forEach((t,i)=>rost('h.'+i).forEach((x,k)=>{if(!(i==0&&k==0))add(x)}));(S.alum||[]).forEach(add);if(S.vetP)add(S.vetP);return out}
+const add=x=>{const v=aw?x.aw&&x.aw[aw]:x.cs&&x.cs[c];if(v)out.push({n:abbr(x.n),v,t:(typeof plClubs=='function'?plClubs(x):(x.tm||[])).join(', '),cpu:1})};if(S.stage=='pro')S.T.forEach((t,i)=>rost('h.'+i).forEach((x,k)=>{if(!(i==0&&k==0))add(x)}));(S.alum||[]).forEach(add);if(S.vetP)add(S.vetP);return out}
 function lbV(lv,c){if(lv)LBV.lv=lv;if(c)LBV.c=c;const P=LBV.lv=='pro',cats=P?ALLC.filter(x=>x[0]!='qry'):RCAT.filter(x=>['pyd','ptd','ryd','rtd','cyd','ctd'].includes(x[0]));if(!cats.find(x=>x[0]==LBV.c))LBV.c='pyd';
 const L=(typeof lbMerge=='function'?lbMerge(LBP(LBS[LBV.lv][LBV.c]||''),lbIn(LBV.lv,LBV.c),LBV.c):LBP(LBS[LBV.lv][LBV.c]||'').concat(lbIn(LBV.lv,LBV.c))).sort((a,b)=>b.v-a.v).slice(0,20),nm=(ALLC.find(x=>x[0]==LBV.c)||[0,''])[1],sb=(on,t,f)=>`<button class=g style="flex:1;min-width:30%;${on?'outline:3px solid #ffe93b':''}" onclick="${f}">${t}</button>`;
 ui.innerHTML=`<div><h2>📊 All-time leaders</h2><div class=row>${sb(P,'Pro',"lbV('pro')")}${sb(!P,'College',"lbV('col')")}</div><div class=row style="flex-wrap:wrap">${cats.map(([k,n])=>sb(k==LBV.c,n,`lbV(0,'${k}')`)).join('')}</div>
@@ -306,7 +306,7 @@ ui.innerHTML=`<div><h2>📊 All-time leaders</h2><div class=row>${sb(P,'Pro',"lb
 function pCard(i,j){const L=rost('h.'+i),x=L[j];if(!x)return;if(i==0&&j==0&&S.stage!='hs')return career();const T=S.T[i],g=SG(x.pos),H=((typeof hxMerge=='function')?hxMerge(x):(x.h||[]).slice().reverse()),c=x.cs||{},a=x.aw||{};
 const hd=g=='q'?'Pass yds / TD / INT / Cmp / QB rush':g=='r'?'Rush yds / TD':g=='w'?'Rec yds / TD':g=='d'?'Sacks':g=='b'?'INT / Tackles':'',cl=g=='q'?`${(c.pyd||0).toLocaleString()} pass yds · ${c.ptd||0} TD · ${c.int||0} INT · ${(c.qry||0).toLocaleString()} rush yds`:g=='r'?`${(c.ryd||0).toLocaleString()} rush yds · ${c.rtd||0} TD`:g=='w'?`${(c.cyd||0).toLocaleString()} rec yds · ${c.ctd||0} TD`:g=='d'?`${c.sk||0} sacks`:g=='b'?`${c.dint||0} INT · ${(c.tkl||0).toLocaleString()} tackles`:'';
 const al=[['r','💍 Rings'],['mvp','MVP'],['opoy','OPOY'],['dpoy','DPOY'],['oroy','OROY'],['droy','DROY'],['sbm','Ultra Bowl MVP']].filter(([k])=>a[k]).map(([k,n])=>n+' ×'+a[k]).join(' · ');
-ui.innerHTML=`<div><h2>#${x.num} ${x.n}</h2>${hsOn()&&x.gr?`<p>${clsN[x.gr]}${x.gr>=3?(x.cm?' · committed to '+x.cm:x.gr==4&&x.cm===null?' · no scholarship offers':' · uncommitted'):''}</p>`:''}${x.inj?`<p style="color:#ff6b6b">🚑 ${x.inj.t} · ${x.inj.w>=90?'out for the season':'out '+x.inj.w+' more week'+(x.inj.w==1?'':'s')}</p>`:''}<p><small>${x.pos} · ${tn(T)} · age ${x.age??'-'} · ${x.ovr}${x.pot!=null?'/'+x.pot:''} OVR</small></p><div class=card><b>Career</b><br><small>${(x.tm&&x.tm.length?x.tm:[tAb(T)]).join(', ')} · ${x.ny||0} season${x.ny==1?'':'s'}</small>${cl?'<br>'+cl:''}${al?'<br>'+al:''}</div>
+ui.innerHTML=`<div><h2>#${x.num} ${x.n}</h2>${hsOn()&&x.gr?`<p>${clsN[x.gr]}${x.gr>=3?(x.cm?' · committed to '+x.cm:x.gr==4&&x.cm===null?' · no scholarship offers':' · uncommitted'):''}</p>`:''}${x.inj?`<p style="color:#ff6b6b">🚑 ${x.inj.t} · ${x.inj.w>=90?'out for the season':'out '+x.inj.w+' more week'+(x.inj.w==1?'':'s')}</p>`:''}<p><small>${x.pos} · ${tn(T)} · age ${x.age??'-'} · ${x.ovr}${x.pot!=null?'/'+x.pot:''} OVR</small></p><div class=card><b>Career</b><br><small>${(typeof plClubs=='function'?plClubs(x,T):(x.tm&&x.tm.length?x.tm:[tAb(T)])).join(', ')} · ${x.ny||0} season${x.ny==1?'':'s'}</small>${cl?'<br>'+cl:''}${al?'<br>'+al:''}</div>
 ${H.length?`<div class=card><b>Season by season</b><br><small>${hd}</small>${H.map(r=>`<div class=row style="font-size:16px"><span>${r[0]} ${TA[r[1]]||''}</span><span>${r.length<3?(g?'<small style="opacity:.65">season played · stats not recorded</small>':'<small style="opacity:.65">season played · no stats kept for this position</small>'):r.slice(2,g=='q'?7:4).map(n=>n.toLocaleString()).join(' / ')}</span></div>`).join('')}</div>`:''}<button class=g onclick="rosT(${i})">Back to roster</button></div>`;ui.scrollTop=0}
 // ===== GOAT lists: QBs only + all positions; career-mode players (you and CPU) can crack both
 const GOAT2='Tim Brody|QB|NE, TB|7 rings · 5 SB MVP · 3 MVP;Jerry Rice|WR|SF, OAK, SEA|3 rings · SB MVP · 2 OPOY;Joe Montana|QB|SF, KC|4 rings · 3 SB MVP · 2 MVP;Pete Manling|QB|IND, DEN|2 rings · SB MVP · 5 MVP;Ricky MaClones|QB|KC|3 rings · 3 SB MVP · 2 MVP;Lawrence Taylor|LB|NYG|2 rings · MVP · 3 DPOY;John Elway|QB|DEN|2 rings · SB MVP · MVP;Drew Brees|QB|SD, NO|1 ring · SB MVP · 2 OPOY;Emmitt Smith|RB|DAL, ARI|3 rings · SB MVP · MVP;Ray Lewis|LB|BAL|2 rings · SB MVP · 2 DPOY;Eric Darnold|DT|LAR|1 ring · 3 DPOY;Rob Gronkowski|TE|NE, TB|4 rings;Tractor Swift|TE|KC|3 rings;Walter Payton|RB|CHI|1 ring · MVP;Reggie White|DE|PHI, GB, CAR|1 ring · 2 DPOY;Randy Moss|WR|MIN, OAK, NE, TEN, SF|OROY · 156 rec TD;Brett Favre|QB|ATL, GB, NYJ, MIN|1 ring · 3 MVP;Deion Sanders|CB|ATL, SF, DAL, WAS, BAL|2 rings · DPOY;Charles Woodson|CB/S|OAK, GB|1 ring · DPOY · DROY;Barry Sanders|RB|DET|MVP · 2 OPOY;Jim Brown|RB|CLE|3 MVP · NFL title (pre-Super Bowl);Rod Woodson|CB/S|PIT, SF, BAL, OAK|1 ring · DPOY;Ed Reed|S|BAL, HOU, NYJ|1 ring · DPOY;Matty Gafford|QB|DET, LAR|1 ring · MVP;Warren Sapp|DT|TB, OAK|1 ring · DPOY'.split(';').map(e=>{const[n,pos,t,acc]=e.split('|');return{n,pos,t,acc}});
@@ -317,7 +317,7 @@ return{p,r:a.r||0,s:a.sbm||0,m:a.mvp||0,d:a.dpoy||0,top:(a.r||0)>7||(a.sbm||0)>5
 function cpuPool(){const P=[],seen=new Set(),add=x=>{if(x&&!seen.has(x)){seen.add(x);P.push(x)}};if(S.stage=='pro')S.T.forEach((t,i)=>rost('h.'+i).forEach((x,k)=>{if(!(i==0&&k==0))add(x)}));(S.alum||[]).forEach(add);add(S.vetP);return P}
 function goatList(mode){const B=(mode=='qb'?GOAT.map(g=>({n:g.n,pos:'QB',t:g.t,acc:g.x||accTxt(g.r,g.s,g.m)})):GOAT2).map((g,i)=>({...g,p:GSC[i]!=null?GSC[i]:GSC[GSC.length-1]-14*(i-GSC.length+1)})),cut=GSC[GSC.length-1],cap=v=>v.top?v.p:Math.min(v.p,GSC[0]-1),L=lgcy();
 if(S.cst&&S.cst.pro)B.push({n:S.name,pos:'QB',t:(S.utm||[tAb(S.T[0])]).join(', '),acc:accTxt(L.rings,L.sbm,L.mvp),p:cap({p:L.pts,top:L.top}),raw:L.pts,me:1,rec:myRec()});
-goatFix(B);cpuPool().forEach(x=>{if(mode=='qb'&&x.pos!='QB')return;const v=cpuLeg(x),ex=B.find(z=>!z.me&&!z.cpu&&z.n==x.n);if(ex){ex.cpu=1;if(cap(v)>ex.p){ex.p=cap(v);ex.raw=v.p;ex.acc=accTxt(v.r,v.s,v.m,v.d)}if(x.pos=='QB')ex.rec=cpuRecOf(x)||ex.rec;return}if(v.p>=cut)B.push({n:x.n,pos:x.pos,t:(x.tm||[]).join(', '),acc:accTxt(v.r,v.s,v.m,v.d),p:cap(v),raw:v.p,cpu:1,rec:x.pos=='QB'?cpuRecOf(x):''})});return B.sort((a,b)=>b.p-a.p)}
+goatFix(B);cpuPool().forEach(x=>{if(mode=='qb'&&x.pos!='QB')return;const v=cpuLeg(x),ex=B.find(z=>!z.me&&!z.cpu&&z.n==x.n);if(ex){ex.cpu=1;if(cap(v)>ex.p){ex.p=cap(v);ex.raw=v.p;ex.acc=accTxt(v.r,v.s,v.m,v.d)}if(x.pos=='QB')ex.rec=cpuRecOf(x)||ex.rec;return}if(v.p>=cut)B.push({n:x.n,pos:x.pos,t:(typeof plClubs=='function'?plClubs(x):(x.tm||[])).join(', '),acc:accTxt(v.r,v.s,v.m,v.d),p:cap(v),raw:v.p,cpu:1,rec:x.pos=='QB'?cpuRecOf(x):''})});return B.sort((a,b)=>b.p-a.p)}
 function goatRank(mode){const G=goatList(mode||'qb'),i=G.findIndex(x=>x.me);return{r:i<0?G.length+1:i+1,L:lgcy()}}
 let GV='qb';
 function goatV(mode){if(mode)GV=mode;const G=goatList(GV),L=lgcy(),mi=G.findIndex(x=>x.me),top=G.slice(0,25),sb=(on,t,f)=>`<button class=g style="flex:1;${on?'outline:3px solid #ffe93b':''}" onclick="${f}">${t}</button>`,nxt=mi>0?G[mi-1]:null;
@@ -1559,9 +1559,9 @@ function coverTick(t,por,dt){const m=PL.cv;if(!m)return;coverQB(m,t);
 const att=PL.cvm!='menu',sw=Math.sin(t*.22)*.14,push=att?Math.sin(t*.18)*.6:0,a=PL.cry-.75+sw,D=(att?(por?11.5:12.5):(por?19:12.5))-push,cx=-Math.sin(a)*D,cz=-46-Math.cos(a)*D,cy=att?(por?2.7:2.6):(por?3.2:2.9),F=[0,2.5,-46],fv=por?58:42;
 const dx=F[0]-cx,dz=F[2]-cz,dl=Math.hypot(dx,dz),rx=-dz/dl,rz=dx/dl,nx=att?(por?0:.32):(por?0:-.66),ny=att?(por?-.06:-.04):(por?.4:-.02),th=Math.tan(fv*Math.PI/360),asp=W/H;
 cm.fov=fv;cm.position.set(cx,cy,cz);cm.lookAt(F[0]-rx*dl*nx*th*asp,F[1]-dl*(ny-(PL.dy||0))*th,F[2]-rz*dl*nx*th*asp);cm.updateMatrixWorld();cm.updateProjectionMatrix();ttlFit()}
-let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0003</small></div>`;ui.scrollTop=0}
+let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0004</small></div>`;ui.scrollTop=0}
 function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=6;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
-ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0003</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
+ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0004</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
 // a clear "scroll for more" hint whenever a screen runs past the bottom
 function scrH(){let e=$('#scrh');if(!e){e=document.createElement('div');e.id='scrh';e.innerHTML='▼ Scroll for more ▼';e.onclick=()=>ui.scrollBy({top:ui.clientHeight*.7,behavior:'smooth'});document.body.appendChild(e)}const show=ui.style.display!='none'&&!(typeof LR!='undefined'&&LR)&&cv.style.display!='block'&&ui.scrollHeight-ui.clientHeight-ui.scrollTop>40;e.style.display=show?'block':'none'}
 function scene(m){M=m;SPIN=0;const ind=m=='lock'||m=='iv'||m=='drf';FLD.visible=EZ.visible=!ind;LOK.visible=ind;if(m!='lock'&&$('#lrw')){$('#lrw').style.display='none';LR=null}if(m!='cmb'){const cw=$('#cmbw');if(cw)cw.style.display='none'}DYN.visible=m=='game';CHR.visible=m=='game';PL.visible=m!='game';LOSm.visible=FDm.visible=m=='game';scn.background=m=='lock'?new T3.Color(0x24323f):ind?new T3.Color(0x07080b):m=='cover'?NIGHT:SKY;scn.fog=ind?null:m=='cover'?new T3.Fog(0x0b1730,70,220):new T3.Fog(0xcdeeff,90,240);{const hm=scn.children.find(c=>c instanceof T3.HemisphereLight);if(hm)hm.intensity=m=='cover'?.5:.95;sun.intensity=m=='cover'?.35:.7}if(m=='lock')lockP();else if(m=='field')pract();else if(m=='cover')coverP()}
@@ -4139,7 +4139,7 @@ function babyYear(){if(!S.preg)return;const g=S.preg.g,n=(g=='b'?NF[ri(0,NF.leng
 function kidsHtml(){const K=S.kids||[];if(!K.length&&!S.preg)return '';return `<div class=card><b>👶 Your kids</b>${S.preg?'<p><small>A baby '+(S.preg.g=='b'?'boy':'girl')+' is on the way.</small></p>':''}${K.map((k,i)=>`<div class=row style="font-size:16px"><span>${esc(k.n)} <small>${k.g=='b'?'Son':'Daughter'} · age ${k.age}</small></span><button class=g onclick="kidName(${i})">Rename</button></div>`).join('')}</div>`}
 function kidName(i){const k=(S.kids||[])[i];if(!k)return famV();const n=prompt('Name your '+(k.g=='b'?'son':'daughter')+':',k.n.split(' ')[0]);if(n&&n.trim())k.n=n.trim().slice(0,20)+' '+lastN();save();famV()}
 function kidsYear(){(S.kids||[]).forEach(k=>k.age++)}
-// ===================== V 0.0.1.0003 · nicer 3D homes (cutaway walls + decor) =====================
+// ===================== V 0.0.1.0004 · nicer 3D homes (cutaway walls + decor) =====================
 // Walls between the camera and you drop down to a short stub (dollhouse view), so you can always see inside.
 function hmCut(L,C){(L.hw||[]).forEach(w=>{const out=w.ax=='z'?(C.z-w.v)*w.sg>-.2:(C.x-w.v)*w.sg>-.2;if(out===w.cut)return;w.cut=out;w.m.scale.y=out?.12:1;w.m.position.y=out?w.h*.06:w.h/2;(w.ex||[]).forEach(e=>e.visible=!out)})}
 function hmDecor(id,sz,W,D,x1,x2,zb,zf,z0,pal,hw,O){const P=PL,wb=hw[0],wL=hw[1],wR=hw[2],on=(w,m)=>{(w.ex=w.ex||[]).push(m);return m};
@@ -10175,5 +10175,119 @@ window.bkUse=function(i,suf){try{const k=K+'_'+i,kb_=k+suf,cur=localStorage.getI
  try{if(CL){const c={...s},ro=c.ro;delete c.ro;cdPut2(CL.d,CL.p+'slot'+i,c).then(()=>ro&&cdPut2(CL.d,CL.p+'ro'+i,ro)).catch(e=>cloudWarn(e))}}catch(e){}
  HM='🛟 Slot '+i+' restored'+(f?' to '+f.yr+' week '+f.wk:'')+'.';bkV()}catch(e){alert('Could not restore: '+e.message)}};
 (()=>{try{const _m=menuMain;menuMain=function(){const r=_m.apply(this,arguments);try{const p=ui.querySelector('.mpan');if(p&&!p.querySelector('[data-bk]'))p.insertAdjacentHTML('beforeend','<button class=g data-bk=1 onclick="bkV()">🛟 Restore an earlier save</button>')}catch(e){}return r}}catch(e){}})();
+// ===== 🔒 A SAVE NEVER GOES BACKWARDS =====
+// Tyler, 2026-11-14: "tell me what you're going to do to make sure every season saves exactly the week
+// that it's at ... even in future updates" / "You already fucked up. Fix it".
+// What went wrong: his year-8 (2036) save was overwritten by an older 2035 copy (the old cloud restore),
+// and the backups rotated away. Nothing in the game knew how far a save had got.
+//
+// Now, at the lowest level (every write to a slot goes through localStorage.setItem, whatever code does
+// it — saving, the cloud, an import, a restore, or anything a future update adds):
+//  - each slot remembers the FURTHEST point its career reached (season + week), apart from the save.
+//  - if anything writes an OLDER point of the same career over it, the furthest copy is first put away
+//    in the phone's larger storage (IndexedDB) and kept until the career passes it again. A warning shows
+//    on the main menu and the restore screen offers it.
+//  - checkpoints: the save as it was at the end of every season, and every 4 weeks (the 3 latest kept),
+//    are put away the same way. Season-end checkpoints are never removed.
+// It only ADDS copies; it never changes what is in a save.
+
+window.KP={db:null,wait:[]};
+window.kpDb=function(){return new Promise(res=>{if(KP.db)return res(KP.db);try{const q=indexedDB.open('fmkeep',1);
+ q.onupgradeneeded=()=>{try{q.result.createObjectStore('c')}catch(e){}};q.onsuccess=()=>{KP.db=q.result;res(KP.db)};q.onerror=()=>res(null)}catch(e){res(null)}})};
+window.kpPut=function(id,val,meta){const p=kpDb().then(db=>new Promise(res=>{if(!db)return res(false);try{const t=db.transaction('c','readwrite');t.objectStore('c').put({v:val,m:meta,t:Date.now()},id);t.oncomplete=()=>res(true);t.onerror=()=>res(false)}catch(e){res(false)}}));KP.wait.push(p);return p};
+window.kpGet=function(id){return kpDb().then(db=>new Promise(res=>{if(!db)return res(null);try{const q=db.transaction('c').objectStore('c').get(id);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null)}catch(e){res(null)}}))};
+window.kpDel=function(id){return kpDb().then(db=>new Promise(res=>{if(!db)return res(false);try{const t=db.transaction('c','readwrite');t.objectStore('c').delete(id);t.oncomplete=()=>res(true);t.onerror=()=>res(false)}catch(e){res(false)}}))};
+window.kpAll=function(){return kpDb().then(db=>new Promise(res=>{if(!db)return res([]);try{const out=[],q=db.transaction('c').objectStore('c').openCursor();q.onsuccess=()=>{const c=q.result;if(c){out.push({id:c.key,...c.value});c.continue()}else res(out)};q.onerror=()=>res(out)}catch(e){res([])}}))};
+window.kpFlush=function(){const w=KP.wait;KP.wait=[];return Promise.all(w)};
+
+// where a save is: one number that only grows while one career is played
+window.kpInfo=function(s){try{if(!s||!s.T)return null;const h=s.hist||[];
+ return {key:(s.name||'')+'|'+(s.y0||2022)+'|'+(h[0]?[h[0].yds,h[0].td,h[0].att].join(','):'new'),p:h.length*100+(s.wk||0),yr:(s.y0||2022)+h.length,wk:(s.wk||0)+1,name:s.name||'?',stage:s.stage||'hs'}}catch(e){return null}};
+window.kpInfoV=function(v){try{return kpInfo(JSON.parse(dz(v)))}catch(e){return null}};
+window.kpHw=function(i){try{return JSON.parse(localStorage.getItem(K+'_hw'+i)||'null')}catch(e){return null}};
+window.KPWARN={};
+const _kpSet=Storage.prototype.setItem,_kpGet=Storage.prototype.getItem;
+const kpHwSet=(i,f)=>{try{_kpSet.call(localStorage,K+'_hw'+i,JSON.stringify({key:f.key,p:f.p,yr:f.yr,wk:f.wk,name:f.name,ts:Date.now()}))}catch(e){}};
+window.kpSlotOf=function(k){if(typeof k!=='string'||typeof K!=='string'||k.indexOf(K+'_')!==0)return 0;const m=/^_([1-6])$/.exec(k.slice(K.length));return m?+m[1]:0};
+Storage.prototype.setItem=function(k,v){
+ const i=this===localStorage?kpSlotOf(k):0;
+ if(i){try{
+  const f=(window.KPCUR&&KPCUR.slot===i)?KPCUR.f:kpInfoV(v);   // during the game's own save the slot's only write is S
+  const hw=kpHw(i),old=_kpGet.call(localStorage,k);
+  if(f&&hw&&hw.key===f.key&&f.p<hw.p){
+   // GOING BACKWARDS. Put the furthest copy away before it can be lost (the slot holds it unless it was already lost).
+   const of=old?kpInfoV(old):null;
+   if(old&&of&&of.key===hw.key&&of.p>=hw.p)kpPut('top_'+i,old,of);
+   KPWARN[i]={had:hw,now:f};
+  }else if(f){
+   // forward (or a new career in this slot): checkpoints, then the new furthest point.
+   // What the slot holds now is the furthest point (hw), so it isn't unpacked on every save.
+   const of=(old&&hw&&hw.key===f.key)?hw:null,tag=f.key.replace(/[^A-Za-z0-9]/g,'').slice(0,24);
+   if(of&&of.yr<f.yr)kpPut('end_'+i+'_'+of.yr+'_'+tag,old,of);          // end of every season, kept for good
+   if(of&&of.yr===f.yr&&Math.floor(of.wk/4)!==Math.floor(f.wk/4))kpPut('wk_'+i+'_'+(of.yr*100+of.wk),old,of).then(()=>kpTrim(i));
+   if(!hw||hw.key!==f.key||f.p>=hw.p){kpHwSet(i,f);delete KPWARN[i]}
+   if(hw&&hw.key===f.key&&f.p>=hw.p)kpGet('top_'+i).then(t=>{if(t&&t.m&&t.m.key===f.key&&t.m.p<=f.p)kpDel('top_'+i)});
+  }
+ }catch(e){}}
+ return _kpSet.call(this,k,v)};
+window.kpTrim=function(i){return kpAll().then(L=>{const w=L.filter(x=>String(x.id).indexOf('wk_'+i+'_')===0).sort((a,b)=>b.t-a.t);return Promise.all(w.slice(3).map(x=>kpDel(x.id)))})};
+
+// the game's own saving tells the guard what it is writing (so it doesn't have to unpack it again)
+(()=>{try{const _zf=zFlush;zFlush=function(){try{const P=ZPEND;window.KPCUR=(P&&S&&SLOT===P.slot)?{slot:P.slot,f:kpInfo(S)}:null;return _zf.apply(this,arguments)}finally{window.KPCUR=null}}}catch(e){}})();
+
+// on start: learn the furthest point of saves that are already on the phone (no rewrite of anything)
+(()=>{try{for(let i=1;i<=6;i++){const v=_kpGet.call(localStorage,K+'_'+i);if(!v)continue;const f=kpInfoV(v);const hw=kpHw(i);if(f&&(!hw||hw.key!==f.key||f.p>hw.p))kpHwSet(i,f);
+ if(f&&hw&&hw.key===f.key&&f.p<hw.p)KPWARN[i]={had:hw,now:f}}}catch(e){}})();
+
+// ---- main menu: say it out loud when a slot is behind where it got to ----
+(()=>{try{const _m=menuMain;menuMain=function(){const r=_m.apply(this,arguments);try{const p=ui.querySelector('.mpan');if(p)Object.keys(KPWARN).forEach(i=>{if(p.querySelector('[data-kpw="'+i+'"]'))return;const w=KPWARN[i];
+ p.insertAdjacentHTML('afterbegin',`<div class=card data-kpw="${i}" style="border-color:#ff6b6b"><b>⚠️ Slot ${i} is behind where you got to</b><br><small>${esc(w.had.name)} reached ${w.had.yr} week ${w.had.wk}; the slot now holds ${w.now.yr} week ${w.now.wk}. Your furthest copy is kept.</small><button class=g onclick="bkV()">🛟 See saved copies</button></div>`)})}catch(e){}return r}}catch(e){}})();
+
+// ---- restore screen: the furthest copy and the checkpoints, below the device backups ----
+const kpLbl=id=>id.indexOf('top_')===0?'⭐ furthest you reached':id.indexOf('end_')===0?'end of season':id.indexOf('pre_')===0?'before a restore':'checkpoint';
+(()=>{try{const _v=bkV;window.bkV=function(){const r=_v.apply(this,arguments);try{const host=ui.querySelector('.card:last-of-type')||ui.firstElementChild;
+ kpAll().then(L=>{if(!L.length||!host||!host.isConnected)return;L.sort((a,b)=>(b.m&&b.m.p||0)-(a.m&&a.m.p||0));
+  const rows=L.filter(x=>x.m).map(x=>{const i=String(x.id).split('_')[1];return `<div class=row style="font-size:16px;gap:6px;align-items:flex-start"><span style="min-width:0"><b>Slot ${i}</b> <small>(${kpLbl(String(x.id))})</small><br>${esc(x.m.name)} · ${x.m.yr} · week ${x.m.wk}<br><small>kept ${new Date(x.t).toLocaleString()}</small></span><button class=g style="width:auto;flex:none" onclick="kpUse('${x.id}')">Restore</button></div>`}).join('');
+  if(rows&&!ui.querySelector('[data-kpl]'))host.insertAdjacentHTML('afterend',`<div class=card data-kpl=1><b>Kept copies</b><br><small>The furthest point each career reached, every season end, and recent checkpoints.</small>${rows}</div>`)})}catch(e){}return r}}catch(e){}})();
+
+window.kpUse=async function(id){try{const x=await kpGet(id);if(!x||!x.m)return bkV();const i=+String(id).split('_')[1];
+ if(!confirm('Restore slot '+i+' to '+x.m.name+', '+x.m.yr+' week '+x.m.wk+'? What is in the slot now is kept too.'))return;
+ const k=K+'_'+i,cur=_kpGet.call(localStorage,k);if(cur){const cf=kpInfoV(cur);if(cf)await kpPut('pre_'+i+'_'+Date.now(),cur,cf)}
+ const s=JSON.parse(dz(x.v));s.ts=Date.now();localStorage.setItem(k,ez(JSON.stringify(s)));
+ try{if(CL){const c={...s},ro=c.ro;delete c.ro;cdPut2(CL.d,CL.p+'slot'+i,c).then(()=>ro&&cdPut2(CL.d,CL.p+'ro'+i,ro)).catch(e=>cloudWarn(e))}}catch(e){}
+ if(SLOT===i&&S&&S.name===s.name){S=load(i);LASTJ=''}
+ HM='🛟 Slot '+i+' restored to '+x.m.yr+' week '+x.m.wk+'.';bkV()}catch(e){alert('Could not restore: '+e.message)}};
+// ===== 🏈 A CARD ONLY LISTS CLUBS A PLAYER REALLY PLAYED FOR =====
+// Tyler, 2026-11-14: "we making sure Miles Garrett's not playing for the Chiefs when he never played for
+// the Chiefs. You might want to make sure that doesn't happen to any other player ... Don't want that to
+// happen again ever."
+// Measured on his slot 4 (cloud copy, 2035): Meters Ferret's card read "KC, CLE, LAG" but every season he
+// has is CLE (2022-25) and LAG (2026-34). Same for 8 more stars (Lamarcus Action "DEN", Daryl Henny "LV,
+// MIA", Joseph Shiesty "IND", Ricky MaClones "MIA", Gene Smothers "IND, LA, LAG", Jack Mascott "HOU",
+// Jack Goff "IND"). Cause: when a league is created the game makes up earlier clubs for every player
+// (genHist), and the card printed that list (x.tm) instead of the seasons.
+// Ferret's KC came from a made-up 2021 season row. Now the club list is worked out from what is RECORDED since 2022: every season row he has, every move in the
+// transactions log, and the club he is on now. A made-up club is never shown. The stored list is not
+// changed or deleted (nothing in the save is touched); it is only no longer trusted for display.
+
+window.PLCUR={at:0,m:null};
+window.plCurOf=function(x){try{if(!PLCUR.m||Date.now()-PLCUR.at>1500||PLCUR.s!==S){const m=new Map();
+  if(S&&S.T)S.T.forEach((t,i)=>{try{(rost('h.'+i)||[]).forEach(y=>{if(y)m.set(y,i)})}catch(e){}});PLCUR={at:Date.now(),m,s:S}}
+ const i=PLCUR.m.get(x);return i==null?null:i}catch(e){return null}};
+window.plTxClubs=function(x){try{const out=new Set();(S.tx||[]).forEach(e=>{if(e&&e.n===x.n){if(e.from&&TA.includes(e.from))out.add(e.from);if(e.to&&TA.includes(e.to))out.add(e.to)}});return out}catch(e){return new Set()}};
+window.plClubs=function(x,T){try{if(!x)return [];
+ // seasons before the league's first real year (2022) were made up when the league was created (genHist): not proof
+ const y0=(typeof uY0=='function'?uY0():2022);
+ const rows=((typeof hxMerge=='function'?hxMerge(x):x.h)||[]).filter(r=>r&&r[0]!=null&&r[0]>=y0).slice().sort((a,b)=>a[0]-b[0]);
+ const ok=[];const push=a=>{if(a&&ok[ok.length-1]!==a){const k=ok.indexOf(a);if(k>=0)ok.splice(k,1);ok.push(a)}};
+ rows.forEach(r=>push(typeof r[1]=='number'?TA[r[1]]:r[1]));
+ const tx=plTxClubs(x);
+ // keep the stored order for clubs the log proves, so a traded man reads in the order he moved
+ (x.tm||[]).forEach(a=>{if(tx.has(a)&&ok.indexOf(a)<0)ok.push(a)});
+ let cur=null;if(T)cur=tAb(T);else{const i=plCurOf(x);if(i!=null&&S.T[i])cur=tAb(S.T[i])}
+ if(cur)push(cur);
+ return ok}catch(e){return (x&&x.tm)||[]}};
+// how many listed clubs were dropped because nothing records them (for the gate and the audit)
+window.plUnproven=function(x,T){const s=new Set(plClubs(x,T));return (x.tm||[]).filter(a=>!s.has(a))};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

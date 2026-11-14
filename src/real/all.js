@@ -30,6 +30,12 @@ const TESTS=[
  {f:'bk1.js', why:'restore an earlier save: menu button, lists backups, restores, stamps it now, nothing deleted',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_buttonOnMenu','B_listsBoth','C_restored','C_stampedNow','D_nothingLost'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
+ {f:'kp1.js', why:'A SAVE NEVER GOES BACKWARDS: replays the year-8 loss (2036 saved, older 2035 written over it): furthest copy kept, menu warns, restore brings 2036 back, season-end kept, same after an update, no false alarms, no slower saves',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_furthestKept','B_menuWarns','C_restoreListsIt','C_restored','C_olderKeptToo','C_warningGone','D_seasonEndKept','E_sameAfterUpdate','F_noFalseAlarm'])if(d[k]!==true)return k+' = '+d[k];if(!(d.G_msPerSave<120))return 'saves slower: '+d.G_msPerSave+'ms';if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
+ {f:'pl2.js', why:'A CARD ONLY LISTS CLUBS A PLAYER REALLY PLAYED FOR: every card checked against his seasons since 2022, the moves log and his club now (Meters Ferret never KC); save untouched',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.A_ferretNoKC!==true)return 'Ferret card: '+d.A_ferretCard;if(d.B_unrecordedClubsShown!==0)return d.B_unrecordedClubsShown+' cards show a club never played for, e.g. '+(d.B_examples||[])[0];if(d.C_currentClubMissing!==0)return d.C_currentClubMissing+' cards miss the current club';if(d.D_saveUntouched!==true)return 'save changed';if(!(d.cards>700))return 'only '+d.cards+' cards rendered';if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+
  {f:'cl2.js', why:'THE CLOUD NEVER REPLACES A SAVE ON THE DEVICE: it asks; empty slots still come back; the device copy is always kept',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_deviceKept','B_asks','C_keepStaysKept','D_emptySlotRestored','E_useCloud','E_deviceKeptAsBackup'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
