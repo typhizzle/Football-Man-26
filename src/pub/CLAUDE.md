@@ -585,3 +585,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   (shipped V233-V244). PWC/PWN/AWK collided with game consts and were silently shadowed. Renamed
   (coachV/coachCard, PWCURVE/PWNAMES, AWHK). nm1.js scans every window.NAME in m121+ against all
   declarations — run it before adding any new global. Gate now 28.
+- V246: thrD(p): swipe power ≤75% keeps the OLD distance (14+pow*.55)*level; the last 25% stretches to the new max. Patched into swThrow (d=) and the slingshot (k=). flick3: 10.5/18.8/40.2/85 yds.

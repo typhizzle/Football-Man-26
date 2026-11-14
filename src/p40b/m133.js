@@ -33,3 +33,8 @@ up=function(k){const c=upCost(k);if(S.q[k]>=99)return hub();if(S.pts<c){HM='+1 '
   for(let g=0;g<200&&qo(q)>T;g++){const k=O.filter(x=>q[x]>25).sort((a,b)=>q[b]-q[a])[0];if(!k)break;q[k]--}}}catch(e){}return r}}catch(e){}})();
 // ---- show the arm on a QB's card ----
 (()=>{try{const _c=pCard;pCard=function(i,j){const r=_c.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.pos==='QB'&&x.pw){const d=ui.querySelector('.card');if(d&&!d.querySelector('[data-pw]'))d.insertAdjacentHTML('beforeend',`<br><small data-pw=1>💪 Throw power ${x.pw} · max ${x.pwy||Math.round(pwYds(x.pw))} yds</small>`)}}catch(e){}return r}}catch(e){}})();
+// Tyler, 2026-11-14 ("Yes" to keeping the old feel): a swipe up to 75% power goes exactly as far as it
+// always did (old range 14 + pow*0.55); only the last quarter of the swipe stretches out to the new
+// maximum from his table. Used by swipe-to-throw AND the slingshot. thrR() stays the maximum.
+window.thrD=function(p){p=Math.max(0,Math.min(1,+p||0));const pw=(S&&S.q&&S.q.pow)||60,lv=pwLv(),OLD=(14+pw*.55)*lv,NEW=pwYds(pw)*lv,K=.75;
+ if(NEW<=OLD||p<=K)return p*Math.min(OLD,NEW);return K*OLD+(p-K)/(1-K)*(NEW-K*OLD)};

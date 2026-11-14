@@ -181,6 +181,7 @@ const TESTS=[
    if(String(d.B_hilton)!=='99,85'||String(d.B_fallon)!=='98,83'||String(d.B_williams)!=='96,77')return 'named QB ratings wrong';
    if((d.B_ovrUnchanged||[]).length)return 'overall changed: '+d.B_ovrUnchanged.join(', ');
    if(d.C_mobile.mob!==3||d.C_mobile.pow!==6||d.C_deep.pow!==3||d.C_deep.mob!==6||d.C_fg.acc!==1||d.C_scr.acc!==3)return 'archetype costs wrong';
+   if(Math.abs(d.F_mid-40.4)>1||d.F_full!==85)return 'swipe feel wrong: medium '+d.F_mid+' full '+d.F_full;if(d.F_slingUsesIt!==true)return 'slingshot not on the same distance rule';
    if(d.D_kept!==true)return 'power/speed cut at level change';if(d.E_card!==true)return 'QB card does not show the arm';return null}},
 
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',

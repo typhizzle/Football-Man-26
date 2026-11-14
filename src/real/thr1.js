@@ -5,7 +5,8 @@ const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json'
 const ovr0={},dup={};Object.values(raw.ro).forEach(L=>Array.isArray(L)&&L.forEach(x=>{if(x&&x.n){if(x.n in ovr0)dup[x.n]=1;ovr0[x.n]=x.ovr}}));Object.keys(dup).forEach(n=>delete ovr0[n]);
 const r=await pg.evaluate(async(j,ovr0)=>{const out={};try{const s=await readCode(j);S=s;SLOT=1;LASTJ='';
  const at=(p,st)=>{const o=S.stage,q=S.q.pow;S.stage=st;S.q.pow=p;const v=thrR();S.stage=o;S.q.pow=q;return Math.round(v*10)/10};
- out.A_pro99=at(99,'pro');out.A_pro96=at(96,'pro');out.A_pro82=at(82,'pro');out.A_pro72=at(72,'pro');out.A_col99=at(99,'col');out.A_hs99=at(99,'hs');
+ out.A_pro99=at(99,'pro');{const o=S.q.pow,st=S.stage;S.q.pow=99;S.stage='pro';out.F_mid=Math.round(thrD(.59)*10)/10;out.F_full=Math.round(thrD(1)*10)/10;S.q.pow=o;S.stage=st}
+ out.F_slingUsesIt=String(typeof slt!='undefined'?slt:'').includes('thrD')||document.documentElement.innerHTML.includes('thrD(slPow(m))');out.A_pro96=at(96,'pro');out.A_pro82=at(82,'pro');out.A_pro72=at(72,'pro');out.A_col99=at(99,'col');out.A_hs99=at(99,'hs');
  const all=[];sealWalk(S,x=>all.push(x));const f=n=>all.find(x=>x.n===n);
  out.B_hilton=f('Jacque Hilton III')&&[f('Jacque Hilton III').pw,f('Jacque Hilton III').pwy];
  out.B_fallon=f('Jarsh Fallon')&&[f('Jarsh Fallon').pw,f('Jarsh Fallon').pwy];out.B_williams=f('Mallet Williams')&&[f('Mallet Williams').pw,f('Mallet Williams').pwy];

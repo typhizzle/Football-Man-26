@@ -1475,7 +1475,7 @@ if(S.thm=='swipe'&&mg>=28){g.flash='Swipe up to throw (slingshot is off: pause m
 if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;return}if(mg<28&&a.t){const q0=P.qb,dx=a.t[0]-q0.x,dy=a.t[1]-q0.y,dl=Math.hypot(dx,dy)||1;let bw=null,bs=-9;P.wr.forEach(w=>{const wx=w.x-q0.x,wy=w.y-q0.y,wl=Math.hypot(wx,wy)||1,al=(wx*dx+wy*dy)/(wl*dl),s_=al-wl/60;if(al>.5&&s_>bs){bs=s_;bw=w}});if(bw)a.t=[bw.x,bw.y]}
 if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}doThrow(b,t0,t1)}}}});
 cv.addEventListener('lostpointercapture',e=>{if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null});cv.addEventListener('pointercancel',e=>{if(swp&&e.pointerId==swp.id)swp=null;if(lk&&e.pointerId==lk.id)lk=null;if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id)aim=null});
-const slt=a=>{const q=g.pl.qb,m=Math.hypot(a.px,a.py)||1,k=slPow(m)*thrR();if(CAMI>=3){try{const d_=swDir(-a.px/m,-a.py/m);if(d_)return[q.x+d_[0]*k,q.y+d_[1]*k]}catch(e){}}const yw=CAMI==1||CAMI==2?LY:0,l=-a.px/m,f=a.py/m;return[q.x+(f*Math.sin(yw)+l*Math.cos(yw))*k,q.y+(f*Math.cos(yw)-l*Math.sin(yw))*k]};
+const slt=a=>{const q=g.pl.qb,m=Math.hypot(a.px,a.py)||1,k=(typeof thrD=='function'?thrD(slPow(m)):slPow(m)*thrR());if(CAMI>=3){try{const d_=swDir(-a.px/m,-a.py/m);if(d_)return[q.x+d_[0]*k,q.y+d_[1]*k]}catch(e){}}const yw=CAMI==1||CAMI==2?LY:0,l=-a.px/m,f=a.py/m;return[q.x+(f*Math.sin(yw)+l*Math.cos(yw))*k,q.y+(f*Math.cos(yw)-l*Math.sin(yw))*k]};
 function mvmove(px,py){const c=g.pl.car;if(c.mv>0||g.pl.t-(c.lm||-9)<1.4)return;c.trkU=0;const ax=Math.abs(px),ay=Math.abs(py);let mt='juke';if(py>0&&ay>ax*1.1)mt='slide';else if(py<0&&ay>ax*1.5)mt='truck';else if(py<0&&ay>ax*.5)mt='spin';
 if(mt=='slide'){g.flash='SLIDE';g.ft=.7;c.sl=1;endPlay(c.y,'SLIDE — ball secured');return}
 const P_=g.pl;c.mu=(c.mu||0)*Math.exp(-(P_.t-(c.lm||0))/4.5)+1;c.lm=P_.t;c.eff=1/c.mu;c.mt=mt;if(mt=='juke')c.x+=Math.sign(px)*2.2*Math.max(.35,c.eff);if(mt=='spin')c.y+=.8*c.eff;c.mv=.5;g.flash=mt.toUpperCase()+'!';g.ft=.7}
@@ -2676,7 +2676,7 @@ function swGround(ox,oy,sx,sy,d){const q=g.pl.qb;let last=null,lastD=0;
  if(last&&lastD>.5)return[q.x+(last[0]-q.x)/lastD*d,q.y+(last[1]-q.y)/lastD*d];const dir=swDir(sx,sy);return[q.x+dir[0]*d,q.y+dir[1]*d]}
 // Flick-QB style: the ball goes exactly along the line you flicked (from the QB on your screen), the speed of the flick is the distance,
 // a curved flick curves the ball; accuracy adds spray (doThrow) and, for good passers, a little pull toward a receiver they were close to
-function swThrow(sx,sy,p,x0,y0,pts,rx,ry){const P=g.pl,q=P.qb,Rg=thrR(),aF=accF();let d=Math.max(5,Math.min(1,p)*Rg);
+function swThrow(sx,sy,p,x0,y0,pts,rx,ry){const P=g.pl,q=P.qb,Rg=thrR(),aF=accF();let d=Math.max(5,typeof thrD=='function'?thrD(p):Math.min(1,p)*Rg);
  let O=CAMI==1&&!g.sw?[W/2,H]:pj(q.x,q.y,0);if(CAMI!=1&&v3.z>1)O=swBall();
  // started on/near your QB? then the ball heads for the spot your finger let go over (it follows your finger)
  if(rx!=null&&!(CAMI==1&&!g.sw)&&Math.hypot(x0-O[0],y0-O[1])<Math.min(W,H)*.22){const ex=rx-O[0],ey=ry-O[1],el=Math.hypot(ex,ey);if(el>30&&ey<0){sx=ex/el;sy=ey/el;const G=upj(rx,ry);if(G){const rel=Math.hypot(G[0]-q.x,G[1]-q.y);if(rel>2)d=cl(Math.min(rel*.45+d*.55,d*1.5),5,Rg)}}}
@@ -9938,5 +9938,10 @@ up=function(k){const c=upCost(k);if(S.q[k]>=99)return hub();if(S.pts<c){HM='+1 '
   for(let g=0;g<200&&qo(q)>T;g++){const k=O.filter(x=>q[x]>25).sort((a,b)=>q[b]-q[a])[0];if(!k)break;q[k]--}}}catch(e){}return r}}catch(e){}})();
 // ---- show the arm on a QB's card ----
 (()=>{try{const _c=pCard;pCard=function(i,j){const r=_c.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.pos==='QB'&&x.pw){const d=ui.querySelector('.card');if(d&&!d.querySelector('[data-pw]'))d.insertAdjacentHTML('beforeend',`<br><small data-pw=1>💪 Throw power ${x.pw} · max ${x.pwy||Math.round(pwYds(x.pw))} yds</small>`)}}catch(e){}return r}}catch(e){}})();
+// Tyler, 2026-11-14 ("Yes" to keeping the old feel): a swipe up to 75% power goes exactly as far as it
+// always did (old range 14 + pow*0.55); only the last quarter of the swipe stretches out to the new
+// maximum from his table. Used by swipe-to-throw AND the slingshot. thrR() stays the maximum.
+window.thrD=function(p){p=Math.max(0,Math.min(1,+p||0));const pw=(S&&S.q&&S.q.pow)||60,lv=pwLv(),OLD=(14+pw*.55)*lv,NEW=pwYds(pw)*lv,K=.75;
+ if(NEW<=OLD||p<=K)return p*Math.min(OLD,NEW);return K*OLD+(p-K)/(1-K)*(NEW-K*OLD)};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

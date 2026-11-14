@@ -579,3 +579,6 @@ r("""onclick="up('${k}')">+1</button>""","""onclick="up('${k}')">+1${typeof upCo
 r("thrR=()=>14+((S&&S.q&&S.q.pow)||60)*.55","thrR=()=>(typeof pwYds=='function'?pwYds((S&&S.q&&S.q.pow)||60)*pwLv():14+((S&&S.q&&S.q.pow)||60)*.55)")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m133.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m133b: short/medium swipes keep their old distance; only full swipes reach the new max (swipe + slingshot)
+r("let d=Math.max(5,Math.min(1,p)*Rg);","let d=Math.max(5,typeof thrD=='function'?thrD(p):Math.min(1,p)*Rg);")
+r("k=slPow(m)*thrR();","k=(typeof thrD=='function'?thrD(slPow(m)):slPow(m)*thrR());")
