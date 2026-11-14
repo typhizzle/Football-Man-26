@@ -613,3 +613,4 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - Skeleton outfits (SKEL hx4/5/6) drew a built-in skull over the head; now only if S.hat==null (never
   chose). "No headwear" ('') shows his face; Skull mask headwear still draws it via hatOn. hat1.js.
   Cowboy suits / horse head also have built-in head pieces — unchanged (not reported).
+- V248: Tyler asked to fix his inflated season. bxRedo(s): once per save, if the season in progress when m135 shipped is not closed yet (pro: S.sled!==S.py), S.bxv.w=0 so every CPU game of it uses the new formula. Closed (archived, sealed) seasons are NOT rewritten. 11-07 save at wk13: rush leader 1296, pass TD 28, rec TD 14.

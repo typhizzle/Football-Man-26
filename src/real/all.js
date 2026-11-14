@@ -189,9 +189,9 @@ const TESTS=[
    let n=0,ok=0;Object.entries(d.cases||{}).forEach(([k,v])=>{if(/over/.test(k))return;n+=v.n;ok+=v.ok});
    if(n<20)return 'only '+n+' swipes tested';if(ok/n<.85)return ok+'/'+n+' swipes landed on the man they ended on';return null}},
 
- {f:'st1.js', why:'NO STAT INFLATION: 10 simulated seasons of box scores look like real football; games already played keep their stats',
+ {f:'st1.js', why:'NO STAT INFLATION: 10 simulated seasons of box scores look like real football; the inflated in-progress season is redone once; closed seasons untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
-   if(d.markerSetOnLoad!==true)return 'played-games marker not set on load';if(d.playedGamesUnchanged!==true)return 'an already-played game changed its box score';
+   if(d.markerSetOnLoad!==true)return 'played-games marker not set on load';if(d.seasonRedone!==true)return 'the inflated in-progress season was not redone';if(d.playedGamesNowRealistic!==true)return 'played games of the inflated season still use the old formula';
    if(d.rush2000_total>3)return d.rush2000_total+' 2,000-yd rushers in 10 seasons';if(d.rushTDlead_max>27)return 'rush TD leader '+d.rushTDlead_max;
    if(d.pass40_perSeason>2)return d.pass40_perSeason+' QBs/season with 40+ pass TD';if(d.passTDlead_max>52)return 'pass TD leader '+d.passTDlead_max;
    if(d.rec20_total>3)return d.rec20_total+' 20+ rec TD seasons';if(d.recTDlead_avg>19)return 'rec TD leader avg '+d.recTDlead_avg;

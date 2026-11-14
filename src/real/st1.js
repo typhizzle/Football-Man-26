@@ -5,7 +5,7 @@ const H=require('/home/claude/real/h.js'),fs=require('fs');
 const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');const OLD=!!process.env.OLD;
 const r=await pg.evaluate(async(j,OLD)=>{const out={};try{const s=await readCode(j);S=s;SLOT=1;LASTJ='';
  // games already played keep their box score: week 0 built under the save's own marker vs the old formula
- {const G=S.gr||{},w0=Object.keys(G)[0],gm=G[w0]&&G[w0][0];if(gm){const keep=S.bxv;out.markerSetOnLoad=!!keep&&keep.y===yrN();const a1=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv={y:99999,w:0};const a0=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv=keep;out.playedGamesUnchanged=a1===a0}}
+ {const G=S.gr||{},w0=Object.keys(G)[0],gm=G[w0]&&G[w0][0];if(gm){const keep=S.bxv;out.markerSetOnLoad=!!keep&&keep.y===yrN();out.seasonRedone=keep&&keep.w===0&&keep.re===1;const a1=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv={y:99999,w:0};const a0=JSON.stringify(bxGet(+w0,gm[0],gm[1]));S.bxv=keep;out.playedGamesNowRealistic=a1!==a0}}
  S.bxv=OLD?{y:99999,w:0}:{y:0,w:0};S.bx={};
  const NS=10,seasons=[];
  for(let sn=0;sn<NS;sn++){const tot={};const add=(ti,n,k,v)=>{const key=ti+'|'+n;(tot[key]=tot[key]||{n,ry:0,rtd:0,ptd:0,py:0,recy:0,rectd:0})[k]+=v||0};
