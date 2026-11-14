@@ -162,7 +162,7 @@ Use the `ArtifactData` tool on the private artifact URL:
 - **Go step by step when walking him through anything** (he's on a phone; one action at a
   time, confirm, then next). Don't dump all steps if he's clearly lost.
 - **Stop wasting usage** — be efficient, no unnecessary searches or re-reads.
-- **Version stays `V 0.0.1.0001`** until a big batch of changes.
+- **Version stays `V 0.0.1.0002`** until a big batch of changes.
 - **Never delete players or stats.** Never change/regenerate in-game history without
   permission. Don't remove features unless told.
 - **Leave / X button on every menu.**
