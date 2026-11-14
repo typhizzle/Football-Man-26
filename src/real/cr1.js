@@ -35,8 +35,8 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  const n1=Object.values(C).reduce((a,e)=>a+e.rows.length,0);
  // F: the screens render and the history button is reachable
  try{staffV();out.F_buttonOnCoachScreen=!!ui.querySelector('[data-crv]')}catch(e){out.F_buttonOnCoachScreen='ERR '+e.message}
- crV();const t1=ui.innerText||'';out.F_listShowsRetired=t1.includes(vicName);
- crCard(vicId);const t2=ui.innerText||'';
+ coachV();const t1=ui.innerText||'';out.F_listShowsRetired=t1.includes(vicName);
+ coachCard(vicId);const t2=ui.innerText||'';
  out.F_cardShowsSeasonAndExit=t2.includes(String(yr))&&/retired/i.test(t2)&&t2.includes('Back');
  out.E_rows=n1;
  // H: the record survives a save and a reload

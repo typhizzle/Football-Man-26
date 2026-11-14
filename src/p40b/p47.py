@@ -573,3 +573,9 @@ r("lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,7);",
   "lab=i=>i==null?'TBD':sn(i)+' '+T[i].n.split(' ')[0].slice(0,6)+' '+(T[i].w||0)+'-'+(T[i].l||0);")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m132.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m133: throwing power table + level scaling + archetype upgrade costs + power/speed never drop pre-regression
+r("""onclick="up('${k}')">+1</button>""","""onclick="up('${k}')">+1${typeof upCostTxt=='function'?upCostTxt(k):''}</button>""",3)
+r("thrR=()=>14+((S&&S.q&&S.q.pow)||60)*.55","thrR=()=>(typeof pwYds=='function'?pwYds((S&&S.q&&S.q.pow)||60)*pwLv():14+((S&&S.q&&S.q.pow)||60)*.55)")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m133.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

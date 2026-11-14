@@ -170,6 +170,19 @@ const TESTS=[
    if(d.B_seeds!==14)return 'seeds '+d.B_seeds;if(d.C_games!==13)return 'games '+d.C_games;
    for(const k of ['A_hasBracket','B_allSeedsWithRecord','C_champShown','C_everyScoreShown','D_onScreen'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
+ {f:'nm1.js', why:'no new module reuses a name the game already has (crV, PWC, PWN, AWK all bit us)',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(!d.checked)return 'nothing scanned';if(d.clashes.length)return d.clashes.slice(0,4).join('; ');
+   const L=d.live||{};for(const k of ['collegeTop25NotCoach','coachHistory','powerConfIsFn','awkHasRing'])if(L[k]!==true)return k+' = '+L[k];return null}},
+
+ {f:'thr1.js', why:'throwing power: his table (99=85 yds, 72=54), HS -15%, college -6.5%, named QBs set, overalls untouched, archetype costs, power/speed never cut',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if((d.pageErrors||[]).length)return 'page errors: '+d.pageErrors[0];
+   if(d.A_pro99!==85||d.A_pro72!==54||d.A_pro82!==59)return 'distance curve wrong '+d.A_pro99+'/'+d.A_pro82+'/'+d.A_pro72;
+   if(Math.abs(d.A_hs99-72.25)>.2||Math.abs(d.A_col99-79.5)>.2)return 'level scaling wrong '+d.A_hs99+'/'+d.A_col99;
+   if(String(d.B_hilton)!=='99,85'||String(d.B_fallon)!=='98,83'||String(d.B_williams)!=='96,77')return 'named QB ratings wrong';
+   if((d.B_ovrUnchanged||[]).length)return 'overall changed: '+d.B_ovrUnchanged.join(', ');
+   if(d.C_mobile.mob!==3||d.C_mobile.pow!==6||d.C_deep.pow!==3||d.C_deep.mob!==6||d.C_fg.acc!==1||d.C_scr.acc!==3)return 'archetype costs wrong';
+   if(d.D_kept!==true)return 'power/speed cut at level change';if(d.E_card!==true)return 'QB card does not show the arm';return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

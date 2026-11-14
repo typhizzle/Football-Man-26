@@ -79,7 +79,7 @@ window.crSync=function(s,yr){try{const R_=crS(s);if(!R_)return;
  return s}}catch(e){}})();
 
 // ---- screens: every coach, every season, Back on each ----
-window.crCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return crV();
+window.coachCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return coachV();
  const W=e.rows.reduce((a,q)=>a+q[3],0),L=e.rows.reduce((a,q)=>a+q[4],0);
  const ev=[...e.rows.map(q=>[q[0],`<span>${q[0]} ${q[2]} <small>(${q[1]})</small></span><b>${q[3]}-${q[4]}</b>`]),
   ...e.hired.map(q=>[q[0],`<span>${q[0]} <small>hired by ${q[2]}</small></span><b></b>`]),
@@ -87,11 +87,11 @@ window.crCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return crV();
  ui.innerHTML=`<div><h2>🧢 ${e.n}</h2><div class=card><b>${e.g?'General manager':'Head coach'}</b> · <small>${e.st==='retired'?'retired':e.st==='free'?'out of work':'working'}</small><br>
   <small>Recorded seasons ${e.rows.length} · ${W}-${L}${e.pre?` · before records began: ${e.pre[0]}-${e.pre[1]} (years not recorded)`:''}</small></div>
   <div class=card><b>Career</b>${ev.length?ev.map(x=>`<div class=row style="font-size:16px">${x[1]}</div>`).join(''):'<br><small>No season recorded yet.</small>'}</div>
-  <button class=g onclick="crV()">Back</button><button class=g onclick="hub()">✖ Leave</button></div>`;ui.scrollTop=0};
+  <button class=g onclick="coachV()">Back</button><button class=g onclick="hub()">✖ Leave</button></div>`;ui.scrollTop=0};
 
-window.crV=function(){const R_=crS(S);if(!R_)return hub();
+window.coachV=function(){const R_=crS(S);if(!R_)return hub();
  const all=Object.keys(R_.c).map(k=>[k,R_.c[k]]);
- const row=([k,e])=>`<div class=row onclick="crCard('${k}')"><span>${e.n} <small>${e.g?'GM':'HC'}${e.rows.length?' · '+e.rows.length+' season'+(e.rows.length>1?'s':''):''}</small></span><b>${e.st==='retired'?'retired':e.st==='free'?'free':''}</b></div>`;
+ const row=([k,e])=>`<div class=row onclick="coachCard('${k}')"><span>${e.n} <small>${e.g?'GM':'HC'}${e.rows.length?' · '+e.rows.length+' season'+(e.rows.length>1?'s':''):''}</small></span><b>${e.st==='retired'?'retired':e.st==='free'?'free':''}</b></div>`;
  const cur=all.filter(([k,e])=>e.st==='active'&&e.rows.length),gone=all.filter(([k,e])=>e.st!=='active');
  ui.innerHTML=`<div><h2>📜 Coach history</h2><div class=card><small>Every coach the league has had. Nobody is ever removed.</small></div>
   <div class=card><b>Coaching now (${cur.length})</b>${cur.map(row).join('')||'<br><small>Seasons are recorded from the end of this season on.</small>'}</div>
@@ -100,5 +100,5 @@ window.crV=function(){const R_=crS(S);if(!R_)return hub();
 
 // a button on the coaches screen (added without re-parsing it, so its own buttons keep working)
 (()=>{try{const _v=staffV;staffV=function(){const r=_v.apply(this,arguments);
- try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-crv]'))d.insertAdjacentHTML('beforeend','<button class=g data-crv=1 onclick="crV()">📜 Coach history — every coach, every season</button>')}catch(e){}
+ try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-crv]'))d.insertAdjacentHTML('beforeend','<button class=g data-crv=1 onclick="coachV()">📜 Coach history — every coach, every season</button>')}catch(e){}
  return r}}catch(e){}})();

@@ -150,7 +150,7 @@ nx=e.t=='comp'?'QB competition vs '+S.bu.n:e.t=='bench'?'Benched: '+S.bu.n+' sta
 const N={acc:'Accuracy',pow:'Throw power',awr:'Awareness',mob:'Speed',sec:'Carrying',trk:'Truck'};
 ui.style.display='block';HM='';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} #${S.num} · QB ${qo(Q)}</h2><div style="font-weight:700;color:#7bed9f;margin:-4px 0 4px">💵 $${(S.cash||0).toLocaleString()}</div>${relTop()}<p><small>${m.n} · Year ${Math.min(S.yr||1,4)} of 4 · ${S.stars}★ prospect · ${S.home?'from '+S.home+', '+S.hst+' · ':''}${S.arch||'QB'}${potTxt()} · throws ${(S.hand||'Right').toLowerCase()} · team rating ${m.ovr}</small></p>
 <div class=card>${HM2?`<p><b>${HM2}</b></p>`:''}<p>Coach grade: <b>${S.gs.length?gl(avg(S.gs)):'-'}</b> <small>· Fans ${fans(S.pop||40).toLocaleString()} · Coach trust ${S.trust||50}</small> ${S.bench?'<small>BENCHED · backup '+S.bu.n+' ('+S.bu.ovr+')</small>':S.gs.length>=3&&avg(S.gs.slice(-3))<55?'<small>⚠ benching risk (D or below)</small>':''}</p><b>${nx}</b>${e.t=='sum'?sumHtml():''}<br><button onclick=play()>${e.t=='comp'?'Play scrimmage':e.t=='bench'?'Watch from the bench':e.t=='bye'?'Skip bye week':e.t=='sum'?(S.yr<4?'Start year '+(S.yr+1):'Finish high school'):injOut()&&e.t!='bye'&&e.t!='sum'&&e.t!='comp'?'🚑 Sim game (you are hurt)':gsOk()?gsLbl():'Play game'}</button>${e.t!='bye'&&e.t!='sum'&&e.t!='comp'?injWB():''}${(e.t=='reg'||e.t=='po')&&!injOut()?'<button class=g onclick=simUser()>Sim this game</button>':''}</div>
-${offTop()}${gsH()}${lrInfo()}${myCard()}${bracket()}${leaders()}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${tc()?tc()+' points = +1 rating':'You are at your ceiling'}. Earned from games.</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1</button>`}</div>`).join('')}</div>
+${offTop()}${gsH()}${lrInfo()}${myCard()}${bracket()}${leaders()}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${tc()?tc()+' points = +1 rating':'You are at your ceiling'}. Earned from games.</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1${typeof upCostTxt=='function'?upCostTxt(k):''}</button>`}</div>`).join('')}</div>
 <div class=card><b>Division</b> <small>top 2 reach the 16-team playoffs</small>${dv.map(i=>`<div class=row><span>${i==0?'▶ ':''}${T[i].n}</span><b>${T[i].w}-${T[i].l}</b></div>`).join('')}</div>
 ${relHtml()}${dealsHtml()}${race()}<div class=card><b>This season</b><br>${sline(S.ss)}<br><small>Starter record ${S.ss.w}-${S.ss.l}</small><br><b>Career</b><br>${sline(S.cs)}<br><small>Record ${S.cs.w}-${S.cs.l} · ${S.cs.sk} sacked · ${S.cs.fum} fumbles lost</small></div>
 ${S.aw.length?`<div class=card><b>Awards</b><br>${S.aw.join('<br>')}</div>`:''}${lrB()}<button class=g onclick=trophyV()>🏆 Trophy case</button>${agBtn()}${shopBtn()}<button class=g onclick=gpV()>📺 GSPN${gpNew()?' <span class=gnew>NEW</span>':''}</button>${lgsB()}<button class=g onclick=rosv()>Rosters</button><button class=g onclick=txV()>🧾 Transactions</button><button class=g onclick="recV()">🏆 Record book</button><button class=g onclick="lhV()">📜 League history</button>${S.stage=='pro'?'<button class=g onclick=ctV()>💰 Contracts & salary cap</button>':'<button class=g onclick=goatV()>🐐 GOAT list & legacy</button><button class=g onclick="lbV()">📊 All-time leaders</button>'}${npxVis()?'<button class=g onclick=npxV()>🌟 Draft class</button>':''}${S.stage=='pro'?'<button class=g onclick=faV()>'+(offFA()?'🖊 Free agents · signing week':'📋 Upcoming free agents')+'</button>':''}<button class=g onclick=settings()>Settings</button><button class=g onclick=career()>Career stats</button><button class=g onclick=jersey()>Name & jersey</button><button class=g onclick=lg()>Leagues & teams</button>${lifeBtns()}${(S.stage=='col'||S.stage=='pro')?'<button class=g onclick=relV()>❤️ Relationship</button>':''}<button class=g onclick=menu()>Save & exit</button></div>`;if(S.po&&!S.po.seen){S.po.seen=1;talk('coach',CNM(),S.po.q?"We're in the dance. Single elimination from here. Don't blow it.":'We missed the playoffs. Study the bracket and come back stronger.',S.po.q?'happy':'sad',[['View bracket',"ovHide();var s=document.querySelector('#ui svg');if(s)s.scrollIntoView()"]])}}
@@ -988,7 +988,7 @@ const N={acc:'Accuracy',pow:'Throw power',awr:'Awareness',mob:'Speed',sec:'Carry
 nx=e.t=='sum'?'Season complete':e.t=='bye'?'Bye week':e.t=='cfpbye'?'CFP first-round bye':({reg:'Week '+(S.wk+1),cc:'Conference championship',cfp:(bwCur()?bwNm(bwCur())+' · ':'')+'CFP '+(S.cb?CRN[S.cb.r]:'')})[e.t]+' vs '+tnr(T[e.o])+' (team '+T[e.o].ovr+')'+rvTag(e.o);
 ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} #${S.num} · QB ${qo(Q)}</h2><div style="font-weight:700;color:#7bed9f;margin:-4px 0 4px">💵 $${(S.cash||0).toLocaleString()}</div>${relTop()}<p><small>${m.n} · College year ${S.cy}/4 · ${S.arch||'QB'}${potTxt()} · ranked #${my} · ${m.w}-${m.l} (${m.cw}-${m.cl} conf)</small></p>
 <div class=card>${H2?`<p><b>${H2}</b></p>`:''}<p>${st?'<b>Starting QB</b>':'<b>Backup QB</b> <small>starter '+S.sq+' vs you '+qo(Q)+': train to earn the job</small>'} · Coach grade <b>${S.gs.length?gl(avg(S.gs)):'-'}</b></p><b>${nx}</b>${e.t=='sum'?csumHtml():''}<br><button onclick=play()>${e.t=='sum'?(S.cy<4?'Start year '+(S.cy+1):'Go to the pro draft'):e.t=='bye'||e.t=='cfpbye'?'Continue':st?(gsOk()?gsLbl():'Play game'):'Watch from the bench (sim)'}</button>${e.t!='bye'&&e.t!='sum'&&e.t!='cfpbye'?injWB():''}${(e.t=='reg'||e.t=='cc'||e.t=='cfp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}</div>
-${gsH()}${lrInfo()}${myCard()}${S.cb?cfpSvg():''}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${tc()?tc()+' pts = +1':'at your ceiling'}</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1</button>`}</div>`).join('')}</div>
+${gsH()}${lrInfo()}${myCard()}${S.cb?cfpSvg():''}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${tc()?tc()+' pts = +1':'at your ceiling'}</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1${typeof upCostTxt=='function'?upCostTxt(k):''}</button>`}</div>`).join('')}</div>
 <button onclick=crV()>🏆 Top 25 & playoff picture</button><button onclick=hwV()>🏅 Heisman watch</button><div class=card><b>Top 12 poll</b>${rk.slice(0,12).map((i,n)=>`<div class=row style="font-size:18px;gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">${n+1}. ${i==0?'▶ ':''}${T[i].n}</span><small style="flex:none;white-space:nowrap">${T[i].w}-${T[i].l}</small></div>`).join('')}${my>12?`<div class=row style="gap:6px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0">${my}. ▶ ${m.n}</span><small style="flex:none;white-space:nowrap">${m.w}-${m.l}</small></div>`:''}</div>
 <div class=card><b>${S.col[m.cf].n}</b> <small>standings (conference record)</small>${cf.map(i=>`<div class=row style="font-size:18px"><span>${i==0?'▶ ':''}${nmr(T[i])}</span><small>${T[i].cw}-${T[i].cl} · ${T[i].w}-${T[i].l}</small></div>`).join('')}</div>
 ${qrCard()}${relHtml()}${dealsHtml()}${leaders()}<div class=card><b>This season</b><br>${sline(S.ss)}<br><small>Starter record ${S.ss.w}-${S.ss.l}</small>${S.aw.length?'<br><b>Awards</b><br>'+S.aw.join('<br>'):''}</div>
@@ -1073,7 +1073,7 @@ else{const nx=e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':(e.t
 const D={};T.forEach((t,i)=>(D[t.dv]=D[t.dv]||[]).push(i));const dl=Object.keys(D).sort((a,b)=>(b==m.dv)-(a==m.dv));
 ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} #${S.num} · QB ${qo(Q)}</h2><div style="font-weight:700;color:#7bed9f;margin:-4px 0 4px">💵 $${(S.cash||0).toLocaleString()}</div>${relTop()}<p><small>${tn(m)} · Pro season ${S.py} · age ${S.age} · ${S.arch||'QB'}${potTxt()}<br>Contract $${S.ct.sal}M/yr · ${S.ct.yrs} yr${S.ct.yrs==1?'':'s'} left · record ${m.w}-${m.l}</small></p>
 <div class=card>${H2?`<p><b>${H2}</b></p>`:''}<p>${st?'<b>Starting QB</b>':'<b>Backup QB</b> <small>'+S.vet+' starts ('+S.sq+') vs you '+qo(Q)+'</small>'} · Coach grade <b>${S.gs.length?gl(avg(S.gs)):'-'}</b><br><small>Head ${cLine(T[0])}</small></p>${main}</div>${S.gsave?gsH():''}${lrInfo()}${myCard()}
-${S.pb?ppHtml():''}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${c?c+' pts = +1':'at your ceiling'}</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1</button>`}</div>`).join('')}</div>
+${S.pb?ppHtml():''}<div class=card><b>Training points: ${S.pts} · Cash: $${S.cash.toLocaleString()}</b> <small>${c?c+' pts = +1':'at your ceiling'}</small>${hundInfo()}${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${Q[k]}</b>${Q[k]>=qCap(k)?'<small>MAX</small>':`<button class=g onclick="up('${k}')">+1${typeof upCostTxt=='function'?upCostTxt(k):''}</button>`}</div>`).join('')}</div>
 ${dl.map(d=>`<div class=card><b>${d}</b>${D[d].sort((a,b)=>pRec(b)-pRec(a)).map(i=>`<div class=row style="font-size:18px"><span>${i==0?'▶ ':''}${tnr(T[i])}</span><small>${T[i].w}-${T[i].l}</small></div>`).join('')}</div>`).join('')}
 ${leaders()}${relHtml()}${dealsHtml()}<div class=card><b>This season</b><br>${sline(S.ss)}${S.aw.length?'<br><b>Awards</b><br>'+S.aw.join('<br>'):''}</div>
 ${lrB()}<button class=g onclick=trophyV()>🏆 Trophy case</button>${agBtn()}${shopBtn()}<button class=g onclick=gpV()>📺 GSPN${gpNew()?' <span class=gnew>NEW</span>':''}</button>${lgsB()}<button class=g onclick=rosv()>Rosters</button><button class=g onclick=txV()>🧾 Transactions</button><button class=g onclick="recV()">🏆 Record book</button><button class=g onclick="lhV()">📜 League history</button>${S.stage=='pro'?'<button class=g onclick=ctV()>💰 Contracts & salary cap</button>':'<button class=g onclick=goatV()>🐐 GOAT list & legacy</button><button class=g onclick="lbV()">📊 All-time leaders</button>'}${npxVis()?'<button class=g onclick=npxV()>🌟 Draft class</button>':''}${S.stage=='pro'?'<button class=g onclick=faV()>'+(offFA()?'🖊 Free agents · signing week':'📋 Upcoming free agents')+'</button>':''}<button class=g onclick="lbV()">📊 All-time leaders</button><button class=g onclick=goatV()>🐐 GOAT list & legacy</button>${S.pal&&S.pal.ti!=null?'<button class=g onclick=palV()>'+(S.pal.t=='f'?'🤝 Friend: ':'⚔️ Rival: ')+S.pal.n+'</button>':''}${retBtn()}${S.law&&Object.keys(S.law).length?'<button class=g onclick=awV()>🏅 League awards</button>':''}${S.ct&&(S.ct.ci||S.ct.gi)?'<button class=g onclick=ownV()>🗣 Talk to the owner</button>':''}<button class=g onclick=settings()>Settings</button><button class=g onclick=career()>Career stats</button><button class=g onclick=jersey()>Name & jersey</button><button class=g onclick=lg()>Leagues & teams</button>${lifeBtns()}${(S.stage=='col'||S.stage=='pro')?'<button class=g onclick=relV()>❤️ Relationship</button>':''}<button class=g onclick=menu()>Save & exit</button></div>`;ui.scrollTop=0}
@@ -2640,7 +2640,7 @@ function pkIns(a,t,L){if(!S||!L||!L[0]||!L[0].qp||!t||!t.dv)return;if(PK41S!==S)
 // during high school and college the pro stars' career lines keep up with the calendar
 function uRost(a,t,L){if(!S||a[0]!='p'||(S.stage||'hs')=='pro'||!L||!L[0]||!L[0].qp)return;const k=yrN();if(L.uhk===k)return;L.uhk=k;L.forEach(x=>{if(x&&(QBX.some(q=>q[0]==x.n)||PKS.some(q=>q[2]==x.n)))try{uHist(x)}catch(e){}})}
 // ---------------- throwing: longer slingshot, swipe-to-throw (like Flick QB) ----------------
-const accF=()=>cl((((S&&S.q&&S.q.acc)||60)-40)/55,0,1),SLL=.26,thrR=()=>14+((S&&S.q&&S.q.pow)||60)*.55,slPow=m=>Math.pow(Math.min(1,m/(Math.min(W,H)*SLL)),.75);
+const accF=()=>cl((((S&&S.q&&S.q.acc)||60)-40)/55,0,1),SLL=.26,thrR=()=>(typeof pwYds=='function'?pwYds((S&&S.q&&S.q.pow)||60)*pwLv():14+((S&&S.q&&S.q.pow)||60)*.55),slPow=m=>Math.pow(Math.min(1,m/(Math.min(W,H)*SLL)),.75);
 let swp=null,swLast=null;
 function swOK(){if(S&&S.thm=='sling')return false;const P=g&&g.pl;if(!P||g.ph!='live'||g.paused||g.watch||P.wf)return false;const q=P.qb,t=P.call&&P.call.t;return P.car===q&&!P.air&&!P.passed&&q.y<=g.los+.6&&t!='run'&&t!='option'&&t!='qbrun'}
 // a touch that starts as "look" (first person / flick cam) turns into a swipe when it heads up the screen
@@ -9674,7 +9674,7 @@ window.crSync=function(s,yr){try{const R_=crS(s);if(!R_)return;
  return s}}catch(e){}})();
 
 // ---- screens: every coach, every season, Back on each ----
-window.crCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return crV();
+window.coachCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return coachV();
  const W=e.rows.reduce((a,q)=>a+q[3],0),L=e.rows.reduce((a,q)=>a+q[4],0);
  const ev=[...e.rows.map(q=>[q[0],`<span>${q[0]} ${q[2]} <small>(${q[1]})</small></span><b>${q[3]}-${q[4]}</b>`]),
   ...e.hired.map(q=>[q[0],`<span>${q[0]} <small>hired by ${q[2]}</small></span><b></b>`]),
@@ -9682,11 +9682,11 @@ window.crCard=function(id){const R_=crS(S),e=R_&&R_.c[id];if(!e)return crV();
  ui.innerHTML=`<div><h2>🧢 ${e.n}</h2><div class=card><b>${e.g?'General manager':'Head coach'}</b> · <small>${e.st==='retired'?'retired':e.st==='free'?'out of work':'working'}</small><br>
   <small>Recorded seasons ${e.rows.length} · ${W}-${L}${e.pre?` · before records began: ${e.pre[0]}-${e.pre[1]} (years not recorded)`:''}</small></div>
   <div class=card><b>Career</b>${ev.length?ev.map(x=>`<div class=row style="font-size:16px">${x[1]}</div>`).join(''):'<br><small>No season recorded yet.</small>'}</div>
-  <button class=g onclick="crV()">Back</button><button class=g onclick="hub()">✖ Leave</button></div>`;ui.scrollTop=0};
+  <button class=g onclick="coachV()">Back</button><button class=g onclick="hub()">✖ Leave</button></div>`;ui.scrollTop=0};
 
-window.crV=function(){const R_=crS(S);if(!R_)return hub();
+window.coachV=function(){const R_=crS(S);if(!R_)return hub();
  const all=Object.keys(R_.c).map(k=>[k,R_.c[k]]);
- const row=([k,e])=>`<div class=row onclick="crCard('${k}')"><span>${e.n} <small>${e.g?'GM':'HC'}${e.rows.length?' · '+e.rows.length+' season'+(e.rows.length>1?'s':''):''}</small></span><b>${e.st==='retired'?'retired':e.st==='free'?'free':''}</b></div>`;
+ const row=([k,e])=>`<div class=row onclick="coachCard('${k}')"><span>${e.n} <small>${e.g?'GM':'HC'}${e.rows.length?' · '+e.rows.length+' season'+(e.rows.length>1?'s':''):''}</small></span><b>${e.st==='retired'?'retired':e.st==='free'?'free':''}</b></div>`;
  const cur=all.filter(([k,e])=>e.st==='active'&&e.rows.length),gone=all.filter(([k,e])=>e.st!=='active');
  ui.innerHTML=`<div><h2>📜 Coach history</h2><div class=card><small>Every coach the league has had. Nobody is ever removed.</small></div>
   <div class=card><b>Coaching now (${cur.length})</b>${cur.map(row).join('')||'<br><small>Seasons are recorded from the end of this season on.</small>'}</div>
@@ -9695,7 +9695,7 @@ window.crV=function(){const R_=crS(S);if(!R_)return hub();
 
 // a button on the coaches screen (added without re-parsing it, so its own buttons keep working)
 (()=>{try{const _v=staffV;staffV=function(){const r=_v.apply(this,arguments);
- try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-crv]'))d.insertAdjacentHTML('beforeend','<button class=g data-crv=1 onclick="crV()">📜 Coach history — every coach, every season</button>')}catch(e){}
+ try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-crv]'))d.insertAdjacentHTML('beforeend','<button class=g data-crv=1 onclick="coachV()">📜 Coach history — every coach, every season</button>')}catch(e){}
  return r}}catch(e){}})();
 // ===== 👕 Clothing brands are rivals: one at a time, their own events, their own celebrities =====
 // Tyler, 2026-11-14: "only one brand can sign you at a time, especially because clothing brands
@@ -9903,5 +9903,40 @@ window.ppSvg=function(){try{const B=S.pb;if(!B||!B.sd)return '';const T=S.T,esc_
  const H=y0+18+RH*2+22;
  return `<div class=card><b>Playoff bracket</b> <small>seed · team · regular-season record · score</small><svg viewBox="0 0 ${CW} ${H}" style="width:100%;height:auto;display:block;margin-top:6px">${s}</svg></div>`}catch(e){return ''}};
 (()=>{try{const _p=ppHtml;ppHtml=function(){const r=_p.apply(this,arguments);try{return ppSvg()+r}catch(e){return r}}}catch(e){}})();
+// ===== 💪 Throwing power: Tyler's distance table, level scaling, archetype upgrade costs =====
+// Tyler, 2026-11-14: his table (99 = 85 yds … 72 = 54 yds); "in high school you can scale it down 15%
+// and then college … 6.5%"; power and speed "shouldn't go down until you start regressing in pro";
+// harder to upgrade; "mobile should have a speed boost … Strong arms should have throw power, easier to
+// get. Field general should have accuracy, easier to get … I kind of liked how you balanced it with
+// scrambling strong arm." Old range: 14 + pow*0.55 (68 yds at 99).
+window.PWCURVE=[[40,38],[60,48],[72,54],[82,59],[88,66.5],[90,71],[92,72],[94,75],[95,76],[96,78.5],[97,81],[98,83],[99,85],[100,86]];
+window.pwYds=function(p){p=+p||60;const C=PWCURVE;if(p<=C[0][0])return C[0][1];for(let i=1;i<C.length;i++){if(p<=C[i][0]){const[a,b]=C[i-1],[c,d]=C[i];return b+(d-b)*(p-a)/(c-a)}}return C[C.length-1][1]};
+window.pwLv=function(){const st=(S&&S.stage)||'pro';return st==='hs'?.85:st==='col'?.935:1};
+// his exact numbers for the men he named (power, yards). Matched by name only to SET a rating; a name
+// shared by two men in a save is skipped.
+window.PWNAMES={'Jacque Hilton III':[99,85],'Jarsh Fallon':[98,83],'Ricky MaClones':[97,81],'Jort Valentine':[97,81],'Antonio Ricard':[97,81],
+ 'Femmifer Allen':[96,80],'Drako September':[96,80],'Just Chillin':[96,79],'Miguel Penits II':[96,78],'Bacon Maple':[96,77],'Mallet Williams':[96,77],
+ 'Matty Gafford':[95,76],'Franklin Lawford':[94,75],'Coleridge Loud':[92,72],'Eric Rodney':[92,72],'Charvarious McWharton':[90,71],'Kyler Kerr':[90,71],
+ 'Lamarcus Action':[88,66],'Jack Mascott':[88,67],'Dustin Planes':[81,58],'Jay-Jay Pain':[82,59],'Tooth Nah':[72,54]};
+// your own arm: the table, then the level you play at. thrR is a CONST in the base game, so it is
+// patched at its source in p47 (assigning to it here would throw and kill the script).
+// computer QBs carry the power he gave them (a new rating; their overall is NOT changed)
+window.pwSet=function(s){try{if(!s||!s.ro)return 0;const seen={},L=[];
+ sealWalk(s,x=>{if(x&&x.pos==='QB'&&PWNAMES[x.n]){(seen[x.n]=seen[x.n]||[]).push(x);L.push(x)}});let n=0;
+ L.forEach(x=>{if(seen[x.n].length>1)return;const [p,y]=PWNAMES[x.n];if(x.pw!==p||x.pwy!==y){x.pw=p;x.pwy=y;n++}});return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{pwSet(s)}catch(e){}return s}}catch(e){}})();
+// ---- upgrade cost (training points per +1). Normal ratings 2. ----
+window.UPC0={pow:4,mob:4};
+window.UPCA={'Mobile':{mob:3,pow:6},'Deep passer':{pow:3,mob:6},'Field General (balanced)':{acc:1,pow:4,mob:6},'Scrambling strong arm':{pow:3,mob:3,acc:3,awr:3}};
+window.upCost=function(k){const a=UPCA[(S&&S.arch)||'']||{};return a[k]!=null?a[k]:UPC0[k]!=null?UPC0[k]:2};
+window.upCostTxt=function(k){const c=upCost(k);return c===2?'':' ('+c+' pts)'};
+up=function(k){const c=upCost(k);if(S.q[k]>=99)return hub();if(S.pts<c){HM='+1 '+({acc:'Accuracy',pow:'Throw power',awr:'Awareness',mob:'Speed',sec:'Carrying',trk:'Truck'}[k]||k)+' costs '+c+' training points. You have '+S.pts+'.';return hub()}
+ S.pts-=c;S.q[k]++;save();hub()};
+// ---- power and speed never go DOWN before pro age regression (the level-change rescale used to cut them) ----
+(()=>{try{const _r=rescaleTo;rescaleTo=function(T){const q=S&&S.q;if(!q)return _r.apply(this,arguments);const P=q.pow,M=q.mob;const r=_r.apply(this,arguments);
+ try{if(q.pow<P||q.mob<M){q.pow=Math.max(q.pow,P);q.mob=Math.max(q.mob,M);const O=['acc','awr','sec','trk'];
+  for(let g=0;g<200&&qo(q)>T;g++){const k=O.filter(x=>q[x]>25).sort((a,b)=>q[b]-q[a])[0];if(!k)break;q[k]--}}}catch(e){}return r}}catch(e){}})();
+// ---- show the arm on a QB's card ----
+(()=>{try{const _c=pCard;pCard=function(i,j){const r=_c.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.pos==='QB'&&x.pw){const d=ui.querySelector('.card');if(d&&!d.querySelector('[data-pw]'))d.insertAdjacentHTML('beforeend',`<br><small data-pw=1>💪 Throw power ${x.pw} · max ${x.pwy||Math.round(pwYds(x.pw))} yds</small>`)}}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

@@ -571,3 +571,17 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   Rodney 4+4). m130's map renamed AWHK — the game already has a global AWK (ring/sbm/mvp/opoy/dpoy).
   aw4.js (gate 25) checks history = record = card = leaders, and the rendered leaders screen.
 - V244 (m132): pro playoff bracket SVG (ppSvg, prepended to ppHtml): both conferences WC/DIV/CONF + Ultra Bowl, seed + tAb + W-L + scores, winner green. HS bracket() and cfpSvg labels now carry W-L (name cut to 6 chars) — NOT visually checked (no HS/college save to screenshot). pb1.js (gate 26).
+
+## V245 (2026-11-14) — throwing power system (m133) + a shipped name-clash bug fixed
+- Range curve PWCURVE from Tyler's table (99=85, 98=83, 97=81, 96=78.5, 95=76, 94=75, 92=72, 90=71,
+  88=66.5, 82=59, 72=54); x0.85 high school, x0.935 college. thrR is a CONST: patched at source in p47.
+- PWNAMES: his named QBs get x.pw / x.pwy (new ratings; overall untouched; shared names skipped).
+  "Malik Willis" counterpart = Mallet Williams (assumed). Dustin Planes 81; Antonio Ricard 97/81.
+- Upgrade cost per +1 (`up` replaced): normal 2; power/speed 4; Mobile speed 3/power 6; Deep passer
+  power 3/speed 6; Field General accuracy 1, speed 6; Scrambling strong arm power/speed/acc/awr 3.
+- rescaleTo (level change) never lowers pow/mob; other ratings absorb the target OVR.
+- Swipe feel: d = min(1,p)*thrR, so every swipe is ~25% longer at 99 (medium swipe 40 -> 50 yds).
+- TRAP (again): NAME CLASHES. My m125 `window.crV` overwrote the game's college Top 25 screen
+  (shipped V233-V244). PWC/PWN/AWK collided with game consts and were silently shadowed. Renamed
+  (coachV/coachCard, PWCURVE/PWNAMES, AWHK). nm1.js scans every window.NAME in m121+ against all
+  declarations — run it before adding any new global. Gate now 28.
