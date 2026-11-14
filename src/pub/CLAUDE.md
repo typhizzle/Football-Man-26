@@ -630,3 +630,9 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   Labels drawn over receivers on the 2D overlay. ctl1.js (gate 33).
 - Do NOT exist in the game (told Tyler): stiff arm, hurdle, dive, sprint, lob/touch/bullet.
 - Random surname pool includes real NFL surnames seen on the field (Nacua, Prescott).
+- V251 (m137): home/away jerseys. hmHome(): playoffs better seed (S.pb.sd / S.cb.sd / S.po.sd), homecoming
+  week home, else (wk*7+oi*3+season)%2. setMJ wrapped: home wears colors, visitor hmAway() = c1 #f4f4f4,
+  c2 = team color. Dallas Wildcatters (hmWhiteHome) wear white at home; on the road Dallas is the
+  white visitor like everyone. Clash fallback: visitor to its c2, then black. g.home=0 me home / 1 away.
+  Meshes are built once per player in sy() from g.mj/g.oj — set before the first draw (startGame0 does).
+  hm1.js (gate 34). Verified with home vs away screenshots. Alternates: later (Tyler).

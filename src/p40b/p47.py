@@ -603,3 +603,7 @@ r("B(.68,.66,.68,C,0,2.37,0,m);[-.15,.15].forEach(x=>{B(.18,.17,.03,K,x,2.44,-.3
 # m136: controller support phase 1 (menus everywhere, walking, QB movement, run moves, basic receiver-button throws)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m136.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m137: home and away jerseys (Dallas wears white at home)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m137.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

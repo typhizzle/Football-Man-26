@@ -209,6 +209,11 @@ const TESTS=[
    for(const k of ['A_xboxIsXbox','A_padMode','A_highlight','B_movedDown','C_aOpensSettings','D_bGoesBack','E_overlayOpen','E_highlightInOverlay','E_bClosesOverlay','F_keyboardTakesOver','G_ps','H_stickMoves','H_stickReleases','I_throwToA','J_inWalk','J_walks','J_looks','J_stops','K_rbThrows'])
     if(d[k]!==true)return k+' = '+d[k];return null}},
 
+ {f:'hm1.js', why:'home and away jerseys: half the games at home, exactly one team in white, no clashes, Dallas white at home, better seed home in playoffs',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.A_games<300)return 'too few games';
+   if(d.A_homeShare<.4||d.A_homeShare>.6)return 'home share '+d.A_homeShare;if(d.B_exactlyOneInWhite<.98)return 'one-in-white '+d.B_exactlyOneInWhite;if(d.C_clashes)return d.C_clashes+' jersey clashes';
+   for(const k of ['E_dallasHomeWhite','E_dallasRoadWhite','F_topSeedHome','F_lowerSeedAway'])if(d[k]!==true)return k+' = '+d[k];return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';
