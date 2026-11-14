@@ -503,3 +503,7 @@ r("""<span>${r[0]} ${TA[r[1]]||''}</span><span>${r.slice(2,g=='q'?7:4).map(n=>n.
 # m123: Halloween keepsake is one gift - a pick already in any save counts as used
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m123.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# version label bump (Tyler, 2026-11-14: "You can change it to V 0.0.1.0002")
+assert h.count("V 0.0.1.0001")==3, h.count("V 0.0.1.0001")
+h=h.replace("V 0.0.1.0001","V 0.0.1.0002")
