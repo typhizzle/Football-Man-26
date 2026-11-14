@@ -650,3 +650,18 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - cl1.js (gate 35): fake cloud enforcing 256 KB; old build: upload false, restore nothing.
 - V253 (m139): main menu '🛟 Restore an earlier save' lists every slot + its _b/_b2 device backups (name, stage, year, week, saved time); bkUse swaps (nothing deleted), stamps ts=now so an older cloud copy can't win, re-uploads. bk1.js (gate 36).
 - V254: the cloud NEVER replaces a save that exists on the device. cloudInit only fills EMPTY slots; a newer-stamped cloud copy becomes window.CLOFF[i] and the main menu asks (Keep this device / Use the cloud copy); choosing cloud keeps the device save in _b. Tyler: 'Make sure no Cloud backup bullshit restarts my seasons'. cl2.js (gate 37).
+
+## V255 (V 0.0.1.0004) — A SAVE NEVER GOES BACKWARDS (m140, gate kp1)
+Tyler lost his real year 8 (2036, Simothy, slot 4): the old cloud restore wrote a stale 2035 copy over it
+and the two device backups rotated away. Admitted; the season could not be recovered (cloud + device
+backups + my snapshot all 2035). Fix, at the lowest level so FUTURE code is covered too:
+- Storage.prototype.setItem is wrapped for the slot keys K_1..K_6. Each slot has a high-water mark
+  (K_hw<i>: career key + season*100+week). A write of an OLDER point of the same career first puts the
+  furthest copy in IndexedDB ('fmkeep' / 'top_<i>'), shows a red card on the main menu, and the restore
+  screen lists it (kpUse restores; what was in the slot is kept as 'pre_<i>_<ts>').
+- Checkpoints in IndexedDB: every season end ('end_*', never removed) + every 4 weeks (3 latest kept).
+- It never changes a save; it only adds copies.
+STANDING RULES from this:
+- kp1 must pass before ANY publish. It replays the exact loss and fails on V0003.
+- NO SILENT ONE-TIME CHANGES TO A SAVE (like bxRedo). List them for Tyler and get his OK before shipping.
+- Any new code that writes a slot key must go through setItem (it will) — never bypass with other storage.
