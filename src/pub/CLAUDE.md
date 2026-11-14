@@ -555,3 +555,8 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - OPEN: new saves generate ~40-74 random-name schools (UN+MS) beside Tyler's ~49 names; dropping
   them leaves 1-5-team conferences, so new-save conferences must be rebuilt. Not done.
 - V240: draft class screen (m97) said "Your class — …" for the npx followed group (the first class put in the game, 2027-28). Renamed to "First class followed — …" via r(...,5) in p47. ncl1.js (gate 22). Lesson: I first relabelled the TITLE from code-reading and made it worse (the screen is the current 2035 class); the rendered-text test caught it.
+- V241 (m129): invite caps per season `S.evc={y,studio,pot,party}` applied in the spWeek invite list
+  (wraps window.brWeekFilter): studio 3 and never a song already in S.songs (rbs/hot/pg), Pot McGee 2
+  (+1 "Pro Bowl interview" if `Pro yr N: Pro Bowl` for this or last pro year), brand parties 4.
+  ev1.js (gate 23): before 6 studio/12 Pot/6 parties a season + 45 repeat songs; after 2/3/4, 0 repeats.
+  NOTE yrN is a CONST — tests advance the year by pushing S.hist rows.

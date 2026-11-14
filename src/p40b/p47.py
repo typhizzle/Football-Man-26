@@ -547,3 +547,7 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # draft class screen: the followed group is NOT Tyler's class (Tyler 2026-11-14: "It says my class, but
 # that's not my class. That's just the first class that I put in the game.")
 r("Your class — ","First class followed — ",5)
+
+# m129: no invite spam - studio 3/yr and each song once, Pot McGee 2/yr (+Pro Bowl interview), parties 4/yr
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m129.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

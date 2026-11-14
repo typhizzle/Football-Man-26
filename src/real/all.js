@@ -143,6 +143,14 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    for(const k of ['A_noYourClass','B_labelledFollowed','C_titleIsThisSeason','D_hasBack'])if(d[k]!==true)return k+' = '+d[k];return null}},
 
+ {f:'ev1.js', why:'no invite spam: studio max 3/season and each song once, Pot McGee 2 (+1 Pro Bowl interview), parties 4',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(d.seasons<10)return 'too few seasons simulated';
+   if(d.dupSong)return d.dupSong+' songs recorded twice';if(d.maxStudio>3)return 'studio '+d.maxStudio+' in a season';
+   if(d.maxParty>4)return 'parties '+d.maxParty+' in a season';
+   if(d.maxPot>2&&!(d.maxPot===3&&d.pbInterview>0))return 'Pot McGee '+d.maxPot+' in a season';
+   return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

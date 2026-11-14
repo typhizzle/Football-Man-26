@@ -1,7 +1,15 @@
-const H=require('./h.js');(async()=>{const {b,pg,errs}=await H.open({w:390,h:844});const wait=ms=>new Promise(r=>setTimeout(r,ms));
-await pg.evaluate(()=>{SLOT=4;newC();start();S.stage='pro';S.py=2;S.pop=95;S.cash=5e6;});
-const K=[['party','goat'],['party','nyk'],['party','jor'],['party','char'],['party','alb'],['party','spn'],['gala','gala'],['studio',''],['pot',''],['stream',''],['feast',''],['dude','']];
-for(const [k,v] of K){const r=await pg.evaluate(([k,v])=>{try{LR=null;S.spe={k:wkKey(),L:[{k,v,n:'Test '+k+' '+v,d:'x',brand:'Goatie\'s',cel:(CELB[0]||[])[0],song:'rbs'}],done:[]};if(k=='stream')S.spe.L[0].n='Stream with Leon';spEv2(0,0);return 'M='+M+' LR='+(LR?Object.keys(LR).length+' objs='+(LR.O?LR.O.length:0):'none')+' ui='+(ui.style.display)+' ov='+(ov.style.display!='none'?ov.innerText.slice(0,60):'')}catch(e){return 'ERR '+e.message+' '+(e.stack||'').split('\n')[1]}},[k,v]);
- await wait(600);const sh=await pg.evaluate(()=>{try{return 'after: M='+M+' cv='+cv.style.display}catch(e){return e.message}});console.log(k,v,'=>',r,'|',sh);
- await pg.evaluate(()=>{try{if(M=='walk'&&typeof lrExit=='function')lrExit()}catch(e){}ovHide();try{hub()}catch(e){}})}
-console.log(errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,10));await b.close()})();
+// Invites are not spam (Tyler 2026-11-14). Simulates many seasons of weekly invites on the real save.
+const H=require('/home/claude/real/h.js'),fs=require('fs');
+(async()=>{const {b,pg}=await H.open({});
+const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');
+const r=await pg.evaluate(async(j)=>{const out={};try{const s=await readCode(j);S=s;SLOT=1;LASTJ='';
+ S.spc=[];S.pop=100;
+ let maxStudio=0,maxPot=0,maxParty=0,dupSong=0,pbInterview=0,seasons=0;
+ for(let season=0;season<12;season++){S.hist.push({y:'Ptest'});const Y=yrN();seasons++;let st=0,po=0,pa=0;
+  for(let w=0;w<18;w++){S.spwk=null;S.spe=null;try{spWeek()}catch(e){}
+   ((S.spe&&S.spe.L)||[]).forEach(e=>{if(e.k==='studio'){st++;if((S.songs||[]).some(x=>x.k===e.song))dupSong++;
+      (S.songs=S.songs||[]).push({n:e.song,k:e.song,st:1,y:Y,with:'x'})}
+     if(e.k==='pot'){po++;if(/Pro Bowl/.test(e.n))pbInterview++}if(e.k==='party')pa++})}
+  maxStudio=Math.max(maxStudio,st);maxPot=Math.max(maxPot,po);maxParty=Math.max(maxParty,pa)}
+ Object.assign(out,{seasons,maxStudio,maxPot,maxParty,dupSong,pbInterview,pbSeason:evcPB(),songsRecorded:(S.songs||[]).length});
+}catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);console.log(JSON.stringify(r,null,1));await b.close()})();
