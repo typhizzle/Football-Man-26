@@ -586,3 +586,11 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   (coachV/coachCard, PWCURVE/PWNAMES, AWHK). nm1.js scans every window.NAME in m121+ against all
   declarations — run it before adding any new global. Gate now 28.
 - V246: thrD(p): swipe power ≤75% keeps the OLD distance (14+pow*.55)*level; the last 25% stretches to the new max. Patched into swThrow (d=) and the slingshot (k=). flick3: 10.5/18.8/40.2/85 yds.
+- 2026-11-14: Tyler sent 9 swipe screenshots ("it should be obvious where I'm trying to go"). m111
+  ALREADY does this (release on a man -> him; ray -> nearest man ahead; else old rule). I wrote m134 to
+  do it again, measured old vs new over 160-200 swipes: no difference (FP off-center 72/75 vs 69/75),
+  and DROPPED it — it would have been the stacked-targeting mistake. sw2.js (gate 29) now guards m111:
+  swipes that end on a receiver, straight/curved/short, FP + Flick, off-center camera, ≥85% on him.
+  Open, NOT built (needs Tyler's OK because it edits m111): a swipe released in the sky past a man is
+  not yet a deep ball over him (~50%). Swipe throws complete ~74% in tests; ~24% "pass broken up".
+  Also: swAim is an existing m19 name — nm1.js would have caught my clash.

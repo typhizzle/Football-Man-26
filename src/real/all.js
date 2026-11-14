@@ -184,6 +184,11 @@ const TESTS=[
    if(Math.abs(d.F_mid-40.4)>1||d.F_full!==85)return 'swipe feel wrong: medium '+d.F_mid+' full '+d.F_full;if(d.F_slingUsesIt!==true)return 'slingshot not on the same distance rule';
    if(d.D_kept!==true)return 'power/speed cut at level change';if(d.E_card!==true)return 'QB card does not show the arm';return null}},
 
+ {f:'sw2.js', why:'m111 swipe intent: swipes that END on a receiver (straight, curved, short; first-person and Flick view) land on him',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if((d.err||[]).length)return d.err[0];if((d.pageErrors||[]).length)return d.pageErrors[0];
+   let n=0,ok=0;Object.entries(d.cases||{}).forEach(([k,v])=>{if(/over/.test(k))return;n+=v.n;ok+=v.ok});
+   if(n<20)return 'only '+n+' swipes tested';if(ok/n<.85)return ok+'/'+n+' swipes landed on the man they ended on';return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';
