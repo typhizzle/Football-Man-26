@@ -546,3 +546,11 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
 - V237: QB near-record bar = 46 PASSING TD (ratio 46/55 of the record), two straight seasons. Tyler: "46 passing touchdowns, not just total touchdowns". Must already be 99 OVR (hist100 ok()).
 - V238: near-record road needs THREE straight seasons (H2N=3). Tyler: "come close th[ree or] four seasons in a row … It's gonna be a rare thing".
 - 2026-11-14: hw2.js (gate 20) — keepsake travels with a save code into a fresh copy. Tyler: keep the claim available as a TEMPORARY feature while friends move to GitHub; remove the claim later when he says.
+
+## V239 (2026-11-14) — made-up colleges rated as small schools (m128), all saves (Tyler: "Overall wise")
+- Non-big conferences (not Large 10 / South Country / Large 12 / Atlantic Country, not Metro Valley)
+  re-scaled once per save (`s.colRt`): rank kept, ovr = 50 + 30*p^1.6 (max 80, ~1 in 10 above the
+  big-name median). Also applied in `mkLg` for new saves. Ratings only — no name, team, record or
+  history touched. `col1.js` (gate 21): 19/64 above median and max 92 -> 5/64, max 80.
+- OPEN: new saves generate ~40-74 random-name schools (UN+MS) beside Tyler's ~49 names; dropping
+  them leaves 1-5-team conferences, so new-save conferences must be rebuilt. Not done.

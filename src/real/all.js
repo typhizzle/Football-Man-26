@@ -128,6 +128,17 @@ const TESTS=[
    if(d.D_oneGoodYearNot100!==true)return 'one near-record season after a normal one made a 100';
    return null}},
 
+ {f:'col1.js', why:'made-up colleges rated as the small schools: mostly below the big names, a few above, order kept, nothing else touched',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   for(const t of ['A_mySave','C_newSave']){const n=d[t+'_madeUp'],a=d[t+'_aboveBigMedian'];
+    if(!n)return t+': no made-up schools found';if(a>n*.15)return t+': '+a+'/'+n+' above the big-name median';if(a<1)return t+': none above (a few should be)';
+    if(d[t+'_max']>80)return t+': max '+d[t+'_max']}
+   if(d.A_mySave_orderBroken)return 'pecking order broken '+d.A_mySave_orderBroken;
+   if(d.A_mySave_bigChanged)return d.A_mySave_bigChanged+' big-name ratings changed';
+   if(d.A_mySave_namesChanged!==false)return 'school names changed';
+   if(d.B_runsOnce!==true)return 'rating pass runs more than once';
+   return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';
