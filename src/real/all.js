@@ -115,6 +115,14 @@ const TESTS=[
    return null}},
 
  // ---- the shop ----
+ {f:'h100.js', why:'100 OVR only for a season that is the league single-season record; no random 100s',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
+   if(d.A_43tdNot100!==true)return 'a 43-TD season (below the record) still made a 100';
+   if(d.B_recordSeasonIs100!==true)return 'a record season did NOT make a 100';
+   if(!d.C_candidates)return 'no candidates to test random 100s';
+   if(d.C_randomHundreds)return d.C_randomHundreds+' random 100s';
+   return null}},
+
  {f:'br1.js', why:'clothing brands are rivals: one house at a time, only its events, its own celebrities; existing deals untouched',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;
    if(!d.B_rivalOffersSeen)return 'no rival offers generated to test against';

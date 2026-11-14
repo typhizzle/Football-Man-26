@@ -527,3 +527,12 @@ r("const fansC=CELB.map(celOb).filter(celCanCome),others=CELB.map(celOb).filter(
   "const fansC=CELB.map(celOb).filter(celCanCome).filter(o=>typeof brOkAt!='function'||brOkAt(v,o.id)),others=CELB.map(celOb).filter(o=>(typeof brOkAt!='function'||brOkAt(v,o.id))&&!fansC.some(x=>x.id==o.id)&&")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m126.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+# m127: 100 OVR "historic season" = the league's single-season record, no random 100s
+r("chk(0,s.P.b,43,37,","chk(0,s.P.b,h1R('ptd',43),37,")
+r("chk(1,s.Ru.a,1900,1700,","chk(1,s.Ru.a,h1R('ryd',1900),1700,")
+r("chk(2,s.Re.a,1880,1650,","chk(2,s.Re.a,h1R('cyd',1880),1650,")
+r("chk(11,s.Sk.a,20,15,","chk(11,s.Sk.a,h1R('sk',20),15,")
+r("const v=R();x.hq=v<.04?1:v<.5?2:0;","const v=R();x.hq=v<.5?2:0;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m127.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

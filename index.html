@@ -773,8 +773,8 @@ if(S.ubs>=3&&S.ubs<=6&&!S.ubsd&&R()<(S.ubs-2)*.25){const d=ri(1,2),was=qo(S.q);f
 // CPU: historic seasons by 99s turn into 100s (about as rare as real life)
 function hist100(){if(S.stage!='pro')return;const out=[];S.T.forEach((t,i)=>{const s=PS(i);if(!s)return;const L=rost('h.'+i);
 const ok=x=>x&&x.ovr>=99&&!RGT[(x.age||25)+1],chk=(k,v,hi,el,lab)=>{const x=L[k];if(!ok(x)||(i==0&&k==0))return;x.hq=v>=hi?1:v>=el?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, ${lab})`)};
-chk(0,s.P.b,43,37,s.P.b+' pass TD');chk(1,s.Ru.a,1900,1700,s.Ru.a.toLocaleString()+' rush yds');chk(2,s.Re.a,1880,1650,s.Re.a.toLocaleString()+' rec yds');chk(11,s.Sk.a,20,15,s.Sk.a+' sacks');
-L.forEach((x,k)=>{if(k==0||k==1||k==2||k==11||!ok(x)||/^(LT|LG|C|RG|RT|K)$/.test(x.pos))return;const v=R();x.hq=v<.04?1:v<.5?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, historic season)`)})});S.h100=out}
+chk(0,s.P.b,h1R('ptd',43),37,s.P.b+' pass TD');chk(1,s.Ru.a,h1R('ryd',1900),1700,s.Ru.a.toLocaleString()+' rush yds');chk(2,s.Re.a,h1R('cyd',1880),1650,s.Re.a.toLocaleString()+' rec yds');chk(11,s.Sk.a,h1R('sk',20),15,s.Sk.a+' sacks');
+L.forEach((x,k)=>{if(k==0||k==1||k==2||k==11||!ok(x)||/^(LT|LG|C|RG|RT|K)$/.test(x.pos))return;const v=R();x.hq=v<.5?2:0;if(x.hq==1&&x.ovr<100)out.push(`${x.n} (${t.n} ${x.pos}, historic season)`)})});S.h100=out}
 // CPU in-season: chip back the points lost to age regression
 function regainWk(){const f=x=>{if(x&&x.rg>0&&R()<.12){const c=Math.min(x.pot||99,99,ageCap(x.age||0));if(x.ovr<c)x.ovr++;x.rg--}};S.T.forEach((t,i)=>{if(i||S.stage=='pro')rost('h.'+i).forEach((x,k)=>{if(!(i==0&&k==0))f(x)})});f(S.vetP)}
 // in-season form: a 3-6 game skid can cost a QB 1-2 OVR (potential untouched), a hot streak wins it back
@@ -9760,5 +9760,13 @@ window.brWeekFilter=function(L){try{const mine=brMine();
  try{const m=brMine(),d=ui.firstElementChild;if(m.length&&d&&!d.querySelector('[data-brx]'))
   d.insertAdjacentHTML('afterbegin',`<div class=card data-brx=1 style="border-color:#e8730c"><b>👕 Signed with ${m.join(' and ')}</b><br><small>Clothing brands are rivals. Others can't sign you, and you only go to ${m.join(' and ')} events, until this deal ends.</small></div>`)}catch(e){}
  return r}}catch(e){}})();
+// ===== 💯 A historic season means a RECORD season =====
+// Tyler, 2026-11-14: "43 touchdowns isn't really historic. It's good, but not historic, not 100
+// worthy". The old bar was a flat 43 pass TD / 1,900 rush / 1,880 rec / 20 sacks, and every
+// other position had a random 4% roll to become 100 with no stat behind it at all.
+// Now: a player becomes 100 only when his season is the all-time single-season best in this
+// league's own record book (the book starts from the real all-time records). No random 100s.
+// Players already at 100 keep it; nothing already earned is taken away.
+window.h1R=function(c,d){try{const x=recGet('pro',c,1);const v=x&&+x[0];return (v>0)?Math.max(v,d||0):(d||Infinity)}catch(e){return d||Infinity}};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

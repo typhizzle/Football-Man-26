@@ -533,3 +533,10 @@ the game altering data. `correctionsEverMade` is now 0 on a clean load.
   The sandbox can't fetch github.io; confirm via the Actions run list instead.
 - Brand rule clarified by Tyler: a save already holding two houses keeps both until one ends,
   then one from there (exactly what m126 does).
+
+## V235 (2026-11-14) — 100 OVR = a RECORD season (m127), all saves
+- `hist100` thresholds were flat (43 pass TD / 1900 rush / 1880 rec / 20 sacks) and every other
+  position had `R()<.04` → hq=1 (a 100 with no stat). Now the bar is `h1R(cat)` = the league's
+  own single-season record (`recGet('pro',c,1)`, starts at real records, e.g. 55 TD). Random hq=1
+  removed; the 50% "keep 100" (hq=2) path untouched. Existing 100s keep their rating.
+- Harness `h100.js` (gate 19): before 43-TD → 100 and 311 random 100s/20 seasons; after none.
