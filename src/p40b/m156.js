@@ -12,10 +12,11 @@ window.tcPick=function(){const L=tcList();ui.style.display='block';ovHide();
  ui.innerHTML=`<div><h2>🎓 Play as an existing college QB</h2><div class=card><small>You take over his college career where it is right now: his school, his class and his rating. Your career starts at week 1 of this college season.</small></div>
  <div class=card>${L.map((e,k)=>`<div class=row style="font-size:16px;gap:6px"><span><b>${esc(e.n)}</b> <small>${esc(e.team)}</small><br><small>QB ${e.ovr} · ${['','Freshman','Sophomore','Junior','Senior'][Math.min(4,e.cls)]}</small></span><button class=g style="width:auto;flex:none" onclick="tcGo(${k})">Play</button></div>`).join('')}</div><button class=g onclick=menuMain()>Back</button></div>`;ui.scrollTop=0};
 window.tcGo=function(k){const e=tcList()[k];if(!e)return;try{
+ let room0=null;try{const t0=(S.col[e.ci].t||[]).find(t=>t.n===e.team);room0=qroom(t0).filter(x=>x.n!==e.n).map(x=>({...x}))}catch(err){}
  S.name=e.n;S.yr=5;S.grd=S.grd||{};S.grd.hs=1;S.tkc=1;S.y0=2026-(S.hist||[]).length;S.age=17+Math.min(4,e.cls);
  enroll(e.team);ovHide();
  // his rating, from his ratings shape (the same search the pro version uses)
  {const b0={...S.q};let lo=31,hi=160,best=null;for(let i=0;i<30;i++){const m=(lo+hi)/2;S.q={...b0};rescaleTo(m);const o=qo(S.q);if(!best||Math.abs(o-e.ovr)<Math.abs(qo(best)-e.ovr))best={...S.q};if(o<e.ovr)lo=m;else if(o>e.ovr)hi=m;else break}S.q=best}
- S.cy=Math.min(4,e.cls);S.qr=(S.qr||[]).filter(x=>x.n!==e.n);S.sq=S.qr.length?S.qr[0].ovr:50;
+ S.cy=Math.min(4,e.cls);/* the QB room he actually starts in (this season's, the one the list showed), not next year's enrolling room */S.qr=room0||(S.qr||[]).filter(x=>x.n!==e.n);S.sq=S.qr.length?S.qr[0].ovr:50;
  try{const L=rost('h.0');L[0]={n:S.name,pos:'QB',num:+S.num,ovr:qo(S.q),qp:1}}catch(err){}
  HM='🎓 You are '+e.n+', '+['','freshman','sophomore','junior','senior'][S.cy]+' QB at '+e.team+'. Week 1 is up.';save();hub()}catch(err){console.warn(err);hub()}};

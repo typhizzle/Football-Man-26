@@ -791,3 +791,63 @@ assert h.count("fum:R()<.12?1:0")>=1 and h.count("fum:R()<.15?1:0")>=1
 h=h.replace("fum:R()<.12?1:0","fum:(typeof simFum=='function'?simFum():(R()<.12?1:0))").replace("fum:R()<.15?1:0","fum:(typeof simFum=='function'?simFum():(R()<.15?1:0))")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m165.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m166: throwing power + speed only fall to age regression (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m166.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m167: flirt with Mia whenever she talks to you (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m167.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m168: a deep swipe never dumps it to the running back (Tyler 2026-11-14)
+r("P.wr.forEach(w=>{const T=Math.hypot(w.x-q.x,w.y-q.y)/(16+S.q.pow*.1),ex=w.x+w.vx*T,ey=w.y+w.vy*T,z=Math.hypot(ex-L[0],ey-L[1]);if(z<bd){",
+  "P.wr.forEach(w=>{const T=Math.hypot(w.x-q.x,w.y-q.y)/(16+S.q.pow*.1),ex=w.x+w.vx*T,ey=w.y+w.vy*T,z=Math.hypot(ex-L[0],ey-L[1]);if(z<bd&&(typeof swOkT!='function'||swOkT(w,L,q,P.wr))){")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m168.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m169: accuracy moves season to season, resets at each new level (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m169.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m170: your own carries are real (Tyler 2026-11-14)
+r("pst:JSON.parse(JSON.stringify(g.pst||{}))}}catch(e){}const r=_e.apply(this,arguments);",
+  "pst:JSON.parse(JSON.stringify(g.pst||{})),qcar:(g.qcar||0)}}catch(e){}const r=_e.apply(this,arguments);")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m170.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m171: watched drives run the simulated clock play by play (Tyler 2026-11-14)
+r("PL.push({k:'fg',ok,y0:y,dn,tg})","PL.push({k:'fg',ok,y0:y,dn,tg,s:sec})")
+r("PL.push({k:'punt',y0:y,net,dn,tg})","PL.push({k:'punt',y0:y,net,dn,tg,s:sec})")
+r("PL.push({k:ky,gn,y0:y,dn,tg,fum:res=='Fumble',td:!res&&y+gn>=100})","PL.push({k:ky,gn,y0:y,dn,tg,fum:res=='Fumble',td:!res&&y+gn>=100,s:sec})")
+r("g.clk=W_.c0+W_.dc*(W_.i/Math.max(1,W_.pl.length))","g.clk=(typeof wClk=='function'?wClk(W_.i):W_.c0+W_.dc*(W_.i/Math.max(1,W_.pl.length)))")
+r("W_.cb=W_.c0+W_.dc*((W_.i+1)/Math.max(1,W_.pl.length))","W_.cb=(typeof wClk=='function'?wClk(W_.i+1):W_.c0+W_.dc*((W_.i+1)/Math.max(1,W_.pl.length)))")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m171.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-14: "Extra point is broken. When you watch it, you don't see any of the players on the field. They're just
+# kind of standing in random spots. Should simulate an actual field goal attempt every time you kick ... Extra point or field
+# goal." The extra point reused the touchdown play's players wherever they ended up; now both teams line up for the kick.
+r("const d=g.lv=='pro'?33:20;g.y=117-d;g.los=g.y;g.tk=0;g.ph='kick';",
+  "const d=g.lv=='pro'?33:20;g.y=117-d;g.los=g.y;try{g.dn=1;g.tg=Math.min(10,100-g.y);setup(0);g.pl.xp=1;g.flash='';g.ft=0}catch(e){}g.tk=0;g.ph='kick';")
+# m172: skin by heritage, mixed race by percent, own colour, parents who match (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m172.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m173: keeping 100 OVR: yards/TD checklist, C+ and losing streaks (Tyler 2026-11-14)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m173.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-14: "The number can continue to move in the next artifact."
+assert h.count("V 0.0.1.0008")==3, h.count("V 0.0.1.0008")
+h=h.replace("V 0.0.1.0008","V 0.0.1.0009")
+# m173: a 100 is never touched by age regression (Tyler 2026-11-14: "regression rules don't necessarily apply to 100 overalls")
+r("const f=gf(),rgu=RGT[S.age],cpU=ageCap(S.age),o0=qo(S.q);","const k100_=qo(S.q)>=100,f=gf(),rgu=k100_?null:RGT[S.age],cpU=k100_?100:ageCap(S.age),o0=qo(S.q);")
+# m173: winning it back is Ultra Bowl + MVP with 99s maxed (h100Tick), not MVP alone
+r("if(aw.includes('MVP')&&S.e100&&qo(S.q)==99&&ageCap(S.age||0)>=100){","if(typeof h100BackOk!='function'&&aw.includes('MVP')&&S.e100&&qo(S.q)==99&&ageCap(S.age||0)>=100){")
+# m174: potential hidden until studied; CPU teams draft on their own guesses (Tyler 2026-11-14)
+r("${x.ovr}${x.pot!=null?'/'+x.pot:''} OVR","${x.ovr}${x.pot!=null?'/'+(typeof potVis=='function'?potVis(x):x.pot):''} OVR")
+r('${p.pot!=null&&!(i==0&&j==0)?"/"+p.pot:""}','${p.pot!=null&&!(i==0&&j==0)?"/"+(typeof potVis=="function"?potVis(p):p.pot):""}')
+r("${q.ovr} / ${q.me?'?':q.pot}","${q.ovr} / ${q.me?'?':(typeof potVis=='function'?potVis(q,1):q.pot)}")
+r('<b>${p.ovr}<small style="opacity:.6">/${p.pot}</small></b>','<b>${p.ovr}<small style="opacity:.6">/${typeof potVis=="function"?potVis(p):p.pot}</small></b>')
+r("const sc=p.gr+need(G)*2.2","const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+need(G)*2.2")
+r("av.forEach(x=>{const s=dsc(x.p)+","av.forEach(x=>{const s=dsc(x.p)+(typeof potKnowAdj=='function'&&!x.p.me?potKnowAdj(ti,x.p,.35):0)+")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m174.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m175: one clock speed in your games; away whites (Tyler 2026-11-14)
+r("SDT=g.ptN>=3?cl(g.ptS/g.ptN/23,.7,1.8):1;","SDT=(typeof sdtNow=='function'?sdtNow():(g.ptN>=3?cl(g.ptS/g.ptN/23,.7,1.8):1));")
+r("mk(tex(String(lb.num),80,nc),1.45,1,1,.27,0);","mk(tex(String(lb.num),80,nc),1.45,j.aw?.56:1,j.aw?.56:1,.27,0);")
+r("mk(tex(String(lb.num),80,nc),1.55,.5,.5,-.27,Math.PI)","mk(tex(String(lb.num),80,nc),1.55,j.aw?.4:.5,j.aw?.4:.5,-.27,Math.PI)")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m175.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

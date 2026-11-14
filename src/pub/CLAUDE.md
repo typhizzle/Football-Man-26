@@ -728,3 +728,48 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
 ## V265 — m157 pro calendar clock (23 in-season incl. new Pro Bowl week + 8 x 3.625 offseason = 52), pregnancy on the clock (15%/0.1%, hidden 2 wks, birth at 39, she can say no, one at a time). Gate 51/52 + dr1 flaky (passed 2 reruns; investigating).
 
 ## VERSION: V 0.0.1.0008 = the kids release (Tyler: "Once you add kids, you can move the version number again"). Still: only bump for big updates.
+
+## Batch after V0008 (2026-11-14, still labelled V 0.0.1.0008: no bump without Tyler's OK)
+- m161 Frank Castle Field General -> Deep passer (match loosened: name trimmed/case-insensitive, /field general/i), same OVR.
+- m162 Halloween costumes off fancy events (HWEV switch) + "Equip everywhere" in the Equipped card.
+- m163 fans: one running total S.fanN, 9B max, up/down with popularity (+-0.5% per point, min 40), real numbers in messages.
+- m164 sponsorships on/off + 5-step meter (middle = old behaviour), GSPN line, Pot McGee week 2 + once in the playoffs.
+- m165 fumbles follow carrying (65 ~ every 3.8 games, 80 ~ 8.6, 99 ~ 985); sims use the same per-hit chance.
+- m166 throwing power + speed only fall to age (36+): rough/hot stretches move the other four, OVR still exactly +-1.
+  Tyler: "By remain the same, I mean wherever you have it upgraded to".
+- m167 Mia flirt button on every question she asks (single, college/pro, 18+); flirting returns to the question.
+- m168 deep swipe (aim 15+ yds or above the horizon) never picks a man shorter than ~45% of the aim; old fallback too.
+- m169 accuracy season swing from passer rating (105+ maybe +1, 90-105 hold/20% -1, 80-90 -1, <80 -2/-3), <60 att ignored,
+  -6/+3 per level, resets to trained at a new level, a 100 OVR never touched, old seasons not re-judged (S.accH).
+- m170 your own carries are counted per play (g.qcar -> box score QB row); they were made up (3-7).
+- m171 watched opponent drive runs each play's simulated clock (PL[].s), not equal slices.
+- Extra point: xp() now calls setup(0) so both teams line up (was the TD play's leftover positions).
+- m172 heritage skins: names instead of light/dark, builder (newest fills rest), shade, own colour, SK[17] 'My heritage',
+  new families match; existing family only via "Match my parents to me" (skin only).
+- Drive scoring checked (no change): even 36-37% (TD 24, FG 12.5), good v bad 51%, bad v good 23% = NFL. ppg 27 per team
+  because 12.9 drives/team (NFL ~11); season stat volumes are calibrated to it, so left alone (told Tyler).
+- New gate tests: ps1, nl1, dsw1, acc1, clk1, xpl1, hr1; wo1 (+name tags/skin/hair), gs1 (+your carries).
+- LESSON (3rd time): before writing /home/claude/real/<name>.js run `ls /home/claude/real | grep ^<name>`. I overwrote
+  sw2.js, sw9.js and xp1.js this batch (all restored from src/real).
+
+## V 0.0.1.0009 (2026-11-14) — keeping 100 OVR (m173), version bump approved ("The number can continue to move")
+- Under 36: keep with 4,800 total yds + 35 total TD a season (prorated if 100 came mid-season, <25% of season = not judged);
+  lose on 3 straight games graded <72 (C+ or lower) or 4 straight losses. 36+: 5,000 + 45, 2 straight C+, 3 straight losses.
+- Age regression skips a 100 (p47 patch: rgu null + cpU 100 when qo>=100). Lose it and RGT applies from there.
+- No NEW 100 at 36+ (qCap wrapper). First time unchanged (99s + 2 Ultra Bowls). Win back = all 99s + Ultra Bowl + MVP with
+  pro yr >= S.h100lostY (old MVP-only earn-back disabled via p47). Existing e100 saves: lostY = first load (titles from now on).
+- Losing the 100 lowers acc/awr/sec/trk only (pow/mob stay) and resets the rough-stretch counter (no double hit).
+- m166 fix: my userForm2 replacement had dropped S.lgr/S.lgw/S.lgtd (last game for talk shows); restored + ps1 F check.
+- Tests: k100 (new rules incl. a real pNext at 40), acc1 now checks the hook by behaviour (save wrappers stack).
+- m174 potential (V0009): potVis(x) shows "?" until S.pkn[name]; study 3/week (S.stu per wkKey) via pCard button or "?🔍"
+  on the draft board; CPU draft score += potKnowAdj(team,p,w) (34% known exact, else hash error -10..+10 times w).
+  cpuDev wrapper keeps x.pot fixed (pot0); the age shrink moved to hidden x.gcap. NAME LESSON: potShow already existed
+  (Pot McGee show, m52/m55) -> nm1 caught it; renamed potVis. gs1 E = whole played game -> box -> season, exact.
+- m175 (V0009): sdtNow() = your pace (g.ptS/g.ptN, else S.pace learned at endGame) / 23, clamp .7-3; used by oppBall,
+  simRest, injRest, injOwn. Away whites: hmAway adds aw:1, d:0; mk3 number planes .56/.4 when j.aw (the 1x1 team-colour
+  number + chest band made whites look coloured). Dallas: white at home, COLOURS on the road; on a clash the HOME team
+  goes white (Dallas never changes). hm1 E_dallasRoadColors.
+- m156 fix (V0009): tcGo kept next season's enrolling room (qroomE + the new character's npx class) -> ~4-7% of takeovers
+  benched behind a 93-95 QB nobody listed. Now S.qr = the room the list showed (qroom(t) captured BEFORE enroll).
+  tc1's C_hub "flake" was this bug (found by looping 100 takeovers). dr1 C_cardsShowCollege still flakes rarely: a pro
+  roster man with a college record and no draft event (pid link by name/seal fit suspected) -> OPEN.

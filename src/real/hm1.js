@@ -7,9 +7,9 @@ const r=await pg.evaluate(async(j)=>{const out={};try{const s=await readCode(j);
  for(let o=1;o<S.T.length;o++){if(o===dal)continue;for(let w=0;w<17;w++){S.wk=w;g={oi:o,o:S.T[o],kind:'reg'};setMJ();n++;const h=g.home===0;if(h)homes++;
   const mw=g.mj.c1===W,ow=g.oj.c1===W;if(mw!==ow)oneWhite++;if(cd(g.mj.c1,g.oj.c1)<110)clash++;if(h&&!mw)homeWhite++;if(!h&&ow===false&&mw)awayColored++}}
  out.A_games=n;out.A_homeShare=+(homes/n).toFixed(2);out.B_exactlyOneInWhite=+(oneWhite/n).toFixed(2);out.C_clashes=clash;out.D_homeWearsColors=+(homeWhite/homes).toFixed(2);out.D_awayWearsWhite=+(awayColored/(n-homes)).toFixed(2);
- // Dallas: home in white, the visitor in colors; on the road Dallas in colors
+ // Dallas: home in white, the visitor in colors; on the road Dallas in colors (Tyler: the Cowboys are the opposite)
  if(dal>0){let dh=null,da=null;for(let w=0;w<17&&(dh===null||da===null);w++){S.wk=w;g={oi:dal,o:S.T[dal],kind:'reg'};setMJ();if(g.home===1&&dh===null)dh={dal:g.oj.c1,me:g.mj.c1};if(g.home===0&&da===null)da={dal:g.oj.c1,me:g.mj.c1}}
-  out.E_dallasHomeWhite=!!dh&&dh.dal===W&&dh.me!==W;out.E_dallasRoadWhite=!!da&&da.dal===W&&da.me!==W}
+  out.E_dallasHomeWhite=!!dh&&dh.dal===W&&dh.me!==W;out.E_dallasRoadColors=!!da&&da.dal===S.T[dal].c1&&cd(da.dal,da.me)>=110;out.E_da=JSON.stringify(da)}
  // playoffs: the better seed is home
  const T=[...Array(32).keys()];S.pb={sd:{RFC:[0,3,5,7,9,11,13],LFC:[16,18,20,22,24,26,28]},r:1};g={oi:13,o:S.T[13],kind:'pp'};setMJ();out.F_topSeedHome=g.home===0;
  S.pb={sd:{RFC:[5,3,0,7,9,11,13],LFC:[16,18,20,22,24,26,28]},r:1};g={oi:5,o:S.T[5],kind:'pp'};setMJ();out.F_lowerSeedAway=g.home===1;S.pb=null;S.wk=wk0;
