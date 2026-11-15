@@ -54,10 +54,12 @@ window.faqGo=function(nEnc){const n=decodeURIComponent(nEnc);const x=faqList().f
  <button class=g onclick=tkPick()>Back</button></div>`;ui.scrollTop=0};
 // ---- signing: he joins the team, the starter stays the starter (unless he beats him), nobody is removed ----
 window.faqSign=function(k){const F=FAQ;if(!F)return;const o=F.O[k];if(!o)return;const fa=S.ro.fa,ix=fa.findIndex(p=>p.n===F.n);if(ix<0)return;const x=fa[ix];
+ let st0=null;try{const L0=rost('p.'+o.i);st0=L0&&L0[0]?L0[0]:null}catch(e){}
  TKGO=1;try{S.name=x.n;S.age=x.age;S.dr={done:0,pk:224,P:[],picks:[]};S.npxd=1;proStart(o.i,-1)}catch(e){console.warn(e)}finally{TKGO=0}
  S.ro.fa=S.ro.fa||fa;const k2=S.ro.fa.findIndex(p=>p.n===x.n);if(k2>=0)S.ro.fa.splice(k2,1);   /* he is the player now (one person, not two) */
  try{const A=AR.find(a=>a.n===x.sty);if(A)S.arch=A.n;const b0={...S.q};let lo=31,hi=160,best=null;for(let i=0;i<30;i++){const m=(lo+hi)/2;S.q={...b0};rescaleTo(m);const ov=qo(S.q);if(!best||Math.abs(ov-x.ovr)<Math.abs(qo(best)-x.ovr))best={...S.q};if(ov<x.ovr)lo=m;else if(ov>x.ovr)hi=m;else break}S.q=best}catch(e){}
- const L=rost('h.0');/* the team's starter: proStart already kept him (S.vetP, his own id); he stays the starter until beaten */if(!S.vetP||S.vetP.n===x.n){const st=(S.pro[o.i]&&rost('h.0').find(y=>y&&y.pos==='QB'&&y.n!==x.n))||null;if(st)S.vetP={...st}}S.vet=S.vetP?S.vetP.n:'Starter';S.sq=S.vetP?S.vetP.ovr:60;
+ const L=rost('h.0');/* the team's starter: proStart already kept him (S.vetP, his own id); he stays the starter until beaten */if(!S.vetP||S.vetP.n===x.n){const st=(S.pro[o.i]&&rost('h.0').find(y=>y&&y.pos==='QB'&&y.n!==x.n))||null;if(st)S.vetP={...st}}if(st0&&st0.n!==x.n){let found=!!(S.vetP&&S.vetP.n===st0.n);for(const kk in S.ro){if(found)break;(S.ro[kk]||[]).forEach(y=>{if(y===st0||(y&&y.n===st0.n&&y!==L[0]))found=true})}if(!found){if(!S.vetP||S.vetP.n===x.n)S.vetP=st0;else L.push(st0)}}   /* the team's starter is never lost */
+ S.vet=S.vetP?S.vetP.n:'Starter';S.sq=S.vetP?S.vetP.ovr:60;
  L[0]={n:x.n,pos:'QB',num:x.num||ri(1,19),ovr:qo(S.q),age:x.age,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},pid:x.pid||null,fa26:1};S.num=L[0].num;S.jy=S.jy||{};S.jy.nm=String(x.n).split(' ').pop().toUpperCase().slice(0,12);
  S.py=Math.max(2,x.age-21);S.tkY=S.py;S.tk=x.n;S.ct={yrs:o.yrs,sal:o.sal,gtd:0,inc:0,team:tn(S.T[0])};S.cash=Math.round(Math.max(1,(x.ovr-55))*.35*1e6/1000)*1000;S.pop=cl(40+Math.round((x.ovr-60)*.8)+(/Football|Nugent|Griffith/.test(x.n)?12:0),30,90);S.aw=[];S.cst=null;
  S.prevNFL={teams:x.prevAll||x.prev||'',story:x.story||'',role:o.role,y:yrN()};

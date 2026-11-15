@@ -5,7 +5,7 @@ const out=await pg.evaluate(async(jc,js)=>{const o={};try{window.confirm=()=>tru
  // A: a current 2026 save (built rosters, the 21 not in them yet): all 21 join their real teams once; the players they
  //    displaced are free agents; nobody disappears
  for(const k of Object.keys(localStorage))localStorage.removeItem(k);SLOT=5;newC();start();for(let i=0;i<32;i++)rost('p.'+i);
- const snap=JSON.parse(JSON.stringify(S));for(const k in snap.ro){(snap.ro[k]||[]).forEach((x,j)=>{if(x&&ADD26N.has(x.n))snap.ro[k][j]={n:'Gen Filler'+j+k,pos:x.pos,ovr:60,age:25,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{}}})}delete snap.add26;
+ const snap=JSON.parse(JSON.stringify(S));for(const k in snap.ro){(snap.ro[k]||[]).forEach((x,j)=>{if(x&&ADD26N.has(x.n))snap.ro[k][j]={n:'Gen Filler'+j+k,pos:x.pos,ovr:60,age:25,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{}}})}delete snap.add26;delete snap.add26t;
  const names0=new Set();for(const k in snap.ro){(snap.ro[k]||[]).forEach(x=>x&&names0.add(x.n))}
  S=mig(snap);const where={};for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&ADD26N.has(x.n))(where[x.n]=where[x.n]||[]).push(k)})}
  o.A_built=Object.keys(where).length;o.A_onTeam=ADD26.every(e=>(where[e[2]]||[]).length===1&&where[e[2]][0]==='p.'+e[0]);

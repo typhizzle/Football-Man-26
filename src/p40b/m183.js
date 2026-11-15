@@ -35,20 +35,20 @@ window.ADD26=[
 window.ADD26N=new Set(ADD26.map(e=>e[2]));
 window.add26Fix=function(x,e){x.h=[];x.cs={};x.tm=[];x.aw={};x.ny=0;x.dr={...e[6]};x.prevTeams=e[7];x.num=e[5];x.add26=1};
 // new saves: the normal named-player path (PKS), then his history is set to the real one
-// new saves: their teams' rosters are built at the start and they join exactly like in a current save (never through the
-// roster builder, which would also give them a made-up past)
-(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.add26&&S.pro){[...new Set(ADD26.map(e=>e[0]))].forEach(pi=>{try{rost('p.'+pi)}catch(e){}});add26Join(S);save()}}catch(e){}return r}}catch(e){}})();
 // current saves: join the team once; the generic player in that spot goes to free agency
-window.add26Join=function(s){try{s=s||S;if(!s||s.add26||!s.pro||!s.ro)return 0;if((s.y0||2022)+((s.hist||[]).length)>2028){s.add26=1;return 0}   /* 2026 ages: not dropped into a save years later */
- let n=0;const all=new Set();for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach(x=>x&&all.add(x.n))}
- ADD26.forEach(e=>{const[pi,slot,name,ovr,age]=e;if(all.has(name))return;const t=s.pro[pi];if(!t)return;let key='p.'+pi;if(s.stage==='pro'&&Array.isArray(s.T)){const ix=s.T.indexOf(t)>=0?s.T.indexOf(t):s.T.findIndex(x=>x.n===t.n&&(x.city||'')===(t.city||''));if(ix>=0)key='h.'+ix}
-  const L=s.ro[key];if(!Array.isArray(L)||!L.length)return;   /* roster not built yet: he joins when it is (new-save path above) */
-  let k=slot;const me=key==='h.0'&&s.stage==='pro';const okSlot=j=>{const x=L[j];return x&&!(me&&j===0)&&isGen(x.n)&&!x.add26};
-  if(!okSlot(k)){k=L.findIndex((x,j)=>j>0&&POSL[j]===POSL[slot]&&okSlot(j))}
+window.add26Late=s=>(s.y0||2022)+((s.hist||[]).length)>2028;
+// one team: its additions join (the generic player in each spot goes to free agency, nobody deleted, no names changed)
+window.add26Team=function(s,pi,key){try{s.add26t=s.add26t||{};if(s.add26t[pi])return 0;const L=s.ro&&s.ro[key];if(!Array.isArray(L)||!L.length)return 0;s.add26t[pi]=1;if(add26Late(s))return 0;
+ const t=s.pro[pi];let n=0;const me=key==='h.0'&&s.stage==='pro';
+ ADD26.filter(e=>e[0]===pi).forEach(e=>{const[,slot,name,ovr,age]=e;for(const k in s.ro){if((s.ro[k]||[]).some(x=>x&&x.n===name))return}
+  const okSlot=j=>{const x=L[j];return x&&!(me&&j===0)&&isGen(x.n)&&!x.add26};let k=slot;if(!okSlot(k))k=L.findIndex((x,j)=>j>0&&POSL[j]===POSL[slot]&&okSlot(j));
   const nx={n:name,pos:POSL[slot],ovr,pot:ovr,age,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{}};add26Fix(nx,e);
-  if(k<0){L.push(nx);n++;return}
-  const old=L[k];if(old){old.prev=(t.ab||t.code||tn(t));old.fa=(s.y0||2022)+((s.hist||[]).length);old.why='roster spot taken by '+name;s.ro.fa=Array.isArray(s.ro.fa)?s.ro.fa:[];s.ro.fa.push(old)}
-  L[k]=nx;n++});s.add26=1;return n}catch(e){return 0}};
+  if(k<0){L.push(nx);n++;return}const old=L[k];if(old){old.prev=(t&&(t.ab||t.code))||'';old.fa=(s.y0||2022)+((s.hist||[]).length);old.why='roster spot taken by '+name;s.ro.fa=Array.isArray(s.ro.fa)?s.ro.fa:[];s.ro.fa.push(old)}L[k]=nx;n++});return n}catch(e){return 0}};
+window.add26Key=function(s,pi){const t=s.pro&&s.pro[pi];if(!t)return null;if(s.stage==='pro'&&Array.isArray(s.T)){const ix=s.T.indexOf(t)>=0?s.T.indexOf(t):s.T.findIndex(x=>x.n===t.n&&(x.city||'')===(t.city||''));if(ix>=0)return 'h.'+ix}return 'p.'+pi};
+// current saves: every team whose roster is already built gets its additions now; the rest when their roster is built
+window.add26Join=function(s){try{s=s||S;if(!s||!s.pro||!s.ro)return 0;let n=0;[...new Set(ADD26.map(e=>e[0]))].forEach(pi=>{const key=add26Key(s,pi);if(key)n+=add26Team(s,pi,key)});s.add26=1;return n}catch(e){return 0}};
+(()=>{try{const _r=rost;rost=function(a){const L=_r.apply(this,arguments);try{if(S&&S.pro&&typeof a==='string'){let pi=-1;if(a[0]==='p')pi=+a.slice(2);else if(a[0]==='h'&&S.stage==='pro'&&S.T){pi=pIdx(S.T[+a.slice(2)])}else if(a[0]==='h'){pi=-1}
+  if(pi>=0&&!(S.add26t&&S.add26t[pi])&&ADD26.some(e=>e[0]===pi)){const key=add26Key(S,pi);if(key&&S.ro[key]===L)add26Team(S,pi,key)}}}catch(e){}return L}}catch(e){}})();
 (()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{add26Join(s)}catch(e){}return s}}catch(e){}})();
 // his card shows where he came from
 (()=>{try{const _p=pCard;pCard=function(i,j){const r=_p.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.add26&&!ui.querySelector('[data-add26]')){const d=ui.firstElementChild||ui,c=document.createElement('div');c.className='card';c.setAttribute('data-add26','1');

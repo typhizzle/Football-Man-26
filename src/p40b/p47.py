@@ -914,3 +914,9 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # Tyler 2026-11-15: "whenever you give me this artifact, it's V 0.0.1.0010"
 assert h.count("V 0.0.1.0009")==3, h.count("V 0.0.1.0009")
 h=h.replace("V 0.0.1.0009","V 0.0.1.0010")
+# Tyler 2026-11-15: the Manling family is now Manny (named family only; generated "Manling" last names stay)
+for a,b in [('Pete Manling','Pete Manny'),('P. Manling','P. Manny'),('Archer Manling','Archer Manny')]:
+    h=h.replace(a,b)
+assert 'Pete Manling' not in h and 'Archer Manling' not in h and 'P. Manling' not in h
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m189.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
