@@ -6708,10 +6708,10 @@ function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();try{Object.values(S.s
  return out.sort((a,b)=>b.gr-a.gr)}
 function lgDraft(){const Y=yrN();S.dc=S.dc||{};if(S.dc[Y]&&S.dc[Y].done)return;const TT=lgTeams();if(!TT.length)return;const P=lgClass(Y),r=lgSeed('dord'+Y);
  const ord=TT.slice().sort((a,b)=>{const wa=(a.t.w||0)/Math.max(1,(a.t.w||0)+(a.t.l||0)),wb=(b.t.w||0)/Math.max(1,(b.t.w||0)+(b.t.l||0));return wa-wb||(a.t.ovr||0)-(b.t.ovr||0)});
- const picks=[];for(let rd=1;rd<=7;rd++)ord.forEach((T,j)=>{const need=G=>Math.max(0,LGN[G]-lgCount(T.L,G));let bi=0,bs=-1e9;P.forEach((p,i)=>{if(p.tk||i>60+picks.length)return;const G=lgGrp(p.pos);const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+(typeof qbAdj=='function'?qbAdj(pIdx(T.t),p)*.6:0)+need(G)*2.2-(G=='QB'&&T.i==0?6:0)-(G=='K'&&rd<5?20:0)+r()*2;if(sc>bs){bs=sc;bi=i}});const p=P[bi];p.tk=1;const no=(rd-1)*ord.length+j+1;
+ const picks=[];for(let rd=1;rd<=7;rd++){const ordR=ord.slice();ordR.forEach((T0,j)=>{const T=(typeof dtLg=='function'?dtLg(ordR,j,rd,P,Y):T0)||T0;const need=G=>Math.max(0,LGN[G]-lgCount(T.L,G));let bi=0,bs=-1e9;P.forEach((p,i)=>{if(p.tk||i>60+picks.length)return;const G=lgGrp(p.pos);const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+(typeof qbAdj=='function'?qbAdj(pIdx(T.t),p)*.6:0)+need(G)*2.2-(G=='QB'&&T.i==0?6:0)-(G=='K'&&rd<5?20:0)+r()*2;if(sc>bs){bs=sc;bi=i}});const p=P[bi];p.tk=1;const no=(rd-1)*ord.length+j+1;
   const x={n:p.n,pos:p.pos,num:(NR[p.pos]||[1,99])[0],ovr:p.ovr,age:p.age,pot:p.pot,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},dr:{y:Y,r:rd,p:no,tm:T.code,col:p.col}};
   lgCtNew(x,4,rd==1?Math.max(1,+(11.5-no*.3).toFixed(1)):rd==2?2:1,'rookie');lgAdd(T,x);picks.push({r:rd,p:no,tm:T.code,n:p.n,pos:p.pos,ovr:p.ovr,pot:p.pot,age:p.age,col:p.col});
-  lgTx({t:'draft',n:p.n,pos:p.pos,ovr:p.ovr,age:p.age,to:T.code,d:'Round '+rd+', pick '+no+(p.col?' · '+p.col:''),big:rd<=2})});
+  lgTx({t:'draft',n:p.n,pos:p.pos,ovr:p.ovr,age:p.age,to:T.code,d:'Round '+rd+', pick '+no+(p.col?' · '+p.col:''),big:rd<=2})})};
  // undrafted free agents: teams that are thin somewhere grab the best of the rest
  const ud=P.filter(p=>!p.tk);let nU=0;TT.forEach(T=>{Object.keys(LGN).forEach(G=>{while(lgCount(T.L,G)<Math.min(LGN[G],G=='K'?1:LGN[G]-1)&&T.L.filter(Boolean).length<LGMAX){const c=ud.find(p=>!p.tk&&lgGrp(p.pos)==G);if(!c)break;c.tk=1;nU++;const x={n:c.n,pos:c.pos,num:(NR[c.pos]||[1,99])[0],ovr:c.ovr,age:c.age,pot:c.pot,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},dr:{y:Y,r:0,tm:T.code,col:c.col}};lgCtNew(x,2,.8,'udfa');lgAdd(T,x);if(c.ovr>=62)lgTx({t:'udfa',n:c.n,pos:c.pos,ovr:c.ovr,age:c.age,to:T.code,d:'Undrafted free agent'})}})});
  S.dc[Y]={done:1,picks,ud:ud.filter(p=>!p.tk).slice(0,40).map(p=>({n:p.n,pos:p.pos,ovr:p.ovr,col:p.col}))};const ks=Object.keys(S.dc).sort();while(ks.length>12)delete S.dc[ks.shift()];return picks}
@@ -11793,7 +11793,7 @@ window.qbAdj=function(pi,p){if(!p||p.pos!=='QB')return 0;const g=qbG(pi),elite=(
 dSel=function(){const D=S.dr;if(D.pk>=224)return null;D.swap=D.swap||{};let ti=D.swap[D.pk]!=null?D.swap[D.pk]:D.ord[D.pk%32];
  if(D.guar&&!D.mine&&D.pk==D.guar*32-1)return{ti,i:D.P.findIndex(p=>p.me)};
  const all=D.P.map((p,i)=>({p,i})).filter(x=>!x.p.tk).sort((a,b)=>dsc(b.p)-dsc(a.p)),top=all[0];
- if(top&&top.p.pos==='QB'&&((top.p.ovr||0)>=95||top.p.gen)&&qbG(ti)>=9&&D.pk<32&&!D.tr1){D.tr1=1;const u=R();
+ if(window.DTONE&&top&&top.p.pos==='QB'&&((top.p.ovr||0)>=95||top.p.gen)&&qbG(ti)>=9&&D.pk<32&&!D.tr1){D.tr1=1;const u=R();
   if(u<.7){let j=-1;for(let k=D.pk+1;k<32;k++){const t2=D.swap[k]!=null?D.swap[k]:D.ord[k];if(qbG(t2)<=6){j=k;break}}
    if(j>0){const t2=D.swap[j]!=null?D.swap[j]:D.ord[j];D.swap[D.pk]=t2;D.swap[j]=ti;(D.news=D.news||[]).push(`🔁 TRADE: the ${tn(S.pro[ti])} (QB need ${qbGL(ti)}) trade pick ${D.pk+1} to the ${tn(S.pro[t2])} (QB need ${qbGL(t2)}) for pick ${j+1}.`);ti=t2}}}
  const av=all.slice(0,12),mi=all.findIndex(x=>x.p.me);if(mi>=12&&mi<24)av.push(all[mi]);let best=av[0],bs=-1e9;
@@ -11926,5 +11926,97 @@ window.mannyFix=function(s){try{if(!s||(s.manny||0)>=2)return 0;let n=0;const se
  for(const k of Object.keys(o)){const v=o[k];if(typeof v==='string'){let w=v;MANNY.forEach(([a,b])=>{if(w.indexOf(a)>=0)w=w.split(a).join(b)});if(w!==v){o[k]=w;n++}}else if(v&&typeof v==='object')walk(v)}
  };walk(s);s.manny=2;return n}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{mannyFix(s)}catch(e){}return s}}catch(e){}})();
+// ===== 🔁 DRAFT-DAY TRADES (that make sense, never forced) =====
+// Tyler, 2026-11-15: "I feel like there's about 2 or 3 draft day trades a year, at least in the first round, maybe more ... don't
+// force anything ... see if you can find how many trades are really usually traded in the first round. And then see in all rounds
+// ... You can make it slightly less than the average ... Make the trades make sense."
+// Real NFL (recent years): ~5-6 trades involving first-round picks during the draft, ~30-40 trades over the whole draft. Aim: a
+// little under that (about 3-5 in round 1, 15-25 overall).
+// HOW: before a pick, a team picking later in the same round looks at the best players left. If one of them fills a real need
+// for it (position it's short at; a quarterback when its QB need is C+ or lower) and it wants him clearly more than the team on
+// the clock does, it may trade up: the two teams swap spots for the rest of that round and the team moving up also hands over a
+// later-round pick (shown in the trade). Bigger jumps cost more and happen less. Teams with nothing to gain don't trade.
+window.DTP=[.15,.12,.11,.1,.09,.08,.07];   // chance per pick, by round, that a WILLING trade partner actually makes the call
+window.DTG=1.6;window.DTA=.5;window.DTMAX=18;   // Tyler: round 1 0-5, "doesn't need to be more than 15 to 20 trades total", fewer is better   // how much more the other team must want him; chance the team on the clock agrees
+window.DTC=2.2;
+window.dtNeed=function(L,G){try{return Math.max(0,LGN[G]-lgCount(L,G))}catch(e){return 0}};
+window.dtWant=function(T,p){const G=lgGrp(p.pos);let w=(p.gr||p.ovr||60)+dtNeed(T.L,G)*2.5;if(typeof qbAdj=='function'&&p.pos==='QB')w+=qbAdj(T.pi!=null?T.pi:pIdx(T.t),p);return w};
+// the yearly league draft: may swap the team on the clock with a later team in this round
+window.dtLg=function(ordR,j,rd,P,Y){try{const T=ordR[j];if(!T)return T;if(R()>DTP[rd-1]*3.2)return T;{const L0=(S.dtr||{})[Y]||[];if(L0.filter(x=>x.rd==rd).length>=(rd==1?5:4)||L0.length>=DTMAX)return T}   /* most picks: nobody calls */
+ const top=P.filter(p=>!p.tk).sort((a,b)=>(b.gr||0)-(a.gr||0)).slice(0,6);if(!top.length)return T;const mine=Math.max(...top.map(p=>dtWant(T,p)));let best=null,gain=0,bk=-1;
+ for(let k=j+1;k<Math.min(ordR.length,j+12);k++){const U=ordR[k];if(!U||U===T)continue;const w=Math.max(...top.map(p=>dtWant(U,p)));const g=w-mine-(k-j)*.45;if(g>gain){gain=g;best=U;bk=k}}
+ if(!best||gain<DTG||R()>DTA)return T;   /* a real reason, and the team on the clock still has to say yes */
+ ordR[j]=best;ordR[bk]=T;const no=(rd-1)*ordR.length+j+1,no2=(rd-1)*ordR.length+bk+1;S.dc=S.dc||{};(S.dtr=S.dtr||{})[Y]=(S.dtr[Y]||[]);const dd=`Draft-day trade: ${best.code} move up from pick ${no2} to pick ${no}; ${T.code} get pick ${no2} and a round ${Math.min(7,rd+1)} pick`;S.dtr[Y].push({rd,from:T.code,to:best.code,up:no,down:no2,extra:Math.min(7,rd+1),d:dd});
+ try{lgTx({t:'trade',n:'Pick '+no,pos:'',ovr:0,age:0,from:T.code,to:best.code,d:dd,big:rd==1})}catch(e){}return best}catch(e){return ordR[j]}};
+// the college -> pro draft (your draft): same idea, any pick, any round
+window.dtCol=function(){try{const D=S.dr;if(!D||D.pk>=224)return;D.swap=D.swap||{};const pk=D.pk,rd=Math.floor(pk/32)+1,tOf=k=>D.swap[k]!=null?D.swap[k]:D.ord[k%32];const ti=tOf(pk);
+ if(D.dtDone&&D.dtDone[pk])return;(D.dtDone=D.dtDone||{})[pk]=1;if(R()>DTP[rd-1]*3.2*DTC)return;D.dtn=D.dtn||{};if((D.dtn[rd]||0)>=(rd==1?5:4)||Object.values(D.dtn).reduce((a,b)=>a+b,0)>=DTMAX)return;
+ const top=D.P.map((p,i)=>({p,i})).filter(x=>!x.p.tk).sort((a,b)=>dsc(b.p)-dsc(a.p)).slice(0,6);if(!top.length)return;
+ const want=(t,p)=>dsc(p)+(typeof qbAdj=='function'?qbAdj(t,p)*.8:0)+(p.me?((D.int||{})[t]||0):0);const mine=Math.max(...top.map(x=>want(ti,x.p)));
+ let best=-1,gain=0,bk=-1;const end=Math.min(rd*32,224);for(let k=pk+1;k<Math.min(end,pk+12);k++){const u=tOf(k);if(u===ti)continue;const w=Math.max(...top.map(x=>want(u,x.p)));const g=w-mine-(k-pk)*.45;if(g>gain){gain=g;best=u;bk=k}}
+ if(best<0||gain<DTG||R()>DTA)return;D.dtn[rd]=(D.dtn[rd]||0)+1;D.swap[pk]=best;D.swap[bk]=ti;(D.news=D.news||[]).push(`🔁 TRADE: the ${tn(S.pro[best])} move up from pick ${bk+1} to pick ${pk+1}. The ${tn(S.pro[ti])} get pick ${bk+1} and a round ${Math.min(7,rd+1)} pick.`)}catch(e){}};
+(()=>{try{const _s=dSel;dSel=function(){try{dtCol()}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();
+
+// 📺 watching a draft (live or from the list): a trade is announced on the stage before the team that moved up picks
+(()=>{try{const _s=dnSel;dnSel=function(){const N=DN,D=S.dr,n0=N&&N.src=='live'&&D&&D.news?D.news.length:0;const c=_s.apply(this,arguments);try{if(c&&N){
+ if(N.src=='board'){const t=((S.dtr||{})[N.yr]||[]).find(x=>x.up===c.pk);if(t){const T1=S.pro[TA.indexOf(t.to)],T0=S.pro[TA.indexOf(t.from)];c.tr=`🔁 TRADE! The ${T1?tn(T1):t.to} move up to pick ${t.up}. The ${T0?tn(T0):t.from} get pick ${t.down} and a round ${t.extra} pick.`}}
+ else{const nw=(D.news||[]).slice(n0).filter(x=>/TRADE/.test(x));if(nw.length)c.tr=nw[nw.length-1].replace('🔁 TRADE:','🔁 TRADE!')}}}catch(e){}return c}}catch(e){}})();
+(()=>{try{const _b=dnBan;dnBan=function(who,txt){try{const c=DN&&DN.cur;if(c&&c.tr&&!c.trShown&&/on the clock/.test(txt||'')){c.trShown=1;DN.t-=2.5;return _b.call(this,typeof COMM!='undefined'?COMM:'',`<b style="color:#ffe93b">${c.tr}</b><br>`+txt)}}catch(e){}return _b.apply(this,arguments)}}catch(e){}})();
+// ===== 🏟️ THE SIDELINE: YOUR TEAM ON IT, YOU WALKING IT, WATCHING FROM IT =====
+// Tyler, 2026-11-15: "where you stand with your team on the sideline and can watch it from the sideline. and third person view
+// ... Make sure all times move the same for each play, no matter what angle it is. Each is literally just being interpreted as a
+// camera angle, but you could walk around on the sideline".
+// Both teams stand on their sidelines (yours on the near side, between the 25s). When a drive is watched you stand with them and the
+// camera button cycles: 👀 Sideline (your eyes) -> 🧍 Third person (behind you) -> 📺 TV broadcast. Sideline is the default.
+// Joystick (bottom-left) walks you along the sideline; drag anywhere else to look around (it drifts back to the ball).
+// Only the camera changes: the play, its speed and the clock run exactly the same in every view.
+window.SLV={m:'side',x:-31.2,z:-50,yo:0,po:0,lt:0,lk:null,av:null,lastT:0};
+const SLX0=-33.4,SLX1=-28.4,SLZ0=-88,SLZ1=-12;
+window.slOnSide=function(){try{return !!(g&&g.watch&&SLV.m!='tv'&&cv.style.display=='block')}catch(e){return false}};
+window.slMe=function(){return !(W_&&W_.own&&!g.injW)};   // you're on the sideline unless it's your own drive and you're the one playing
+// both benches: 18 a side, two rows, between the 25s, facing the field
+window.SDL=new T3.Group();
+window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;const mk=(j,X,z,ry,num,sk)=>{const m=mk3(j,1.1,sk,{nm:'',num},null,1);m.position.set(X,0,z);m.rotation.y=ry;m.ph=Math.random()*6;try{mrgM(m)}catch(e){}SDL.add(m);return m};
+ const used=new Set([S.num]);const nb=()=>{let n;do n=1+Math.floor(Math.random()*98);while(used.has(n));used.add(n);return n};
+ [[g.mj,-1],[g.oj,1]].forEach(([j,sd])=>{for(let i=0;i<18;i++){const row=i%2,X=sd*(31.6+row*1.9),z=-30-(i>>1)*4.6-row*2.3;mk(j,X,z,sd<0?-Math.PI/2:Math.PI/2,nb(),SK[(i*7+(sd>0?3:0))%6])}});
+ // you
+ const me=mk3(g.mj,1.1,0,{nm:g.mj.nm,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-31.2;SLV.z=-50}catch(e){console.warn(e)}};
+(()=>{try{const _c=cheerBuild;cheerBuild=function(){const r=_c.apply(this,arguments);try{slBuild()}catch(e){}return r}}catch(e){}})();
+// each watched drive starts with you on the sideline where the ball is
+window.slStart=function(){try{SLV.m=SLV.m0||'side';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-31.2;SLV.yo=0;SLV.po=0;slCamTxt()}catch(e){}};
+window.slCamTxt=function(){try{const b=$('#camb');if(!b||!g||!g.watch)return;b.textContent=SLV.m=='side'?'👀 Sideline':SLV.m=='third'?'🧍 Third person':'📺 TV broadcast'}catch(e){}};
+(()=>{try{const _o=watchO;watchO=function(){const r=_o.apply(this,arguments);slStart();return r}}catch(e){}})();
+(()=>{try{const _u=watchU;watchU=function(){const r=_u.apply(this,arguments);slStart();return r}}catch(e){}})();
+(()=>{try{const _b=camb;camb=function(){if(g&&g.watch){const L=['side','third','tv'];SLV.m=L[(L.indexOf(SLV.m)+1)%3];SLV.m0=SLV.m;slCamTxt();return}return _b.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _f=wFin;wFin=function(){try{if(SLV.av)SLV.av.visible=false}catch(e){}return _f.apply(this,arguments)}}catch(e){}})();
+// walking + looking (only while watching from the sideline)
+cv.addEventListener('pointerdown',e=>{try{if(!slOnSide())return;const x=e.clientX,y=e.clientY;if(x<W*.38&&y>H*.6&&!joy&&slMe()){joy={id:e.pointerId,ox:x,oy:y,x:0,y:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}SLV.lk={id:e.pointerId,x,y};SLV.lt=performance.now()/1000}catch(_){}});
+cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=cl(SLV.yo-(e.clientX-L.x)*.006,-1.6,1.6);SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.5,.6);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
+['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{try{if(SLV.lk&&e.pointerId==SLV.lk.id)SLV.lk=null;if(joy&&e.pointerId==joy.id&&g&&g.watch)joy=null}catch(_){}}));
+// nobody stands in the lens: bench players and cheerleaders right at the camera (or between it and you) step out of the shot
+window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G.children.forEach(c=>{if(c===SLV.av)return;if(R<=0){c.visible=true;return}const x=c.position.x,z=c.position.z;
+ const vx=mx-cx,vz=mz-cz,L2=vx*vx+vz*vz||1,t=Math.max(0,Math.min(1,((x-cx)*vx+(z-cz)*vz)/L2)),d=Math.hypot(x-(cx+vx*t),z-(cz+vz*t));c.visible=d>R*.55&&Math.hypot(x-cx,z-cz)>R}))}catch(e){}};
+// the camera: the play is untouched; only where we look from changes
+(()=>{try{const _g=camGame;camGame=function(qq,qx,por){try{
+ const av=SLV.av,me=slMe();if(av)av.visible=!!(g&&g.watch&&me&&SLV.m=='third');if(!slOnSide()){if(SLV.hid){SLV.hid=0;slNear(0,0,0,0,0)}return _g.apply(this,arguments)}
+ const now=performance.now()/1000,dt=Math.min(.05,Math.max(0,now-(SLV.lastT||now)));SLV.lastT=now;
+ // where the action is (same smoothing the TV camera uses)
+ const tx=fxs,tz=-(cam-3);
+ // walk
+ const ix=(joy&&me?joy.x:0)+(kb.x||0),iy=(joy&&me?joy.y:0)+(kb.y||0);let mv=0;
+ const ya=Math.atan2(tz-SLV.z,tx-SLV.x)+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
+ if(me&&(ix||iy)){const sp=5.5*dt,rx=-fz,rz=fx;SLV.x=cl(SLV.x+(fx*iy+rx*ix)*sp,SLX0,SLX1);SLV.z=cl(SLV.z+(fz*iy+rz*ix)*sp,SLZ0,SLZ1);mv=1}
+ if(!me){SLV.x=-31.2;SLV.z+=(cl(tz,SLZ0,SLZ1)-SLV.z)*.03}   // your own drive: a sideline camera keeps up with the ball
+ if(!SLV.lk&&now-SLV.lt>2.2){SLV.yo*=.96;SLV.po*=.96}   // drift back to the ball
+ if(av){av.position.set(SLV.x,mv?Math.abs(Math.sin(now*12))*.1:0,SLV.z);av.rotation.y=-ya-Math.PI/2;const s=mv?Math.sin(now*12)*.7:0;try{av.L[0].rotation.x=s;av.L[1].rotation.x=-s;av.A[0].rotation.x=-s*.6;av.A[1].rotation.x=s*.6}catch(e){}}
+ const lp=SLV.po-.06;let px,py,pz,fv;
+ if(SLV.m=='third'&&me){const bk=Math.min(4,Math.max(1.2,(SLV.x+35.2)/Math.max(.2,Math.abs(fx))));px=SLV.x-fx*bk;pz=SLV.z-fz*bk;py=5.4;fv=por?78:58}else{px=SLV.x;pz=SLV.z;py=2.75;fv=por?82:60}
+ cm.position.set(px,py,pz);slNear(px,pz,SLV.m=='third'&&me?3.6:2.4,me?SLV.x:px,me?SLV.z:pz);const D=30;cm.lookAt(px+fx*D*Math.cos(lp),py+Math.sin(lp)*D-(SLV.m=="third"?4.6:1.6),pz+fz*D*Math.cos(lp));return fv
+}catch(e){return _g.apply(this,arguments)}}}catch(e){}})();
+// benches breathe a little; they cheer a touchdown for their side
+window.slTick=function(){try{if(!SDL.children.length)return;const t=performance.now()/1000,td=g&&(g.ph=='dead'||g.ph=='wdead')&&g.out&&g.out.k=='td';
+ SDL.children.forEach(c=>{if(c===SLV.av||!c.A)return;const home=c.position.x<0,hype=td&&(home?!g.sw:!!g.sw);if(hype){const s=Math.abs(Math.sin(t*7+c.ph));c.position.y=s*.7;c.A[0].rotation.x=c.A[1].rotation.x=2.8}else{c.position.y=0;c.A[0].rotation.x=c.A[1].rotation.x=Math.sin(t*1.3+c.ph)*.08}})}catch(e){}};
+(()=>{try{const _t=cheerTick;cheerTick=function(){const r=_t.apply(this,arguments);slTick();return r}}catch(e){}})();
+(()=>{try{const _s=scene;scene=function(m){const r=_s.apply(this,arguments);try{SDL.visible=m=='game'}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

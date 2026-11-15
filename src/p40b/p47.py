@@ -920,3 +920,11 @@ for a,b in [('Pete Manling','Pete Manny'),('P. Manling','P. Manny'),('Archer Man
 assert 'Pete Manling' not in h and 'Archer Manling' not in h and 'P. Manling' not in h and 'Eli Manning' not in h and 'E. Manning' not in h
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m189.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m190: draft-day trades in the yearly league draft
+r("for(let rd=1;rd<=7;rd++)ord.forEach((T,j)=>{","for(let rd=1;rd<=7;rd++){const ordR=ord.slice();ordR.forEach((T0,j)=>{const T=(typeof dtLg=='function'?dtLg(ordR,j,rd,P,Y):T0)||T0;")
+r("big:rd<=2})});","big:rd<=2})})};")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m190.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m191: the sideline (both benches, you walking it, sideline / third-person / TV views while a drive is watched)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m191.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

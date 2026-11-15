@@ -28,7 +28,7 @@ window.qbAdj=function(pi,p){if(!p||p.pos!=='QB')return 0;const g=qbG(pi),elite=(
 dSel=function(){const D=S.dr;if(D.pk>=224)return null;D.swap=D.swap||{};let ti=D.swap[D.pk]!=null?D.swap[D.pk]:D.ord[D.pk%32];
  if(D.guar&&!D.mine&&D.pk==D.guar*32-1)return{ti,i:D.P.findIndex(p=>p.me)};
  const all=D.P.map((p,i)=>({p,i})).filter(x=>!x.p.tk).sort((a,b)=>dsc(b.p)-dsc(a.p)),top=all[0];
- if(top&&top.p.pos==='QB'&&((top.p.ovr||0)>=95||top.p.gen)&&qbG(ti)>=9&&D.pk<32&&!D.tr1){D.tr1=1;const u=R();
+ if(window.DTONE&&top&&top.p.pos==='QB'&&((top.p.ovr||0)>=95||top.p.gen)&&qbG(ti)>=9&&D.pk<32&&!D.tr1){D.tr1=1;const u=R();
   if(u<.7){let j=-1;for(let k=D.pk+1;k<32;k++){const t2=D.swap[k]!=null?D.swap[k]:D.ord[k];if(qbG(t2)<=6){j=k;break}}
    if(j>0){const t2=D.swap[j]!=null?D.swap[j]:D.ord[j];D.swap[D.pk]=t2;D.swap[j]=ti;(D.news=D.news||[]).push(`🔁 TRADE: the ${tn(S.pro[ti])} (QB need ${qbGL(ti)}) trade pick ${D.pk+1} to the ${tn(S.pro[t2])} (QB need ${qbGL(t2)}) for pick ${j+1}.`);ti=t2}}}
  const av=all.slice(0,12),mi=all.findIndex(x=>x.p.me);if(mi>=12&&mi<24)av.push(all[mi]);let best=av[0],bs=-1e9;

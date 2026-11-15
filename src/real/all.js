@@ -92,6 +92,10 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_starRare','A_avgSame','B_rules','B_back','C_list','D_most','E_back','E_oldStays','E_once','F_full45','F_capped'])if(d[k]!==true)return k+' = '+d[k]+' '+(d.B_window||'')+' star '+d.A_star38;return null}},
  {f:'mn1.js', why:'MANLING -> MANNY: Pete Manling / P. Manling / Archer Manling become Manny in saves and built-in records; generated players named Manling keep it',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_pete','A_archer','A_elijah','B_generatedKept','C_builtIn','C_goat','C_legacy'])if(d[k]!==true)return k+' = '+d[k];return null}},
+ {f:'dt1.js', why:'Draft-day trades: about 2-5 in round 1 and 12-28 overall in the league draft, never forced, the team moving up picks earlier; your own draft trades too, no pick made twice',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.colErr)return d.colErr;for(const k of ['A_rd1Range','B_allRange','C_notForced','D_tradesMoveUp','E_all224Picks','F_inLog','G_colTrades','G_colRd1More1','H_noDoublePicks','I_watchShowsTrade'])if(d[k]!==true)return k+' = '+d[k];if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
+ {f:'sd1.js', why:'Sideline: both benches stand on the sidelines; a watched drive defaults to your eyes on the sideline, third person shows you from behind, TV is TV; the clock moves the same in every view; the joystick walks you along the sideline (never onto the field); the camera button cycles views and goes back after the drive',
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_benches','A_meHidden','B_default','B_onSideline','C_sameClock','D_tvIsTv','D_meVisible','D_behind','E_moved','E_staysOff','F_cycles','F_backNormal'])if(d[k]!==true)return k+' = '+d[k];if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
  {f:'tl1.js', why:'Ham Luther 2036 lowered to 2 rush TD (only that row, seal agrees, stays after reload), simmed games give 1/3 the training points, instant starter, ratings card shows throwing power without the Coleridge -1',
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_lowered','A_sealMatches','A_nothingElseChanged','A_staysAfterReload','A_ballotText','B_third','C_offBenched','C_buttonShown','C_onStarts','D_throwPower','D_noColeridgeMinus'])if(d[k]!==true)return k+' = '+d[k];if(d.pageErrors&&d.pageErrors.length)return d.pageErrors[0];return null}},
  {f:'dw1.js', why:'every draft is listed and watchable from its real picks, offered live when it happens; Goatie\'s roster + Yeezers',
@@ -189,6 +193,8 @@ const TESTS=[
    // Until he rules on it this is tolerated at exactly that count and no more, so a NEW
    // source of history rewriting still fails the gate.
    const KNOWN=32;
+   // Tyler's order 2026-11-15: the Manling family is now Manny in all saves. That rename (and only that) is allowed.
+   const ord=(d.changes||[]).filter(c=>/^\S+ name (Pete |P\. |Archer )?Manling -> .*Manny$|name (Eli|E\.) Manning -> .*Manny$/.test(c)).length;d.changesToExistingData-=ord;
    if(d.changesToExistingData>KNOWN)
     return (d.changesToExistingData-KNOWN)+' NEW change(s) to existing data beyond the known RB backfill: '+(d.changes[0]||'');
    if(d.changesToExistingData<KNOWN)

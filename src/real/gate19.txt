@@ -1,0 +1,92 @@
+pass  cl1.js      10s
+pass  bk1.js      5s
+pass  kp1.js      11s
+pass  pl2.js      6s
+pass  pc1.js      6s
+pass  aw5.js      4s
+FAIL  sim1.js     69s   <-- only 2 MVP winners: {"BB Homan":4,"Ham Luther":4}
+pass  dr1.js      12s
+pass  sb1.js      8s
+pass  ps1.js      4s
+pass  nl1.js      5s
+pass  dsw1.js     5s
+pass  acc1.js     5s
+pass  clk1.js     5s
+pass  xpl1.js     5s
+pass  hr1.js      6s
+pass  k100.js     5s
+pass  pt1.js      5s
+pass  pace1.js    5s
+pass  pm1.js      15s
+pass  sv1.js      30s
+pass  swx1.js     7s
+pass  mia1.js     5s
+pass  fs1.js      7s
+pass  clk3.js     5s
+pass  fa1.js      6s
+pass  cq1.js      4s
+pass  ra1.js      6s
+pass  rtx1.js     6s
+pass  mn1.js      5s
+pass  dt1.js      20s
+pass  tl1.js      9s
+pass  dw1.js      6s
+pass  ft1.js      5s
+pass  gen1.js     11s
+pass  fc1.js      5s
+pass  cm1.js      6s
+pass  tc1.js      7s
+pass  pg1.js      141s
+pass  kd1.js      6s
+pass  wo1.js      11s
+pass  gs1.js      6s
+pass  pb2.js      12s
+pass  cl2.js      9s
+pass  int1.js     4s
+pass  seal1.js    5s
+pass  seal2.js    4s
+pass  aw1.js      4s
+pass  aw2.js      5s
+FAIL  pristine1.js 4s   <-- 1 NEW change(s) to existing data beyond the known RB backfill: h.0#1 (Tobey Talarico): HISTORY CHANGED
+      was [[2025,8,202,1],[2029,8,914,4],[2030,8,540,8],[2031,8,515,7],[2032,8,1117,5],[2033,8,1000,8],[2034,8,1291,9]]
+      now [[2025,8,202,1,77,0],[2029,8,914,4,274,1],[2030,8,540,8,102,3],[2031,8,515,7,90,2],[2032,8,1117,5,164,1],[2033,8,1000,8,381,2],[2034,8,1291,9,342,1]]
+pass  ta1.js      5s
+pass  stg1.js     4s
+pass  h100.js     5s
+pass  col1.js     5s
+pass  ncl1.js     5s
+pass  ev1.js      5s
+pass  aw3.js      5s
+pass  aw4.js      4s
+pass  pb1.js      5s
+pass  nm1.js      7s
+pass  thr1.js     5s
+pass  sw2.js      5s
+pass  st1.js      5s
+pass  hat1.js     4s
+pass  bx1.js      5s
+pass  ctl1.js     5s
+pass  hm1.js      4s
+pass  br1.js      4s
+pass  cr1.js      5s
+pass  hp1.js      5s
+pass  hw1.js      6s
+pass  hw2.js      6s
+pass  shop1.js    5s
+pass  sweep1.js   4s
+pass  rb1.js      4s
+pass  mvp1.js     4s
+pass  ub1.js      4s
+pass  npx2.js     5s
+
+========================================================================
+FAILED  sim1.js
+        expected: NOBODY OWNS THE SIM: 8 simmed seasons from Tyler's 99 OVR save: at least 3 different MVPs, nobody wins more than 6 of 8 (the best can win a lot, not all), the 55-TD record beatable but very rare (56+ at most once in 8), you lead passing TDs at most 6 of 8
+        got:      only 2 MVP winners: {"BB Homan":4,"Ham Luther":4}
+FAILED  pristine1.js
+        expected: loading the save must not change data the player already owned
+        got:      1 NEW change(s) to existing data beyond the known RB backfill: h.0#1 (Tobey Talarico): HISTORY CHANGED
+      was [[2025,8,202,1],[2029,8,914,4],[2030,8,540,8],[2031,8,515,7],[2032,8,1117,5],[2033,8,1000,8],[2034,8,1291,9]]
+      now [[2025,8,202,1,77,0],[2029,8,914,4,274,1],[2030,8,540,8,102,3],[2031,8,515,7,90,2],[2032,8,1117,5,164,1],[2033,8,1000,8,381,2],[2034,8,1291,9,342,1]]
+========================================================================
+GATE CLOSED — 2 of 78 failed. DO NOT PUBLISH.
