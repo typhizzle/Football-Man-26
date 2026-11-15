@@ -61,7 +61,17 @@ window.hrDraw=function(done){const box=$('#hrbox');if(!box||!HRE)return;const L=
  <label>${L.length?'Add another':'Add a heritage'}<select onchange="hrAdd(this.value)"><option value="">Choose…${RACES.map((R_,k)=>`<option value=${k}>${R_[0]}`).join('')}</select></label>
  ${L.length?`<small>Total: ${sum}%</small><br>`:''}
  <label>Shade (people in every group vary)<input type=range min=-3 max=3 step=1 value=${HRE.shade} oninput="hrShade(this.value)"></label>
- <div class=row><label style="flex:1"><input type=checkbox ${HRE.own?'checked':''} onchange="hrOwn(this.checked)" style="width:auto"> Use my own colour</label>${HRE.own?`<input type=color value="${HRE.own}" oninput="hrOwn(1,this.value)" style="width:64px;padding:2px">`:''}</div>
+ <div class=row><label style="flex:1"><input type=checkbox ${HRE.own?'checked':''} onchange="hrOwn(this.checked)" style="width:auto"> Use my own colour <small>(real skin tones; exotic skins are sold separately)</small></label>${HRE.own?`<input type=color value="${HRE.own}" oninput="hrOwn(1,this.value)" style="width:64px;padding:2px">`:''}</div>
  <button onclick="hrUse()">Use this skin</button>${done?'<small> ✓ On your player now.</small>':''}</div>`};
 // show the builder under the skin picker in the look editor
 (()=>{try{const _je=jersey;jersey=function(){const r=_je.apply(this,arguments);try{const sb=$('#skb');if(sb&&!$('#hrbox')){const d=document.createElement('div');d.id='hrbox';sb.after(d);hrOpen()}}catch(e){}return r}}catch(e){}})();
+
+// Tyler, 2026-11-14: "Use your own color for real skin tones because you're gonna buy those exotic skins later".
+// Whatever colour is picked is moved to the nearest real skin tone: warm undertone (hue 16-34°), natural saturation (20-48%),
+// from very fair to very deep. Blues, greens, metallics etc. stay for the exotic skins you buy.
+window.hrReal=function(hex){try{let [r,g_,b]=hrHx(hex).map(v=>v/255);const mx=Math.max(r,g_,b),mn=Math.min(r,g_,b),l=(mx+mn)/2,d=mx-mn;let h=0,s=0;
+ if(d){s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g_-b)/d+(g_<b?6:0)):mx===g_?((b-r)/d+2):((r-g_)/d+4);h*=60}
+ const H=(h>=16&&h<=34)?h:24,Sa=cl(s,.2,.48),L=cl(l,.13,.9);
+ const q=L<.5?L*(1+Sa):L+Sa-L*Sa,p=2*L-q,f=t=>{t=(t+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p},hh=H/360;
+ return hrHs([f(hh+1/3),f(hh),f(hh-1/3)].map(v=>v*255))}catch(e){return hex}};
+(()=>{const _o=hrOwn;window.hrOwn=function(on,c){return _o.call(this,on,c?hrReal(c):c)}})();

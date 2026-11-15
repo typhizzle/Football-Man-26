@@ -851,3 +851,40 @@ r("mk(tex(String(lb.num),80,nc),1.45,1,1,.27,0);","mk(tex(String(lb.num),80,nc),
 r("mk(tex(String(lb.num),80,nc),1.55,.5,.5,-.27,Math.PI)","mk(tex(String(lb.num),80,nc),1.55,j.aw?.4:.5,j.aw?.4:.5,-.27,Math.PI)")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m175.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m176: throw power + speed have their own regression from 36 (Tyler 2026-11-14)
+r("for(const k in S.q){const d=rgu?-rgu[0]:Math.round(ri(0,2)*f);S.q[k]=cl(S.q[k]+d,25,Math.min(cpU,S.q[k]>=100?100:99))}",
+  "for(const k in S.q){if(rgu&&typeof rgPM=='function'&&rgPM(k,S.age))continue;const d=rgu?-rgu[0]:Math.round(ri(0,2)*f);S.q[k]=cl(S.q[k]+d,25,Math.min(cpU,S.q[k]>=100?100:99))}")
+r("${S.age==50?' This is your final season.':''}`:'';","${S.age==50?' This is your final season.':''}${S._rgpm||''}`:'';S._rgpm='';")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m176.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m176: the regression message talks about Tyler's overall list (each rating has its own ceiling now)
+r("' Ratings now max out at '+cpU+'.'","' Your overall now maxes out at '+cpU+'.'")
+r("Age ${S.age}: ratings max out at ${c}.","Age ${S.age}: your overall maxes out at ${c}.")
+# m177: saves shown as loading until the cloud check is done; recently deleted kept in 3 places (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m177.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m178: swipe back to how it felt + throwaways + flick to a nearby back (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m178.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m179: fumbles rare, per carrier type (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m179.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-15 (screenshot: coin toss, both teams in colour): "we're still getting color versus color matchups. It should
+# default to home and away jerseys." The coin toss built its captains from each team's own colours and your custom jersey,
+# not from the game's home/away jerseys (g.mj / g.oj, m137). Now the toss uses the same jerseys as the game.
+r("const tj={c1:T.c1,c2:T.c2,d:T.d||0,pc:S.jy&&S.jy.pc||'#e8e8e8',nc:lum(T.c1)>.5?'#000':'#fff'},oj={c1:O_.c1,c2:O_.c2,d:O_.d||0,pc:O_.pc||'#dcdcdc',nc:lum(O_.c1)>.5?'#000':'#fff'};",
+  "const tj=g.mj?{...g.mj}:{c1:T.c1,c2:T.c2,d:T.d||0,pc:S.jy&&S.jy.pc||'#e8e8e8',nc:lum(T.c1)>.5?'#000':'#fff'},oj=g.oj?{...g.oj}:{c1:O_.c1,c2:O_.c2,d:O_.d||0,pc:O_.pc||'#dcdcdc',nc:lum(O_.c1)>.5?'#000':'#fff'};")
+r("const me=mk(DJ(),{nm:(S.jy&&S.jy.nm)||'',num:S.num},AP(),-2,-50.6,-Math.PI/2);",
+  "const me=mk(g.mj?{...g.mj,nm:(S.jy&&S.jy.nm)||g.mj.nm||''}:DJ(),{nm:(S.jy&&S.jy.nm)||'',num:S.num},AP(),-2,-50.6,-Math.PI/2);")
+# m180: Full statistics section (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m180.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-15: "clock should move for every single play in the game, every single one. There shouldn't be any kind of
+# slowdowns ... The only time it's going slow is when you're at the line" -> a watched play runs the game clock at the same
+# speed as your own plays (g.rate), kicks included (they used to freeze the clock, then jump).
+r("if(k=='fg'||k=='punt')return wKick(P,e,t,dt);const wq=wConvPre(P);upd(dt);if(W_.cb!=null)g.clk=W_.ca+(W_.cb-W_.ca)*Math.min(1,t/4.5);",
+  "if(W_.cb!=null)g.clk=Math.min(W_.cb,W_.ca+t*(g.rate||12));if(k=='fg'||k=='punt')return wKick(P,e,t,dt);const wq=wConvPre(P);upd(dt);if(W_.cb!=null)g.clk=Math.min(W_.cb,W_.ca+t*(g.rate||12));")
+# "after you get a first down in college ... once you're at the line the game clock will start moving" (last 2 minutes rule)
+r("g.cr=false;g.note='First down: clock stops (college rule, last 2 minutes)'","g.cr=false;g.fdStop=1;g.note='First down: clock stops until the ball is set (college rule, last 2 minutes)'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m181.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

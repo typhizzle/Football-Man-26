@@ -8,7 +8,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;S=
  try{g.pl={qb:q,wr:[rb,wr,te],car:q}}catch(e){g={pl:{qb:q,wr:[rb,wr,te],car:q}}}
  const rbPick={w:rb,how:'ray',off:10};
  const A={d:30,G:[30,q.y+30]};const p1=typeof swDeepFix=='function'?swDeepFix(rbPick,A,g.pl):rbPick;o.A_deepPick=p1&&p1.w.n;o.A_notRB=!!p1&&p1.w.n==='WR';
- o.A_wired=/swDeepFix/.test(String(swPick));
+ o.A_wired=document.documentElement.innerHTML.includes('swDeepFix(r,swAimD(rx,ry),g.pl)');
  upj=(sx,sy)=>sy<300?[30,q.y+30]:sy<500?[27,q.y+6]:[26,q.y-6];o.A_aimDeep=typeof swAimD=='function'&&swAimD(200,100).d===30&&swAimD(200,700).d===-6;
  // B: a short aim (6 yds) or a pass behind the line to the back still goes to the back
  const p2=typeof swDeepFix=='function'?swDeepFix(rbPick,{d:6,G:[27,q.y+6]},g.pl):rbPick;const p3=typeof swDeepFix=='function'?swDeepFix(rbPick,{d:-6,G:[26,q.y-6]},g.pl):rbPick;o.B_shortRB=p2.w.n==='RB'&&p3.w.n==='RB';

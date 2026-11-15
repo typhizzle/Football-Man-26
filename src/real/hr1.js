@@ -17,7 +17,9 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;S=
  const s2=JSON.parse(JSON.stringify(S));SK[17]=0;mig(s2);o.C_reload=SK[17]===want;
  const mid=hrBlend([{r:0,p:50},{r:1,p:50}],0),w_=hrBlend([{r:0,p:100}],0),b_=hrBlend([{r:1,p:100}],0);const lum=h=>parseInt(h.slice(1,3),16);o.C_blendBetween=lum(mid)<lum(w_)&&lum(mid)>lum(b_);
  o.C_shade=lum(hrBlend([{r:0,p:100}],2))<lum(w_)&&lum(hrBlend([{r:0,p:100}],-2))>lum(w_);
- HRE.own='#123456';hrUse();o.C_own=S.ap.skc==='#123456'&&SK[17]===0x123456;
+ hrOwn(1,'#2e86de');const blue=HRE.own;const ch=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));o.C_blueBecame=blue;o.C_ownNoBlue=ch(blue)[0]>ch(blue)[2]&&ch(blue)[0]>=ch(blue)[1];
+ hrOwn(1,'#8d5524');const br=HRE.own;o.C_ownBrownKept=ch(br).every((v,i)=>Math.abs(v-ch('#8d5524')[i])<=24);hrUse();o.C_own=S.ap.skc===br&&SK[17]===parseInt(br.slice(1),16);
+ hrOwn(1,'#00ff66');const gr=HRE.own;o.C_ownNoGreen=ch(gr)[0]>=ch(gr)[1]&&ch(gr)[1]>ch(gr)[2];o.C_greenBecame=gr;
  // D: parents. One heritage -> both parents match. Mixed -> dad first, mom second. Existing family only changes by button.
  S.ap={sk:17,race:[{r:0,p:100}],shade:0,skc:hrBlend([{r:0,p:100}],0),hr:1,hcl:'#000000'};S.fam=null;const F1=famRand();const wI=hrFy(RACES[0][1]),bI=hrFy(RACES[1][1]);
  o.D_whiteFamily=(!F1.mom||F1.mom.sk===wI)&&(!F1.dad||F1.dad.sk===wI);o.D_wI=wI;o.D_bI=bI;

@@ -10,6 +10,12 @@ const r=await pg.evaluate(async(j)=>{const out={};try{const s=await readCode(j);
  // Dallas: home in white, the visitor in colors; on the road Dallas in colors (Tyler: the Cowboys are the opposite)
  if(dal>0){let dh=null,da=null;for(let w=0;w<17&&(dh===null||da===null);w++){S.wk=w;g={oi:dal,o:S.T[dal],kind:'reg'};setMJ();if(g.home===1&&dh===null)dh={dal:g.oj.c1,me:g.mj.c1};if(g.home===0&&da===null)da={dal:g.oj.c1,me:g.mj.c1}}
   out.E_dallasHomeWhite=!!dh&&dh.dal===W&&dh.me!==W;out.E_dallasRoadColors=!!da&&da.dal===S.T[dal].c1&&cd(da.dal,da.me)>=110;out.E_da=JSON.stringify(da)}
+ // G: the coin toss uses the same jerseys (Tyler 2026-11-15 screenshot: captains in colour vs colour)
+ {const vc=m=>{const set=new Set();m.traverse(x=>{if(x.geometry&&x.geometry.attributes&&x.geometry.attributes.color){const c=x.geometry.attributes.color.array;for(let i=0;i<c.length;i+=3)set.add([c[i],c[i+1],c[i+2]].map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join(''))}});return set};
+  let awayOk=null,homeOk=null;for(let o=1;o<12&&(awayOk===null||homeOk===null);o++){if(o===dal)continue;startGame0(o,'reg');const home=g.home===0;tossBuild();const kids=TSG.children.filter(c=>c.type==='Group');
+   const mine=kids.filter(c=>c.position.x<-1),theirs=kids.filter(c=>c.position.x>1);const has=(L,h)=>L.some(m=>vc(m).has(h));
+   if(!home&&awayOk===null)awayOk=has(mine,'f4f4f4')&&!has(theirs,'f4f4f4');if(home&&homeOk===null)homeOk=has(theirs,'f4f4f4')&&!has(mine,'f4f4f4');tossClear()}
+  out.G_tossAwayWhite=awayOk;out.G_tossHomeColours=homeOk}
  // playoffs: the better seed is home
  const T=[...Array(32).keys()];S.pb={sd:{RFC:[0,3,5,7,9,11,13],LFC:[16,18,20,22,24,26,28]},r:1};g={oi:13,o:S.T[13],kind:'pp'};setMJ();out.F_topSeedHome=g.home===0;
  S.pb={sd:{RFC:[5,3,0,7,9,11,13],LFC:[16,18,20,22,24,26,28]},r:1};g={oi:5,o:S.T[5],kind:'pp'};setMJ();out.F_lowerSeedAway=g.home===1;S.pb=null;S.wk=wk0;

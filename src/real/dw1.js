@@ -11,6 +11,6 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  S.dcSeen={};S.dcLive=y;M='';ui.style.display='block';hub();o.D_liveOffered=!!ui.querySelector('[data-drlive]');
  S.dcSeen[y]=1;hub();o.D_goneOnceSeen=!ui.querySelector('[data-drlive]');
  // brands
- o.E_goatie=JSON.stringify(BRDEF["Goaty's"])===JSON.stringify(['tchew','typhizzle','wesscoastt','mjaxon','diddly']);let tc=0;for(let i=0;i<1000;i++)if(brEvCel("Goaty's")==='tchew')tc++;o.G_tommyShare=tc/1000;o.G_tommyMost=tc>=740&&tc<=850;o.F_savedSpelling=j.indexOf('Goat'+'ie')>=0;o.F_fixedOnLoad=JSON.stringify(S).indexOf('Goat'+'ie')<0&&!document.documentElement.innerHTML.includes('Goat'+'ie');o.E_yeezers=SPB.some(b=>b[1]==='Yeezers')&&BRCLOTH.includes('Yeezers')&&BRDEF.Yeezers[0]==='kyeast';
+ o.E_goatie=JSON.stringify(BRDEF["Goaty's"])===JSON.stringify(['tchew','typhizzle','wesscoastt','diddly','kclock','phall','greed','kween','swalker']);let tc=0;for(let i=0;i<1000;i++)if(brEvCel("Goaty's")==='tchew')tc++;o.G_tommyShare=tc/1000;o.G_tommyMost=tc>=740&&tc<=850;o.F_savedSpelling=j.indexOf('Goat'+'ie')>=0;o.F_fixedOnLoad=JSON.stringify(S).indexOf('Goat'+'ie')<0&&!document.documentElement.innerHTML.includes('Goat'+'ie');o.E_yeezers=SPB.some(b=>b[1]==='Yeezers')&&BRCLOTH.includes('Yeezers')&&BRDEF.Yeezers[0]==='kyeast';
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}return o},j);
 out.pageErrors=errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3);console.log(JSON.stringify(out,null,1));await b.close()})();

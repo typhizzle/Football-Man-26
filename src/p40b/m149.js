@@ -6,7 +6,7 @@
 // Celebrities who rep Goatie's: TyPhizzle, Wesscoastt, Michael Jaxon (owner: Tommy Chew Toy). Anyone YOU
 // recruited to a brand in your own save stays (that was your doing). Yeezers: Kanye Westley's shoe line, a
 // clothing house like Jorton (so it is a rival of the others: one house at a time).
-try{BRDEF["Goatie's"]=['typhizzle','wesscoastt','mjaxon','diddly'];BRDEF['Yeezers']=['kyeast']}catch(e){}
+try{BRDEF["Goatie's"]=['typhizzle','wesscoastt','diddly','kclock','phall','greed','kween','swalker'];   /* Tyler 2026-11-15 (his halftime list): "If they have Goaty's by their name they are signed, if not they probably shouldn't be at any Goaty events" -> Diddy, Key Glock, Paul Wall, Creed, Queen, Sauce Walka, TyPhizzle, Wesscoastt (+ owner Tommy Chew Toy). Michael Jackson is not on it. */BRDEF['Yeezers']=['kyeast']}catch(e){}
 try{if(!BRCLOTH.includes('Yeezers'))BRCLOTH.push('Yeezers')}catch(e){}
 try{if(!SPB.some(b=>b[0]==='yeez'))SPB.push(['yeez','Yeezers','sneakers',"your own Yeezers colorway (Kanye Westley's shoe line)",2,1.6,3])}catch(e){}
 window.BRATH={"Goatie's":{own:'Tommy Chew Toy',ath:['Matty Gafford','Eric Darnold','Coleridge Loud','Nuka Biten','Hooper Bol','No Pix','Markie Goata']},

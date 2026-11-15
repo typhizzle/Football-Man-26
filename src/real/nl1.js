@@ -30,7 +30,8 @@ const out=await pg.evaluate(async(fc,si)=>{const o={};try{window.confirm=()=>tru
  S.pb=null;S.wk=5;S.evc=null;let L=[{k:'pot',n:'x',d:'y'}];L=evcFilter(L);o.D_potNotWk6=!L.some(e=>e.k==='pot');
  S.wk=1;S.evc=null;L=evcFilter([{k:'pot',n:'x',d:'y'}]);o.D_potWk2=L.some(e=>e.k==='pot');
  // E: fumbles
- const perGame=s=>1-Math.pow(1-fumHit(s),10);o.E_g65=+(1/perGame(65)).toFixed(1);o.E_g80=+(1/perGame(80)).toFixed(1);o.E_g99=Math.round(1/perGame(99));
+ FUMQB=1;const perGame=s=>1-Math.pow(1-fumHit(s)*1.15,7);o.E_season65=+(17*perGame(65)).toFixed(2);o.E_season80=+(17*perGame(80)).toFixed(2);o.E_season90=+(17*perGame(90)).toFixed(2);o.E_season99=+(17*perGame(99)).toFixed(3);FUMQB=0;
+ o.E_otherPerGame=+(1-Math.pow(1-fumHit(70),40)).toFixed(3);
  S.q.sec=65;let f=0;for(let i=0;i<4000;i++)f+=simFum();o.E_sim65=f/4000;S.q.sec=99;f=0;for(let i=0;i<4000;i++)f+=simFum();o.E_sim99=f/4000;
  // F: skeleton suit draws his hair when he isn't wearing the skull
  o.F_skelHair=document.documentElement.innerHTML.includes("S.hat!=null)?1:0);");

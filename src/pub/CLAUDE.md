@@ -774,3 +774,6 @@ Tyler: balancing is for SIMULATED seasons only; games he plays keep what happene
   tc1's C_hub "flake" was this bug (found by looping 100 takeovers). dr1 C_cardsShowCollege still flakes rarely: a pro
   roster man with a college record and no draft event (pid link by name/seal fit suspected) -> OPEN.
 - PUBLISHED V 0.0.1.0009 (2026-11-14): gate 66/66, private v267, friends v89, GitHub main 73f2af0.
+- m176 (after V0009 publish): throw power + speed own regression from 36 (PMRG d/c tables, rgPM skips them in the pNext
+  loop and applies its own drop + age ceiling; qCap lets you train back to pmCap; hundInfo shows the ceilings; message
+  "Throw power 99 → 96 (max 97 at 36)"). Speed ceiling at 36 is 94 (so 99 -> 94). pm1 test.
