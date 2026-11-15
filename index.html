@@ -6061,8 +6061,8 @@ function bxSide(ti,pts,opts,r,real){const T=S.T,t=T[ti],L=rost('h.'+ti)||[],nm=k
  var _rb2=null;if(!useReal&&!(real&&isMe)&&typeof bxRush2=='function'){const R2=bxRush2(ti,L,ry,qry,car,r);if(R2){rbCar=R2.c1;rbY=R2.y1;rb2Car=R2.c2;rb2Y=R2.y2;_rb2=R2.n2||0;ry=qry+rbY+rb2Y;tot=py+ry}}
  const _rbT=Math.max(0,rTD-qrtd),_sp=_N&&!(real&&isMe)?(typeof bxRbSplit=='function'?bxRbSplit(_rbT,r,qbN):{rb:bxRbTd(_rbT,r),qb:0}):{rb:_rbT,qb:0},rbTD=_sp.rb;if(_N&&!(real&&isMe)&&typeof bxRbSplit!='function'&&_rbT>rbTD)qrtd+=_rbT-rbTD;else qrtd+=_sp.qb;
  // receiving: WR1, WR2, WR3, TE, RB
- const recK=[2,3,4,5,1],recW=[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=[13.2,12.4,11.2,10.6,7.6],raw=recC.map((c,i)=>c>0?c*av[i]*(.72+r()*.56):0),sm=raw.reduce((x,y)=>x+y,0)||1,P_=Math.max(0,py),out=raw.map(v=>Math.round(v*P_/sm));out.forEach((v,i)=>{if(recC[i]>0)out[i]=cl(v,recC[i]*2,recC[i]*(i==4?16:26))});const df=P_-out.reduce((x,y)=>x+y,0);let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df);return out})(),recT=(_N&&typeof bxPick=='function'?bxPick(pTD,[.34,.24,.12,.22,.08],r):bxSplit(pTD,[.34,.24,.12,.22,.08],r));
- const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]})).filter(x=>x.c>0).sort((a,b)=>b.y-a.y);
+ const _R2=(typeof bxRecv2=='function'&&!(real&&isMe))?bxRecv2(ti,L,r):null,recK=_R2?_R2.k:[2,3,4,5,1],recW=_R2?_R2.w:[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=_R2?_R2.av:[13.2,12.4,11.2,10.6,7.6],raw=recC.map((c,i)=>c>0?c*av[i]*(.72+r()*.56):0),sm=raw.reduce((x,y)=>x+y,0)||1,P_=Math.max(0,py),out=raw.map(v=>Math.round(v*P_/sm));out.forEach((v,i)=>{if(recC[i]>0)out[i]=cl(v,recC[i]*2,recC[i]*(recK[i]==1?16:26))});const df=P_-out.reduce((x,y)=>x+y,0);if(_R2&&df){const tt=out.reduce((x,y)=>x+y,0)||1;let left=df;out.forEach((v,i)=>{if(recC[i]>0){const a=Math.round(df*v/tt);out[i]=Math.max(recC[i]*2,v+a);left-=a}});if(left){let j=out.indexOf(Math.max(...out));out[j]=Math.max(0,out[j]+left)}}else{let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df)}return out})(),recT=(_N&&typeof bxPick=='function'?bxPick(pTD,_R2?_R2.tw:[.34,.24,.12,.22,.08],r):bxSplit(pTD,_R2?_R2.tw:[.34,.24,.12,.22,.08],r));
+ if(_R2){recT.forEach((v,i)=>{if(v&&!(recC[i]>0)){recT[i]=0;const j=recC.indexOf(Math.max(...recC));if(j>=0)recT[j]+=v}})}const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]})).filter(x=>x.c>0).sort((a,b)=>b.y-a.y);
  const fd=Math.round(tot/16+r()*4),d3a=10+Math.floor(r()*6),d3m=Math.round(d3a*(.25+Math.min(.35,pts/100)+r()*.1)),pen=3+Math.floor(r()*6);
  return{ti,n:tn(t),ab:ab(t),pts,tot,py,ry,fd,att,cmp,int,fum,sk,pen,penY:pen*(7+Math.floor(r()*4)),d3:d3m+'-'+d3a,
   pass:[{n:qbN,c:cmp,a:att,y:py,td:pTD,i:int}],rush:[{n:nm(1),p:'RB',c:rbCar,y:rbY,td:rbTD},{n:qbN,p:'QB',c:qcar,y:qry,td:qrtd},...(_rb2?(rb2Car>0?[{n:_rb2.n,p:'RB',c:rb2Car,y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]):((rb2Car>(_rb2===0?0:2)||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]))],rec,fg}}
@@ -12033,7 +12033,7 @@ window.slTick=function(){try{if(!(g&&g.watch)){const k=document.getElementById('
 // 2. Watching a drive: the "Skip drive" box used to take the controller, so the stick couldn't walk the sideline and A skipped
 //    the drive. Now: L-stick walk · R-stick look · Y change view · X skip drive.
 // 3. View / Share button: change camera in any game.
-(()=>{try{const _p=ctlPress;ctlPress=function(){try{const el=CTL.sel;if(el){CTL.lastOc=el.getAttribute&&el.getAttribute('onclick')||'';CTL.lastTx=(el.textContent||'').trim()}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _p=ctlPress;window.ctlPress=function(){try{const el=CTL.sel;if(el){CTL.lastOc=el.getAttribute&&el.getAttribute('onclick')||'';CTL.lastTx=(el.textContent||'').trim()}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
 window.ctlKeep=function(C){try{const oc=CTL.lastOc||'';if(!oc)return null;CTL.lastOc='';
  if(/^g\.tab=/.test(oc)){const c=C.find(el=>el.classList&&el.classList.contains('pc'));if(c)return c}
  return C.find(el=>(el.getAttribute('onclick')||'')===oc)||C.find(el=>(el.textContent||'').trim()===CTL.lastTx)||null}catch(e){return null}};
@@ -12043,11 +12043,11 @@ window.ctlWatch=function(down,edge,lx,ly,rx,ry){try{if(typeof g!=='undefined'&&g
  ctlSet(null);if(lx||ly){kb.x=lx;kb.y=-ly;CTL.wasKb=true}else if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false}
  if(rx||ry){SLV.yo=cl(SLV.yo+rx*.05,-1.6,1.6);SLV.po=cl(SLV.po-ry*.03,-.5,.6);SLV.lt=performance.now()/1000}
  if(edge(3)||edge(8))camb();if(edge(2))skipW();return true}catch(e){return false}};
-(()=>{try{const _l=ctlLegend;ctlLegend=function(){const r=_l.apply(this,arguments);try{if(typeof g!=='undefined'&&g&&g.watch){const lg=document.getElementById('ctlleg');const t=`L-stick walk · R-stick look · ${ctlGlyph(3)} change view · ${ctlGlyph(2)} skip drive`;if(lg&&lg.textContent!==t)lg.textContent=t}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _l=ctlLegend;window.ctlLegend=function(){const r=_l.apply(this,arguments);try{if(typeof g!=='undefined'&&g&&g.watch){const lg=document.getElementById('ctlleg');const t=`L-stick walk · R-stick look · ${ctlGlyph(3)} change view · ${ctlGlyph(2)} skip drive`;if(lg&&lg.textContent!==t)lg.textContent=t}}catch(e){}return r}}catch(e){}})();
 // Mac: Safari names pads "<vendor>-<product>-<name>" (e.g. "54c-ce6-DualSense Wireless Controller", "45e-b13-Xbox Wireless Controller")
-(()=>{try{const _t=ctlTypeOf;ctlTypeOf=function(id){const s=String(id||'');if(/(^|[^0-9a-f])0*54c-|wireless controller|dualsense|dualshock|playstation/i.test(s)&&!/xbox/i.test(s))return 'ps';return _t.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _t=ctlTypeOf;window.ctlTypeOf=function(id){const s=String(id||'');if(/(^|[^0-9a-f])0*54c-|wireless controller|dualsense|dualshock|playstation/i.test(s)&&!/xbox/i.test(s))return 'ps';return _t.apply(this,arguments)}}catch(e){}})();
 // B in the locker room (no "Leave" there): opens the player menu, the same as the ☰ button
-(()=>{try{const _b=ctlBack;ctlBack=function(){const r=_b.apply(this,arguments);if(r)return r;try{const w=document.getElementById('lrw');if(w&&w.style.display==='block'){const m=[...w.querySelectorAll('button')].find(x=>/☰/.test(x.textContent));if(m){m.click();return true}}}catch(e){}return false}}catch(e){}})();
+(()=>{try{const _b=ctlBack;window.ctlBack=function(){const r=_b.apply(this,arguments);if(r)return r;try{const w=document.getElementById('lrw');if(w&&w.style.display==='block'){const m=[...w.querySelectorAll('button')].find(x=>/☰/.test(x.textContent));if(m){m.click();return true}}}catch(e){}return false}}catch(e){}})();
 // ===== ☁️ SAVES THAT CAN'T GO MISSING (Tyler, 2026-11-15: "why do I only see two saves? ... still missing Simmons. I asked you to
 // cover this earlier so it would never happen again. What happened?") =====
 // WHAT HAPPENED: Simmons's cloud copy is two parts (the career + the team rosters). A rosters backup was cut off halfway (the cloud
@@ -12259,5 +12259,53 @@ window.bxRush2=function(ti,L,ry,qry,car,r){try{if(typeof bxNew!='function'||!bxN
 (()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{if(s&&!s.bxv2){const o=S;S=s;let y=0;try{y=yrN()}catch(e){}S=o;const closed=s.stage==='pro'&&s.sled===s.py;s.bxv2={y,w:closed?(s.wk||0)+99:0}}}catch(e){}return s}}catch(e){}})();
 // a career started in this session had no formula version yet, so its games used the OLD (inflated) formulas until the next reload
 (()=>{try{const _n=bxNew;window.bxNew=function(){try{if(S&&!S.bxv)S.bxv={y:yrN(),w:0,v:BXV,re:1}}catch(e){}return _n.apply(this,arguments)}}catch(e){}})();
+// ===== 📊 LEAGUE STATS = THIS SEASON, THROUGH THIS WEEK · RECEIVING LIKE REAL FOOTBALL =====
+// Tyler, 2026-11-15: "In the league stats section ... it should just be the current year, which is obviously 2026, and it should also
+// just show where it's at for the current week ... Each game that happens has to be documented, and their stats need to document by
+// week to the season stats ... you probably need a games played stat somewhere ... how many 1,000-yard seasons are there really?"
+// 1. The league stats page opens on the season being played, built from the box score of every game played so far (the same
+//    numbers as each game's "Full game stats" and each player's card), with games played (G) on every line. Past seasons stay
+//    under their year buttons. Nothing is shown for a week that hasn't been played.
+// 2. Receiving: catches were split by fixed shares (the No. 1 wideout always 30%), so ~35 receivers passed 1,000 yards a season
+//    (real: 22-28). Now the shares depend on how good each receiver is (plus a team tendency that stays the same all season), and
+//    a backup receiver or tight end gets a few targets too. Starts with games played after this update (same stamp as rushing).
+window.bxRecv2=function(ti,L,r){try{if(typeof bxNew!='function'||!bxNew()||typeof bxNew2!='function'||!bxNew2())return null;
+ const rs=bxRng(bxHash('recv|'+ti+'|'+yrN()+'|'+(S.seed||1))),t=[rs(),rs(),rs(),rs(),rs()];
+ const k=[2,3,4,5,1],base=[.22,.17,.13,.15,.14],av=[12.2,11.8,11,10.2,7.2],tw=[.32,.22,.12,.22,.07];
+ const ov=k.map(j=>(L[j]&&L[j].ovr)||72),mean=ov.reduce((a,b)=>a+b,0)/ov.length;
+ const w=base.map((b,i)=>cl(b*(1+(ov[i]-mean)*.022)*(.78+t[i]*.44),.04,.42));
+ // a backup receiver / tight end (bench) gets some looks too
+ const bks=L.map((x,j)=>({x,j})).filter(o=>o.j>=25&&o.x&&!o.x.inj&&(o.x.pos==='WR'||o.x.pos==='TE')).slice(0,2);bks.forEach((o,i)=>{k.push(o.j);w.push(i===0?.14+(t[0]>.5?.03:0):.08);av.push(10.4);tw.push(i===0?.05:.02)});
+ // the top receiver's share of the team's passing YARDS is capped (22-32%, a team tendency); the rest is spread to the others
+ {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),cap=.22+t[1]*.1,mi=yw.indexOf(Math.max(...yw));if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
+ const sm=w.reduce((a,b)=>a+b,0);return {k,w:w.map(x=>x/sm),av,tw}}catch(e){return null}};
+// ---- the current season on the league stats page ----
+window.lgsCurOk=function(){try{return S&&S.stage==='pro'&&!(S.sled===S.py)&&Object.keys(S.gr||{}).length>0}catch(e){return false}};
+(()=>{try{const _y=lgsYears;lgsYears=function(lv){const L=_y.apply(this,arguments);try{if(lv==='p'&&lgsCurOk()){const c=yrN();if(!L.includes(c))L.push(c)}}catch(e){}return L}}catch(e){}})();
+window.lgsCurBody=function(){const Y=yrN(),D=szGet(),rows=[];for(const ti in D){const T=D[ti];for(const n in T){const z=T[n];if(z&&z.g>0)rows.push({...z,ti:+ti})}}
+ const wk=Math.max(0,...rows.map(z=>z.g),0),card=(x,ti)=>{const L=rost('h.'+ti)||[];const k=L.findIndex(p=>p&&p.n===x.n);return k>=0?`pCard(${ti},${k})`:null};
+ const tab=(ttl,h,R,v,x)=>`<div class=card><b>${ttl} · ${Y}</b>${lgsTh(h)}${R.slice(0,15).map((z,i)=>lgsTr(`${i+1}. ${z.n===S.name?'▶ ':''}${z.n}`,TA[z.ti]+(x?' · '+x(z):'')+' · '+z.g+' G',v(z),card(z,z.ti))).join('')||'<div class=row><small>Nothing yet.</small></div>'}</div>`;
+ const P=rows.filter(z=>z.pa>0).sort((a,b)=>b.py-a.py),Ru=rows.filter(z=>z.car>0).sort((a,b)=>b.ry-a.ry),Re=rows.filter(z=>z.rec>0).sort((a,b)=>b.recy-a.recy),Sk=rows.filter(z=>z.sck>0).sort((a,b)=>b.sck-a.sck),In=rows.filter(z=>z.intc>0||z.tkl>0).sort((a,b)=>(b.intc*10+b.tkl)-(a.intc*10+a.tkl));
+ const st=[0,1,2,3,4,5,6,7].map(di=>`<p style="margin:8px 0 2px"><small><b>${(S.pro[di*4]&&S.pro[di*4].dv)||''}</b></small></p>`+S.T.map((t,i)=>({t,i})).filter(o=>Math.floor(pIdx(o.t)/4)===di).sort((a,b)=>(b.t.w||0)-(a.t.w||0)).map(o=>`<div class=row style="font-size:15px"><span>${tn(o.t)}</span><b>${o.t.w||0}-${o.t.l||0}${o.t.t?'-'+o.t.t:''}</b></div>`).join('')).join('');
+ return `<div class=card><small>📅 ${Y} season through week ${S.wk||wk}: every number below comes from the games played so far (tap a name for his card).</small></div>`+tab('Passing',['QB','YDS','TD','INT'],P,z=>[z.py.toLocaleString(),z.ptd,z.pint],z=>z.pc+'/'+z.pa)+tab('Rushing',['RB/QB','YDS','TD'],Ru,z=>[z.ry.toLocaleString(),z.rtd],z=>z.car+' att')+tab('Receiving',['WR/TE/RB','YDS','TD'],Re,z=>[z.recy.toLocaleString(),z.rectd],z=>z.rec+' rec')+tab('Sacks',['DEF','SACKS'],Sk,z=>[z.sck])+tab('Interceptions & tackles',['DEF','INT','TKL'],In,z=>[z.intc,z.tkl])+`<div class=card><b>Standings · ${Y}</b>${st}</div>`};
+(()=>{try{const _v=lgsV;lgsV=function(lv,y){if(!lv&&!y)LGS.pick=0;if(y)LGS.pick=1;if(lv&&!y&&!LGS.pick&&lv==='p'&&lgsCurOk())LGS.y=yrN();if(!lv&&!y&&lgsCurOk()&&LGS.lv!=='c')LGS.y=yrN();
+ const r=_v.apply(this,arguments);try{if(LGS.lv==='p'&&LGS.y===yrN()&&lgsCurOk()){const yrsP=ui.querySelectorAll('p.tabs')[1];const old=[...ui.querySelectorAll('.card')];old.forEach(c=>c.remove());const bk=ui.querySelector('button[onclick="hub()"]');const d=document.createElement('div');d.innerHTML=lgsCurBody();if(bk)bk.parentNode.insertBefore(d,bk);else ui.firstElementChild.appendChild(d)}}catch(e){console.warn(e)}return r}}catch(e){}})();
+// ===== 📋 YOUR SIMMED GAMES GET A REAL BOX SCORE (so your season stats and the league's agree) =====
+// Tyler, 2026-11-15: "None of my stats are translating ... Literally with your game stats to your season stats, they should all be
+// connected ... Every game that happens, that needs to be logged, like it happens."
+// WHAT HAPPENED: when you simmed your own game, your line (att/cmp/yds/TD/INT) went into your season totals, but no box score was
+// kept for that game. Every stats page that reads box scores (league leaders, player cards, "Full game stats") then made up a fresh
+// line for that game, so your season page said 921 yards while the league page said 821. And when you sat behind the veteran, the
+// made-up box score still named YOU as the passer.
+// NOW: the exact line the sim gave you is stored as that game's box score; if you sat, the veteran (or the backup who started) is
+// the passer in it and you are not in it at all.
+(()=>{try{const _p=psim;psim=function(e){let st=null,wk=S?S.wk||0:0,sat=false;const _a=addStats;
+ try{sat=!(pStarter()&&!injOut())}catch(_){}
+ addStats=function(x){st=x;return _a.apply(this,arguments)};let r;try{r=_p.apply(this,arguments)}finally{addStats=_a}
+ try{if(!e||e.t==='pbw'||!g||!g.s||g.oi==null)return r;const k=bxKey(wk,0,g.oi);S.bx=S.bx||{};if(S.bx[k])return r;
+  const bx=bxMake(wk,0,g.oi,g.s[0],g.s[1],st&&!sat?st:null);
+  if(sat){const L=rost('h.0'),v=(typeof injSub=='function'?injSub(L,0):null);const nm=(v&&v.n!==S.name?v.n:null)||S.vet||((L.slice(1).find(x=>x&&x.pos==='QB')||{}).n)||'Backup QB';
+   const A=bx.A;(A.pass||[]).forEach(p=>{if(p.n===S.name)p.n=nm});(A.rush||[]).forEach(p=>{if(p.n===S.name)p.n=nm});(A.rec||[]).forEach(p=>{if(p.n===S.name)p.n=nm})}
+  S.bx[k]=bx;const ks=Object.keys(S.bx);if(ks.length>60)ks.slice(0,ks.length-60).forEach(q=>delete S.bx[q]);try{szCache=null}catch(_){}save()}catch(err){console.warn('simbox',err)}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

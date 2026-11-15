@@ -962,3 +962,20 @@ r("...((rb2Car>2||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(
   "...(_rb2?(rb2Car>0?[{n:_rb2.n,p:'RB',c:rb2Car,y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]):((rb2Car>(_rb2===0?0:2)||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]))]")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m199.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m200: receiving split by receiver quality (+ a bench target); league stats page shows the season being played, through this week
+r("const recK=[2,3,4,5,1],recW=[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=[13.2,12.4,11.2,10.6,7.6]",
+  "const _R2=(typeof bxRecv2=='function'&&!(real&&isMe))?bxRecv2(ti,L,r):null,recK=_R2?_R2.k:[2,3,4,5,1],recW=_R2?_R2.w:[.3,.22,.14,.18,.16],recC=bxSplit(cmp,recW,r),recY=(()=>{const av=_R2?_R2.av:[13.2,12.4,11.2,10.6,7.6]")
+r("out[i]=cl(v,recC[i]*2,recC[i]*(i==4?16:26))","out[i]=cl(v,recC[i]*2,recC[i]*(recK[i]==1?16:26))")
+r("recT=(_N&&typeof bxPick=='function'?bxPick(pTD,[.34,.24,.12,.22,.08],r):bxSplit(pTD,[.34,.24,.12,.22,.08],r));",
+  "recT=(_N&&typeof bxPick=='function'?bxPick(pTD,_R2?_R2.tw:[.34,.24,.12,.22,.08],r):bxSplit(pTD,_R2?_R2.tw:[.34,.24,.12,.22,.08],r));")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m200.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# leftover passing yards spread across the catchers instead of all onto the top receiver (when the new split is on)
+r("const df=P_-out.reduce((x,y)=>x+y,0);let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df);return out",
+  "const df=P_-out.reduce((x,y)=>x+y,0);if(_R2&&df){const tt=out.reduce((x,y)=>x+y,0)||1;let left=df;out.forEach((v,i)=>{if(recC[i]>0){const a=Math.round(df*v/tt);out[i]=Math.max(recC[i]*2,v+a);left-=a}});if(left){let j=out.indexOf(Math.max(...out));out[j]=Math.max(0,out[j]+left)}}else{let j=out.indexOf(Math.max(...out));if(j>=0&&recC.some(c=>c>0))out[j]=Math.max(0,out[j]+df)}return out")
+# m201: your simmed games get a real box score (your line, or the veteran's when you sat)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m201.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# a touchdown never goes to a receiver with no catch in that game (the bench target can have 0): it moves to the top catcher
+r("const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]}))",
+  "if(_R2){recT.forEach((v,i)=>{if(v&&!(recC[i]>0)){recT[i]=0;const j=recC.indexOf(Math.max(...recC));if(j>=0)recT[j]+=v}})}const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]}))")

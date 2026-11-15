@@ -13,7 +13,7 @@ const out=await pg.evaluate(async(bug)=>{const o={};try{
  const raw=JSON.parse(bug);const pre=raw.ro['h.0'].find(x=>x&&x.n==='Jay-Jay Pain');const real=JSON.stringify(pre.h.filter(r=>r[0]<2026));o.B_hadInvented=Object.values(raw.ro).some(L=>Array.isArray(L)&&L.some(x=>x&&(x.h||[]).some(r=>r[0]>=2026)));
  S=mig(raw);SLOT=5;LASTJ='';const p=S.ro['h.0'].find(x=>x&&x.n==='Jay-Jay Pain');o.B_year=yrN();o.B_is2026=yrN()===2026;o.B_clean=fut(S,2026)===0;o.B_realKept=JSON.stringify(p.h)===real;
  o.B_totals=p.cs.pyd===p.h.reduce((a,r)=>a+r[2],0);o.B_told=/were never played and have been removed/.test(S.fmsg||'');
- hub();lgsV();const t3=ui.innerText;lhV();const t4=ui.innerText;o.B_pagesClean=!/202[6-9] season · Ultra Bowl/.test(t4)&&!/Passing · 202[6-9]/.test(t3);o.B_dated=JSON.stringify([S.evc&&S.evc.y,S.pbv&&S.pbv.y,((S.tw||{}).f||[]).map(x=>x.y).filter((v,i,a)=>a.indexOf(v)===i)]);o.B_newsIn2026=!/20(2[7-9]|3\d)/.test(o.B_dated);
+ hub();lgsV();const t3=ui.innerText;lhV();const t4=ui.innerText;o.B_pagesClean=!/202[6-9] season · Ultra Bowl/.test(t4)&&!/Passing · 202[7-9]/.test(t3)&&!/MVP: .*202[6-9]/.test(t3);   /* 'Passing · 2026' is this season, through this week (m200) */o.B_dated=JSON.stringify([S.evc&&S.evc.y,S.pbv&&S.pbv.y,((S.tw||{}).f||[]).map(x=>x.y).filter((v,i,a)=>a.indexOf(v)===i)]);o.B_newsIn2026=!/20(2[7-9]|3\d)/.test(o.B_dated);
  // C: loading it again changes nothing more
  const hh=s=>{const o=[];for(const k in s.ro)if(Array.isArray(s.ro[k]))s.ro[k].forEach(x=>{if(x&&x.h)o.push(x.n+JSON.stringify(x.h))});return o.sort().join('~')};const j1=hh(S);const s2=mig(JSON.parse(JSON.stringify(S)));o.C_idempotent=hh(s2)===j1;
  // D: the guard: a line dated this year or later cannot stay

@@ -8,6 +8,7 @@ const out=await pg.evaluate(async()=>{const o={};try{const e=tkList().find(x=>/H
  let g_=0;while(g_++<200){const e2=pevt();if(e2.t=='pro'||e2.t=='pp'||e2.t=='pbw')psim(e2);else if(e2.t=='bye')pWeek(null);else if(e2.t=='ppbye')ppAdv(0);else if(e2.t=='fa')S.fa=null;else if(e2.t=='sum'){if(!S.psum)mkPsum();break}else break}
  let wrRush=0;for(let i=0;i<S.T.length;i++)rost('h.'+i).forEach(x=>{if(!x)return;const z=szOne(i,x.n);if(z&&lgGrp(x.pos)==='WR'&&z.ry>wrRush)wrRush=z.ry});
  try{seasonEnd()}catch(e){}const R=[];for(const k in S.ro)if(Array.isArray(S.ro[k]))S.ro[k].forEach(x=>{if(!x||!x.h)return;const r=x.h.find(q=>q[0]===2026);if(r&&lgGrp(x.pos)=='RB')R.push(r[2])});R.sort((a,b)=>b-a);
+ const Wr=[];for(const k in S.ro)if(Array.isArray(S.ro[k]))S.ro[k].forEach(x=>{if(!x||!x.h)return;const r=x.h.find(q=>q[0]===2026);if(r&&(lgGrp(x.pos)=='WR'||lgGrp(x.pos)=='TE'))Wr.push(r[2])});Wr.sort((a,b)=>b-a);o.rec1000=Wr.filter(v=>v>=1000).length;o.rec1500=Wr.filter(v=>v>=1500).length;o.recTop=Wr.slice(0,3).join(',');o.F_receiving=o.rec1000>=10&&o.rec1000<=28&&o.rec1500<=4&&Wr[0]<1900;
  o.n1000=R.filter(v=>v>=1000).length;o.n1500=R.filter(v=>v>=1500).length;o.top=R.slice(0,5).join(',');o.wrRushMax=wrRush;
  o.A_thousand=o.n1000>=7&&o.n1000<=21;o.B_fifteen=o.n1500<=6;o.C_noTwoThousand=R[0]<2000;o.D_spread=R[0]-R[Math.min(31,R.length-1)]>600;o.E_wrNotABack=wrRush<260;
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}return o});
