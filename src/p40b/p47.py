@@ -931,3 +931,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m192: controller polish (menus keep their place, watching a drive with a pad, camera button)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m192.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m193: saves that can't go missing (atomic cloud backups, per-slot loading/failed status, device backup rosters, compressed cloud restores)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m193.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
