@@ -35,7 +35,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  S.age=30;to100();S.ss={...Z(),g:8,yds:2500,ry:150,td:20,rtd:2};S.h100f=1;S.h100c=2;S.h100l=1;let h=hundInfo();
  o.H_under36=/4,800/.test(h)&&/at least 35 total touchdowns/i.test(h)&&/2\/3/.test(h)&&/1\/4/.test(h)&&/C\+ or lower/.test(h)&&!/rough stretch/.test(h);
  S.age=37;S.h100c=1;S.h100l=2;h=hundInfo();o.H_36plus=/5,000/.test(h)&&/45 total touchdowns/i.test(h)&&/1\/2/.test(h)&&/2\/3/.test(h);
- o.I_version=/V 0\.0\.1\.0009/.test(document.documentElement.innerHTML);
+ o.I_version=/V 0\.0\.1\.0010/.test(document.documentElement.innerHTML);
  // E2: the real offseason at 40 with a 100 keeps it (run last: it moves the save on a year)
  save=realSave;S.age=39;to100();S.ss={...Z(),g:17,yds:5300,ry:300,td:48,rtd:2};S.h100y=S.py;S.h100f=1;try{pNext()}catch(e){o.E_err=e.message}o.E_age=S.age;o.E_kept100=S.age===40&&qo(S.q)===100;o.E_q=JSON.stringify(S.q);o.E_msg=String(S.fmsg||HM||'').slice(-200);
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n')[1]}return o},j);

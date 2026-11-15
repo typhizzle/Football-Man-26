@@ -906,3 +906,11 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m185.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m186.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m187.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("code:rjCode(t)};const r=_c.apply(this,arguments);","code:(typeof rjBest=='function'?rjBest(x,t):rjCode(t))};const r=_c.apply(this,arguments);")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m188.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-15: "whenever you give me this artifact, it's V 0.0.1.0010"
+assert h.count("V 0.0.1.0009")==3, h.count("V 0.0.1.0009")
+h=h.replace("V 0.0.1.0009","V 0.0.1.0010")

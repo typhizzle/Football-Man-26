@@ -8,7 +8,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  const hl=find(S),row=hl&&hl.h.find(q=>q[0]===2036);o.A_hl2036=row&&row.join(',');o.A_lowered=!!row&&row[7]===2&&row[6]===123&&row[2]===3786&&row[3]===36;
  o.A_sealMatches=S.seal&&S.seal.p1081&&S.seal.p1081.h['2036'][7]===2;
  // only his row changed: every other player's 2036 row is identical to the original save
- const rawP={};for(const k in raw.ro){(raw.ro[k]||[]).forEach(y=>{if(y&&y.pid)rawP[y.pid]=y})}let other=0;for(const k in S.ro){(S.ro[k]||[]).forEach(y=>{if(!y||!y.pid||y.pid==='p1081'||!rawP[y.pid])return;const a=JSON.stringify((y.h||[]).find(q=>q[0]===2036)||null),b2=JSON.stringify((rawP[y.pid].h||[]).find(q=>q[0]===2036)||null);if(a!==b2)other++})}o.A_nothingElseChanged=other===0;
+ const rawP={};for(const k in raw.ro){(raw.ro[k]||[]).forEach(y=>{if(y&&y.pid)rawP[y.pid]=y})}let other=0;for(const k in S.ro){(S.ro[k]||[]).forEach(y=>{if(!y||!y.pid||y.pid==='p1081'||!rawP[y.pid])return;const a=JSON.stringify((y.h||[]).find(q=>q[0]===2036)||null),b2=JSON.stringify((rawP[y.pid].h||[]).find(q=>q[0]===2036)||null);if(a!==b2){other++;(window._oth=window._oth||[]).push(y.n+' '+a+' VS '+b2)}})}o.A_nothingElseChanged=other===0;o.A_other=other;o.A_oth=(window._oth||[]).slice(0,3);
  // survives save + reload (the seal must not put 19 back)
  save();zFlush();const d=mig(JSON.parse(JSON.stringify(S)));const r2=find(d).h.find(q=>q[0]===2036);o.A_staysAfterReload=r2[7]===2;
  const lawTxt=JSON.stringify(Object.values(S.law).filter(a=>a.yr===2036));o.A_ballotText=!lawTxt.includes('123 rush yds, 19 rush TD');

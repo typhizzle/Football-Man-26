@@ -35,8 +35,9 @@ window.ADD26=[
 window.ADD26N=new Set(ADD26.map(e=>e[2]));
 window.add26Fix=function(x,e){x.h=[];x.cs={};x.tm=[];x.aw={};x.ny=0;x.dr={...e[6]};x.prevTeams=e[7];x.num=e[5];x.add26=1};
 // new saves: the normal named-player path (PKS), then his history is set to the real one
-try{ADD26.forEach(e=>{if(!PKS.some(q=>q[2]===e[2]))PKS.push([e[0],e[1],e[2],e[3],e[4],e[5]])})}catch(e){}   /* PKS fills only rosters built fresh (new saves) */
-(()=>{try{const _f=proFill;proFill=function(a,t,L){let held=null;try{const SS=window._MIGS||S;if(SS&&(SS.y0||2022)+((SS.hist||[]).length)>2028){held=PKS.filter(q=>ADD26N.has(q[2]));for(let i=PKS.length-1;i>=0;i--)if(ADD26N.has(PKS[i][2]))PKS.splice(i,1)}}catch(e){}let r;try{r=_f.apply(this,arguments)}finally{if(held)held.forEach(q=>PKS.push(q))}try{const SS=window._MIGS||S,late=SS&&(SS.y0||2022)+((SS.hist||[]).length)>2028;(L||[]).forEach(x=>{if(x&&!x.add26&&ADD26N.has(x.n)){if(late){let n,g=0;do n=NF[Math.random()*NF.length|0]+' '+NL[Math.random()*NL.length|0];while(ADD26N.has(n)&&g++<20);x.n=n;return}const e=ADD26.find(q=>q[2]===x.n);if(e)add26Fix(x,e)}})}catch(e){}return r}}catch(e){}})();
+// new saves: their teams' rosters are built at the start and they join exactly like in a current save (never through the
+// roster builder, which would also give them a made-up past)
+(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.add26&&S.pro){[...new Set(ADD26.map(e=>e[0]))].forEach(pi=>{try{rost('p.'+pi)}catch(e){}});add26Join(S);save()}}catch(e){}return r}}catch(e){}})();
 // current saves: join the team once; the generic player in that spot goes to free agency
 window.add26Join=function(s){try{s=s||S;if(!s||s.add26||!s.pro||!s.ro)return 0;if((s.y0||2022)+((s.hist||[]).length)>2028){s.add26=1;return 0}   /* 2026 ages: not dropped into a save years later */
  let n=0;const all=new Set();for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach(x=>x&&all.add(x.n))}
@@ -48,7 +49,7 @@ window.add26Join=function(s){try{s=s||S;if(!s||s.add26||!s.pro||!s.ro)return 0;i
   if(k<0){L.push(nx);n++;return}
   const old=L[k];if(old){old.prev=(t.ab||t.code||tn(t));old.fa=(s.y0||2022)+((s.hist||[]).length);old.why='roster spot taken by '+name;s.ro.fa=Array.isArray(s.ro.fa)?s.ro.fa:[];s.ro.fa.push(old)}
   L[k]=nx;n++});s.add26=1;return n}catch(e){return 0}};
-(()=>{try{const _m=mig;mig=function(s){const was=window._MIGS;window._MIGS=s;try{s=_m.apply(this,arguments)}finally{window._MIGS=was}try{add26Join(s)}catch(e){}return s}}catch(e){}})();
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{add26Join(s)}catch(e){}return s}}catch(e){}})();
 // his card shows where he came from
 (()=>{try{const _p=pCard;pCard=function(i,j){const r=_p.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.add26&&!ui.querySelector('[data-add26]')){const d=ui.firstElementChild||ui,c=document.createElement('div');c.className='card';c.setAttribute('data-add26','1');
  c.innerHTML=`<b>📜 Before this save</b><br><small>Drafted ${x.dr.y}, round ${x.dr.r}, pick ${x.dr.p} by ${esc(x.dr.tm)} out of ${esc(x.dr.col)}. Teams: ${esc(x.prevTeams||x.dr.tm)}. His stats here start in this save.</small>`;const h=d.querySelector('h2');if(h)h.after(c);else d.prepend(c)}}catch(e){}return r}}catch(e){}})();

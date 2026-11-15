@@ -763,7 +763,7 @@ const RGT={36:[2,100],37:[3,100],38:[5,100],39:[6,100],40:[8,99],41:[8,99],42:[1
 const ageCap=a=>a>=50?50:RGT[a]?RGT[a][1]:a>50?50:100,rings=()=>(S.aw||[]).filter(a=>/Ultra Bowl Champion/.test(a)).length;
 // the most a rating can be raised to right now (100 is pro-only, needs 2 rings + every other rating at 99; after losing it, only MVP-at-99 brings it back)
 function qCap(k){const c=ageCap(S.age||0);if(c<100)return c;if(S.stage!='pro'||S.e100||rings()<2)return 99;return Object.keys(S.q).every(j=>j==k||S.q[j]>=99)?100:99}
-function hundInfo(){const Q=S.q,o=qo(Q),c=ageCap(S.age||0),cp=c<100&&S.stage=='pro'?`<p><small>Age ${S.age}: ratings max out at ${c}.</small></p>`:'';if(!Object.values(Q).some(v=>v>=99))return cp;
+function hundInfo(){const Q=S.q,o=qo(Q),c=ageCap(S.age||0),cp=c<100&&S.stage=='pro'?`<p><small>Age ${S.age}: your overall maxes out at ${c}.</small></p>`:'';if(!Object.values(Q).some(v=>v>=99))return cp;
 if(o>=100)return cp+`<p><small>💯 <b>100 OVR.</b> You keep it until age regression or a rough stretch of games.</small></p>`;
 if(c<100)return cp;if(S.e100)return `<p><small>💯 You've been a 100 before. Win <b>MVP</b> while rated 99 to earn it back.</small></p>`;
 return `<p><small>🔒 <b>100 rating</b>: pros only · win 2 Ultra Bowls (${Math.min(2,rings())}/2) · every other rating must be 99 before one can hit 100.</small></p>`}
@@ -1059,7 +1059,7 @@ function moveTo(j){const T=S.T;if(!j)return;const vq={...rost('h.'+j)[0]},r0=S.r
 function faSign(i){const o=S.fa[i];moveTo(o.ti);S.ct={yrs:o.yrs,sal:o.sal,gtd:o.gtd,inc:o.inc,team:S.T[0].n,ci:o.ci,gi:o.gi};S.ctn=(S.ctn||1)+1;const b=Math.round(o.bonus*1e6);S.cash+=b;S.earn=(S.earn||0)+b;S.fa=null;HM='Signed with the '+tn(S.T[0])+': $'+o.sal+'M per year for '+o.yrs+' years.';gpNews('sign',tn(S.T[0]));save();hub()}
 function treq(){if(S.py<2||S.treq==S.py)return hub();S.treq=S.py;S.trust=cl((S.trust||50)-10,0,100);const v=mval();if(R()<cl(.25+(S.T[0].w<S.T[0].l?.2:0)+(v<20?.1:0)-(v>50?.15:0),.05,.7)){S.trade=1;HM='Trade request granted. You will be moved before next season.'}else HM='The team refused your trade request, and coach trust dropped.';save();hub()}
 function pNext(){injClear();agYear();famYearAll();S.task=null;hist100();recCPU();staffYear();for(const k in (S.law||{}))if(+k<S.py)delete S.law[k].c;ceilAdj();(S.htm=S.htm||[])[S.hist.length]=tn(S.T[0]);S.hist.push({y:'P'+S.py,...S.ss});S.py++;S.age=(S.age||22)+1;gfYear();if(S.age>50)return retire('Age 50 was your final season. Time to hang it up.');leagueDev();const T=S.T;T.forEach(t=>{t.w=t.l=0;t.ovr=cl(t.ovr+ri(-3,3)+Math.round((stg(t).o-75)/10)+Math.round((75-t.ovr)/8),55,95)});
-const k100_=qo(S.q)>=100,f=gf(),rgu=k100_?null:RGT[S.age],cpU=k100_?100:ageCap(S.age),o0=qo(S.q);for(const k in S.q){const d=rgu?-rgu[0]:Math.round(ri(0,2)*f);S.q[k]=cl(S.q[k]+d,25,Math.min(cpU,S.q[k]>=100?100:99))}if(rgu)S.rgp=Math.min(o0,cpU,99);const rgm=rgu?`You turned ${S.age}: age regression cost you ${o0-qo(S.q)} OVR${o0>=100?' and your 100 rating':''}.${S.age<40?' You can train to win it back.':' Ratings now max out at '+cpU+'.'}${S.age==50?' This is your final season.':''}`:'';
+const k100_=qo(S.q)>=100,f=gf(),rgu=k100_?null:RGT[S.age],cpU=k100_?100:ageCap(S.age),o0=qo(S.q);for(const k in S.q){if(rgu&&typeof rgPM=='function'&&rgPM(k,S.age))continue;const d=rgu?-rgu[0]:Math.round(ri(0,2)*f);S.q[k]=cl(S.q[k]+d,25,Math.min(cpU,S.q[k]>=100?100:99))}if(rgu)S.rgp=Math.min(o0,cpU,99);const rgm=rgu?`You turned ${S.age}: age regression cost you ${o0-qo(S.q)} OVR${o0>=100?' and your 100 rating':''}.${S.age<40?' You can train to win it back.':' Your overall now maxes out at '+cpU+'.'}${S.age==50?' This is your final season.':''}${S._rgpm||''}`:'';S._rgpm='';
 S.ct.yrs--;S.extd=0;if(S.trade){moveTo(ri(1,31));S.trade=0;HM='Trade complete: you now play for the '+tn(T[0])+'.';gpNews('trade',tn(T[0]))}
 if(rgm)HM=(HM?HM+' ':'')+rgm;if(S.cmsg){HM=(HM?HM+' ':'')+S.cmsg;S.cmsg=''}if(S.h100&&S.h100.length)HM=(HM?HM+' ':'')+'💯 Historic season: '+S.h100.join(', ')+(S.h100.length>1?' are now 100 OVR.':' is now a 100 OVR.');if(S.rets&&S.rets.length)HM=(HM?HM+' ':'')+'Retired this offseason: '+S.rets.slice(0,5).join(', ')+'. (You can override retirements from the menu.)';S.gsl=0;S.wk=0;S.ss=Z();S.gs=[];S.pb=null;S.psum=null;S.psch=pSched();if(S.ct.yrs<=0)S.fa=[0,ri(1,31),ri(1,31)].map((ti,k)=>negOffer(ti,k?.9+R()*.3:.95));save();hub()}
 function retire(m){if(!S.ret)gpNews('retire');S.ret=1;S.retMsg=m||'';save();hub()}
@@ -1406,7 +1406,7 @@ function after(){const o=g.out;g.ph='pre';g.tk=0;g.msg='';
 if(g.two){g.two=false;if(o.k=='td')g.s[0]+=2;return drvEnd(25,'Two-point try '+(o.k=='td'?'good':'failed'))}
 if(o.k=='td'){g.s[0]+=6;if(g.ot){g.s[0]++;return drvEnd(25,'Touchdown')}return pat()}
 if(o.k=='p6'){g.s[1]+=7;spChk('Pick six');g.y=25;g.dn=1;g.tg=10;g.note='Pick six. '+g.o.n+' score.';if(chk(0))return;gsnap();save();return pre()}if(o.k=='to')return drvEnd(o.nx,o.tx);if(o.k=='safe'){g.s[1]+=2;return drvEnd(25,'Safety')}
-if(o.k=='play'){const gn=Math.round(o.y-g.los);g.y=cl(Math.round(o.y),1,99);if(gn>=g.tg){g.dn=1;g.tg=Math.min(10,100-g.y);if(g.lv=='col'&&g.cr&&((g.clk>=1680&&g.clk<1800)||g.clk>=3480)){g.cr=false;g.note='First down: clock stops (college rule, last 2 minutes)'}}else{g.tg-=gn;g.dn++}}else g.dn++;
+if(o.k=='play'){const gn=Math.round(o.y-g.los);g.y=cl(Math.round(o.y),1,99);if(gn>=g.tg){g.dn=1;g.tg=Math.min(10,100-g.y);if(g.lv=='col'&&g.cr&&((g.clk>=1680&&g.clk<1800)||g.clk>=3480)){g.cr=false;g.fdStop=1;g.note='First down: clock stops until the ball is set (college rule, last 2 minutes)'}}else{g.tg-=gn;g.dn++}}else g.dn++;
 if(g.dn>4)return drvEnd(100-g.y,'Turnover on downs');if(chk(2))return;if(qchg())return;gsnap();save();pre()}
 function pat(){ovShow(`<h2>Touchdown!</h2><p>${g.s[0]}–${g.s[1]}</p><button onclick=xp()>Extra point</button><button class=g onclick=two()>Go for two</button>`)}
 function xp(){ovHide();$('#lb').style.display='none';$('#spk').style.display='none';const d=g.lv=='pro'?33:20;g.y=117-d;g.los=g.y;try{g.dn=1;g.tg=Math.min(10,100-g.y);setup(0);g.pl.xp=1;g.flash='';g.ft=0}catch(e){}g.tk=0;g.ph='kick';g.kk={t:0,ok:R()<fgP(d,KKt(0),g.lv),d,sd:R()<.5?-1:1,xp:1};g.msg=''}
@@ -1437,7 +1437,7 @@ function wEnd(txt,k){const P=g.pl;if(g.ph!='watch')return;g.ph='wdead';const td=
 if(td){g.cel=ri(0,CEL.length-1);g.celo=P.car||P.qb;g.msg+=' · '+CEL[g.cel][0]}
 if((k=='tk'||k=='sk')&&P.car){const c=P.car;P.tkr=P.wTk||[...P.def].sort((a,b)=>Math.hypot(a.x-c.x,a.y-c.y)-Math.hypot(b.x-c.x,b.y-c.y))[0];g.sh=k=='sk'?.5:.2}}
 function wLand(P,a,w){const k=P.wf;P.wf=null;if(k=='pass'){P.car=w;w.x=a.lx;w.y=a.ly;P.ct=P.t}else if(k=='inc'){P.endAt=W_.t+.9;P.endTxt='Incomplete';P.endK='inc'}else{const db=P.wInt||[...P.db,...P.lb].sort((x,y)=>Math.hypot(x.x-a.lx,x.y-a.ly)-Math.hypot(y.x-a.lx,y.y-a.ly))[0];intStart(db,a,1);P.endAt=W_.t+2.6;P.endTxt='INTERCEPTED!';P.endK='int'}}
-function wTick(dt){const P=g.pl;if(!P||!P.e)return;const e=P.e,q=P.qb,k=e.k;inp={x:0,y:0};W_.t+=dt;const t=W_.t;if(k=='fg'||k=='punt')return wKick(P,e,t,dt);const wq=wConvPre(P);upd(dt);if(W_.cb!=null)g.clk=W_.ca+(W_.cb-W_.ca)*Math.min(1,t/4.5);wConvPost(P,e,dt,wq);
+function wTick(dt){const P=g.pl;if(!P||!P.e)return;const e=P.e,q=P.qb,k=e.k;inp={x:0,y:0};W_.t+=dt;const t=W_.t;if(W_.cb!=null)g.clk=Math.min(W_.cb,W_.ca+t*(g.rate||12));if(k=='fg'||k=='punt')return wKick(P,e,t,dt);const wq=wConvPre(P);upd(dt);if(W_.cb!=null)g.clk=Math.min(W_.cb,W_.ca+t*(g.rate||12));wConvPost(P,e,dt,wq);
 if(P.endAt){if(t>=P.endAt){P.endAt=0;wEnd(P.endTxt,P.endK)}return}
 if(k=='fg'||k=='punt'){const f=(t-.9)/1.5,y1=k=='fg'?110:e.y0+e.net,y0=e.y0-5;if(f<0)P.wb=[0,1.7,-y0];else if(f<=1){const tx=k=='fg'?(e.ok?26.5+Math.sin(f*9)*.3:26.5+e.sd*f):26.5;P.wb=[tx*f+26.5*(1-f)-26.5,1+Math.sin(Math.PI*f)*(k=='fg'?6:14),-(y0+(y1-y0)*f)];P.fy=y0+(y1-y0)*f}else{P.endAt=t+.8;P.endTxt=k=='fg'?(e.ok?'FIELD GOAL IS GOOD!':'NO GOOD'):'Punt';P.endK=k;P.car=null}return}
 if(k=='run'){if(P.car===P.rb){if(!P.wSlow)P.rb.sp=Math.max(P.rb0,(Math.max(e.gn,2)+3)/3.2);if(P.car.y>=P.endY-.3||t>7)wEnd(e.td?'TOUCHDOWN!':'Run for '+e.gn,e.td?'td':'tk')}return}
@@ -1559,9 +1559,9 @@ function coverTick(t,por,dt){const m=PL.cv;if(!m)return;coverQB(m,t);
 const att=PL.cvm!='menu',sw=Math.sin(t*.22)*.14,push=att?Math.sin(t*.18)*.6:0,a=PL.cry-.75+sw,D=(att?(por?11.5:12.5):(por?19:12.5))-push,cx=-Math.sin(a)*D,cz=-46-Math.cos(a)*D,cy=att?(por?2.7:2.6):(por?3.2:2.9),F=[0,2.5,-46],fv=por?58:42;
 const dx=F[0]-cx,dz=F[2]-cz,dl=Math.hypot(dx,dz),rx=-dz/dl,rz=dx/dl,nx=att?(por?0:.32):(por?0:-.66),ny=att?(por?-.06:-.04):(por?.4:-.02),th=Math.tan(fv*Math.PI/360),asp=W/H;
 cm.fov=fv;cm.position.set(cx,cy,cz);cm.lookAt(F[0]-rx*dl*nx*th*asp,F[1]-dl*(ny-(PL.dy||0))*th,F[2]-rz*dl*nx*th*asp);cm.updateMatrixWorld();cm.updateProjectionMatrix();ttlFit()}
-let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0009</small></div>`;ui.scrollTop=0}
+let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0010</small></div>`;ui.scrollTop=0}
 function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=6;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
-ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0009</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
+ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0010</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
 // a clear "scroll for more" hint whenever a screen runs past the bottom
 function scrH(){let e=$('#scrh');if(!e){e=document.createElement('div');e.id='scrh';e.innerHTML='▼ Scroll for more ▼';e.onclick=()=>ui.scrollBy({top:ui.clientHeight*.7,behavior:'smooth'});document.body.appendChild(e)}const show=ui.style.display!='none'&&!(typeof LR!='undefined'&&LR)&&cv.style.display!='block'&&ui.scrollHeight-ui.clientHeight-ui.scrollTop>40;e.style.display=show?'block':'none'}
 function scene(m){M=m;SPIN=0;const ind=m=='lock'||m=='iv'||m=='drf';FLD.visible=EZ.visible=!ind;LOK.visible=ind;if(m!='lock'&&$('#lrw')){$('#lrw').style.display='none';LR=null}if(m!='cmb'){const cw=$('#cmbw');if(cw)cw.style.display='none'}DYN.visible=m=='game';CHR.visible=m=='game';PL.visible=m!='game';LOSm.visible=FDm.visible=m=='game';scn.background=m=='lock'?new T3.Color(0x24323f):ind?new T3.Color(0x07080b):m=='cover'?NIGHT:SKY;scn.fog=ind?null:m=='cover'?new T3.Fog(0x0b1730,70,220):new T3.Fog(0xcdeeff,90,240);{const hm=scn.children.find(c=>c instanceof T3.HemisphereLight);if(hm)hm.intensity=m=='cover'?.5:.95;sun.intensity=m=='cover'?.35:.7}if(m=='lock')lockP();else if(m=='field')pract();else if(m=='cover')coverP()}
@@ -4139,7 +4139,7 @@ function babyYear(){if(!S.preg)return;const g=S.preg.g,n=(g=='b'?NF[ri(0,NF.leng
 function kidsHtml(){const K=S.kids||[];if(!K.length&&!S.preg)return '';return `<div class=card><b>👶 Your kids</b>${S.preg?'<p><small>A baby '+(S.preg.g=='b'?'boy':'girl')+' is on the way.</small></p>':''}${K.map((k,i)=>`<div class=row style="font-size:16px"><span>${esc(k.n)} <small>${k.g=='b'?'Son':'Daughter'} · age ${k.age}</small></span><button class=g onclick="kidName(${i})">Rename</button></div>`).join('')}</div>`}
 function kidName(i){const k=(S.kids||[])[i];if(!k)return famV();const n=prompt('Name your '+(k.g=='b'?'son':'daughter')+':',k.n.split(' ')[0]);if(n&&n.trim())k.n=n.trim().slice(0,20)+' '+lastN();save();famV()}
 function kidsYear(){(S.kids||[]).forEach(k=>k.age++)}
-// ===================== V 0.0.1.0009 · nicer 3D homes (cutaway walls + decor) =====================
+// ===================== V 0.0.1.0010 · nicer 3D homes (cutaway walls + decor) =====================
 // Walls between the camera and you drop down to a short stub (dollhouse view), so you can always see inside.
 function hmCut(L,C){(L.hw||[]).forEach(w=>{const out=w.ax=='z'?(C.z-w.v)*w.sg>-.2:(C.x-w.v)*w.sg>-.2;if(out===w.cut)return;w.cut=out;w.m.scale.y=out?.12:1;w.m.position.y=out?w.h*.06:w.h/2;(w.ex||[]).forEach(e=>e.visible=!out)})}
 function hmDecor(id,sz,W,D,x1,x2,zb,zf,z0,pal,hw,O){const P=PL,wb=hw[0],wL=hw[1],wR=hw[2],on=(w,m)=>{(w.ex=w.ex||[]).push(m);return m};
@@ -4582,12 +4582,12 @@ const capWhy=c=>({seniority:'Coach values seniority most.',trust:'Coach picks th
 let TSG=null,TST=null;
 function tossBuild(){tossClear();const T=g.m,O_=g.o,G=new T3.Group(),cap=captEns();TSG=G;scn.add(G);
  const mk=(j,lb,ap,x,z,ry)=>{const m=mk3(j,1.2,0,lb,ap,1);m.position.set(x,0,z);m.rotation.y=ry;G.add(m);return m};
- const tj={c1:T.c1,c2:T.c2,d:T.d||0,pc:S.jy&&S.jy.pc||'#e8e8e8',nc:lum(T.c1)>.5?'#000':'#fff'},oj={c1:O_.c1,c2:O_.c2,d:O_.d||0,pc:O_.pc||'#dcdcdc',nc:lum(O_.c1)>.5?'#000':'#fff'};
+ const tj=g.mj?{...g.mj}:{c1:T.c1,c2:T.c2,d:T.d||0,pc:S.jy&&S.jy.pc||'#e8e8e8',nc:lum(T.c1)>.5?'#000':'#fff'},oj=g.oj?{...g.oj}:{c1:O_.c1,c2:O_.c2,d:O_.d||0,pc:O_.pc||'#dcdcdc',nc:lum(O_.c1)>.5?'#000':'#fff'};
  // the ref
  const rf=mk({c1:'#ffffff',c2:'#111111',d:1,pc:'#111111'},null,{sk:2,hr:1,hcl:'#555555',fh:0,ht:1,bd:1},0,-51.3,0);[-.3,.3].forEach(x=>bx(.1,.82,.52,0x111111,x,1.5,0,rf));bx(.68,.14,.68,0xffffff,0,2.72,0,rf);bx(.5,.05,.3,0xffffff,0,2.66,-.42,rf);rf.rotation.y=Math.PI;
  // your captains (you + the captain, or you as the captain + a teammate) and theirs
  const L=rost('h.0'),mate=L.find(x=>x.n==cap.n)||L[2]||L[1];
- const me=mk(DJ(),{nm:(S.jy&&S.jy.nm)||'',num:S.num},AP(),-2,-50.6,-Math.PI/2);
+ const me=mk(g.mj?{...g.mj,nm:(S.jy&&S.jy.nm)||g.mj.nm||''}:DJ(),{nm:(S.jy&&S.jy.nm)||'',num:S.num},AP(),-2,-50.6,-Math.PI/2);
  const m2=mk(tj,{nm:String((cap.me?(L[3]||L[1]).n:mate.n).split(' ').pop()).toUpperCase().slice(0,10),num:(cap.me?(L[3]||L[1]).num:mate.num)},{...plAp((cap.me?(L[3]||L[1]).n:mate.n),{sk:Math.abs(hsh(mate.n))%6,hr:1+Math.abs(hsh(mate.n))%3,hcl:'#1b1b1b',fh:0}),ht:1,bd:1},-2.6,-49.4,-Math.PI/2);
  const lo=rost('h.'+g.oi);[0,1].forEach(i=>{const p=lo[i]||{n:'Captain',num:i+1};mk(oj,{nm:String(p.n).split(' ').pop().toUpperCase().slice(0,10),num:p.num},{...plAp(p.n,{sk:(i*3+2)%6,hr:1+i,hcl:'#1b1b1b',fh:i}),ht:1,bd:1},2+i*.6,-50.6+i*1.2,Math.PI/2)});
  const cn=new T3.Group();bx(.34,.05,.34,0xd4af37,0,0,0,cn);bx(.2,.06,.2,0xffe07a,0,0,0,cn);cn.position.set(0,1.6,-51);G.add(cn);G.coin=cn;
@@ -6465,7 +6465,7 @@ const rjSet=code=>new Set(rjList(code).map(x=>x.num));
 const rjCode=t=>{try{const i=pIdx(t);return i>=0?TA[i]:null}catch(e){return null}};
 // ---- who retires: remember the ones worth honoring (peak overall, awards, rings) ----
 (()=>{const _d=leagueDev;leagueDev=function(){try{S.T.forEach((t,i)=>rost('h.'+i).forEach(x=>{if(x&&x.ovr)x.pk=Math.max(x.pk||0,x.ovr)}))}catch(e){}S.rjc=[];const r=_d.apply(this,arguments);try{rjAfter()}catch(e){}return r}})();
-(()=>{const _c=cpuRet;cpuRet=function(x,t){const snap={n:x.n,num:x.num,pos:x.pos,pk:Math.max(x.pk||0,x.ovr||0),aw:{...(x.aw||{})},ny:x.ny||(x.h||[]).length,code:rjCode(t)};const r=_c.apply(this,arguments);try{if(r&&snap.code&&snap.num!=null&&snap.pk>=82&&snap.ny>=4&&S.rjc){const a=snap.aw,big=(a.mvp||0)+(a.dpoy||0)+(a.opoy||0)+(a.sbm||0);snap.rec=snap.pk>=93||(snap.pk>=88&&(big>=1||(a.r||0)>=2))||(snap.ny>=10&&snap.pk>=86)?1:0;snap.yr=yrN();S.rjc.push(snap)}}catch(e){}return r}})();
+(()=>{const _c=cpuRet;cpuRet=function(x,t){const snap={n:x.n,num:x.num,pos:x.pos,pk:Math.max(x.pk||0,x.ovr||0),aw:{...(x.aw||{})},ny:x.ny||(x.h||[]).length,code:(typeof rjBest=='function'?rjBest(x,t):rjCode(t))};const r=_c.apply(this,arguments);try{if(r&&snap.code&&snap.num!=null&&snap.pk>=82&&snap.ny>=4&&S.rjc){const a=snap.aw,big=(a.mvp||0)+(a.dpoy||0)+(a.opoy||0)+(a.sbm||0);snap.rec=snap.pk>=93||(snap.pk>=88&&(big>=1||(a.r||0)>=2))||(snap.ny>=10&&snap.pk>=86)?1:0;snap.yr=yrN();S.rjc.push(snap)}}catch(e){}return r}})();
 function rjAdd(x){S.rj=S.rj||{};const L=S.rj[x.code]=S.rj[x.code]||[];if(rjSet(x.code).has(+x.num))return 0;L.push({num:+x.num,n:x.n,pos:x.pos,yr:x.yr||yrN(),me:x.me?1:0});return 1}
 function rjAfter(){const C=S.rjc||[];if(!C.length)return;if(S.rjMan){S.rjP=C.slice();return}const done=C.filter(x=>x.rec&&rjAdd(x));S.rjc=[];if(done.length)S.rjMsg='🎽 Jerseys retired: '+done.map(x=>'#'+x.num+' '+x.n+' ('+x.code+')').join(', ')+'.';rjFix(1)}
 // nobody in the league wears a retired number (generated players get a new one)
@@ -6650,13 +6650,16 @@ try{FKNOWN.unshift([/^Tommy Chew Toy$/,{s:0,h:'#3b2618',st:'curly',e:'#4a3020'}]
 // ---------- Reporter Mia: interviews build a friendship; at 40+ you can ask her out (college or pro, 18+) ----------
 window.XCEL=[['rmia','Reporter Mia','miareports',1,0,4,'#ff4fa0',0,1,0,'#ff4fa0','#ffffff','#1b1b1b','',3,'sports reporter, quick and witty, pretends she is only here for the quotes','long']];
 (()=>{const _t=talk;talk=function(w,nm,line,mood,btns,ex){try{if(w=='reporter'&&/^Reporter Mia/.test(nm||'')&&/That will run tonight/.test(line||'')){cfOnce('rmia','int',6);
-  const fr=cfGet('rmia');if(!S.gf&&celAskOk('rmia')&&S.datOff!=1&&Array.isArray(btns)){btns=btns.concat([[fr>=80?'❤️ Ask Mia out':'😏 Flirt with Mia ('+fr+'/80)',fr>=80?'celAsk(\'rmia\')':'miaFlirt()']])}}}catch(e){}return _t.call(this,w,nm,line,mood,btns,ex)}})();
+  const fr=cfGet('rmia');if(!S.gf&&celAskOk('rmia')&&S.datOff!=1&&Array.isArray(btns)){btns=btns.concat([[fr>=(window.MIANEED||90)?'❤️ Ask Mia out':'😏 Flirt with Mia ('+fr+'/'+(window.MIANEED||90)+')',fr>=(window.MIANEED||90)?'celAsk(\'rmia\')':'miaFlirt()']])}}}catch(e){}return _t.call(this,w,nm,line,mood,btns,ex)}})();
 function miaFlirt(){const S_=S;S_.mfl=S_.mfl||{};if(S_.mfl.w==wkKey())return talk('reporter','Reporter Mia','Save some charm for the camera 😏','smug',[['Ha','ovHide()']]);S_.mfl.w=wkKey();const lk=looksEns(),ok=R()<.25+(lk-70)/120;cfAdd('rmia',ok?3:0);save();
- talk('reporter','Reporter Mia',ok?['Is that a quote or a pickup line? ...Don\'t answer that 😊','You know I\'m supposed to be neutral, right? 🙄😊','Careful. I might put that in the article.'][ri(0,2)]:['Nice try, QB. Focus on the game.','Mm-hm. Next question.'][ri(0,1)],ok?'happy':'smug',[['😏','ovHide()']],'Mia friendship '+cfGet('rmia')+'/100 (she only says yes past 80, and even then it is a long shot)')}
+ talk('reporter','Reporter Mia',ok?['Is that a quote or a pickup line? ...Don\'t answer that 😊','You know I\'m supposed to be neutral, right? 🙄😊','Careful. I might put that in the article.'][ri(0,2)]:['Nice try, QB. Focus on the game.','Mm-hm. Next question.'][ri(0,1)],ok?'happy':'smug',[['😏','ovHide()']],'Mia friendship '+cfGet('rmia')+'/100 (she only considers it at 90, and even then it is a long shot)')}
 
-// Mia is one of the hardest people in the game to get: superstar standards, 80+ friendship, and even then she usually says no
-(()=>{const _a=celAsk;celAsk=function(id){if(id=='rmia'&&!S.gf){const fr=cfGet('rmia');if(fr<80)return talk('reporter','Reporter Mia','I interview you. That is it. 🙂','smug',[['OK','ovHide()']],'Mia friendship '+fr+'/100: she won\'t even consider it under 80. '+celStd(celBy('rmia')));
-  S.cask=S.cask||{};if(S.cask[id]==wkKey())return talk('reporter','Reporter Mia','You asked me already. Not happening this week.','smug',[['OK','ovHide()']]);if(R()>.35){S.cask[id]=wkKey();cfAdd('rmia',-4);save();return talk('reporter','Reporter Mia',['I don\'t date players. Rule number one.','Cute. No.','Ask me again when you have a ring. Maybe.'][ri(0,2)],'smug',[['OK','ovHide()']],'Mia is one of the hardest people in the game to date.')}}return _a.apply(this,arguments)}})();
+// Mia is one of the hardest people in the game to get: superstar standards, 90+ friendship (Tyler 2026-11-15: "When Mia says
+// yes at 80, I'm thinking she should even go up higher to like a 90. And then even then, she'll probably still say no ... because
+// she really likes you, but she doesn't date players"), and even then she says yes only about 1 time in 4.
+window.MIANEED=90;window.MIAYES=.25;
+(()=>{const _a=celAsk;celAsk=function(id){if(id=='rmia'&&!S.gf){const fr=cfGet('rmia');if(fr<(window.MIANEED||90))return talk('reporter','Reporter Mia','I interview you. That is it. 🙂','smug',[['OK','ovHide()']],'Mia friendship '+fr+'/100: she won\'t even consider it under '+(window.MIANEED||90)+'. '+celStd(celBy('rmia')));
+  S.cask=S.cask||{};if(S.cask[id]==wkKey())return talk('reporter','Reporter Mia','You asked me already. Not happening this week.','smug',[['OK','ovHide()']]);if(R()>(window.MIAYES||.25)){S.cask[id]=wkKey();cfAdd('rmia',-2);save();return talk('reporter','Reporter Mia',['I really like you. I do. But I don\'t date players.','Honestly? I like you a lot. That\'s exactly why I can\'t. I don\'t date players.','You\'re making this really hard. I still don\'t date players.'][ri(0,2)],'sad',[['OK','ovHide()']],'Mia is one of the hardest people in the game to date. At 90+ friendship she says yes about 1 time in 4 (if you also meet her fans and looks standards). Keep at it.')}}return _a.apply(this,arguments)}})();
 // ===================== 🚪 no more accidental exits: walking up to a door never leaves; only the Leave / Exit button does =====================
 const LXK=['eexit','exit','hdoor'];
 (()=>{const _t=lrTap;lrTap=function(){const r=_t.apply(this,arguments);try{if(LR&&LR.pend&&LXK.includes(LR.pend.k)){LR.pend=null;const h=$('#lrh');if(h&&!LR.xHint){LR.xHint=1;h.textContent='🚪 Tap Leave (top left) or the Exit button when you want to go.'}}}catch(e){}return r}})();
@@ -6696,7 +6699,7 @@ function lgDepth(T){const L=T.L,all=L.filter(Boolean),me=all.find(x=>x.n==S.name
  const rest=all.filter(x=>!used.has(x)).sort((a,b)=>lgGrp(a.pos).localeCompare(lgGrp(b.pos))||(b.ovr||0)-(a.ovr||0));T.L.length=0;out.forEach((x,k)=>T.L[k]=x);rest.forEach(x=>T.L.push(x))}
 // ---------- a fresh, different-every-save draft class each year ----------
 const LGDP=[['QB',.07],['RB',.08],['WR',.14],['TE',.06],['LT',.04],['LG',.04],['C',.04],['RG',.04],['RT',.04],['DE',.08],['DT',.07],['OLB',.07],['MLB',.05],['CB',.1],['S',.07],['K',.01]];
-function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();for(const k in S.ro){const L=S.ro[k];if(Array.isArray(L))L.forEach(x=>x&&taken.add(x.n))}
+function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();try{Object.values(S.seal||{}).forEach(o=>o&&o.n&&taken.add(o.n));Object.values((S.pc&&S.pc.p)||{}).forEach(e=>e&&e.n&&taken.add(e.n));if(S.vetP)taken.add(S.vetP.n)}catch(e){}for(const k in S.ro){const L=S.ro[k];if(Array.isArray(L))L.forEach(x=>x&&taken.add(x.n))}
  const cols=(S.col||[]).flatMap(c=>c.t.map(t=>t.n));const N=320,out=[];
  for(let i=0;i<N;i++){let u=r(),pos='WR';for(const[p,w]of LGDP){if((u-=w)<0){pos=p;break}}
   const tier=i<12?0:i<40?1:i<100?2:i<224?3:4;let o=[[72,80],[67,75],[62,71],[55,66],[45,60]][tier];let ovr=o[0]+Math.floor(r()*(o[1]-o[0]+1));if(tier==0&&r()<.12)ovr=Math.min(87,ovr+2+Math.floor(r()*6));
@@ -6705,7 +6708,7 @@ function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();for(const k in S.ro){
  return out.sort((a,b)=>b.gr-a.gr)}
 function lgDraft(){const Y=yrN();S.dc=S.dc||{};if(S.dc[Y]&&S.dc[Y].done)return;const TT=lgTeams();if(!TT.length)return;const P=lgClass(Y),r=lgSeed('dord'+Y);
  const ord=TT.slice().sort((a,b)=>{const wa=(a.t.w||0)/Math.max(1,(a.t.w||0)+(a.t.l||0)),wb=(b.t.w||0)/Math.max(1,(b.t.w||0)+(b.t.l||0));return wa-wb||(a.t.ovr||0)-(b.t.ovr||0)});
- const picks=[];for(let rd=1;rd<=7;rd++)ord.forEach((T,j)=>{const need=G=>Math.max(0,LGN[G]-lgCount(T.L,G));let bi=0,bs=-1e9;P.forEach((p,i)=>{if(p.tk||i>60+picks.length)return;const G=lgGrp(p.pos);const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+need(G)*2.2-(G=='QB'&&T.i==0?6:0)-(G=='K'&&rd<5?20:0)+r()*2;if(sc>bs){bs=sc;bi=i}});const p=P[bi];p.tk=1;const no=(rd-1)*ord.length+j+1;
+ const picks=[];for(let rd=1;rd<=7;rd++)ord.forEach((T,j)=>{const need=G=>Math.max(0,LGN[G]-lgCount(T.L,G));let bi=0,bs=-1e9;P.forEach((p,i)=>{if(p.tk||i>60+picks.length)return;const G=lgGrp(p.pos);const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+(typeof qbAdj=='function'?qbAdj(pIdx(T.t),p)*.6:0)+need(G)*2.2-(G=='QB'&&T.i==0?6:0)-(G=='K'&&rd<5?20:0)+r()*2;if(sc>bs){bs=sc;bi=i}});const p=P[bi];p.tk=1;const no=(rd-1)*ord.length+j+1;
   const x={n:p.n,pos:p.pos,num:(NR[p.pos]||[1,99])[0],ovr:p.ovr,age:p.age,pot:p.pot,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},dr:{y:Y,r:rd,p:no,tm:T.code,col:p.col}};
   lgCtNew(x,4,rd==1?Math.max(1,+(11.5-no*.3).toFixed(1)):rd==2?2:1,'rookie');lgAdd(T,x);picks.push({r:rd,p:no,tm:T.code,n:p.n,pos:p.pos,ovr:p.ovr,pot:p.pot,age:p.age,col:p.col});
   lgTx({t:'draft',n:p.n,pos:p.pos,ovr:p.ovr,age:p.age,to:T.code,d:'Round '+rd+', pick '+no+(p.col?' · '+p.col:''),big:rd<=2})});
@@ -10631,7 +10634,7 @@ rupdTag=function(n){try{const p=PWNAMES[n];return p?` <small>💪 ${p[0]} arm</s
 // Celebrities who rep Goaty's: TyPhizzle, Wesscoastt, Michael Jaxon (owner: Tommy Chew Toy). Anyone YOU
 // recruited to a brand in your own save stays (that was your doing). Yeezers: Kanye Westley's shoe line, a
 // clothing house like Jorton (so it is a rival of the others: one house at a time).
-try{BRDEF["Goaty's"]=['typhizzle','wesscoastt','mjaxon','diddly'];BRDEF['Yeezers']=['kyeast']}catch(e){}
+try{BRDEF["Goaty's"]=['typhizzle','wesscoastt','mjaxon','diddly','kclock','phall','greed','kween','swalker'];   /* Tyler 2026-11-15 (his halftime list): "If they have Goaty's by their name they are signed, if not they probably shouldn't be at any Goaty events" -> Diddy, Key Glock, Paul Wall, Creed, Queen, Sauce Walka, TyPhizzle, Wesscoastt (+ owner Tommy Chew Toy). Tyler (same day): "You can actually leave Michael Jackson." -> he stays. */BRDEF['Yeezers']=['kyeast']}catch(e){}
 try{if(!BRCLOTH.includes('Yeezers'))BRCLOTH.push('Yeezers')}catch(e){}
 try{if(!SPB.some(b=>b[0]==='yeez'))SPB.push(['yeez','Yeezers','sneakers',"your own Yeezers colorway (Kanye Westley's shoe line)",2,1.6,3])}catch(e){}
 window.BRATH={"Goaty's":{own:'Tommy Chew Toy',ath:['Matty Gafford','Eric Darnold','Coleridge Loud','Nuka Biten','Hooper Bol','No Pix','Markie Goata']},
@@ -11191,7 +11194,7 @@ window.miaBack=function(){const q=MIAQ;MIAQ=null;if(!q)return ovHide();talk.appl
 (()=>{try{const _t=talk;talk=function(w,nm,line,mood,btns,ex){try{
  if(w=='reporter'&&/^Reporter Mia · /.test(nm||'')&&Array.isArray(btns)&&miaOk()&&!btns.some(b=>/miaFlirt|celAsk/.test(b[1]||''))){
   MIAQ=[w,nm,line,mood,btns.slice(),ex];const fr=cfGet('rmia');
-  btns=btns.concat([[fr>=80?'❤️ Ask Mia out':'😏 Flirt with Mia ('+fr+'/80)',fr>=80?"celAsk('rmia')":'miaFlirt()']])}
+  btns=btns.concat([[fr>=(window.MIANEED||90)?'❤️ Ask Mia out':'😏 Flirt with Mia ('+fr+'/'+(window.MIANEED||90)+')',fr>=(window.MIANEED||90)?"celAsk('rmia')":'miaFlirt()']])}
  else if(w=='reporter'&&nm==='Reporter Mia'&&MIAQ&&Array.isArray(btns)&&btns.length===1&&/ovHide\(\)$/.test(btns[0][1]||'')&&!/That will run tonight/.test(line||'')){
   btns=[['🎤 Back to the interview','miaBack()']]}
  }catch(e){}return _t.call(this,w,nm,line,mood,btns,ex)}}catch(e){}})();
@@ -11318,10 +11321,20 @@ window.hrDraw=function(done){const box=$('#hrbox');if(!box||!HRE)return;const L=
  <label>${L.length?'Add another':'Add a heritage'}<select onchange="hrAdd(this.value)"><option value="">Choose…${RACES.map((R_,k)=>`<option value=${k}>${R_[0]}`).join('')}</select></label>
  ${L.length?`<small>Total: ${sum}%</small><br>`:''}
  <label>Shade (people in every group vary)<input type=range min=-3 max=3 step=1 value=${HRE.shade} oninput="hrShade(this.value)"></label>
- <div class=row><label style="flex:1"><input type=checkbox ${HRE.own?'checked':''} onchange="hrOwn(this.checked)" style="width:auto"> Use my own colour</label>${HRE.own?`<input type=color value="${HRE.own}" oninput="hrOwn(1,this.value)" style="width:64px;padding:2px">`:''}</div>
+ <div class=row><label style="flex:1"><input type=checkbox ${HRE.own?'checked':''} onchange="hrOwn(this.checked)" style="width:auto"> Use my own colour <small>(real skin tones; exotic skins are sold separately)</small></label>${HRE.own?`<input type=color value="${HRE.own}" oninput="hrOwn(1,this.value)" style="width:64px;padding:2px">`:''}</div>
  <button onclick="hrUse()">Use this skin</button>${done?'<small> ✓ On your player now.</small>':''}</div>`};
 // show the builder under the skin picker in the look editor
 (()=>{try{const _je=jersey;jersey=function(){const r=_je.apply(this,arguments);try{const sb=$('#skb');if(sb&&!$('#hrbox')){const d=document.createElement('div');d.id='hrbox';sb.after(d);hrOpen()}}catch(e){}return r}}catch(e){}})();
+
+// Tyler, 2026-11-14: "Use your own color for real skin tones because you're gonna buy those exotic skins later".
+// Whatever colour is picked is moved to the nearest real skin tone: warm undertone (hue 16-34°), natural saturation (20-48%),
+// from very fair to very deep. Blues, greens, metallics etc. stay for the exotic skins you buy.
+window.hrReal=function(hex){try{let [r,g_,b]=hrHx(hex).map(v=>v/255);const mx=Math.max(r,g_,b),mn=Math.min(r,g_,b),l=(mx+mn)/2,d=mx-mn;let h=0,s=0;
+ if(d){s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?((g_-b)/d+(g_<b?6:0)):mx===g_?((b-r)/d+2):((r-g_)/d+4);h*=60}
+ const H=(h>=16&&h<=34)?h:24,Sa=cl(s,.2,.48),L=cl(l,.13,.9);
+ const q=L<.5?L*(1+Sa):L+Sa-L*Sa,p=2*L-q,f=t=>{t=(t+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p},hh=H/360;
+ return hrHs([f(hh+1/3),f(hh),f(hh-1/3)].map(v=>v*255))}catch(e){return hex}};
+(()=>{const _o=hrOwn;window.hrOwn=function(on,c){return _o.call(this,on,c?hrReal(c):c)}})();
 // ===== 💯 KEEPING 100 OVR: a checklist to keep it, the ways to lose it, and how to win it back =====
 // Tyler, 2026-11-14: "3 C+ games or lower in a row loses you 100 overall. Also, if you're a QB ... at least get 4800 total
 // yards passing or rushing, and then, at least 35 total touchdowns as well to keep it ... a little checklist ... how many
@@ -11448,5 +11461,459 @@ window.sdtNow=function(){try{let p=null;if(g&&g.ptN>=3)p=g.ptS/g.ptN;else if(S&&
  let mj,oj;if(home){mj=mjH;oj=ojH}else{mj=mjH;oj=ojH}   /* both in colours: the visitor is Dallas */
  if(cd(mj.c1,oj.c1)<110){if(home)mj=hmAway(mjH);else oj=hmAway(ojH)}   /* too alike: the HOME team goes white */
  g.mj=mj;g.oj=oj}catch(e){}return r}}catch(e){}})();
+// ===== 💪 THROWING POWER + SPEED: untouched until 36, then their own age curve =====
+// Tyler, 2026-11-14: "throwing power and speed should remain the same all the way until you're turning 36, then it starts
+// going down in regression" + "By remain the same, I mean wherever you have it upgraded to" + "once they turn 36, that
+// should be going down ... if the player is 45, their throwing power probably wouldn't be over an 85 ... you turn 36 and
+// your throwing power is down to a 96. Something like that. You can still upgrade it. It would just probably still
+// regress more later. Whatever you think system's best".
+// From 36, every birthday takes these off (other ratings keep your regression table), and each has its own ceiling for
+// that age (you can train back up to it, then next birthday takes more):
+//   age            36  37  38  39  40  41  42  43  44  45  46  47  48  49  50
+//   throw power -   3   3   3   4   4   4   5   5   5   6   6   6   6   6   6    max 97 95 94 92 90 89 88 87 86 85 82 79 76 73 70
+//   speed       -   4   4   5   5   6   6   6   6   6   6   7   7   7   7   7    max 94 91 88 85 82 79 76 73 70 67 64 61 58 55 50
+// The arm lasts longer than the legs. A 100 OVR is still never touched by age.
+window.PMRG={pow:{d:[3,3,3,4,4,4,5,5,5,6,6,6,6,6,6],c:[97,95,94,92,90,89,88,87,86,85,82,79,76,73,70]},mob:{d:[4,4,5,5,6,6,6,6,6,6,7,7,7,7,7],c:[94,91,88,85,82,79,76,73,70,67,64,61,58,55,50]}};
+window.pmCap=function(k,age){const T=PMRG[k];if(!T||age<36)return 99;return T.c[Math.min(14,age-36)]};
+window.rgPM=function(k,age){const T=PMRG[k];if(!T||age<36)return false;const i=Math.min(14,age-36),was=S.q[k];S.q[k]=cl(was-T.d[i],25,Math.min(was,T.c[i]));
+ S._rgpm=(S._rgpm||'')+` ${k=='pow'?'Throw power':'Speed'} ${was} → ${S.q[k]} (max ${T.c[i]} at ${age}).`;return true};
+// training: throw power and speed can be trained back up to their own age ceiling
+(()=>{try{const _q=qCap;qCap=function(k){const c=_q.apply(this,arguments);try{const a=S.age||0;if(a>=36&&PMRG[k]&&qo(S.q)<100)return k=='pow'?Math.min(99,pmCap(k,a)):Math.min(c,pmCap(k,a))}catch(e){}return c}}catch(e){}})();
+(()=>{try{const _h=hundInfo;hundInfo=function(){let r=_h.apply(this,arguments);try{const a=S.age||0;if(S.stage=='pro'&&a>=36&&qo(S.q)<100)r+=`<p><small>At ${a}: throw power maxes at ${pmCap('pow',a)}, speed at ${pmCap('mob',a)}, the rest at ${typeof othCap=='function'?othCap(a):ageCap(a)}.</small></p>`}catch(e){}return r}}catch(e){}})();
+// Tyler, 2026-11-14: "I told you the overalls that they can be at a certain age ... the list where they drop to at a certain
+// age if they keep playing. And then adjust all ratings accordingly." His list (the most your OVERALL can be at each age):
+// 40-41: 99, 42: 95, 43: 90, 44: 85, 45: 80, 46: 70, 47: 65, 48: 60, 49: 55, 50: 50. Throw power and speed now have their own
+// ceilings, so the other four ratings get theirs from the list: (6 x the overall max - power max - speed max) / 4, so a
+// player maxed out at that age lands right on Tyler's overall. E.g. at 45: power 85, speed 67, the rest 82 -> overall 80;
+// at 50: power 70, speed 50, the rest 45 -> overall 50.
+window.othCap=function(age){if(age<36)return 99;return Math.min(99,Math.floor((6*ageCap(age)-pmCap('pow',age)-pmCap('mob',age))/4))};
+(()=>{const _r=rgPM;window.rgPM=function(k,age){if(PMRG[k])return _r.apply(this,arguments);if(age<36)return false;const rg=RGT[age];if(!rg)return false;
+ const was=S.q[k];S.q[k]=cl(was-rg[0],25,Math.min(was,othCap(age)));return true}})();
+(()=>{try{const _q=qCap;qCap=function(k){const c=_q.apply(this,arguments);try{const a=S.age||0;if(a>=36&&!PMRG[k]&&qo(S.q)<100)return othCap(a)}catch(e){}return c}}catch(e){}})();
+// ===== ⏳ YOUR SAVES: shown as LOADING until every one is in · nothing can be covered while loading · deleted saves kept safe =====
+// Tyler, 2026-11-15: "I'm not seeing my Bronny James save ... It shouldn't be ever removed ever ... If it's just taking a while
+// to load, it needs to load. And it needs to be seen as loading ... put the little moving circle thing ... Anything recently
+// deleted, I would say it should go up to 5 files, but those 5 files should stay there until there's another deleted file,
+// and then it would replace the oldest file that was deleted."
+// WHAT HAPPENED: the menu showed the save list the instant the game opened, from the phone's own storage. Phones (iPhone
+// Safari especially) clear a website's storage when it hasn't been opened for a while, so the save was only in your cloud
+// backup, which the game fetched slot by slot a few seconds later. Until it arrived the slot looked EMPTY ("New career").
+// Nothing was deleted, but tapping "New career" there before it arrived could have covered it.
+// NOW:
+//  - until the cloud check is done, the menu shows a spinning "Loading your saves…" card and every empty-looking slot says
+//    "loading…" and can't be tapped. The list redraws as each save arrives. All slots are fetched at once (faster).
+//  - if the cloud takes over 30 seconds, empty slots unlock, but starting a career there asks first.
+//  - the cloud never overwrites a different career: if the phone and the cloud hold two different careers in one slot, the
+//    cloud's one goes to Recently deleted before anything is written.
+//  - Recently deleted keeps the last 5 (a 6th pushes out the oldest), and the list is kept in three places: the phone's
+//    storage, the phone's larger storage (IndexedDB, which the browser doesn't clear the same way) and your cloud backup.
+window.CLREADY=false;window.CLSLOW=false;
+(()=>{try{const st=document.createElement('style');st.textContent='.spin{display:inline-block;width:16px;height:16px;border:3px solid #ffffff44;border-top-color:#fff;border-radius:50%;animation:spn .9s linear infinite;vertical-align:middle;margin-right:6px}@keyframes spn{to{transform:rotate(360deg)}}';document.head.appendChild(st)}catch(e){}})();
+window.clRedraw=function(){try{if(!g&&ui.querySelector('.mpan'))menuMain()}catch(e){}};
+// ---- Recently deleted: 5 kept, mirrored to IndexedDB + the cloud ----
+window.trashMerge=function(...lists){const m={};lists.forEach(L=>(Array.isArray(L)?L:[]).forEach(x=>{if(x&&x.t&&x.s)m[x.t+'|'+(x.n||'')]=x}));return Object.values(m).sort((a,b)=>b.t-a.t).slice(0,DELMAX)};
+// the master list lives in IndexedDB (big) + the cloud (one doc per deleted save); the phone's small storage is just a quick copy
+window.TRASHM=null;
+const trashLocal=()=>{try{return JSON.parse(localStorage.getItem(DELK()))||[]}catch(e){return []}};
+trashL=function(){return trashMerge(trashLocal(),TRASHM||[])};
+window.trashDelCloud=async function(t){try{if(!CL)return;const k=CL.p+'trash_'+t,sn=await CL.d.doc(k).get(),dd=sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null;const n=(dd&&dd.n)||1;for(let i=1;i<Math.max(n,8);i++){try{await CL.d.doc(k+'~'+i).delete()}catch(e){}}await CL.d.doc(k).delete()}catch(e){}};
+window.trashPut=function(L){const prev=TRASHM||[];L=trashMerge(L);TRASHM=L;try{if(CL)prev.filter(x=>!L.some(y=>y.t===x.t)).forEach(x=>trashDelCloud(x.t))}catch(e){}   /* a 6th pushes the oldest out everywhere */
+ 
+ let C=L.slice();while(C.length&&JSON.stringify(C).length>1500000)C.pop();   /* the quick copy never crowds out real saves */
+ while(C.length){try{localStorage.setItem(DELK(),JSON.stringify(C));break}catch(e){C.pop()}}if(!C.length){try{localStorage.removeItem(DELK())}catch(e){}}
+ try{kpPut('trash',JSON.stringify(L),{n:L.length})}catch(e){}
+ /* deleted saves are NOT copied to the cloud (it has a size limit and holds your live careers): phone storage + IndexedDB only */return L};
+window.trashSync=async function(){try{let L=trashLocal();try{const k=await kpGet('trash');if(k&&k.v)L=trashMerge(L,JSON.parse(k.v))}catch(e){}
+ try{if(CL){const sn=await CL.d.doc(CL.p+'trashidx').get(),dd=sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null,idx=dd&&dd.j?JSON.parse(dd.j):[];
+  const got=await Promise.all(idx.filter(x=>!L.some(y=>y.t===x.t)).map(async x=>{try{return await cdGet2(CL.d,CL.p+'trash_'+x.t)}catch(e){return null}}));L=trashMerge(L,got.filter(Boolean))}}catch(e){}
+ return trashPut(trashMerge(L,TRASHM||[]))}catch(e){return []}};
+window.trashAdd=function(d,slot,why){try{const L=trashL();L.unshift({t:Date.now(),slot,n:(d.name||'Save')+(why?' ('+why+')':''),s:ez(JSON.stringify(d))});trashPut(L)}catch(e){}};
+// delete: the save goes to the master list FIRST (all 5 kept), then the slot is cleared exactly as before
+(()=>{try{const _d=slotDel;slotDel=function(i){const d=load(i);if(!d)return _d.apply(this,arguments);const keep=trashL();
+ const r=_d.apply(this,arguments);try{if(!load(i)){const loc=trashLocal(),x=loc.find(y=>y.slot===i&&y.n===d.name&&Date.now()-y.t<60000)||{t:Date.now(),slot:i,n:d.name,s:ez(JSON.stringify(d))};trashPut([x,...keep])}}catch(e){}return r}}catch(e){}})();
+trashRec=function(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=6;k++)if(!load(k)){i=k;break}}if(!i){alert('All 6 slots are full. Delete one first.');return trashV()}
+ try{localStorage.setItem(K+'_'+i,x.s)}catch(e){try{zSquash();localStorage.setItem(K+'_'+i,x.s)}catch(e2){alert('Not enough room on this phone to recover it right now. It stays in Recently deleted.');return trashV()}}
+ try{zTombSet(i,0)}catch(e){}L.splice(j,1);trashPut(L);try{trashDelCloud(x.t)}catch(e){}menuMain()};
+trashGone=function(j){if(!window.CF_OK&&!confirm('Delete this save forever?'))return;const L=trashL(),x=L[j];L.splice(j,1);trashPut(L);try{if(x)trashDelCloud(x.t)}catch(e){}trashV()};
+window.sameCareer=function(a,b){try{return !!a&&!!b&&(a.seed!=null&&b.seed!=null?a.seed===b.seed:a.name===b.name)}catch(e){return false}};
+// ---- the cloud check: all slots at once, the menu shows it's loading until it's done ----
+// (same rules as m138: split cloud pieces, the cloud never replaces a save already on this phone, a newer cloud copy is
+//  offered on the menu) but every slot at once, and the menu shows it's loading until all six are done
+cloudInit=async function(){try{if(typeof claude=='undefined'){CLerr='not available in this view';return}const u=await claude.use('user'),d=await claude.use('db');if(!u||!d){CLerr='permission not granted';return}const id=await u.id();if(!id){CLerr='not signed in';return}CL={d,p:'data/users/'+id+'/'};
+ await Promise.all([1,2,3,4,5,6].map(async i=>{try{const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(lr):null;
+  if(cs&&cs.T&&!((zTomb()[i]||0)>=(cs.ts||0))&&(!ls||(ls.ts||0)<(cs.ts||0))){
+   if(ls&&ls.T){(window.CLOFF=window.CLOFF||{})[i]={ts:cs.ts||0,wk:(cs.wk||0)+1,yr:(cs.y0||2022)+((cs.hist||[]).length),name:cs.name||'',my:{wk:(ls.wk||0)+1,yr:(ls.y0||2022)+((ls.hist||[]).length)}};return}
+   const rv=await cdGet2(d,CL.p+'ro'+i);if(rv)cs.ro=rv;localStorage.setItem(K+'_'+i,JSON.stringify(cs));clRedraw()}
+  else if(ls&&ls.T&&(!cs||(cs.ts||0)<(ls.ts||0))){
+   // a DIFFERENT career in the cloud is never just overwritten: it goes to Recently deleted first
+   if(cs&&cs.T&&!sameCareer(ls,cs)&&!((zTomb()[i]||0)>=(cs.ts||0))){try{const rv=await cdGet2(d,CL.p+'ro'+i);if(rv)cs.ro=rv}catch(e){}trashAdd(cs,i,'was in the cloud')}
+   const c={...ls},ro=c.ro;delete c.ro;await cdPut2(d,CL.p+'slot'+i,c);if(ro)await cdPut2(d,CL.p+'ro'+i,ro)}}catch(e){cloudWarn(e)}}))}catch(e){CLerr=String(e&&e.message||e).slice(0,60)}
+ finally{CLREADY=true;try{await trashSync()}catch(e){}clRedraw()}};
+setTimeout(()=>{if(!CLREADY){CLSLOW=true;clRedraw()}},30000);
+// ---- the menu while loading ----
+(()=>{try{const _m=menuMain;menuMain=function(){const r=_m.apply(this,arguments);try{if(!CLREADY){const pan=ui.querySelector('.mpan');if(pan){
+  const sp=document.createElement('div');sp.className='card';sp.setAttribute('data-clload','1');sp.style.textAlign='left';
+  sp.innerHTML=CLSLOW?'<span class=spin></span><b>Still loading your saves…</b><br><small>The cloud is slow right now. Empty slots are unlocked, but the game will ask before starting a career in one.</small>':'<span class=spin></span><b>Loading your saves…</b><br><small>Getting your careers from your cloud backup. Empty slots unlock when it\'s done.</small>';
+  const first=pan.querySelector('button');if(first)pan.insertBefore(sp,first);else pan.appendChild(sp);
+  pan.querySelectorAll('button').forEach(b=>{const oc=b.getAttribute('onclick')||'';if(/newC\(\)/.test(oc)){if(CLSLOW){b.setAttribute('onclick',`if(confirm('Your saves are still loading from the cloud. A career might still be on its way to this slot. Start a new career here anyway?')){${oc}}`)}else{b.disabled=true;b.style.opacity='.6';b.innerHTML='<span class=spin></span>'+b.textContent.replace(/New career/,'loading…')}}})}}}catch(e){}return r}}catch(e){}})();
+// no cloud in this view: nothing to wait for
+setTimeout(()=>{try{if(typeof claude=='undefined'){CLREADY=true;trashSync();clRedraw()}}catch(e){}},0);
+// ===== 🎯 SWIPE: back to how it felt, plus throwaways and the flick to a nearby back =====
+// Tyler, 2026-11-15: "I feel like Swipe to Throw actually just took a step back. The game I played last time, I felt like
+// almost every throw went to where I was going ... I'm not asking for a switch up, I'm asking for a fix" + "I was running all
+// the way to the left and I like swiped to the left as fast as I can ... I was trying to throw that away, but I ended up just
+// throwing to a receiver ... I was obviously throwing it to the left and for whatever reason it threw it all the way to the
+// right" + "The running back dump off fucked up on me on my 2-point conversions ... it's obvious I'm going to him".
+// What I broke (m168, the "deep swipe never goes to the back" fix): when your finger let go above the horizon it picked the
+// deepest man ANYWHERE, so a hard swipe left could go right; and it overrode picks that weren't backs at all.
+//  1. The deep fix now only steps in when your finger let go ON the field 15+ yards out and the pick was a short man; it
+//     can only switch to a deep man on that side (within 12 yards of where you aimed), never across the field. Everything else is the swipe you liked.
+//  2. A flick in a man's direction that overshoots him (short dump-offs, the 2-point flick to the back) now goes to him: if
+//     nobody is under your finger or out along the line, the man most in line with the swipe (within ~17°) gets it.
+//  3. Throwaway: let go past the sideline and the ball goes out of bounds (incomplete), unless your finger is on a man.
+window.swDeepFix=function(r,A,P){try{const q=P&&P.qb;if(!r||!A||!A.G||!q||A.d<15)return r;const back=w=>(w.y+(w.vy||0)*.8-q.y)<Math.min(A.d,40)*.45;if(!back(r.w))return r;
+ const el=(P.wr||[]).filter(w=>w&&!w.out&&!back(w)&&Math.abs(w.x-A.G[0])<12);if(!el.length)return r;
+ let best=null,bd=1e9;el.forEach(w=>{const d=Math.hypot(w.x-A.G[0],(w.y-A.G[1])*.6);if(d<bd){bd=d;best=w}});return best?{w:best,how:'deep',off:bd}:r}catch(e){return r}};
+window.swOkT=function(w,L,q,ws){try{const dL=L[1]-q.y;if(dL<15)return true;const back=x=>(x.y-q.y)<Math.min(dL,40)*.45;if(!back(w))return true;return !ws.some(x=>x&&!x.out&&!back(x)&&Math.abs(x.x-L[0])<12)}catch(e){return true}};
+// 2: the man most in line with the swipe, when nothing else claimed the throw
+window.swDirPick=function(rx,ry,ox,oy){try{const P=g.pl,q=P&&P.qb;if(!P||!q)return null;const vx=rx-ox,vy=ry-oy,vl=Math.hypot(vx,vy);if(vl<25)return null;const ux=vx/vl,uy=vy/vl;
+ let best=null,ba=1e9;(P.wr||[]).filter(w=>w&&!w.out&&w.y>q.y-4).forEach(w=>{const s=pj(w.x,w.y,1.0);if(!s||!swOnScr(s))return;const ax=s[0]-ox,ay=s[1]-oy,al=ax*ux+ay*uy;if(al<8)return;const an=Math.atan2(Math.abs(ax*uy-ay*ux),al);if(an<=.30&&an<ba){ba=an;best=w}});
+ return best?{w:best,how:'dir',off:ba}:null}catch(e){return null}};
+// the swipe pick, in order: (1) the man under your finger, (2) the man out along the line you drew, (3) the man most in
+// line with the flick. Rules 1-2 are the m111 swipe Tyler liked, unchanged, except that a man who is OFF your screen can't
+// be picked by the line (Tyler: "I could only see the running back on my screen").
+window.swOnScr=s=>!!s&&s[0]>=-12&&s[0]<=W+12&&s[1]>=-12&&s[1]<=H+12;
+window.swPickCore=function(rx,ry,ox,oy){try{const P=g.pl;if(!P||rx==null)return null;const q=P.qb;const el=(P.wr||[]).filter(w=>w&&!w.out&&(!q||w.y>q.y-4));if(!el.length)return null;
+ let hit=null,bd=1e9;el.forEach(w=>{const s=pj(w.x,w.y,1.0);if(!s)return;const d=Math.hypot(s[0]-rx,s[1]-ry),R_=swHitR(w);if(R_>0&&d<R_&&d<bd){bd=d;hit=w}});if(hit)return{w:hit,how:'box',off:bd};
+ const vx=rx-ox,vy=ry-oy,vl=Math.hypot(vx,vy);if(vl<20)return null;const ux=vx/vl,uy=vy/vl;let best=null,bs=1e9;
+ el.forEach(w=>{const s=pj(w.x,w.y,1.0);if(!s||!swOnScr(s))return;const ax=s[0]-ox,ay=s[1]-oy,along=ax*ux+ay*uy;if(along<vl*.45)return;const perp=Math.abs(ax*uy-ay*ux);if(Math.atan2(perp,along)>.40)return;const sc=perp+Math.abs(along-vl)*.2;if(sc<bs){bs=sc;best=w}});
+ return best?{w:best,how:'ray',off:bs}:null}catch(e){return null}};
+window.swPick=function(rx,ry,ox,oy){let r=swPickCore(rx,ry,ox,oy);try{r=swDeepFix(r,swAimD(rx,ry),g.pl)}catch(e){}if(r)return r;return swDirPick(rx,ry,ox,oy)};
+// 3: throwaway
+window.swAway=function(rx,ry){try{const P=g.pl,q=P&&P.qb;if(!P||!q||rx==null||typeof cm=='undefined'||!cm)return null;const G=upj(rx,ry);if(!G)return null;if(G[0]>-0.5&&G[0]<53.8)return null;return G}catch(e){return null}};
+(()=>{try{const _s=swThrow;swThrow=function(sx,sy,p,x0,y0,pts,rx,ry){try{const P=g.pl,q=P&&P.qb;
+ if(P&&q&&!P.air&&P.car===q&&rx!=null){const G=swAway(rx,ry);if(G){let box=null;try{let O=(CAMI==1&&!g.sw)?[W/2,H*.84]:(swBall()||pj(q.x,q.y,1.4));const h=O&&_pBox(rx,ry,O);box=h}catch(e){}
+  if(!box){const w=(P.wr||[]).filter(x=>x&&!x.out).sort((a,b)=>Math.abs(a.x-G[0])-Math.abs(b.x-G[0]))[0];if(w){const ly=Math.min(G[1],q.y+thrR()*.8);P.swq=1;g.swp={p:Math.round(Math.min(1,p)*100),t:performance.now()};doThrow(w,G[0]<0?-3:56.5,ly);return}}}}}catch(e){}
+ return _s.apply(this,arguments)}}catch(e){}})();
+// "under the finger" only (the first rule of swPick): a man right where you let go always wins over a throwaway
+window._pBox=function(rx,ry){try{const P=g.pl,q=P.qb;let hit=null,bd=1e9;(P.wr||[]).filter(w=>w&&!w.out&&(!q||w.y>q.y-4)).forEach(w=>{const s=pj(w.x,w.y,1.0);if(!s)return;const d=Math.hypot(s[0]-rx,s[1]-ry),R_=swHitR(w);if(R_>0&&d<R_&&d<bd){bd=d;hit=w}});return hit}catch(e){return null}};
+// ===== 🏈 FUMBLES: rare, the way they are in real games =====
+// Tyler, 2026-11-15: "I feel like I'm seeing too many fumbles. They don't fumble every game ... quarterbacks with good
+// carrying don't usually fumble more than 3 or 4 times a year ... compare that to mid carrying and below average
+// carrying. Definitely should not be a once a game thing."
+// Why it happened: the fumble chance (m165) is rolled on EVERY tackle of whoever has the ball. I had sized it for a QB's
+// ~10 hits a game, but backs and receivers are tackled ~40 times a game, so the team fumbled about once a game.
+// Now the chance per tackle depends on who has the ball:
+//   your QB (carrying):   2% x ((100 - carrying) / 35)^1.6 per tackle (x1.5 on a sack), ~7 tackles a game
+//                         -> carrying 99: almost never · 90: ~0.5 a season · 80: ~1.5 · 65: ~3 · 50: ~5
+//   backs / receivers (hands): 0.6% x ((100 - hands) / 35)^1.6 per tackle -> the whole group ~1 fumble every 4 games
+// Simulated games use the QB numbers. Recovery, returns and everything after a fumble are unchanged.
+window.FUMQB=0;
+window.fumHit=function(sec){const base=window.FUMQB?.02:.006;return base*Math.pow(Math.max(.4,100-(sec||60))/35,1.6)};
+(()=>{try{const _h=hit;hit=function(d){try{window.FUMQB=!!(g&&g.pl&&g.pl.car&&g.pl.car===g.pl.qb)}catch(e){}try{return _h.apply(this,arguments)}finally{window.FUMQB=0}}}catch(e){}})();
+window.simFum=function(){try{window.FUMQB=1;const p=1-Math.pow(1-fumHit(S.q.sec)*1.15,7);return R()<p?1:0}catch(e){return 0}finally{window.FUMQB=0}};
+// ===== 📊 FULL STATISTICS: every stats screen in one place on the player menu =====
+// Tyler, 2026-11-15: "put most of the stats things on the player menu in one section, like you tap on that section and then it
+// shows you all the stats sections such as the league leaders, the all-time leaders, the records, the awards ... just call it
+// full statistics and then it has everything stats wise" + "Your Career stats and legacy leaderboard can go there too."
+// The menu now has one "📊 Full statistics" button (where the first stats button used to be). It opens a page with:
+// your career stats, league stats & leaders, all-time leaders, the record book, league awards, the Heisman watch (college),
+// the GOAT list & legacy leaderboard, and league history. Each screen works exactly as before.
+window.FSTAT=[['career()','📇 Your career stats'],['lgsV()','📊 League stats & leaders · pro & college'],['lbV()','📈 All-time leaders'],['recV()','🏆 Record book'],
+ ['awV()','🏅 League awards'],['hwV()','🏅 Heisman watch'],['goatV()','🐐 GOAT list & legacy leaderboard'],['lhV()','📜 League history']];
+window.fstatV=function(){try{scene('lock')}catch(e){}const have=window.FSTATHAVE||FSTAT.map(x=>x[0]);ui.style.display='block';
+ ui.innerHTML=`<div><h2>📊 Full statistics</h2><div class=card><small>Everything stats: your career, the leaders, the records, the awards and the legacy board.</small></div>
+ ${FSTAT.filter(x=>have.includes(x[0])).map(x=>`<button onclick="${x[0]}">${x[1]}</button>`).join('')}<button class=g onclick="hub()">↩️ Back to player menu</button></div>`;ui.scrollTop=0};
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const root=ui;if(!root||root.querySelector('[data-fstat]'))return r;const set=FSTAT.map(x=>x[0]);
+ const B=[...root.querySelectorAll('button')].filter(b=>{const oc=(b.getAttribute('onclick')||'').trim();if(!set.includes(oc))return false;
+   if(oc==='career()')return /^Career stats$/.test(b.textContent.trim());return true});
+ if(B.length<2)return r;window.FSTATHAVE=['career()',...B.map(b=>(b.getAttribute('onclick')||'').trim())];
+ const nb=document.createElement('button');nb.setAttribute('data-fstat','1');nb.className=B[0].className||'';nb.textContent='📊 Full statistics';nb.setAttribute('onclick','fstatV()');
+ B[0].parentNode.insertBefore(nb,B[0]);B.forEach(b=>b.remove())}catch(e){}return r}}catch(e){}})();
+// ===== ⏱ COLLEGE FIRST DOWN: the clock starts again once you're set at the line =====
+// Tyler, 2026-11-15: "after you get a first down in college, usually once you get up to the line at the clock will start moving
+// again. You get a huddle, but once you're at the line, the game clock will start moving." (College: in the last 2 minutes of
+// each half a first down stops the clock until the ball is ready; before that it keeps running, as it already did.)
+(()=>{try{const _p=pick;pick=function(c,i){const r=_p.apply(this,arguments);try{if(g&&g.fdStop&&!g.ot){g.fdStop=0;g.cr=true;g.note='Ball is set: the clock is running'}}catch(e){}return r}}catch(e){}})();
+// ===== 🆓 FREE AGENTS TO START WITH · PLAY AS AN EXISTING FREE-AGENT QB =====
+// Tyler, 2026-11-15 (FREE AGENT LIST + "EXISTING FREE-AGENT QUARTERBACK CAREER MODE"): "These are just free agents to start out
+// with that can be picked up at any time. Teams don't have to pick them up ... if someone wants to play as a existing free agent
+// quarterback, let them." Spec: a FREE AGENT QUARTERBACKS section at the bottom of the existing-QB screen; 2-4 realistic offers
+// (role, years, salary, why); sign with one; GSPN treats it as a veteran's second chance; his previous NFL career stays part
+// of his history; "Do not invent championships, awards, statistics, or previous teams"; normal pro career afterwards.
+// Previous teams below are only the ones I am sure of. No previous-season stats are made up: his game career totals start
+// from his first snap in this save, and his card says which teams he played for before. Jake Portals' rating was "TBD": 60.
+// [name, pos, ovr, age (2026), previous teams, QB style, his story]
+window.FA26=[
+ ['James Garo','QB',66,35,'NE, SF, LV, LAR','Field General (balanced)','A former starter with a long winning record as a starter, most recently a veteran backup. He wants one more real shot.'],
+ ['Johnny Football','QB',57,34,'CLE','Scrambling strong arm','Once one of the most famous college quarterbacks ever, his NFL run was short. Years away from the league, he wants to prove he still belongs.'],
+ ['Kellen Kapper','QB',61,39,'SF','Mobile','A former starter who once took his team all the way to the championship game. Out of the league for years, he says he never stopped training.'],
+ ['Rob Griffith III','QB',70,36,'WAS, CLE, BAL','Mobile','A former Offensive Rookie of the Year whose injuries changed his career. He is healthy and wants another chance.'],
+ ['Rylan Tannen','QB',69,38,'MIA, TEN','Field General (balanced)','A long-time starter for two teams, now a veteran who wants to help a quarterback room win.'],
+ ['Jake Portals','QB',60,34,'JAX, LAR','Scrambling strong arm','A former top-3 pick and former starter trying to revive his career.'],
+ ['Cameron Nugent','QB',68,37,'CAR, NE','Scrambling strong arm','A former league MVP who carried his team to the title game. Out of the league since 2021, he wants back in.'],
+ ['Nick Parkerman','QB',42,32,'BUF, LV, CHI','Field General (balanced)','A journeyman who has never stuck anywhere. Teams see a camp arm; he wants to prove them wrong.'],
+ ['Devin Turner-Robertson','QB',67,26,'CLE','Mobile','A young quarterback with starting experience, looking for a place to compete.'],
+ ['Mike Coral','QB',64,27,'CAR','Mobile','A former college star whose rookie year ended before it started with an injury. He is still young and wants his shot.'],
+ ['Taylen Hills','QB',76,36,'NO','Mobile','A do-everything veteran (quarterback, runner, receiver, special teams) and a coach\'s favorite, looking for one more team.'],
+ ['Tyron Hills','WR',89,32,'KC, MIA','',''],['Jalen Ross','WR',72,31,'CIN, NYG','',''],['KJ Ham','WR',69,27,'DEN','',''],['Lav Shen','WR',71,28,'JAX, CAR','',''],['Desmond Mills','WR',69,29,'NYJ','',''],
+ ['Raymond Monster','RB',78,34,'SF, MIA','',''],['Kerry Hunter','RB',77,31,'KC, CLE','',''],
+ ['Mason Latimer','CB',86,30,'NO, WAS','',''],['Brett Waggoner','LB',85,36,'SEA, LAR, WAS','',''],['Taco Charles','DE',70,32,'DAL, KC','','']];
+window.fa26Make=function(e){const [n,pos,ovr,age,prev,sty,story]=e;return {n,pos,num:(NR[pos]||[1,99])[0],ovr,pot:ovr,age,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},prev:prev.split(',')[0].trim(),prevAll:prev,fa:2026,fa26:1,sty:sty||null,story:story||null}};
+// every save gets them once (new saves at the start, others the first time they load), never twice, never over a name in use
+window.fa26Add=function(s){try{s=s||S;if(!s||s.fa26)return 0;const y=(s.y0||2022)+((s.hist||[]).length);if(y>2028){s.fa26=1;return 0}
+ s.ro=s.ro||{};if(!Array.isArray(s.ro.fa))s.ro.fa=[];const used=new Set();for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach(x=>x&&used.add(x.n))}if(s.vetP)used.add(s.vetP.n);
+ let n=0;FA26.forEach(e=>{if(used.has(e[0]))return;s.ro.fa.push(fa26Make(e));n++});s.fa26=1;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{fa26Add(s)}catch(e){}return s}}catch(e){}})();
+(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.fa26){fa26Add(S);save()}}catch(e){}return r}}catch(e){}})();
+// the free-agent pool survives the move to the pros (proStart rebuilds the rosters from the pro teams only)
+(()=>{try{const _p=proStart;proStart=function(){const fa=(S&&S.ro&&Array.isArray(S.ro.fa))?S.ro.fa:null;const r=_p.apply(this,arguments);try{if(fa&&S.ro){if(!Array.isArray(S.ro.fa))S.ro.fa=[];const have=new Set(S.ro.fa.map(x=>x&&x.n));fa.forEach(x=>{if(x&&!have.has(x.n))S.ro.fa.push(x)})}}catch(e){}return r}}catch(e){}})();
+// ---- the existing-QB screen: FREE AGENT QUARTERBACKS at the bottom ----
+window.faqList=function(){try{return (S.ro&&Array.isArray(S.ro.fa)?S.ro.fa:[]).filter(x=>x&&x.pos==='QB').slice().sort((a,b)=>(b.ovr||0)-(a.ovr||0))}catch(e){return []}};
+(()=>{try{const _t=tkPick;tkPick=function(){const r=_t.apply(this,arguments);try{const L=faqList();if(!L.length)return r;const d=ui.firstElementChild;const back=d&&[...d.querySelectorAll(':scope > button')].pop();
+ const c=document.createElement('div');c.className='card';c.setAttribute('data-faq','1');
+ c.innerHTML=`<b>🆓 FREE AGENT QUARTERBACKS</b><br><small>Veterans without a team. You keep his age, rating and history, and get offers from teams that need a quarterback.</small>`+L.map(x=>`<div class=row style="font-size:16px;gap:6px"><span><b>${esc(x.n)}</b> <small>QB · age ${x.age} · ${x.ovr} OVR${x.prevAll||x.prev?' · formerly '+esc(x.prevAll||x.prev):''}</small></span><button class=g style="width:auto;flex:none" onclick="faqGo('${encodeURIComponent(x.n)}')">Play</button></div>`).join('');
+ if(back)d.insertBefore(c,back);else(d||ui).appendChild(c)}catch(e){}return r}}catch(e){}})();
+// ---- the offers ----
+window.faqTeams=function(ovr,age){const out=[];(S.pro||[]).forEach((t,i)=>{try{/* read only: a roster is never built here (building it early let later steps replace people it had just made) */const L=(S.ro&&S.ro['p.'+i])||[];const q=QBP[pIdx(t)];let st=L[0]&&L[0].pos==='QB'?L[0]:L.find(x=>x&&x.pos==='QB');if(!st&&q)st={n:q[0],ovr:q[1],age:q[2]};const qbs=L.filter(x=>x&&x.pos==='QB'&&x!==st);const bk=qbs.slice().sort((a,b)=>(b.ovr||0)-(a.ovr||0))[0];
+ const so=st?st.ovr||70:60,bo=bk?bk.ovr||55:(55+Math.abs(hsh(String(S.seed)+'bk'+t.n))%14),old=st&&(st.age||0)>=36?6:0;let role=null,fit=0,why='';
+ if(ovr>=so-3){role='Competing for the starting job';fit=12+(ovr-so)+old;why=`Their starter${st?' '+st.n:''} is rated ${so}${old?' and getting old':''}. They want real competition at quarterback.`}
+ else if(ovr>=bo+2){role='Backup quarterback';fit=6+(ovr-bo)+old-(so>=88?2:0);why=`Their backup is rated ${bo}. They want a veteran behind ${st?st.n:'their starter'}.`}
+ else if(ovr>=bo-3&&age<38){role='Depth (QB3), compete in camp';fit=2+(ovr-bo)/2;why='They want an experienced arm in the quarterback room.'}
+ if(!role||(so>=88&&bo>=ovr))return;const comp=role[0]==='C',yrs=age<30?2:1,sal=+(comp?Math.max(1.5,(ovr-55)*.45+Math.max(0,fit-12)*.15):role[0]==='B'?Math.max(1.2,(ovr-55)*.2+Math.max(0,fit-6)*.12):1.2).toFixed(1);
+ out.push({i,team:tn(t),code:tAb(t),role,yrs,sal,why,fit:fit+((Math.abs(hsh(String(S.seed)+t.n))%100)/100)})}catch(e){}});
+ out.sort((a,b)=>b.fit-a.fit);let L=out.slice(0,4);if(L.length>2)L=L.filter((x,k)=>k<2||x.fit>=out[0].fit-12);return L};
+window.FAQ=null;
+window.faqGo=function(nEnc){const n=decodeURIComponent(nEnc);const x=faqList().find(p=>p.n===n);if(!x)return;const O=faqTeams(x.ovr,x.age);FAQ={n,O};
+ ui.style.display='block';ui.innerHTML=`<div><h2>🆓 ${esc(n)}</h2><div class=card><small>QB · age ${x.age} · ${x.ovr} OVR · formerly ${esc(x.prevAll||x.prev||'')}</small><br>${esc(x.story||'A veteran quarterback looking for another chance.')}</div>
+ <div class=card><b>Teams calling</b><br><small>${O.length} team${O.length==1?'':'s'} want to talk. Pick one.</small></div>
+ ${O.map((o,k)=>`<div class=card><b>${esc(o.team)}</b> <small>(${esc(o.code||'')})</small><br><small><b>${o.role}</b> · ${o.yrs} year${o.yrs>1?'s':''} · $${o.sal}M a year</small><br><small>${esc(o.why)}</small><button onclick="faqSign(${k})">Sign with ${esc(o.team)}</button></div>`).join('')||'<div class=card>No team needs him right now.</div>'}
+ <button class=g onclick=tkPick()>Back</button></div>`;ui.scrollTop=0};
+// ---- signing: he joins the team, the starter stays the starter (unless he beats him), nobody is removed ----
+window.faqSign=function(k){const F=FAQ;if(!F)return;const o=F.O[k];if(!o)return;const fa=S.ro.fa,ix=fa.findIndex(p=>p.n===F.n);if(ix<0)return;const x=fa[ix];
+ TKGO=1;try{S.name=x.n;S.age=x.age;S.dr={done:0,pk:224,P:[],picks:[]};S.npxd=1;proStart(o.i,-1)}catch(e){console.warn(e)}finally{TKGO=0}
+ S.ro.fa=S.ro.fa||fa;const k2=S.ro.fa.findIndex(p=>p.n===x.n);if(k2>=0)S.ro.fa.splice(k2,1);   /* he is the player now (one person, not two) */
+ try{const A=AR.find(a=>a.n===x.sty);if(A)S.arch=A.n;const b0={...S.q};let lo=31,hi=160,best=null;for(let i=0;i<30;i++){const m=(lo+hi)/2;S.q={...b0};rescaleTo(m);const ov=qo(S.q);if(!best||Math.abs(ov-x.ovr)<Math.abs(qo(best)-x.ovr))best={...S.q};if(ov<x.ovr)lo=m;else if(ov>x.ovr)hi=m;else break}S.q=best}catch(e){}
+ const L=rost('h.0');/* the team's starter: proStart already kept him (S.vetP, his own id); he stays the starter until beaten */if(!S.vetP||S.vetP.n===x.n){const st=(S.pro[o.i]&&rost('h.0').find(y=>y&&y.pos==='QB'&&y.n!==x.n))||null;if(st)S.vetP={...st}}S.vet=S.vetP?S.vetP.n:'Starter';S.sq=S.vetP?S.vetP.ovr:60;
+ L[0]={n:x.n,pos:'QB',num:x.num||ri(1,19),ovr:qo(S.q),age:x.age,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},pid:x.pid||null,fa26:1};S.num=L[0].num;S.jy=S.jy||{};S.jy.nm=String(x.n).split(' ').pop().toUpperCase().slice(0,12);
+ S.py=Math.max(2,x.age-21);S.tkY=S.py;S.tk=x.n;S.ct={yrs:o.yrs,sal:o.sal,gtd:0,inc:0,team:tn(S.T[0])};S.cash=Math.round(Math.max(1,(x.ovr-55))*.35*1e6/1000)*1000;S.pop=cl(40+Math.round((x.ovr-60)*.8)+(/Football|Nugent|Griffith/.test(x.n)?12:0),30,90);S.aw=[];S.cst=null;
+ S.prevNFL={teams:x.prevAll||x.prev||'',story:x.story||'',role:o.role,y:yrN()};
+ const hl=[`A Second Chance: ${x.n} returns with the ${o.team}`,`${o.team} take a chance on veteran QB ${x.n}`,`Can ${x.n} revive his career in ${o.team.split(' ')[0]}?`][Math.abs(hsh(x.n))%3];
+ const body=`${x.n} (${x.age}, formerly ${x.prevAll||x.prev}) signs a ${o.yrs}-year deal worth $${o.sal}M a year. Role: ${o.role.toLowerCase()}. ${x.story||''}`;
+ try{twAdd({a:'GSPN',h:'GSPN',v:1,t:hl+' · '+body})}catch(e){}S.fmsg=(S.fmsg?S.fmsg+' ':'')+'📺 GSPN: '+hl;
+ HM=`🆓 You are ${x.n}, signed by the ${o.team}: ${o.role.toLowerCase()}. ${S.sq>qo(S.q)+2?S.vet+' ('+S.sq+') is the starter: outplay him in practice to win the job.':'You can win the starting job right away.'}`;save();hub()};
+// his card: the previous NFL career, kept apart from this one
+(()=>{try{const _c=career;career=function(){const r=_c.apply(this,arguments);try{if(S&&S.prevNFL&&!ui.querySelector('[data-prev]')){const d=ui.firstElementChild||ui;const c=document.createElement('div');c.className='card';c.setAttribute('data-prev','1');
+ c.innerHTML=`<b>📜 Before this save: previous NFL career</b><br><small>Teams: ${esc(S.prevNFL.teams)}. ${esc(S.prevNFL.story||'')}<br>His game stats here start from his first snap with the ${esc(S.ct&&S.ct.team||'')} (no earlier seasons are made up).</small>`;
+ const h=d.querySelector('h2');if(h)h.after(c);else d.prepend(c)}}catch(e){}return r}}catch(e){}})();
+// ===== ➕ EXISTING ROSTER ADDITIONS (21 real-life counterparts) =====
+// Tyler, 2026-11-15 ("FOOTBALL MAN — EXISTING ROSTER ADDITIONS"): "have these players and make sure they have the right player
+// history. They obviously have counterparts ... they should not replace anyone already made unless their character is someone
+// that are already made, then they should replace that version of them ... current saves too? ... player lives matter. Just
+// needs to be preserved".
+// None of the 21 already exists in the game (checked against every named player), so nobody is replaced.
+// New saves: each one is placed on his team when that roster is first built (like every other named player).
+// Current saves: each one joins his team; the generic player in that spot moves to free agency (nobody deleted, no name changes).
+// History: his real draft (year, round, pick, team, college) and the teams he really played for. The game does not have his
+// real season-by-season stats, so none are made up: his stat lines start in this save. (The usual history generator would
+// have given him random former teams.)
+// [pro team index (league order), roster slot, name, ovr, age (2026), number, draft {y,r,p,tm,col}, teams before]
+window.ADD26=[
+ [22,1,'Joshua Jackrabbit',94,28,8,{y:2019,r:1,p:24,tm:'LV',col:'Alabama'},'LV, GB'],
+ [21,2,'Apollo St. Gold',96,27,14,{y:2021,r:4,p:112,tm:'DET',col:'USC'},'DET'],
+ [24,2,'Blake Paris',91,25,5,{y:2022,r:1,p:8,tm:'ATL',col:'USC'},'ATL'],
+ [4,2,'Clay Roses',90,26,4,{y:2023,r:1,p:22,tm:'BAL',col:'Boston College'},'BAL'],
+ [25,2,'Krispo Wave',92,26,12,{y:2022,r:1,p:11,tm:'NO',col:'Ohio State'},'NO'],
+ [0,2,'Gavin Whistle',91,26,17,{y:2022,r:1,p:10,tm:'NYJ',col:'Ohio State'},'NYJ'],
+ [30,5,'Troy McKnight',98,27,85,{y:2022,r:2,p:55,tm:'ARI',col:'Colorado State'},'ARI'],
+ [4,5,'Marcus Endzone',84,31,89,{y:2018,r:3,p:86,tm:'BAL',col:'Oklahoma'},'BAL'],
+ [3,18,'Christopher Gonzalez',91,24,0,{y:2023,r:1,p:17,tm:'NE',col:'Oregon'},'NE'],
+ [27,12,'Derek Black',87,28,95,{y:2020,r:1,p:7,tm:'CAR',col:'Auburn'},'CAR'],
+ [12,12,'Chris Bones',94,32,95,{y:2016,r:2,p:37,tm:'KC',col:'Mississippi State'},'KC'],
+ [26,12,'Vito Ve',93,31,50,{y:2018,r:1,p:12,tm:'TB',col:'Washington'},'TB'],
+ [4,16,'Rohan Steele',93,29,0,{y:2018,r:1,p:8,tm:'CHI',col:'Georgia'},'CHI, BAL'],
+ [6,18,'Darius Guard',92,29,21,{y:2018,r:1,p:4,tm:'CLE',col:'Ohio State'},'CLE'],
+ [24,20,'Jesse Baits III',95,29,3,{y:2018,r:2,p:54,tm:'CIN',col:'Wake Forest'},'CIN, ATL'],
+ [15,20,'Darwin Games',93,30,3,{y:2018,r:1,p:17,tm:'LAC',col:'Florida State'},'LAC'],
+ [4,20,'Kyler Hambleton',95,25,14,{y:2022,r:1,p:14,tm:'BAL',col:'Notre Dame'},'BAL'],
+ [26,20,'Antonio Windfield Jr.',91,28,31,{y:2020,r:2,p:45,tm:'TB',col:'Minnesota'},'TB'],
+ [13,6,'Garrett Brickwall',94,34,72,{y:2017,r:1,p:20,tm:'DEN',col:'Utah'},'DEN'],
+ [20,7,'Joey Tune',96,34,62,{y:2016,r:3,p:78,tm:'NE',col:'NC State'},'NE, KC, CHI'],
+ [26,6,'Tristan Whirley',96,27,78,{y:2020,r:1,p:13,tm:'TB',col:'Iowa'},'TB']];
+window.ADD26N=new Set(ADD26.map(e=>e[2]));
+window.add26Fix=function(x,e){x.h=[];x.cs={};x.tm=[];x.aw={};x.ny=0;x.dr={...e[6]};x.prevTeams=e[7];x.num=e[5];x.add26=1};
+// new saves: the normal named-player path (PKS), then his history is set to the real one
+// new saves: their teams' rosters are built at the start and they join exactly like in a current save (never through the
+// roster builder, which would also give them a made-up past)
+(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.add26&&S.pro){[...new Set(ADD26.map(e=>e[0]))].forEach(pi=>{try{rost('p.'+pi)}catch(e){}});add26Join(S);save()}}catch(e){}return r}}catch(e){}})();
+// current saves: join the team once; the generic player in that spot goes to free agency
+window.add26Join=function(s){try{s=s||S;if(!s||s.add26||!s.pro||!s.ro)return 0;if((s.y0||2022)+((s.hist||[]).length)>2028){s.add26=1;return 0}   /* 2026 ages: not dropped into a save years later */
+ let n=0;const all=new Set();for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach(x=>x&&all.add(x.n))}
+ ADD26.forEach(e=>{const[pi,slot,name,ovr,age]=e;if(all.has(name))return;const t=s.pro[pi];if(!t)return;let key='p.'+pi;if(s.stage==='pro'&&Array.isArray(s.T)){const ix=s.T.indexOf(t)>=0?s.T.indexOf(t):s.T.findIndex(x=>x.n===t.n&&(x.city||'')===(t.city||''));if(ix>=0)key='h.'+ix}
+  const L=s.ro[key];if(!Array.isArray(L)||!L.length)return;   /* roster not built yet: he joins when it is (new-save path above) */
+  let k=slot;const me=key==='h.0'&&s.stage==='pro';const okSlot=j=>{const x=L[j];return x&&!(me&&j===0)&&isGen(x.n)&&!x.add26};
+  if(!okSlot(k)){k=L.findIndex((x,j)=>j>0&&POSL[j]===POSL[slot]&&okSlot(j))}
+  const nx={n:name,pos:POSL[slot],ovr,pot:ovr,age,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{}};add26Fix(nx,e);
+  if(k<0){L.push(nx);n++;return}
+  const old=L[k];if(old){old.prev=(t.ab||t.code||tn(t));old.fa=(s.y0||2022)+((s.hist||[]).length);old.why='roster spot taken by '+name;s.ro.fa=Array.isArray(s.ro.fa)?s.ro.fa:[];s.ro.fa.push(old)}
+  L[k]=nx;n++});s.add26=1;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){s=_m.apply(this,arguments);try{add26Join(s)}catch(e){}return s}}catch(e){}})();
+// his card shows where he came from
+(()=>{try{const _p=pCard;pCard=function(i,j){const r=_p.apply(this,arguments);try{const x=rost('h.'+i)[j];if(x&&x.add26&&!ui.querySelector('[data-add26]')){const d=ui.firstElementChild||ui,c=document.createElement('div');c.className='card';c.setAttribute('data-add26','1');
+ c.innerHTML=`<b>📜 Before this save</b><br><small>Drafted ${x.dr.y}, round ${x.dr.r}, pick ${x.dr.p} by ${esc(x.dr.tm)} out of ${esc(x.dr.col)}. Teams: ${esc(x.prevTeams||x.dr.tm)}. His stats here start in this save.</small>`;const h=d.querySelector('h2');if(h)h.after(c);else d.prepend(c)}}catch(e){}return r}}catch(e){}})();
+// ===== 🏈 QB NEEDS (Tyler's 2026 grades) and how they drive the draft =====
+// Tyler, 2026-11-15: "the grades I give you are the 2026 draft class needs ... C minus or lower, they're almost always looking for
+// a quarterback ... if you're one of the best prospects ever ... you're probably going number one no matter what, as long as their
+// QB need is C plus or below. B minus is up to the team ... If they have a number one overall pick but their quarterback is
+// already a B plus or above ... they would try to trade that pick ... less 10% chance that you get picked by a team with the number
+// one overall pick and they have B plus, even if you're maxed ... you're going to have to adjust that yourself for each season".
+// Injuries are not modelled as a rating (Tyler: "you don't have to make that adjustments"), they only explain his grades.
+// Grades are LG letters: 0 F ... 6 C+, 7 B-, 8 B, 9 B+, 10 A-, 11 A, 12 A+. Order = the league's team order.
+window.QBG26=[2,12,4,11,11,4,6,12,7,3,6,11,12,10,9,7,9,8,10,8,12,10,11,6,5,6,8,7,12,9,3,11];
+window.QBGWHY={1:'Already possibly the greatest player in their history',7:'One of the best QBs in the league, already paid',12:'Their greatest player of all time',20:'Top-8 QB and one of the youngest',28:'Proven as one of the best QBs in the league',
+ 0:'Old veteran, not the franchise guy: would take a QB in round 1',30:'Unproven room: wouldn\'t be surprised by a round-1 QB',9:'Richardson hasn\'t committed: could draft a QB in round 1',2:'Flashes, not consistent: could go QB in round 1',5:'Great but close to retirement',
+ 24:'Flashes, very inconsistent',6:'Decent, not a star; the backup is unknown',10:'Former #1 pick hasn\'t shown it yet',23:'Decent older QB; still needs the franchise guy',25:'Young, good flashes, second year',
+ 8:'Good young QB who wants a big contract',15:'Has played at MVP level; struggling right now',27:'Young, smart, inconsistent',26:'Just paid; has been pretty good',17:'Good QB, older, very expensive',19:'Decent room, health questions',
+ 14:'#1 overall pick and Heisman, hasn\'t played yet',16:'MVP talk and a Super Bowl MVP',29:'Top-12 QB, just extended',13:'Good young QB, clutch, winning',18:'Young former Heisman, lots of potential',21:'Good QB, a little older',3:'Already one of the better QBs and young',4:'One of the best when healthy',11:'Former #1 pick, paid, looking like it',22:'Really good, young, paid',31:'Reigning MVP with a first-round QB behind him'};
+// this season's grade for each team; from 2027 on it follows how the starter is doing (rating, age, belief in young QBs),
+// blended with last year's grade so it moves like a real reputation, not overnight
+window.qbgFor=function(ovr,age){let g=ovr>=95?12:ovr>=92?11:ovr>=89?10:ovr>=86?9:ovr>=83?8:ovr>=80?7:ovr>=77?6:ovr>=74?5:ovr>=71?4:ovr>=68?3:ovr>=65?2:ovr>=60?1:0;
+ if(age>=37)g-=3;else if(age>=35)g-=2;else if(age>=33)g-=1;if(age<=25&&ovr>=78)g+=1;return cl(g,0,12)};
+window.qbStarter=function(pi){try{const t=S.pro[pi];let L=null;if(S.stage==='pro'&&Array.isArray(S.T)){const ix=S.T.indexOf(t);if(ix>=0)L=S.ro['h.'+ix]}if(!L)L=S.ro&&S.ro['p.'+pi];
+ if(S.stage==='pro'&&L===S.ro['h.0'])return {ovr:Math.max(qo(S.q),S.sq||0),age:S.age||25};const q=L&&L.find(x=>x&&x.pos==='QB');if(q)return {ovr:q.ovr||70,age:q.age||28};const Q=QBP[pi];return Q?{ovr:Q[1],age:Q[2]}:{ovr:70,age:28}}catch(e){return {ovr:70,age:28}}};
+window.qbgEns=function(){try{if(!S||!S.pro)return null;const y=yrN();if(!S.qbg){S.qbg={y:Math.max(2026,y),g:QBG26.slice()};if(y<=2026)return S.qbg}
+ while(S.qbg.y<y){S.qbg.y++;S.qbg.g=S.qbg.g.map((g0,pi)=>{const st=qbStarter(pi);return Math.round((g0+qbgFor(st.ovr,st.age))/2)})}return S.qbg}catch(e){return null}};
+window.qbG=function(pi){const Q=qbgEns();return Q&&Q.g[pi]!=null?Q.g[pi]:6};
+window.qbGL=function(pi){return LG[qbG(pi)]};
+// how much a team wants a QB prospect (college -> pro draft and the yearly league draft)
+window.qbAdj=function(pi,p){if(!p||p.pos!=='QB')return 0;const g=qbG(pi),elite=(p.ovr||0)>=95||p.gen;if(g<=6)return elite?14:6;if(g<=8)return elite?4:-2;return R()<.08?0:-15};
+// the college -> pro draft: pick by grade; a B+ or better team holding the #1 pick with an elite QB on top usually trades it
+dSel=function(){const D=S.dr;if(D.pk>=224)return null;D.swap=D.swap||{};let ti=D.swap[D.pk]!=null?D.swap[D.pk]:D.ord[D.pk%32];
+ if(D.guar&&!D.mine&&D.pk==D.guar*32-1)return{ti,i:D.P.findIndex(p=>p.me)};
+ const all=D.P.map((p,i)=>({p,i})).filter(x=>!x.p.tk).sort((a,b)=>dsc(b.p)-dsc(a.p)),top=all[0];
+ if(top&&top.p.pos==='QB'&&((top.p.ovr||0)>=95||top.p.gen)&&qbG(ti)>=9&&D.pk<32&&!D.tr1){D.tr1=1;const u=R();
+  if(u<.7){let j=-1;for(let k=D.pk+1;k<32;k++){const t2=D.swap[k]!=null?D.swap[k]:D.ord[k];if(qbG(t2)<=6){j=k;break}}
+   if(j>0){const t2=D.swap[j]!=null?D.swap[j]:D.ord[j];D.swap[D.pk]=t2;D.swap[j]=ti;(D.news=D.news||[]).push(`🔁 TRADE: the ${tn(S.pro[ti])} (QB need ${qbGL(ti)}) trade pick ${D.pk+1} to the ${tn(S.pro[t2])} (QB need ${qbGL(t2)}) for pick ${j+1}.`);ti=t2}}}
+ const av=all.slice(0,12),mi=all.findIndex(x=>x.p.me);if(mi>=12&&mi<24)av.push(all[mi]);let best=av[0],bs=-1e9;
+ av.forEach(x=>{const s=dsc(x.p)+(typeof potKnowAdj=='function'&&!x.p.me?potKnowAdj(ti,x.p,.35):0)+qbAdj(ti,x.p)+(x.p.me?((D.int||{})[ti]||0):0)+(R()-.5)*7;if(s>bs){bs=s;best=x}});return{ti,i:best.i}};
+// "on the clock" shows the right team after a trade, and the QB need
+(()=>{try{const _h=dhub;dhub=function(){const r=_h.apply(this,arguments);try{const D=S.dr;if(!D)return r;const ti=D.swap&&D.swap[D.pk]!=null?D.swap[D.pk]:D.ord[D.pk%32];const b=[...ui.querySelectorAll('b')].find(x=>/^Pick \d+ of 224/.test(x.textContent));
+ if(b&&D.pk<224){const host=b.parentNode;host.innerHTML=host.innerHTML.replace(/On the clock: [^<]+/,'On the clock: '+tn(S.pro[ti])+' (QB need '+qbGL(ti)+')')}
+ if(D.news&&D.news.length&&!ui.querySelector('[data-drnews]')){const c=document.createElement('div');c.className='card';c.setAttribute('data-drnews','1');c.innerHTML=D.news.map(esc).join('<br>');const d=ui.firstElementChild||ui;d.insertBefore(c,d.children[1]||null)}}catch(e){}return r}}catch(e){}})();
+// a page with every team's QB need (in Full statistics)
+window.qbnV=function(){qbgEns();const L=(S.pro||[]).map((t,pi)=>({t,pi,g:qbG(pi)})).sort((a,b)=>a.g-b.g);ui.style.display='block';
+ ui.innerHTML=`<div><h2>🏈 QB needs ${yrN()}</h2><div class=card><small>How much each team believes in its quarterback. C+ or lower: looking for a QB. B- / B: they'll think about it. B+ and up: they have their guy.</small></div>
+ ${L.map(x=>`<div class=row style="font-size:15px"><span><b>${esc(tn(x.t))}</b>${yrN()<=2026&&QBGWHY[x.pi]?'<br><small>'+esc(QBGWHY[x.pi])+'</small>':''}</span><b style="color:${x.g<=6?'#ff7675':x.g<=8?'#ffd166':'#7bed9f'}">${LG[x.g]}</b></div>`).join('')}<button class=g onclick="typeof fstatV=='function'?fstatV():hub()">↩️ Back</button></div>`;ui.scrollTop=0};
+try{if(window.FSTAT&&!FSTAT.some(x=>x[0]==='qbnV()'))FSTAT.push(['qbnV()','🏈 QB needs (every team)'])}catch(e){}
+(()=>{try{const _f=fstatV;window.fstatV=function(){if(window.FSTATHAVE&&!FSTATHAVE.includes('qbnV()'))FSTATHAVE.push('qbnV()');return _f.apply(this,arguments)}}catch(e){}})();
+// ===== 🏟 COLLEGE: yearly rivalry games, NYPD joins the Penitentiary's conference, Wide Receiver U =====
+// Tyler, 2026-11-15: "Make sure that the conferences are playing each other as much as they should" (checked: 12 games, ~8 in
+// conference, 13 weeks = one bye) + "New York Police Department University should probably be in the same conference as the
+// penitentiary. So, after this season with me and Frank Castle, I would switch them with one of the teams in my conference.
+// And I would make it to where they play every year. Another rivalry game where they play every year is Ohio State versus
+// Michigan ... Alabama versus LSU or Alabama versus Auburn or Alabama versus Georgia ... Double check me on that ... Texas usually
+// plays A&M and Oklahoma" + "For wide receiver U ... a very mid overall team, but it has really good receivers".
+// Checked: rivalries were only guaranteed for YOUR team. The SEC's 2026 nine-game format gives every team 3 yearly opponents:
+// Alabama: Auburn, Tennessee, Mississippi State (LSU and Georgia rotate). Texas: Oklahoma, Texas A&M, Arkansas. Georgia:
+// Florida, Auburn, South Carolina. Those + The Game + the Cops & Robbers Bowl are now played every season by everyone.
+window.RVYEAR=[['NYPD','NYCP'],['OSU','MICH'],['BAMA','AUB'],['BAMA','TENN'],['BAMA','MSST'],['TEX','OU'],['TEX','TAMU'],['TEX','ARK'],['UGA','FLA'],['UGA','AUB'],['UGA','SC']];
+window.rvForce=function(W){try{const T=S.T,ix={};T.forEach((t,i)=>{if(t.ab)ix[t.ab]=i});const has=(a,b)=>W.some(wk=>wk.some(([x,y])=>(x==a&&y==b)||(x==b&&y==a)));const gc=T.map(()=>0);W.forEach(wk=>wk.forEach(([a,b])=>{gc[a]++;gc[b]++}));const LK=new Set(),lk=(p)=>p&&LK.has(Math.min(p[0],p[1])+','+Math.max(p[0],p[1])),lock=(a,b)=>LK.add(Math.min(a,b)+','+Math.max(a,b));
+ RVYEAR.forEach(([A,B])=>{const a=ix[A],b=ix[B];if(a==null||b==null)return;if(has(a,b)){lock(a,b);return}
+  // 1) a week both are free (and both under 12 games)
+  for(const wk of W){const busy=new Set(wk.flat());if(!busy.has(a)&&!busy.has(b)&&gc[a]<12&&gc[b]<12){wk.push([a,b]);gc[a]++;gc[b]++;lock(a,b);return}}
+  // 2) a week where a plays x and b plays y: make it a-b and x-y (if x and y haven't met)
+  for(const wk of W){const ia=wk.findIndex(p=>p.includes(a)),ib=wk.findIndex(p=>p.includes(b));if(ia<0||ib<0||ia===ib||lk(wk[ia])||lk(wk[ib]))continue;const x=wk[ia][0]==a?wk[ia][1]:wk[ia][0],y=wk[ib][0]==b?wk[ib][1]:wk[ib][0];if(x===y||has(x,y))continue;wk[ia]=[a,b];wk[ib]=[x,y];lock(a,b);return}
+  // 4) both busy against teams that already met: they play each other, those two opponents get that week off
+  for(const wk of W){const ia=wk.findIndex(p=>p.includes(a)),ib=wk.findIndex(p=>p.includes(b));if(ia<0||ib<0||ia===ib||lk(wk[ia])||lk(wk[ib]))continue;const x=wk[ia][0]==a?wk[ia][1]:wk[ia][0],y=wk[ib][0]==b?wk[ib][1]:wk[ib][0];wk[ia]=[a,b];wk.splice(ib,1);gc[x]--;gc[y]--;lock(a,b);return}
+  // 3) a week where only a is busy (vs x) and b is free: a-b, x gets the bye
+  for(const wk of W){const ia=wk.findIndex(p=>p.includes(a));const busy=new Set(wk.flat());if(ia>=0&&!lk(wk[ia])&&!busy.has(b)&&gc[b]<12){const x=wk[ia][0]==a?wk[ia][1]:wk[ia][0];wk[ia]=[a,b];gc[x]--;gc[b]++;lock(a,b);return}}
+ })}catch(e){}return W};
+(()=>{try{const _c=colSched;colSched=function(){return rvForce(_c.apply(this,arguments))}}catch(e){}})();
+// NYPD University moves into the Penitentiary's conference (swapping places with that conference's lowest-rated school that isn't
+// yours), after the current college season; new saves start that way
+window.nypdMove=function(){try{if(!S||S.nypdCf||!Array.isArray(S.col))return 0;let A=null,B=null;S.col.forEach((c,ci)=>(c.t||[]).forEach((t,j)=>{if(t.ab==='NYPD')A={ci,j,t};if(t.ab==='NYCP')B={ci,j,t}}));
+ if(!A||!B){S.nypdCf=1;return 0}if(A.ci===B.ci){S.nypdCf=1;return 0}const mine=S.stage==='col'&&S.T&&S.T[0];
+ const cand=S.col[B.ci].t.map((t,j)=>({t,j})).filter(z=>z.t.ab!=='NYCP'&&z.t!==mine&&!(mine&&z.t.n===mine.n)).sort((x,y)=>(x.t.ovr||0)-(y.t.ovr||0))[0];if(!cand)return 0;
+ const kA='c.'+A.ci+'.'+A.j,kB='c.'+B.ci+'.'+cand.j;if(S.ro){const ra=S.ro[kA],rb=S.ro[kB];if(ra||rb){S.ro[kA]=rb;S.ro[kB]=ra;if(!rb)delete S.ro[kA];if(!ra)delete S.ro[kB]}}   /* rosters stay with their own school */
+ S.col[A.ci].t[A.j]=cand.t;S.col[B.ci].t[cand.j]=A.t;if(A.t.cf!=null)A.t.cf=B.ci;if(cand.t.cf!=null)cand.t.cf=A.ci;S.nypdCf=1;S.fmsg=(S.fmsg?S.fmsg+' ':'')+'🚔 NYPD University moves into the Penitentiary\'s conference ('+cand.t.n+' takes its old spot). The Cops & Robbers Bowl is now played every year.';return 1}catch(e){return 0}};
+(()=>{try{const _n=colNext;colNext=function(){const r=_n.apply(this,arguments);try{nypdMove()}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&S.stage!=='col'&&nypdMove())save()}catch(e){}return r}}catch(e){}})();
+// Wide Receiver U: a middle-of-the-pack team with some of the best receivers in the country (once per save)
+window.wruFix=function(){try{if(!S||S.wru||!Array.isArray(S.col))return;let W=null,key=null;S.col.forEach((c,ci)=>(c.t||[]).forEach((t,j)=>{if(t.ab==='WRU'){W=t;key='c.'+ci+'.'+j}}));if(!W)return;
+ if(S.stage==='col'&&Array.isArray(S.T)){const ix=S.T.indexOf(W);if(ix>=0)key='h.'+ix}W.ovr=Math.min(W.ovr||66,68);W.wru=1;const L=S.ro&&S.ro[key];
+ if(Array.isArray(L)&&L.length){L.forEach((x,k)=>{if(x&&x.pos==='WR')x.ovr=Math.max(x.ovr||60,[0,0,90,86,83][k]||82)});S.wru=1}}catch(e){}};
+(()=>{try{const _r=rost;rost=function(a){const L=_r.apply(this,arguments);try{if(S&&!S.wru)wruFix()}catch(e){}return L}}catch(e){}})();
+// ===== ☁️ CLOUD BACKUP: never fills up, cleans itself, retries quietly =====
+// Tyler, 2026-11-15 (screenshot "⚠️ Cloud backup failed (The quota has been exceeded.)"): "no cloud backup should ever fail. Don't
+// ever let it fail ... Everything should save properly and never fail. Why is this popping up anyways?"
+// WHY: the cloud database has a size limit per person. Big saves are split into pieces (m138); when a save got smaller, its old
+// extra pieces were never deleted, and every exported save code left a copy too, so the space filled with leftovers.
+// NOW:
+//  - after every backup, leftover pieces of that save are deleted (only pieces past the current save's end).
+//  - if the cloud says it's full: the game cleans up every slot's leftovers, slots you deleted, and old exported save codes
+//    (your newest code is kept), then backs up again. If it is still full, it keeps your game safe on the phone and in the
+//    phone's backup storage (IndexedDB copies: season ends, checkpoints) and tries again on the next save, without a scary popup.
+//  - the menu's save card shows when the last cloud backup worked.
+window.CLKEEPMAX=24;
+window.cdOrphans=async function(d,k,n){try{for(let i=Math.max(1,n);i<n+CLKEEPMAX;i++){const sn=await d.doc(k+'~'+i).get();if(!sn||!sn.exists){if(i>n+2)break;continue}await d.doc(k+'~'+i).delete()}}catch(e){}};
+window.myCodes=function(){try{return JSON.parse(localStorage.getItem(K+'_codes')||'[]')}catch(e){return []}};
+window.cloudSweep=async function(){try{if(!CL)return;const d=CL.d;
+ for(let i=1;i<=6;i++){const local=lraw(i);for(const b of ['slot','ro']){const k=CL.p+b+i;try{const sn=await d.doc(k).get(),dd=sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null;
+  if(!local&&(zTomb()[i]||0)>0){if(dd){await cdOrphans(d,k,1);await d.doc(k).delete()}continue}   /* a slot you deleted */
+  await cdOrphans(d,k,dd&&dd.n?dd.n:1)}catch(e){}}}
+ try{const t=await d.doc(CL.p+'trashidx').get();if(t&&t.exists){const idx=JSON.parse((typeof t.data=='function'?t.data():t.data).j||'[]');for(const x of idx){await cdOrphans(d,CL.p+'trash_'+x.t,1);await d.doc(CL.p+'trash_'+x.t).delete()}await d.doc(CL.p+'trashidx').delete()}}catch(e){}
+ try{const C=myCodes();const old=C.slice(0,-1);for(const c of old){try{const db=await claude.use('db');for(let i=1;i<12;i++){try{await db.doc('codes/'+c+'~'+i).delete()}catch(e){}}await db.doc('codes/'+c).delete()}catch(e){}}localStorage.setItem(K+'_codes',JSON.stringify(C.slice(-1)))}catch(e){}
+}catch(e){}};
+// every backup: write, then clear that save's leftovers; full -> sweep and try once more
+(()=>{try{const _p=cdPut2;cdPut2=async function(d,k,o){try{const r=await _p.apply(this,arguments);try{const sn=await d.doc(k).get(),dd=sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null;cdOrphans(d,k,dd&&dd.n?dd.n:1)}catch(e){}return r}
+ catch(e){if(/quota|exceed|full|too large|limit/i.test(String(e&&e.message||e))){await cloudSweep();return await _p.apply(this,arguments)}throw e}};cdocPut=cdPut2}catch(e){}})();
+// remember the codes this phone made, so old ones can be cleared
+(()=>{try{const _m=mkCode;mkCode=async function(){const before=window._lastShortCode;const r=await _m.apply(this,arguments);try{const c=window._lastShortCode;if(c&&c!==before){const C=myCodes();C.push(c);localStorage.setItem(K+'_codes',JSON.stringify(C.slice(-6)))}}catch(e){}return r}}catch(e){}})();
+// no scary popup while the game is safe on the phone: one calm note a session, retried on the next save
+(()=>{try{const _w=cloudWarn;window.cloudWarn=function(e){try{CLerr=String(e&&e.message||e).slice(0,80);if(S)S.cloudErr=Date.now();if(!window._clNoted){window._clNoted=1;S&&(S.fmsg=(S.fmsg?S.fmsg+' ':'')+'☁️ Cloud backup is catching up. Your game is saved on this phone and in its backup storage; the cloud copy updates on the next save.')}}catch(_){}}}catch(e){}})();
+// ===== 🧓 RETIREMENTS: stars don't walk away while they're still stars · bring a player back up to 3 years later =====
+// Tyler, 2026-11-15 (screenshot: Jarsh Fallon and Ricky MaClones retiring the same offseason as Matty Gafford): "explain why ...
+// already retired ... If it's my rules, then that needs to be adjusted ... make it where you can override retirements up to three
+// years after retirement. unless they're 41 or older, then you can do two years after retirement".
+// WHY: not his rule. From 35, every QB got a yearly retirement roll (8% at 38) whatever his rating, so a 98 OVR could retire at 38.
+// NOW: a QB still rated 90+ retires only 1 year in 100 until 41 (then half the normal chance); 85-89: about a third of the normal
+// chance; below that, unchanged. Override: any notable player who retired can be talked back for up to 3 seasons after (2 if he
+// was 41 or older), still at most twice in his career. He comes back to the team he retired from (added to the roster, nobody
+// removed), a year older for each season away and a few points rusty.
+(()=>{try{const _q=qbRet;qbRet=function(x){const a=x.age||25,o=x.ovr||0;if(a<35||a>=50)return _q.apply(this,arguments);if(a>=45){if(x.lgv==null)x.lgv=R()<.1?1:0;return R()<(RTP[a]||.5)*(x.lgv?.12:1)}   /* Tyler: from 45 the table's chances apply to everyone, greats too (45: 50%); the rare lifer still can reach 50 */
+ if(o>=90&&a<=41)return R()<.01;const r=_q.apply(this,arguments);if(!r)return false;if(o>=90)return R()<.5;if(o>=85)return R()<.35;return true}}catch(e){}})();
+// keep this offseason's retirements when the next offseason starts (they used to be cleared)
+(()=>{try{const _l=leagueDev;leagueDev=function(){try{S.retArc=S.retArc||[];(S.retq||[]).forEach(e=>{if(e&&!e.done&&!S.retArc.some(z=>z.s&&z.s.n===e.s.n&&z.py===e.py))S.retArc.push(e)});if(S.retArc.length>200)S.retArc.splice(0,S.retArc.length-200)}catch(e){}return _l.apply(this,arguments)}}catch(e){}})();
+window.retWin=function(e){const age=(e.s&&e.s.age)||30,lim=age>=41?2:3,yrs=(S.py||1)-(e.py||0);return yrs>=1&&yrs<=lim&&(e.s.orv||0)<2&&!e.done};
+window.retArcOpen=function(){try{return S.stage=='pro'&&(S.wk||0)==0&&!S.pb&&(S.retArc||[]).some(retWin)}catch(e){return false}};
+window.retBack=function(j){const e=(S.retArc||[])[j];if(!e||!retWin(e)||!retArcOpen())return retV();const yrs=(S.py||1)-e.py,x=JSON.parse(JSON.stringify(e.s));
+ x.age=(x.age||30)+yrs;x.ovr=Math.max(40,(x.ovr||60)-3*yrs);x.orv=(x.orv||0)+1;x.back=(x.back||0)+1;const i=e.i>=0&&S.T[e.i]?e.i:1,L=rost('h.'+i);
+ if(L.some(y=>y&&y.n===x.n)){HM=x.n+' is already on a roster.';return retV()}L.push(x);e.done=1;
+ if(S.alum){for(let a=S.alum.length-1;a>=0;a--)if(S.alum[a].n==x.n){S.alum.splice(a,1);break}}
+ try{lgTx({t:'unretire',n:x.n,pos:x.pos,ovr:x.ovr,age:x.age,from:'Retired',to:(tAb?tAb(S.T[i]):''),d:'Comes out of retirement after '+yrs+' season'+(yrs>1?'s':''),big:true})}catch(_){}
+ save();talk('mate',x.n,['I tried retirement. I wasn\'t done.','The itch never went away. I\'m back.','One more run. Let\'s go.'][ri(0,2)],'happy',[['Welcome back','ovHide();retV()']],x.pos+' · back with the '+tn(S.T[i])+' after '+yrs+' season'+(yrs>1?'s':'')+' away')};
+(()=>{try{const _v=retV;retV=function(){const r=_v.apply(this,arguments);try{const A=(S.retArc||[]).map((e,j)=>({e,j})).filter(z=>retWin(z.e));if(!A.length)return r;const d=ui.firstElementChild||ui,c=document.createElement('div');c.className='card';
+ c.innerHTML='<b>Retired in past seasons</b><br><small>You can bring a player back for up to 3 seasons after he retires (2 if he retired at 41 or older), twice in his career. He returns to his last team.</small>'+A.map(({e,j})=>{const x=e.s,yrs=(S.py||1)-e.py,lim=(x.age||30)>=41?2:3;return `<div class=row style="font-size:16px;gap:6px;align-items:flex-start"><span style="min-width:0"><b>${esc(x.n)}</b> <small>${x.pos} · retired ${yrs} season${yrs>1?'s':''} ago at ${x.age} · was ${x.ovr} OVR · ${lim-yrs} more season${lim-yrs==1?'':'s'} to decide</small></span>${retArcOpen()?`<button class=g style="flex:none" onclick="retBack(${j})">Bring him back</button>`:''}</div>`}).join('');
+ const back=[...d.querySelectorAll(':scope > button')].pop();if(back)d.insertBefore(c,back);else d.appendChild(c)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _b=retBtn;retBtn=function(){const r=_b.apply(this,arguments);if(r)return r;try{if(retArcOpen())return '<button class=g onclick=retV()>🧓 Retirements: bring a player back</button>'}catch(e){}return r}}catch(e){}})();
+// Tyler, 2026-11-15: "why would Jalen Rammer get his jersey retired at Pittsburgh? ... Maybe the Jaguars or the Rams". The jersey
+// went to the team he RETIRED from. Now: the team he played the most seasons for (a tie goes to the earlier team).
+window.rjBest=function(x,t){try{const H=x.h||[],cnt={},first={};H.forEach((r,k)=>{const ti=r&&r[1];if(ti==null||ti<0)return;cnt[ti]=(cnt[ti]||0)+1;if(first[ti]==null)first[ti]=k});const ks=Object.keys(cnt);if(!ks.length)return rjCode(t);
+ ks.sort((a,b)=>cnt[b]-cnt[a]||first[a]-first[b]);const best=+ks[0];const cur=pIdx(t);if(cur>=0&&cnt[cur]>=cnt[best])return rjCode(t);return TA[best]||rjCode(t)}catch(e){return rjCode(t)}};
+// Tyler, same day: "my two biggest quarterbacks ... retiring so damn early ... I don't mind you putting me back at the beginning of the
+// season so I can send it with the right players in". One time per save: any QB who retired THIS offseason while still 90+ OVR and
+// 41 or younger (the new rule says he wouldn't have) comes back to his team. Before the first game he takes his old spot back
+// (the 2K-style override, which doesn't use up one of his two); after it he is added to the roster.
+window.ret90Fix=function(){try{if(!S||S.ret90||S.stage!=='pro'||!Array.isArray(S.retq))return 0;S.ret90=1;const back=[];
+ S.retq.forEach((e,j)=>{const x=e&&e.s;if(!x||e.done||e.py!==S.py||x.pos!=='QB'||(x.ovr||0)<90||(x.age||0)>41)return;const L=rost('h.'+e.i);if(!L||L.some(y=>y&&y.n===x.n))return;
+  const ix=(S.wk||0)===0&&!S.pb?L.findIndex(y=>y&&y.n===e.nw):-1;const p=JSON.parse(JSON.stringify(x));if(ix>=0)L[ix]=p;else L.push(p);e.done=1;
+  if(S.rets)S.rets=S.rets.filter(n=>n!==x.n);if(S.alum){for(let a=S.alum.length-1;a>=0;a--)if(S.alum[a].n===x.n){S.alum.splice(a,1);break}}
+  if(e.i&&L[23]&&L[0]&&L[23].ovr>L[0].ovr+1){[L[0],L[23]]=[L[23],L[0]]}back.push(x.n+' ('+x.ovr+' OVR)')});
+ if(back.length){S.fmsg=(S.fmsg?S.fmsg+' ':'')+'🔙 Back from retirement: '+back.join(', ')+'. Under the new rule a QB still that good keeps playing.';save()}return back.length}catch(e){return 0}};
+(()=>{try{const _h=hub;hub=function(){try{ret90Fix()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== 📉 CPU PLAYERS GET THE SAME AGE MAXIMUMS (Tyler 2026-11-15: "All those regression rules apply to every player") =====
+// CPU players took the yearly drop (greats a bit less, from offseason work) but kept a 99 cap at any age, so a 45-year-old
+// could still be 93. Now after every birthday from 36 a CPU player is held to the same maximum as you (45: 80, 50: 50).
+(()=>{try{const _c=cpuDev;cpuDev=function(x,wins){const r=_c.apply(this,arguments);try{if(x&&(x.age||0)>=36&&(x.ovr||0)<100){const c=ageCap(x.age);if(c<100&&x.ovr>c)x.ovr=c;if(x.pot!=null&&x.pot>Math.max(c,x.ovr))x.gcap=Math.min(x.gcap||99,c)}}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>
