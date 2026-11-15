@@ -928,3 +928,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m191: the sideline (both benches, you walking it, sideline / third-person / TV views while a drive is watched)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m191.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m192: controller polish (menus keep their place, watching a drive with a pad, camera button)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m192.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

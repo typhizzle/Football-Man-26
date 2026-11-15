@@ -63,11 +63,13 @@ window.ctlStep=function(){try{
  const inGame=typeof g!=='undefined'&&g&&document.getElementById('cv')&&document.getElementById('cv').style.display==='block'&&!root;
  // Start / Options: pause during a game
  if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}
+ if(typeof ctlWatch=='function'&&ctlWatch(down,edge,lx,ly,rx,ry)){CTL.prev=down;return}
+ if(inGame&&edge(8)&&typeof camb=='function')camb();
  if(root){
   // menus: D-pad or left stick, held = repeat after a pause (no machine-gun scrolling)
   let nx=dl?-1:dr?1:lx<-.5?-1:lx>.5?1:0,ny=du?-1:dd?1:ly<-.5?-1:ly>.5?1:0;
   if(nx||ny){const k=nx+','+ny,first=!CTL.rep.k||CTL.rep.k!==k,wait=first?0:(CTL.rep.n>1?110:300);if(first||now-CTL.rep.t>wait){ctlNav(ny?0:nx,ny);CTL.rep={k,t:now,n:first?1:(CTL.rep.n+1)}}}else CTL.rep={};
-  if(!CTL.sel||!CTL.sel.isConnected||!root.contains(CTL.sel)){const C=ctlCands(root);if(C.length)ctlSet(C[0])}
+  if(!CTL.sel||!CTL.sel.isConnected||!root.contains(CTL.sel)){const C=ctlCands(root);if(C.length)ctlSet((typeof ctlKeep=='function'&&ctlKeep(C))||C[0])}
   if(edge(0))ctlPress();else if(edge(1))ctlBack();
   if(ry)try{root.scrollBy(0,ry*14)}catch(e){}
   CTL.prev=down;return}
