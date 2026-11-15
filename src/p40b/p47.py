@@ -949,3 +949,16 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m197: made-up players never get the name of one of Tyler's players
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m197.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# the calendar of an existing-QB career: 2026 + seasons played since the takeover (it was counting every pro year of his age)
+r("n+=Math.max(0,S.py-1-p)}return (S.y0||2022)+n}","n+=Math.max(0,S.py-1-p-(S.tk&&S.tkY>1?S.tkY-1:0))}return (S.y0||2022)+n}")
+r("try{const n=QNUM[ti];if(n!=null)S.num=n;S.jy=S.jy||{};S.jy.nm=nmLast(S.name);const L=rost('h.0');if(L&&L[0]&&L[0].n==S.name)L[0].num=S.num;S.tkY=S.py;","try{const n=QNUM[ti];if(n!=null)S.num=n;S.jy=S.jy||{};S.jy.nm=nmLast(S.name);const L=rost('h.0');if(L&&L[0]&&L[0].n==S.name)L[0].num=S.num;S.tkY=S.py;S.tkyf=1;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m198.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("S.py=yrs;S.age=e.age;const L=rost('h.0'),bu=","S.py=yrs;S.tkY=yrs;S.tk=e.n;S.tkyf=1;S.age=e.age;const L=rost('h.0'),bu=")
+# m199: rushing split by how good the back is; leftover carries to the backup RB, not a wide receiver
+r("  rbY=Math.round((ry-qry)*rbCar/Math.max(1,car));rb2Y=ry-qry-rbY;\n }",
+  "  rbY=Math.round((ry-qry)*rbCar/Math.max(1,car));rb2Y=ry-qry-rbY;\n }\n var _rb2=null;if(!useReal&&!(real&&isMe)&&typeof bxRush2=='function'){const R2=bxRush2(ti,L,ry,qry,car,r);if(R2){rbCar=R2.c1;rbY=R2.y1;rb2Car=R2.c2;rb2Y=R2.y2;_rb2=R2.n2||0;ry=qry+rbY+rb2Y;tot=py+ry}}")
+r("...((rb2Car>2||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[])]",
+  "...(_rb2?(rb2Car>0?[{n:_rb2.n,p:'RB',c:rb2Car,y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]):((rb2Car>(_rb2===0?0:2)||(typeof _sp!='undefined'&&_sp.o))?[{n:nm(3),p:'WR',c:Math.max(1,Math.min(3,rb2Car)),y:rb2Y,td:(typeof _sp!='undefined'&&_sp.o)||0}]:[]))]")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m199.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
