@@ -5584,7 +5584,7 @@ let TKB=null,TKVQ=null;
 (()=>{const _ps=proStart;proStart=function(){const r=_ps.apply(this,arguments);try{if(TKGO)TKVQ=S.vetP?{...S.vetP}:null}catch(e){}return r}})();
 (()=>{const _tl=tkList;tkList=function(){const L=_tl.apply(this,arguments);try{QBB.forEach((b,bi)=>{const t=(S.pro||[]).find(t=>pIdx(t)==b[3]);if(t)L.push({i:1000+bi,n:b[0],ovr:b[1],age:b[2],team:tn(t),bk:1})})}catch(e){}return L}})();
 (()=>{const _tg=tkGo;tkGo=function(ti){let r;if(ti>=1000){const bi=ti-1000,b=QBB[bi];if(!b)return;const _tl=tkList,ent={i:b[3],n:b[0],ovr:b[1],age:b[2],team:''};TKB=b;tkList=()=>[ent];try{r=_tg.call(this,b[3])}finally{tkList=_tl;TKB=null}
-   try{if(TKVQ){S.vetP=TKVQ;S.vet=TKVQ.n;S.sq=TKVQ.ovr}S.num=b[4];const L=rost('h.0');L.forEach((x,k)=>{if(k>0&&x&&x.n==S.name)x.n=uNm(Math.random)});if(L[0]){L[0].n=S.name;L[0].num=S.num;L[0].ovr=qo(S.q);L[0].age=S.age}const pc=PKC[b[0]];if(pc)S.ct={yrs:pc[2],sal:pc[1],gtd:40,inc:0,team:tn(S.T[0])};tkPost();save();hub()}catch(e){}return r}
+   try{if(TKVQ){S.vetP=TKVQ;S.vet=TKVQ.n;S.sq=TKVQ.ovr}S.num=b[4];const L=rost('h.0');L.forEach((x,k)=>{if(k>0&&x&&x.n==S.name)x._me2=1});{const d_=L.find(x=>x&&x._me2);if(d_&&L[0]){['h','cs','tm','aw','pid','dr'].forEach(f=>{if(d_[f]!=null&&(L[0][f]==null||(f=='h'&&!(L[0].h||[]).length)||(f=='tm'&&!(L[0].tm||[]).length)))L[0][f]=d_[f]})}for(let k_=L.length-1;k_>0;k_--)if(L[k_]&&L[k_]._me2)L.splice(k_,1)}if(L[0]){L[0].n=S.name;L[0].num=S.num;L[0].ovr=qo(S.q);L[0].age=S.age}const pc=PKC[b[0]];if(pc)S.ct={yrs:pc[2],sal:pc[1],gtd:40,inc:0,team:tn(S.T[0])};tkPost();save();hub()}catch(e){}return r}
   r=_tg.apply(this,arguments);try{tkPost();save();hub()}catch(e){}return r}})();
 function tkPost(){const n=S.name;try{const st=QBSTY[n];if(st&&AR.some(a=>a.n==st))S.arch=st;const o=qo(S.q),q=qbShape(n,o);if(q)S.q=q;const p=PLK[n];if(p){S.ap={...(S.ap||{}),...plAp(n,S.ap||{})}}
  const C=TKCOL[n];if(C){C.forEach(([a,y])=>{const s='College yr '+y+': '+a;if(!S.aw.includes(s))S.aw.unshift(s)})}}catch(e){}}
@@ -12079,8 +12079,9 @@ window.clSlot=async function(i){const d=CL&&CL.d;if(!d)return;CLST[i]='loading';
  const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(dz(lr)):null;
  if(cs&&cs.T&&!((zTomb()[i]||0)>=(cs.ts||0))&&(!ls||(ls.ts||0)<(cs.ts||0))){
   if(ls&&ls.T){(window.CLOFF=window.CLOFF||{})[i]={ts:cs.ts||0,wk:(cs.wk||0)+1,yr:(cs.y0||2022)+((cs.hist||[]).length),name:cs.name||'',my:{wk:(ls.wk||0)+1,yr:(ls.y0||2022)+((ls.hist||[]).length)}};CLST[i]='ok';return}
-  let rv=null,why='';try{rv=await cdGet2(d,CL.p+'ro'+i)}catch(e){why=e.message}
+  let rv=null,why='';try{rv=await cdGet2(d,CL.p+'ro'+i)}catch(e){why=e.message}if(!rv&&cs.ro&&Object.keys(cs.ro).length){rv=cs.ro;why=''}   /* old one-piece backups carry their rosters inside */
   if(!rv&&why){const C=(await kpCopies(i)).filter(x=>sameCareer(x.s,cs)&&x.s.ro);if(C.length){const best=C[0].s;if((best.ts||0)>=(cs.ts||0)){if(!clStore(i,best))throw new Error('no room on this device');CLST[i]='ok';clRedraw();return}rv=best.ro;HM=(HM?HM+' ':'')+'♻️ Slot '+i+' ('+(cs.name||'')+'): the team rosters in the cloud copy were incomplete, so this device\'s backup of them from '+new Date(best.ts||0).toLocaleDateString()+' was used.'}}
+  if(!rv&&!why&&(cs.stage==='pro'||cs.stage==='col')){const C=(await kpCopies(i)).filter(x=>sameCareer(x.s,cs)&&x.s.ro);if(C.length)rv=C[0].s.ro;else why='no rosters part'}
   if(!rv&&why){CLST[i]='fail';CLFAIL[i]={name:cs.name,stage:cs.stage,py:cs.py,cy:cs.cy,yr:cs.yr,why:'the team rosters part of the cloud copy is incomplete'};clRedraw();return}
   if(rv)cs.ro=rv;if(!clStore(i,cs)){CLST[i]='fail';CLFAIL[i]={name:cs.name,stage:cs.stage,py:cs.py,why:'this device is out of storage space'};clRedraw();return}CLST[i]='ok';clRedraw();return}
  if(ls&&ls.T&&(!cs||(cs.ts||0)<(ls.ts||0))){
@@ -12095,5 +12096,101 @@ window.clRetry=async function(i){await clSlot(i);if(CLST[i]==='ok'&&load(i))HM='
 (()=>{try{const _m=menuMain;menuMain=function(){const r=_m.apply(this,arguments);try{const pan=ui.querySelector('.mpan')||ui;[...pan.querySelectorAll('button')].forEach(b=>{const m=(b.getAttribute('onclick')||'').match(/SLOT=(\d);newC\(\)/);if(!m)return;const i=+m[1];
   if(CLFAIL[i]){const f=CLFAIL[i];const c=document.createElement('div');c.className='card';c.style.borderColor='#e5534b';c.innerHTML=`<b>⚠️ Slot ${i}: ${esc(f.name||'your career')}${f.stage=='pro'&&f.py?' · Pro yr '+f.py:''}</b><br><small>It's in your cloud backup, but ${esc(f.why||'it did not finish loading')}. It is not deleted. Open the game on the device you last played it on (that device has the full save and will repair the cloud copy), or try again.</small><br><button onclick="clRetry(${i})">↻ Try again</button>`;b.replaceWith(c)}
   else if(CLST[i]==='loading'){b.disabled=true;b.style.opacity='.7';b.innerHTML='<span class=spin></span> Slot '+i+': checking your cloud backup…'}})}catch(e){}return r}}catch(e){}})();
+// ===== 🔙 BACK FROM RETIREMENT MEANS BACK ON THE FIELD · RESTART A SEASON · ROSTERS NEVER MISSING =====
+// Tyler, 2026-11-15: "I would have rather restarted that entire season than give up that whole season without Ricky MaClones and Jarsh
+// Fallon. I would rather just start the season all over so they're not losing any progress ... Nothing needs to drop at all ...
+// No roster should ever be broken. That's part of player lives matter."
+// WHAT WENT WRONG: the return fix (m187) put a returning QB at the END of his team's roster unless it was week 0, so a 98 OVR sat
+// behind an injured 84 and a 70 all season and never played (no 2037 games for MaClones or Fallon).
+// NOW:
+//  1. A QB who comes back from retirement and is better than the starter IS the starter (the starter moves into his spot; nobody is
+//     dropped). Saves where it already went wrong are repaired the next time they load (they start the very next game).
+//  2. Every season start is kept on this device for good ("start of season"), and "↺ Restart this season" (player menu → Backups)
+//     puts the career back to that moment. Without a start copy it uses the end of last season (the offseason plays again).
+//     What you have now is kept too, so a restart can be undone from Backups.
+//  3. A pro career whose team rosters didn't come through is never opened (opening it would build brand-new rosters).
+window.qbStart=function(i,x){try{const L=rost('h.'+i);if(!L||!x)return false;const k=L.findIndex(y=>y&&y.n===x.n);if(k<=0)return false;const s=L[0];if(s&&s.n===S.name)return false;   /* never benches you */
+ if(!s||s.pos!=='QB'||s.inj||(x.ovr||0)>(s.ovr||0)){L[k]=s;L[0]=x;return true}return false}catch(e){return false}};
+window.retStartFix=function(){try{if(!S||S.stage!=='pro'||S.retsf)return 0;S.retsf=1;let n=0;
+ const back=new Set();(S.retq||[]).forEach(e=>{if(e&&e.done&&e.s&&e.s.pos==='QB')back.add(e.s.n)});(S.retArc||[]).forEach(e=>{if(e&&e.done&&e.s&&e.s.pos==='QB')back.add(e.s.n)});
+ for(const k in S.ro){if(!/^h\.\d+$/.test(k))continue;const i=+k.slice(2);const L=S.ro[k];if(!Array.isArray(L)||(L[0]&&L[0].n===S.name))continue;
+  L.forEach(x=>{if(x&&x.pos==='QB'&&(back.has(x.n)||x.back)&&qbStart(i,x))n++})}
+ if(n)S.fmsg=(S.fmsg?S.fmsg+' ':'')+'🔙 '+n+' QB'+(n>1?'s':'')+' back from retirement had been left on the bench. They start from the next game.';return n}catch(e){return 0}};
+(()=>{try{const _h=hub;hub=function(){try{retStartFix()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// returning players from now on: placed as the starter when better
+(()=>{try{const _f=ret90Fix;window.ret90Fix=function(){const r=_f.apply(this,arguments);try{if(r){S.retsf=0;retStartFix()}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _b=retBack;window.retBack=function(j){const e=(S.retArc||[])[j];const r=_b.apply(this,arguments);try{if(e&&e.done&&e.s&&e.s.pos==='QB'){const i=e.i>=0&&S.T[e.i]?e.i:1;const L=rost('h.'+i);const x=L.find(y=>y&&y.n===e.s.n);if(x)qbStart(i,x)}}catch(_){}return r}}catch(e){}})();
+// ---- season start copies (kept for good) ----
+(()=>{try{const _s=Storage.prototype.setItem;let last={};Storage.prototype.setItem=function(k,v){try{if(this===localStorage&&typeof kpSlotOf=='function'){const i=kpSlotOf(k);if(i&&S&&S.T&&SLOT===i){const yr=yrN(),key=i+'|'+yr+'|'+(S.stage||'');
+   if((S.wk||0)<=1&&!S.ofs&&last[i]!==key){const tag=(S.name||'').replace(/[^A-Za-z0-9]/g,'').slice(0,20);const f=kpInfoV(v);if(f&&f.wk<=2){last[i]=key;kpGet('start_'+i+'_'+yr+'_'+tag).then(x=>{if(!x)kpPut('start_'+i+'_'+yr+'_'+tag,v,{...f,start:1})})}}}}}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();
+window.seasonCopy=async function(i){try{const all=await kpAll();const cur=load(i);if(!cur)return null;const yr=(()=>{const S0=S;S=cur;try{return yrN()}finally{S=S0}})();
+ const same=x=>{try{const s=JSON.parse(dz(x.v));return sameCareer(s,cur)?s:null}catch(e){return null}};
+ const st=all.filter(x=>new RegExp('^start_'+i+'_'+yr+'_').test(String(x.id)));for(const x of st){const s=same(x);if(s)return {id:x.id,s,kind:'start',yr}}
+ const en=all.filter(x=>new RegExp('^end_'+i+'_'+(yr-1)+'_').test(String(x.id))).sort((a,b)=>(b.t||0)-(a.t||0));for(const x of en){const s=same(x);if(s)return {id:x.id,s,kind:'end',yr}}return {none:1,yr}}catch(e){return null}};
+window.seasonRestart=async function(){try{const i=SLOT;const c=await seasonCopy(i);if(!c||c.none){alert('This device has no copy of '+((c&&c.yr)||'this')+' season\'s start or of the end of last season, so the season can\'t be restarted here. Try on the device you played the start of the season on.');return}
+ const msg=c.kind==='start'?`Restart the ${c.yr} season? Your career goes back to the start of ${c.yr} (week 1). What you have now is kept in Backups.`:`Restart the ${c.yr} season? This device's copy is from the end of ${c.yr-1}, so the ${c.yr} offseason (draft, free agency, retirements) plays again, then the season. What you have now is kept in Backups.`;
+ if(!confirm(msg))return;window._kpNoAsk=1;const _c=window.confirm;window.confirm=()=>true;try{await kpUse(c.id)}finally{window.confirm=_c;window._kpNoAsk=0}S=load(i);LASTJ='';S.fmsg=(S.fmsg?S.fmsg+' ':'')+`↺ The ${c.yr} season starts over.`;save();hub()}catch(e){alert('Could not restart: '+e.message)}};
+(()=>{try{const _v=bkV;window.bkV=function(){const r=_v.apply(this,arguments);try{if(S&&S.T&&!ui.querySelector('[data-rss]')){const yr=yrN();const c=document.createElement('div');c.className='card';c.setAttribute('data-rss','1');c.innerHTML=`<b>↺ Restart this season</b><br><small>Puts ${esc(S.name||'your career')} back to the start of ${yr} (uses this device's start-of-season copy, or the end of ${yr-1} if that's all it has). Your current save is kept here too.</small><button onclick="seasonRestart()">↺ Restart the ${yr} season</button>`;(ui.firstElementChild||ui).appendChild(c)}}catch(e){}return r}}catch(e){}})();
+// ---- a pro career with no team rosters is never opened (it would build brand-new ones) ----
+window.roMissing=function(s){try{if(!s||!(s.stage==='pro'||s.stage==='col'))return false;const n=Object.keys(s.ro||{}).filter(k=>/^h\.\d+$/.test(k)).length;return n===0&&((s.tx&&s.tx.length>20)||(s.hist&&s.hist.length>2)||s.stage==="pro")}catch(e){return false}};
+// mig() quietly builds brand-new rosters for a save that has none: mark such a save before it can
+(()=>{try{const _m=mig;mig=function(s){const miss=roMissing(s);const r=_m.apply(this,arguments);try{if(miss&&r)r._noro=1}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&S._noro){const nm=S.name;S=null;g=null;HM='⚠️ '+nm+'\'s team rosters didn\'t load, so the career wasn\'t opened (opening it would have made new rosters). Nothing was changed. Try again from the menu, or open it on the device you last played on.';return menuMain()}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== 🧍 EVERY PLAYER KEEPS HIS SPOT AND HIS POSITION (Tyler, 2026-11-15: "why the hell is Godfrey my running back? I made a running
+// back for the Eagles. It was not Godfrey. I made him tight end ... All players should keep their own positions no matter what. Any
+// players I made should not be removed.") =====
+// WHAT HAPPENED: a roster is a list where the spot IS the job (0 QB, 1 RB, 2-4 WR, 5 TE, 6-10 line, 11-14 DL, 15-17 LB, 18-21 DB, 22 K,
+// 23-24 backup QBs, then the bench). Taking over Jacque Hilton III left two "Jacque Hilton III" on the Eagles, and the duplicate
+// cleaner (roGhosts) cut the "empty" one out of the list three times. Everyone behind him slid up a spot: Godfrey (TE) landed in the
+// RB spot, Jaquan Barker (RB) fell to spot 22, the line and defense all shifted.
+// NOW: (1) nothing is ever cut out of the starting spots; you are never treated as a duplicate of yourself.
+//      (2) any roster whose starting spots don't match their positions is put back in order: each spot gets the player of that
+//          position (the one already there if he fits, else the best of that position on the roster), backups behind them.
+//          Nobody leaves the roster, nobody's position changes, nobody is made up. Runs on every load and after a takeover.
+window.posG=function(p){try{return lgGrp(p)}catch(e){return p}};
+window.POSFIX=function(L,keep0){try{if(!Array.isArray(L)||L.length<23)return 0;const P=POSL.map(posG);const gp=x=>x&&posG(x.pos);let bad=0;for(let j=keep0?1:0;j<P.length;j++){const x=L[j];if(x&&gp(x)!==P[j])bad++}
+ const bq=[23,24].filter(j=>L[j]&&gp(L[j])!=='QB').length;if(!bad&&!bq)return 0;
+ const all=L.filter(Boolean);const me=keep0?L[0]:null;const pool=all.filter(x=>x!==me);const used=new Set();const out=new Array(Math.max(L.length,25)).fill(null);if(me){out[0]=me;used.add(me)}
+ // keep everyone who is already in the right spot
+ for(let j=keep0?1:0;j<P.length;j++){const x=L[j];if(x&&gp(x)===P[j]&&!used.has(x)){out[j]=x;used.add(x)}}
+ for(let j=keep0?1:0;j<P.length;j++){if(out[j])continue;const c=pool.filter(x=>!used.has(x)&&gp(x)===P[j]).sort((a,b)=>(b.ovr||0)-(a.ovr||0))[0];if(c){out[j]=c;used.add(c)}}
+ // backup QBs
+ [23,24].forEach(j=>{const x=L[j];if(x&&gp(x)==='QB'&&!used.has(x)){out[j]=x;used.add(x)}});
+ [23,24].forEach(j=>{if(out[j])return;const c=pool.filter(x=>!used.has(x)&&gp(x)==='QB').sort((a,b)=>(b.ovr||0)-(a.ovr||0))[0];if(c){out[j]=c;used.add(c)}});
+ // a spot nobody of that position can fill keeps whoever was there (no one is invented)
+ for(let j=0;j<25;j++){if(out[j])continue;const x=L[j];if(x&&!used.has(x)){out[j]=x;used.add(x)}}
+ // everyone else: the bench, in the order they were
+ // still empty (nobody of that position on the roster): the first bench player stands in, never a hole
+ for(let j=0;j<25;j++){if(out[j]||j>=L.filter(Boolean).length)continue;const x=L.filter(y=>y&&!used.has(y)).slice(-1)[0];if(x){out[j]=x;used.add(x)}}
+ const rest=L.filter(x=>x&&!used.has(x));let w=25;const fin=out.slice(0,25);rest.forEach(x=>fin.push(x));
+ for(let j=0;j<25;j++)if(!fin[j]){const x=rest.length?null:null;fin[j]=fin[j]||null}
+ const before=all.length,after=fin.filter(Boolean).length;if(before!==after)return 0;   /* never lose anyone */
+ L.length=0;fin.forEach(x=>L.push(x));while(L.length&&L[L.length-1]==null)L.pop();return bad+bq}catch(e){return 0}};
+window.posFixAll=function(s){try{s=s||S;if(!s||!s.ro)return 0;let n=0;for(const k in s.ro){if(!/^[hp]\.\d+$/.test(k))continue;const L=s.ro[k];const mine=k==='h.0'&&L&&L[0]&&L[0].n===s.name;n+=POSFIX(L,mine)?1:0}if(n){s.posfix=(s.posfix||0)+n}return n}catch(e){return 0}};
+// the duplicate cleaner: never cuts a starting spot, never touches you
+(()=>{try{const _g=roGhosts;window.roGhosts=function(s){try{if(!s||!s.T||!s.ro)return {removed:0,names:[]};const seen={};
+ for(let i=0;i<s.T.length;i++){const L=s.ro['h.'+i];if(!Array.isArray(L))continue;L.forEach((x,k)=>{if(!x||!x.n)return;(seen[x.n]=seen[x.n]||[]).push({i,k,rows:(x.h||[]).length,tms:(x.tm||[]).length,x})})}
+ const out=[];Object.keys(seen).forEach(n=>{const C=seen[n];if(C.length<2||n===s.name)return;const real=C.filter(c=>c.rows>0||c.tms>0),shells=C.filter(c=>c.rows===0&&c.tms===0);if(!real.length||!shells.length)return;
+  shells.forEach(sh=>{const L=s.ro['h.'+sh.i];const ix=L.indexOf(sh.x);if(ix>=25){L.splice(ix,1);out.push(n+' (empty bench copy on '+((s.T[sh.i]||{}).n||sh.i)+')')}})});return {removed:out.length,names:out}}catch(e){return {removed:0,names:[]}}}}catch(e){}})();
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&!r._noro)posFixAll(r)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _t=tkGo;tkGo=function(){const r=_t.apply(this,arguments);try{if(posFixAll(S))save()}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{posFixAll(S)}catch(e){}return r}}catch(e){}})();
+// ===== 🏈 LINEMEN STAND AND BLOCK LIKE LINEMEN (Tyler, 2026-11-15: "the lineman's legs are like going backwards") =====
+// Before the snap the stance tilted the legs back behind the body (thigh rotation was negative = feet swung backward), so with the
+// forward lean every lineman looked like he was kicking his legs out behind him. And while blocking, a lineman who gave ground
+// turned to face the way he was moving (his back to the man he was blocking).
+// Now: a real stance (knees bent, feet under the hips, slightly staggered), and in the block linemen keep facing their man while
+// they shuffle and give ground: offense faces downfield, defense faces the backfield. Only how they look changes.
+(()=>{try{const _l=lnSt;lnSt=function(o,m,v){const r=_l.apply(this,arguments);try{if(!LNP[o.pos]||!g||g.ph==='dead'||g.ph==='wdead')return r;const P=g.pl,dl=o.pos==='DE'||o.pos==='DT';
+ if(g.ph==='pre'){m.L[0].rotation.x=dl?.42:.34;m.L[1].rotation.x=dl?.12:.2;return r}
+ if(P&&P.car!==o&&v<2.6){const def=P.def&&P.def.includes(o);m.rotation.y=def?Math.PI:0;const st=P.t||1;if(st>=.35){const s=Math.sin(performance.now()/1000*13+(o.x||0)*1.7);m.L[0].rotation.x=.12+s*.3;m.L[1].rotation.x=.12-s*.3}}}catch(e){}return r}}catch(e){}})();
+// ===== 🪪 MADE-UP PLAYERS NEVER GET THE NAME OF ONE OF TYLER'S PLAYERS (2026-11-15 audit) =====
+// The audit of every roster found made-up high school / college players who had been randomly given the exact names of Tyler's stars
+// (a 75 OVR left tackle at Burger King University named Christopher McCunngingham, a center named Kyle Chriss...). They are different
+// people, but it looks like your RB is playing tackle. From now on a made-up player never gets a name on Tyler's lists.
+// (Players already made keep their names: names only change when Tyler says so.)
+window.MYNAMES=null;window.myNames=function(){if(MYNAMES)return MYNAMES;const s=new Set();try{(PKS||[]).forEach(q=>s.add(q[2]))}catch(e){}try{(QBB||[]).forEach(b=>s.add(b[0]))}catch(e){}try{(QBP||[]).forEach(q=>s.add(q[0]))}catch(e){}
+ try{(ADD26||[]).forEach(e=>s.add(e[2]))}catch(e){}try{(FA26||[]).forEach(e=>s.add(e.n||e[0]))}catch(e){}try{Object.keys(PKC||{}).forEach(n=>s.add(n))}catch(e){}return MYNAMES=s};
+(()=>{try{const _u=uNm;uNm=function(r){let n=_u.apply(this,arguments),k=0;try{const M=myNames();while(M.has(n)&&k++<25)n=_u.apply(this,arguments)}catch(e){}return n}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

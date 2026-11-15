@@ -36,8 +36,9 @@ window.clSlot=async function(i){const d=CL&&CL.d;if(!d)return;CLST[i]='loading';
  const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(dz(lr)):null;
  if(cs&&cs.T&&!((zTomb()[i]||0)>=(cs.ts||0))&&(!ls||(ls.ts||0)<(cs.ts||0))){
   if(ls&&ls.T){(window.CLOFF=window.CLOFF||{})[i]={ts:cs.ts||0,wk:(cs.wk||0)+1,yr:(cs.y0||2022)+((cs.hist||[]).length),name:cs.name||'',my:{wk:(ls.wk||0)+1,yr:(ls.y0||2022)+((ls.hist||[]).length)}};CLST[i]='ok';return}
-  let rv=null,why='';try{rv=await cdGet2(d,CL.p+'ro'+i)}catch(e){why=e.message}
+  let rv=null,why='';try{rv=await cdGet2(d,CL.p+'ro'+i)}catch(e){why=e.message}if(!rv&&cs.ro&&Object.keys(cs.ro).length){rv=cs.ro;why=''}   /* old one-piece backups carry their rosters inside */
   if(!rv&&why){const C=(await kpCopies(i)).filter(x=>sameCareer(x.s,cs)&&x.s.ro);if(C.length){const best=C[0].s;if((best.ts||0)>=(cs.ts||0)){if(!clStore(i,best))throw new Error('no room on this device');CLST[i]='ok';clRedraw();return}rv=best.ro;HM=(HM?HM+' ':'')+'♻️ Slot '+i+' ('+(cs.name||'')+'): the team rosters in the cloud copy were incomplete, so this device\'s backup of them from '+new Date(best.ts||0).toLocaleDateString()+' was used.'}}
+  if(!rv&&!why&&(cs.stage==='pro'||cs.stage==='col')){const C=(await kpCopies(i)).filter(x=>sameCareer(x.s,cs)&&x.s.ro);if(C.length)rv=C[0].s.ro;else why='no rosters part'}
   if(!rv&&why){CLST[i]='fail';CLFAIL[i]={name:cs.name,stage:cs.stage,py:cs.py,cy:cs.cy,yr:cs.yr,why:'the team rosters part of the cloud copy is incomplete'};clRedraw();return}
   if(rv)cs.ro=rv;if(!clStore(i,cs)){CLST[i]='fail';CLFAIL[i]={name:cs.name,stage:cs.stage,py:cs.py,why:'this device is out of storage space'};clRedraw();return}CLST[i]='ok';clRedraw();return}
  if(ls&&ls.T&&(!cs||(cs.ts||0)<(ls.ts||0))){

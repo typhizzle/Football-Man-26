@@ -934,3 +934,18 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m193: saves that can't go missing (atomic cloud backups, per-slot loading/failed status, device backup rosters, compressed cloud restores)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m193.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m194: returning QBs start; restart a season from the device's copy; never open a pro career without its rosters
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m194.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m195: every player keeps his roster spot and position (no cutting starting spots; broken rosters put back in order)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m195.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# takeover of a backup QB: his own roster record becomes you (history kept), instead of being renamed into a made-up player
+r("L.forEach((x,k)=>{if(k>0&&x&&x.n==S.name)x.n=uNm(Math.random)});",
+  "L.forEach((x,k)=>{if(k>0&&x&&x.n==S.name)x._me2=1});{const d_=L.find(x=>x&&x._me2);if(d_&&L[0]){['h','cs','tm','aw','pid','dr'].forEach(f=>{if(d_[f]!=null&&(L[0][f]==null||(f=='h'&&!(L[0].h||[]).length)||(f=='tm'&&!(L[0].tm||[]).length)))L[0][f]=d_[f]})}for(let k_=L.length-1;k_>0;k_--)if(L[k_]&&L[k_]._me2)L.splice(k_,1)}")
+# m196: linemen stance and blocking look right (legs under them, facing their man)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m196.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m197: made-up players never get the name of one of Tyler's players
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m197.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

@@ -21,7 +21,7 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  // a failure is shown, not swallowed
  failAll=true;HM='';S.cloudErr=0;S.wk=16;save();cloudQ();await new Promise(r=>setTimeout(r,2600));out.D_failureShown=!!S.cloudErr&&/catching up/.test(String(S.fmsg||'')+String(HM||''))&&!/Cloud backup failed/.test(HM); /* Tyler 2026-11-15: never a scary failure; a calm note, game safe on the phone */
  // an old one-piece backup still loads
- failAll=false;const small={...JSON.parse(j)};delete small.ro;small.ts=Date.now()+99999;store['data/users/tyler/slot2']={z:await gzS(JSON.stringify(small))};
+ failAll=false;const small={...JSON.parse(j)};small.ts=Date.now()+99999;store['data/users/tyler/slot2']={z:await gzS(JSON.stringify(small))};
  await cloudInit();const s3=load(2);out.E_oldFormatLoads=!!s3&&s3.name===small.name;
 }catch(e){out.err=e.message+' | '+(e.stack||'').split('\n')[1]}return out},j);
 r.pageErrors=errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3);console.log(JSON.stringify(r,null,1));await b.close()})();
