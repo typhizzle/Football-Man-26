@@ -30,19 +30,19 @@ window.trashPut=function(L){const prev=TRASHM||[];L=trashMerge(L);TRASHM=L;try{i
  let C=L.slice();while(C.length&&JSON.stringify(C).length>1500000)C.pop();   /* the quick copy never crowds out real saves */
  while(C.length){try{localStorage.setItem(DELK(),JSON.stringify(C));break}catch(e){C.pop()}}if(!C.length){try{localStorage.removeItem(DELK())}catch(e){}}
  try{kpPut('trash',JSON.stringify(L),{n:L.length})}catch(e){}
- try{if(CL){const up=window.TRASHUP=window.TRASHUP||{};L.forEach(x=>{if(!up[x.t]){up[x.t]=1;cdPut2(CL.d,CL.p+'trash_'+x.t,x).catch(()=>{delete up[x.t]})}});CL.d.doc(CL.p+'trashidx').set({j:JSON.stringify(L.map(x=>({t:x.t,n:x.n,slot:x.slot})))})}}catch(e){}return L};
+ /* deleted saves are NOT copied to the cloud (it has a size limit and holds your live careers): phone storage + IndexedDB only */return L};
 window.trashSync=async function(){try{let L=trashLocal();try{const k=await kpGet('trash');if(k&&k.v)L=trashMerge(L,JSON.parse(k.v))}catch(e){}
  try{if(CL){const sn=await CL.d.doc(CL.p+'trashidx').get(),dd=sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null,idx=dd&&dd.j?JSON.parse(dd.j):[];
   const got=await Promise.all(idx.filter(x=>!L.some(y=>y.t===x.t)).map(async x=>{try{return await cdGet2(CL.d,CL.p+'trash_'+x.t)}catch(e){return null}}));L=trashMerge(L,got.filter(Boolean))}}catch(e){}
  return trashPut(trashMerge(L,TRASHM||[]))}catch(e){return []}};
 window.trashAdd=function(d,slot,why){try{const L=trashL();L.unshift({t:Date.now(),slot,n:(d.name||'Save')+(why?' ('+why+')':''),s:ez(JSON.stringify(d))});trashPut(L)}catch(e){}};
 // delete: the save goes to the master list FIRST (all 5 kept), then the slot is cleared exactly as before
-(()=>{try{const _d=slotDel;window.slotDel=function(i){const d=load(i);if(!d)return _d.apply(this,arguments);const keep=trashL();
+(()=>{try{const _d=slotDel;slotDel=function(i){const d=load(i);if(!d)return _d.apply(this,arguments);const keep=trashL();
  const r=_d.apply(this,arguments);try{if(!load(i)){const loc=trashLocal(),x=loc.find(y=>y.slot===i&&y.n===d.name&&Date.now()-y.t<60000)||{t:Date.now(),slot:i,n:d.name,s:ez(JSON.stringify(d))};trashPut([x,...keep])}}catch(e){}return r}}catch(e){}})();
-window.trashRec=function(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=6;k++)if(!load(k)){i=k;break}}if(!i){alert('All 6 slots are full. Delete one first.');return trashV()}
+trashRec=function(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=6;k++)if(!load(k)){i=k;break}}if(!i){alert('All 6 slots are full. Delete one first.');return trashV()}
  try{localStorage.setItem(K+'_'+i,x.s)}catch(e){try{zSquash();localStorage.setItem(K+'_'+i,x.s)}catch(e2){alert('Not enough room on this phone to recover it right now. It stays in Recently deleted.');return trashV()}}
  try{zTombSet(i,0)}catch(e){}L.splice(j,1);trashPut(L);try{trashDelCloud(x.t)}catch(e){}menuMain()};
-window.trashGone=function(j){if(!window.CF_OK&&!confirm('Delete this save forever?'))return;const L=trashL(),x=L[j];L.splice(j,1);trashPut(L);try{if(x)trashDelCloud(x.t)}catch(e){}trashV()};
+trashGone=function(j){if(!window.CF_OK&&!confirm('Delete this save forever?'))return;const L=trashL(),x=L[j];L.splice(j,1);trashPut(L);try{if(x)trashDelCloud(x.t)}catch(e){}trashV()};
 window.sameCareer=function(a,b){try{return !!a&&!!b&&(a.seed!=null&&b.seed!=null?a.seed===b.seed:a.name===b.name)}catch(e){return false}};
 // ---- the cloud check: all slots at once, the menu shows it's loading until it's done ----
 // (same rules as m138: split cloud pieces, the cloud never replaces a save already on this phone, a newer cloud copy is

@@ -31,7 +31,7 @@ window.swPickCore=function(rx,ry,ox,oy){try{const P=g.pl;if(!P||rx==null)return 
 window.swPick=function(rx,ry,ox,oy){let r=swPickCore(rx,ry,ox,oy);try{r=swDeepFix(r,swAimD(rx,ry),g.pl)}catch(e){}if(r)return r;return swDirPick(rx,ry,ox,oy)};
 // 3: throwaway
 window.swAway=function(rx,ry){try{const P=g.pl,q=P&&P.qb;if(!P||!q||rx==null||typeof cm=='undefined'||!cm)return null;const G=upj(rx,ry);if(!G)return null;if(G[0]>-0.5&&G[0]<53.8)return null;return G}catch(e){return null}};
-(()=>{try{const _s=swThrow;window.swThrow=function(sx,sy,p,x0,y0,pts,rx,ry){try{const P=g.pl,q=P&&P.qb;
+(()=>{try{const _s=swThrow;swThrow=function(sx,sy,p,x0,y0,pts,rx,ry){try{const P=g.pl,q=P&&P.qb;
  if(P&&q&&!P.air&&P.car===q&&rx!=null){const G=swAway(rx,ry);if(G){let box=null;try{let O=(CAMI==1&&!g.sw)?[W/2,H*.84]:(swBall()||pj(q.x,q.y,1.4));const h=O&&_pBox(rx,ry,O);box=h}catch(e){}
   if(!box){const w=(P.wr||[]).filter(x=>x&&!x.out).sort((a,b)=>Math.abs(a.x-G[0])-Math.abs(b.x-G[0]))[0];if(w){const ly=Math.min(G[1],q.y+thrR()*.8);P.swq=1;g.swp={p:Math.round(Math.min(1,p)*100),t:performance.now()};doThrow(w,G[0]<0?-3:56.5,ly);return}}}}}catch(e){}
  return _s.apply(this,arguments)}}catch(e){}})();

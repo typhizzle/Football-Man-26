@@ -10,6 +10,6 @@
 //   backs / receivers (hands): 0.6% x ((100 - hands) / 35)^1.6 per tackle -> the whole group ~1 fumble every 4 games
 // Simulated games use the QB numbers. Recovery, returns and everything after a fumble are unchanged.
 window.FUMQB=0;
-fumHit=function(sec){const base=window.FUMQB?.02:.006;return base*Math.pow(Math.max(.4,100-(sec||60))/35,1.6)};
+window.fumHit=function(sec){const base=window.FUMQB?.02:.006;return base*Math.pow(Math.max(.4,100-(sec||60))/35,1.6)};
 (()=>{try{const _h=hit;hit=function(d){try{window.FUMQB=!!(g&&g.pl&&g.pl.car&&g.pl.car===g.pl.qb)}catch(e){}try{return _h.apply(this,arguments)}finally{window.FUMQB=0}}}catch(e){}})();
-simFum=function(){try{window.FUMQB=1;const p=1-Math.pow(1-fumHit(S.q.sec)*1.15,7);return R()<p?1:0}catch(e){return 0}finally{window.FUMQB=0}};
+window.simFum=function(){try{window.FUMQB=1;const p=1-Math.pow(1-fumHit(S.q.sec)*1.15,7);return R()<p?1:0}catch(e){return 0}finally{window.FUMQB=0}};

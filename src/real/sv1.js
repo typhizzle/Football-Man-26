@@ -23,6 +23,6 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  // D: 5 kept, the 6th pushes out the oldest; the list survives the phone's storage being cleared (IndexedDB + cloud)
  [2,3,5,6].forEach(i=>localStorage.removeItem(K+'_'+i));localStorage.removeItem(DELK());TRASHM=null;for(let i=0;i<6;i++){localStorage.setItem(K+'_4',JSON.stringify(mk('Del '+i,400+i,3000+i)));slotDel(4);await new Promise(r=>setTimeout(r,30))}
  const D=trashL();o.D_n=D.length;o.D_names=D.map(x=>x.n).join(',');o.D_five=D.length===5&&/Del 5/.test(D[0].n)&&!D.some(x=>x.n==='Del 0');
- await new Promise(r=>setTimeout(r,300));localStorage.removeItem(DELK());TRASHM=null;o.D_wiped=trashL().length===0;await trashSync();o.D_back=trashL().length===5;o.D_inCloud=!!store['data/users/u1/trashidx']&&trashL().every(x=>!!store['data/users/u1/trash_'+x.t]);
+ await new Promise(r=>setTimeout(r,300));localStorage.removeItem(DELK());TRASHM=null;o.D_wiped=trashL().length===0;await trashSync();o.D_back=trashL().length===5;o.D_inCloud=!Object.keys(store).some(k=>/trash/.test(k)); /* deleted saves stay off the cloud (size limit), kept on the phone + IndexedDB */
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n')[1]}return o},j);
 out.pageErrors=errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3);console.log(JSON.stringify(out,null,1));await b.close()})();

@@ -19,7 +19,7 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  S=back;SLOT=1;window._lastShortCode='';const full=await mkCode();const sc=window._lastShortCode;out.C_shortCode=sc;
  const s2=sc?await readCode(sc):null;out.C_shortCodeLoads=!!s2&&s2.wk===15&&Array.isArray(s2.bigPad)&&s2.bigPad.length===4000;
  // a failure is shown, not swallowed
- failAll=true;HM='';S.cloudErr=0;S.wk=16;save();cloudQ();await new Promise(r=>setTimeout(r,2600));out.D_failureShown=!!S.cloudErr&&/Cloud backup failed/.test(HM);
+ failAll=true;HM='';S.cloudErr=0;S.wk=16;save();cloudQ();await new Promise(r=>setTimeout(r,2600));out.D_failureShown=!!S.cloudErr&&/catching up/.test(String(S.fmsg||'')+String(HM||''))&&!/Cloud backup failed/.test(HM); /* Tyler 2026-11-15: never a scary failure; a calm note, game safe on the phone */
  // an old one-piece backup still loads
  failAll=false;const small={...JSON.parse(j)};delete small.ro;small.ts=Date.now()+99999;store['data/users/tyler/slot2']={z:await gzS(JSON.stringify(small))};
  await cloudInit();const s3=load(2);out.E_oldFormatLoads=!!s3&&s3.name===small.name;

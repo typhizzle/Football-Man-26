@@ -895,3 +895,14 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # retired or left during the season were not, so a rare prospect could share a retired player's name). gen1 caught it.
 r("function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();",
   "function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();try{Object.values(S.seal||{}).forEach(o=>o&&o.n&&taken.add(o.n));Object.values((S.pc&&S.pc.p)||{}).forEach(e=>e&&e.n&&taken.add(e.n));if(S.vetP)taken.add(S.vetP.n)}catch(e){}")
+# m183: existing roster additions (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m183.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m184: QB needs drive the drafts (Tyler 2026-11-15)
+r("const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+need(G)*2.2","const sc=p.gr+(typeof potKnowAdj=='function'?potKnowAdj(T.code||T.i,p,.45):0)+(typeof qbAdj=='function'?qbAdj(pIdx(T.t),p)*.6:0)+need(G)*2.2")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m184.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m185.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m186.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
