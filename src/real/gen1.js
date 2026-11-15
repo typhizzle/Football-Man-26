@@ -3,7 +3,7 @@
 const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg,errs}=await H.open({file:process.env.GN_FILE});const j=fs.readFileSync('/home/claude/specs/simothy-2037.json','utf8');
 const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;window.alert=()=>{};S=mig(JSON.parse(j));SLOT=4;LASTJ='';
- const existing=new Set();for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&x.n)existing.add(x.n)})}
+ const existing=new Set();for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&x.n)existing.add(x.n)})}Object.values(S.seal||{}).forEach(o=>o&&o.n&&existing.add(o.n));
  let g=0;while(g++<200){const e=pevt();if(e.t=='pro'||e.t=='pp'||e.t=='pbw')psim(e);else if(e.t=='bye')pWeek(null);else if(e.t=='ppbye')ppAdv(0);else if(e.t=='fa')S.fa=null;else if(e.t=='sum'){if(!S.psum)mkPsum();break}else break}
  pNext();const Y=yrN();if(!(S.dc&&S.dc[Y]&&S.dc[Y].done))lgDraft();const dc=S.dc[Y];o.year=Y;o.picks=dc.picks.length;
  if(typeof pcByName!='function'){o.err='prospects have no careers';return o}
@@ -19,7 +19,7 @@ const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;wi
  // D: the rookie's card shows his high school and college seasons
  let shown=false;S.T.forEach((t,i)=>{if(shown)return;(rost('h.'+i)||[]).forEach((x,k)=>{if(shown||!x||!x.dr||x.dr.y!==Y)return;pCard(i,k);const tx=ui.innerText||'';shown=(tx.includes('High school & college record')||tx.includes('📇 Career'))&&/High School/.test(tx)})});o.D_cardShows=shown;
  // E: nobody who already existed was given a made-up past
- const gen=Object.values(S.pc.p).filter(e=>e.gen);o.E_noneForExisting=gen.every(e=>!existing.has(e.n));o.generated=gen.length;
+ const gen=Object.values(S.pc.p).filter(e=>e.gen);o.E_noneForExisting=gen.every(e=>!existing.has(e.n));o.E_who=gen.filter(e=>existing.has(e.n)).map(e=>e.n).slice(0,8).join(', ');o.generated=gen.length;
  // F: fixed forever: same after save + reload
  const d=mig(JSON.parse(JSON.stringify(S)));o.F_survivesReload=gen.every(e=>{const id=Object.keys(S.pc.p).find(k=>S.pc.p[k]===e);return JSON.stringify(d.pc.p[id].r)===JSON.stringify(e.r)});
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}return o},j);

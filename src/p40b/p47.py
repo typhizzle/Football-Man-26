@@ -888,3 +888,10 @@ r("if(k=='fg'||k=='punt')return wKick(P,e,t,dt);const wq=wConvPre(P);upd(dt);if(
 r("g.cr=false;g.note='First down: clock stops (college rule, last 2 minutes)'","g.cr=false;g.fdStop=1;g.note='First down: clock stops until the ball is set (college rule, last 2 minutes)'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m181.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m182: free agents to start with + play as an existing free-agent QB (Tyler 2026-11-15)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m182.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# EPLM: a new draft prospect never gets the name of anyone the save has ever known (current rosters were checked; players who
+# retired or left during the season were not, so a rare prospect could share a retired player's name). gen1 caught it.
+r("function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();",
+  "function lgClass(Y){const r=lgSeed('dc'+Y),taken=new Set();try{Object.values(S.seal||{}).forEach(o=>o&&o.n&&taken.add(o.n));Object.values((S.pc&&S.pc.p)||{}).forEach(e=>e&&e.n&&taken.add(e.n));if(S.vetP)taken.add(S.vetP.n)}catch(e){}")
