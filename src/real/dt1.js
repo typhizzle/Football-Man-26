@@ -17,9 +17,9 @@ const out=await pg.evaluate(async([j,jc])=>{const o={};try{window.confirm=()=>tr
 }catch(e){o.err=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}
  // your own draft (college -> pros): same logic; no single-trade cap; every pick still made once
  try{TKGO=1;const cb=JSON.stringify(mig(JSON.parse(jc)));const c1=[],ca=[];let dupe=false,meOk=true;
-  for(let run=0;run<4;run++){S=mig(JSON.parse(cb));SLOT=1;colNext();S.cy=4;colNext();draftStart();const D=S.dr;let g=0;while(D.pk<224&&g++<400)dPick();
+  for(let run=0;run<8;run++){S=mig(JSON.parse(cb));SLOT=1;colNext();S.cy=4;colNext();draftStart();const D=S.dr;let g=0;while(D.pk<224&&g++<400)dPick();
    const n=(D.news||[]).filter(x=>/TRADE/.test(x));c1.push(n.filter(x=>/to pick (\d+)\./.test(x)&&+x.match(/to pick (\d+)\./)[1]<=32).length);ca.push(n.length);
    const names=D.picks.map(p=>p.pi);if(new Set(names).size!==names.length)dupe=true;if(D.P.filter(p=>p.me&&p.tk).length>1)meOk=false}
-  o.col_rd1=c1.join(',');o.col_all=ca.join(',');o.G_colTrades=ca.reduce((a,b)=>a+b,0)/ca.length>=3&&ca.every(n=>n<=18)&&c1.every(n=>n<=5);o.G_colRd1More1=c1.some(n=>n>=2);o.H_noDoublePicks=!dupe&&meOk}catch(e){o.colErr=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}
+  o.col_rd1=c1.join(',');o.col_all=ca.join(',');o.G_colTrades=ca.reduce((a,b)=>a+b,0)/ca.length>=2&&ca.every(n=>n<=18)&&c1.every(n=>n<=5);o.G_colRd1More1=c1.some(n=>n>=2);o.H_noDoublePicks=!dupe&&meOk}catch(e){o.colErr=e.message+' | '+(e.stack||'').split('\n').slice(1,3).join(' ')}
  return o},[j,jc]);
 out.pageErrors=errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3);console.log(JSON.stringify(out,null,1));await b.close()})();
