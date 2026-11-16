@@ -9,7 +9,7 @@ function lnSt(o,m,v){if(!LNP[o.pos]||!g||g.ph=='dead'||g.ph=='wdead')return;cons
 // big words on the field always fit the screen (shrinks, then wraps to two lines)
 function fitFlash(m){const pad=W*.06,maxW=W-pad*2;let fs=Math.max(14,Math.min(W/22,30));cx.font='700 '+fs+'px "Press Start 2P",monospace';let w=cx.measureText(m).width;
  let lines=[m];if(w>maxW){const s2=fs*maxW/w;if(s2>=12){fs=s2}else{const ws=String(m).split(' ');let a='',b='';const half=String(m).length/2;for(const x of ws){if((a+' '+x).trim().length<=half||!a)a=(a+' '+x).trim();else b=(b+' '+x).trim()}lines=b?[a,b]:[a];cx.font='700 '+fs+'px "Press Start 2P",monospace';const mw=Math.max(...lines.map(l=>cx.measureText(l).width));if(mw>maxW)fs=Math.max(9,fs*maxW/mw)}}
- cx.font='700 '+fs+'px "Press Start 2P",monospace';lines.forEach((l,i)=>{const y=H*.26+i*(fs*1.5);cx.fillStyle='#000';cx.fillText(l,W/2+3,y+3);cx.fillStyle='#ffe93b';cx.fillText(l,W/2,y)})}
+ cx.font='700 '+fs+'px "Press Start 2P",monospace';let y0_=H*.26;try{const hb=document.getElementById('hud').getBoundingClientRect();if(hb&&hb.height)y0_=Math.max(y0_,hb.bottom+fs+10);['tbr','camb'].forEach(id=>{const e=document.getElementById(id);if(e&&e.offsetParent){const r=e.getBoundingClientRect();if(r.height&&r.bottom<H*.5)y0_=Math.max(y0_,r.bottom+fs+8)}})}catch(e){}lines.forEach((l,i)=>{const y=y0_+i*(fs*1.5);cx.fillStyle='#000';cx.fillText(l,W/2+3,y+3);cx.fillStyle='#ffe93b';cx.fillText(l,W/2,y)})}
 // rings under players keep the same size in every camera (they used to blow up in Flick view)
 const ringR=()=>Math.min(sc,15);
 // Tayla Swiff: hard to get close to, and she's married to Tractor Swift

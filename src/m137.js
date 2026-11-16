@@ -7,7 +7,7 @@
 // time you look), homecoming is always home, playoffs go to the better seed. Home wears its colors, the
 // visitor wears white. Dallas (the Cowboys of this league) wears white at home, so their visitor wears
 // colors; on the road Dallas is the visitor in white like everyone else. If two jerseys still look alike, the old clash fix runs.
-window.hmWhiteHome=t=>{try{return !!t&&t.city==='Dallas'&&t.n==='Wildcatters'}catch(e){return false}};
+window.hmWhiteHome=t=>{try{return !!t&&t.city==='Dallas'&&(t.n==='Wildcatters'||t.n==='Cattle Boys')}catch(e){return false}};
 window.hmHome=function(){try{const o=g.oi,k=g.kind||'reg';
  const seed=(L,i)=>{const n=L?L.indexOf(i):-1;return n<0?99:n};
  if(k==='pp'&&S.pb&&S.pb.sd){const sd=[...S.pb.sd.RFC,...S.pb.sd.LFC],a=S.pb.sd.RFC.includes(0)?seed(S.pb.sd.RFC,0):seed(S.pb.sd.LFC,0),b=S.pb.sd.RFC.includes(o)?seed(S.pb.sd.RFC,o):seed(S.pb.sd.LFC,o);if(S.pb.r===3)return a<=b;return a<=b}

@@ -22,7 +22,7 @@ window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;c
  const me=mk3(g.mj,1.1,0,{nm:g.mj.nm,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29.2;SLV.z=-50}catch(e){console.warn(e)}};
 (()=>{try{const _c=cheerBuild;cheerBuild=function(){const r=_c.apply(this,arguments);try{slBuild()}catch(e){}return r}}catch(e){}})();
 // each watched drive starts with you on the sideline where the ball is
-window.slStart=function(){try{SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-29.2;SLV.yo=0;SLV.po=0;slCamTxt();
+window.slStart=function(){try{SLV.ay=null;SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-29.2;SLV.yo=0;SLV.po=0;slCamTxt();
  // the coach is right there with you, a few steps up the sideline; the Skip button moves to the corner so it never covers you
  SDL.children.forEach(c=>{if(c.coach)c.position.z=cl(-y-3.5*(c.coach<0?1:-1),-88,-12)});
  ovHide();let k=document.getElementById('slskip');if(!k){k=document.createElement('button');k.id='slskip';k.className='g';k.textContent='Skip drive ⏭';k.setAttribute('onclick','skipW()');k.style.cssText='position:fixed;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:auto;padding:8px 12px;font-size:10px;z-index:6';document.body.appendChild(k)}k.style.display='block'}catch(e){}};
@@ -33,7 +33,7 @@ window.slCamTxt=function(){try{const b=$('#camb');if(!b||!g||!g.watch)return;b.t
 (()=>{try{const _f=wFin;wFin=function(){try{if(SLV.av)SLV.av.visible=false;const k=document.getElementById('slskip');if(k)k.style.display='none'}catch(e){}return _f.apply(this,arguments)}}catch(e){}})();
 // walking + looking (only while watching from the sideline)
 cv.addEventListener('pointerdown',e=>{try{if(!slOnSide())return;const x=e.clientX,y=e.clientY;if(x<W*.38&&y>H*.6&&!joy&&slMe()){joy={id:e.pointerId,ox:x,oy:y,x:0,y:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}SLV.lk={id:e.pointerId,x,y};SLV.lt=performance.now()/1000}catch(_){}});
-cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=cl(SLV.yo-(e.clientX-L.x)*.006,-1.6,1.6);SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.5,.6);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
+cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=SLV.yo-(e.clientX-L.x)*.006;SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.7,.9);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
 ['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{try{if(SLV.lk&&e.pointerId==SLV.lk.id)SLV.lk=null;if(joy&&e.pointerId==joy.id&&g&&g.watch)joy=null}catch(_){}}));
 // nobody stands in the lens: bench players and cheerleaders right at the camera (or between it and you) step out of the shot
 window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G.children.forEach(c=>{if(c===SLV.av)return;if(R<=0){c.visible=true;return}const x=c.position.x,z=c.position.z;
@@ -46,10 +46,10 @@ window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G
  const tx=fxs,tz=-(cam-3);
  // walk
  const ix=(joy&&me?joy.x:0)+(kb.x||0),iy=(joy&&me?joy.y:0)+(kb.y||0);let mv=0;
- const ya=Math.atan2(tz-SLV.z,tx-SLV.x)+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
+ if(SLV.ay==null)SLV.ay=Math.atan2(tz-SLV.z,tx-SLV.x);const ya=SLV.ay+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
  if(me&&(ix||iy)){const sp=5.5*dt,rx=-fz,rz=fx;SLV.x=cl(SLV.x+(fx*iy+rx*ix)*sp,SLX0,SLX1);SLV.z=cl(SLV.z+(fz*iy+rz*ix)*sp,SLZ0,SLZ1);mv=1}
  if(!me){SLV.x=-29.2;SLV.z+=(cl(tz,SLZ0,SLZ1)-SLV.z)*.03}   // your own drive: a sideline camera keeps up with the ball
- if(!SLV.lk&&now-SLV.lt>2.2){SLV.yo*=.96;SLV.po*=.96}   // drift back to the ball
+    // free look: no drift back (Tyler 2026-11-16); double-tap looks at the ball
  if(av){av.position.set(SLV.x,mv?Math.abs(Math.sin(now*12))*.1:0,SLV.z);av.rotation.y=-ya-Math.PI/2;const s=mv?Math.sin(now*12)*.7:0;try{av.L[0].rotation.x=s;av.L[1].rotation.x=-s;av.A[0].rotation.x=-s*.6;av.A[1].rotation.x=s*.6}catch(e){}}
  const lp=SLV.po-.06;let px,py,pz,fv;
  if(SLV.m=='third'&&me){const bk=Math.min(4,Math.max(1.2,(SLV.x+41.5)/Math.max(.2,Math.abs(fx))));px=SLV.x-fx*bk;pz=SLV.z-fz*bk;py=5.4;fv=por?78:58}else{px=SLV.x;pz=SLV.z;py=2.75;fv=por?82:60}

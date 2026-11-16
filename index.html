@@ -364,7 +364,7 @@ const SAB={Florida:'FL',Ohio:'OH',Texas:'TX',Georgia:'GA',Oregon:'OR',Mississipp
 function npxEnsure(){if(S&&S.npx)S.npx.forEach(p=>{if(p.n=='Jeremy Smothers'&&!p.jsF){p.off=2;p.jsF=1}if(p.n=='Darnold Mansion'&&!p.dmF){if(!p.pro)p.off=3;p.rs=1;p.dmF=1}});if(S&&S.npx&&S.npv!==NPX0.length){npxFix();S.npv=NPX0.length}npxReal();if(!S||S.npx)return;const r=rng((S.seed||1)*29+7);S.npx=NPX0.map(([n,pos,sk,T,num,off,gen],id)=>{const sc=NSCH[sk],st=sc[1],TW=TWN[st]||PF,mine=st==S.hst,hsi=mine?1+(r()*39|0):-1;
 return{id,n,pos,num,sk,cn:sc[0],sch:sc[2],st,T,tx:1,off,gen:gen?1:0,hsi,hs:mine?null:TW[r()*TW.length|0]+' '+MS[r()*12|0]+' HS'}})}
 // where each player is right now (relative to your timeline): hs year, college year or pro
-const npxAt=p=>{if(p.pro)return{lv:'pro'};if(S&&S.tkPend&&S.stage=='pro')return{lv:'col',y:4,toD:1};const st=S.stage||'hs';if(st=='draft'||st=='pro')return{lv:'pro'};const uy=st=='hs'?Math.min(S.yr||1,4):4+Math.min(S.cy||1,4),y=uy+p.off;return y<=4?{lv:'hs',y}:{lv:'col',y:Math.min(4,y-4),toD:4+(p.dk||1)-uy}};
+const npxAt=p=>{if(p.pro)return{lv:'pro'};if(typeof npxTk=='function'){const t_=npxTk(p);if(t_)return t_}if(S&&S.tkPend&&S.stage=='pro')return{lv:'col',y:4,toD:1};const st=S.stage||'hs';if(st=='draft'||st=='pro')return{lv:'pro'};const uy=st=='hs'?Math.min(S.yr||1,4):4+Math.min(S.cy||1,4),y=uy+p.off;return y<=4?{lv:'hs',y}:{lv:'col',y:Math.min(4,y-4),toD:4+(p.dk||1)-uy}};
 const npxRating=(p,w)=>{const c=npxCol(p);return w.lv=='hs'?cl(Math.round(c[0]+6-[20,13,6,0][cl(w.y,1,4)-1]),40,97):w.lv=='col'?cl(Math.round(c[0]+(c[1]-c[0])*(cl(w.y,1,4)-1)/3+((p.dk||1)>1?3:0)),50,99):p.T};
 const npxHS=p=>p.hsi>=0&&S.T&&S.T[p.hsi]&&!S.stage?S.T[p.hsi].n:p.hs||(S.hs&&S.hs.T&&S.hs.T[p.hsi]?S.hs.T[p.hsi].n:'High school');
 const NSL={QB:[0],RB:[1],WR:[2,3,4]};
@@ -1366,7 +1366,7 @@ const cu=P.car===q?((P.call.t=='run'&&!P.handed)?null:q):null;
 if(cu){const l=Math.hypot(inp.x,inp.y);if(l>.05){const s=cu.sp*(cu.stum>0?.55:1)*(cu.mv>0&&cu.mt=='truck'?1.25:1)*Math.min(1,l);cu.vx=inp.x/l*s;cu.vy=inp.y/l*s}else cu.vx=cu.vy=0;
 cu.x+=cu.vx*dt;cu.y+=cu.vy*dt;if(cu.x<0||cu.x>53.3||cu.y<-10)return endPlay(cu.y,'OUT OF BOUNDS',{oob:1});if(cu.stum>0)cu.stum-=dt;if(cu.mv>0)cu.mv-=dt;if(cu===q&&q.y>g.los+.6)P.run=true;if(cu.y>=100)return endPlay(100,'TOUCHDOWN RUN!')}
 P.ol.forEach(b=>b.y=g.los-.8-Math.min(P.t*.18,1.4));
-P.wr.forEach(w=>{if(w===P.car)return;let tx,ty,sp=w.sp;if(a&&a.tgt===w){tx=a.lx;ty=a.ly}else{const p=w.wp[0];if(!p){if(w.hold||['run','qbrun','option'].includes(P.call.t)){w.vx=w.vy=0;return}if(w.sct==null)w.sct=P.t;const d=w.ld||[0,1];if(d[1]<.35&&w.y<g.los+3.5&&!P.passed){w.ld=[d[0]*.6,.8];}const nx=w.x+d[0]*4,ny=w.y+d[1]*4,ob_=d[1]<-.3||nx<2||nx>51.3||ny>106;if(P.passed||(P.t-w.sct<.6&&!ob_)){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else{const s=scrSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.85;if(Math.hypot(tx-w.x,ty-w.y)<1.2){w.ss=null;w.ssT=0;const s2=scrSpot(w,P);tx=s2[0];ty=s2[1]}}}else{tx=p[0];ty=p[1];if(Math.hypot(tx-w.x,ty-w.y)<.6){w.wp.shift();try{wrCut(w,P)}catch(e){}}}}mv(w,tx,ty,sp,dt);w.x=cl(w.x,1.5,51.8);w.y=Math.min(w.y,108);const hv=Math.hypot(w.vx,w.vy);if(hv>1&&w.wp.length)w.ld=[w.vx/hv,w.vy/hv]});
+P.wr.forEach(w=>{if(w===P.car)return;let tx,ty,sp=w.sp;if(a&&a.tgt===w){tx=a.lx;ty=a.ly}else{const p=w.wp[0];if(!p){if(w.hold||['run','qbrun','option'].includes(P.call.t)){w.vx=w.vy=0;return}if(w.sct==null)w.sct=P.t;const d=w.ld||[0,1];if(d[1]<.35&&w.y<g.los+3.5&&!P.passed){w.ld=[d[0]*.6,.8];}const nx=w.x+d[0]*4,ny=w.y+d[1]*4,ob_=d[1]<-.3||nx<2||nx>51.3||ny>106;if(P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!ob_){tx=nx;ty=ny}else if(d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<2.4){tx=w.x;ty=w.y;sp=0}else{const s=scrSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.85;if(Math.hypot(tx-w.x,ty-w.y)<1.2){w.ss=null;w.ssT=0;const s2=scrSpot(w,P);tx=s2[0];ty=s2[1]}}}else{tx=p[0];ty=p[1];if(Math.hypot(tx-w.x,ty-w.y)<.6){w.wp.shift();try{wrCut(w,P)}catch(e){}}}}mv(w,tx,ty,sp,dt);w.x=cl(w.x,1.5,51.8);w.y=Math.min(w.y,108);const hv=Math.hypot(w.vx,w.vy);if(hv>1&&w.wp.length)w.ld=[w.vx/hv,w.vy/hv]});
 if(a){a.t+=dt;if(a.t>=a.T){land();if(P.done)return}}
 const c=P.car;if(c&&c!==q){let ax=0,ay=1.3;P.def.forEach(d=>{const dx=c.x-d.x,dy=c.y-d.y,dd=Math.hypot(dx,dy)||.1;if(dd<6&&dy<1.5){ax+=dx/dd*3/dd;ay-=.25/dd}});if(P.lane!=null&&c===P.rb&&c.y<g.los+8&&Math.abs(c.x-P.lane)>4){ax+=Math.sign(P.lane-c.x)*1.3;ay=Math.max(ay,1.2)}if(c.x<5)ax+=1.2;if(c.x>48.3)ax-=1.2;ay=Math.max(ay,.3);
 const l=Math.hypot(ax,ay),f=c.sp*(c.stum>0?.6:1)*(c===P.rb&&P.lane!=null?1.14:1);c.vx=ax/l*f;c.vy=ay/l*f;c.x+=c.vx*dt;c.y+=c.vy*dt;c.stum-=dt;P.run=true;
@@ -1379,7 +1379,7 @@ if(P.run&&t){const dd_=Math.hypot(t.x-d.x,t.y-d.y),ld_=cl(dd_/(d.sp+.1)*.55,.3,1
 else if(d.spy){const q_=P.qb,dd_=Math.hypot(q_.x-d.x,q_.y-d.y);if(P.car===q_&&(dd_<3.5||q_.y>g.los-.3||Math.abs(q_.x-26.5)>5.5)){tx=q_.x+(q_.vx||0)*.25;ty=q_.y+(q_.vy||0)*.25;d.cbB=1.08}else{tx=q_.x;ty=Math.max(g.los+1.2,q_.y+4.5)}}else if(d.lag>0&&(d.w||!d.spy)){d.lag-=dt;tx=d.lgx;ty=d.lgy;d.cbB=0}else if(d.w){tx=d.w.x+d.w.vx*.4;ty=d.w.y+(d.w.vy||0)*.3+(d.zc||1.2);{const sep_=Math.hypot(tx-d.x,ty-d.y);d.cbB=sep_>2.0?cl((d.w.sp||8)*(.92+((d.cov||70)-(d.w.rr||d.w.elu||70))/250)/d.sp,1,1.08):0}}else{const z_=zoneT(d,P);tx=z_[0];ty=z_[1]}mv(d,tx,ty,d.sp*(d.cbB&&!P.run?d.cbB:1)*(P.lane!=null&&P.car===P.rb?.9:1)*(P.run&&P.car?purF(d,P.car):1),dt)});
 const k=P.car;if(k)for(const d of P.def){if(d.beat===false||d.stun>0||d.cd>0)continue;if(Math.hypot(d.x-k.x,d.y-k.y)<1.1){hit(d);if(P.done||P.car!==k)return}}}
 function hit(d){if(g.pl&&g.pl.ir)return;if(!g.pl||!g.pl.car)return;const P=g.pl,c=P.car,isq=c===P.qb,sk=isq&&!P.run,pk=sk?.97-S.q.mob*.0035:cl(.45+(d.tkl-(c.elu||70))/170,.12,.93);
-if(c.mv>0&&c.mt=='truck'&&!c.trkU&&R()<(c===P.qb?.12+(S.q.trk||60)*.004:.34)*(c.eff||1)*Math.pow(.45,c.trkN||0)){c.trkN=(c.trkN||0)+1;c.trkU=1;const vl=Math.hypot(c.vx||0,c.vy||0)||1;d.x+=(c.vx||0)/vl*1.8;d.y+=(c.vy||0)/vl*1.8;d.stun=1.7;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=.35;g.flash='TRUCKED!';g.ft=.7;return}if(c.mv>0&&c.mt=='truck')c.trkU=1;if(R()>pk-(c.mv>0?.28*(c.eff||1):0)){d.cd=.55;d.stun=.3;c.stum=.4;return}
+if(c.mv>0&&c.mt=='truck'&&!c.trkU&&R()<(c===P.qb?.12+(S.q.trk||60)*.004:.34)*(c.eff||1)*Math.pow(.45,c.trkN||0)){c.trkN=(c.trkN||0)+1;c.trkU=1;const vl=Math.hypot(c.vx||0,c.vy||0)||1;d.kbFrom=[d.x,d.y];d.kdS=performance.now();d.kdF=R()<.62;d.x+=(c.vx||0)/vl*(d.kdF?2.2:1.3);d.y+=(c.vy||0)/vl*(d.kdF?2.2:1.3);d.stun=d.kdF?1.9:.95;d.kdU=d.stun;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=d.kdF?.4:.22;g.flash=d.kdF?'TRUCKED!':'SHRUGGED OFF!';g.ft=.7;return}if(c.mv>0&&c.mt=='truck')c.trkU=1;if(R()>pk-(c.mv>0?.28*(c.eff||1):0)){d.cd=.55;d.stun=.3;c.stum=.4;return}
 P.tkr=d;g.sh=sk?.55:.25;const f=cl((typeof fumHit=='function'?fumHit(isq?S.q.sec:c.hands)*Math.pow(d.str/70,1.2)*(sk?1.4:1):.011*Math.pow(d.str/70,1.5)*(70/(isq?S.q.sec:c.hands))*(sk?1.7:1)*(isq?1+Math.max(0,S.q.pow-65)*.008:1)),.0002,.08),y=Math.min(99.4,c.y+(sk||(c.vy||0)<=0?0:cl(.45+(c.vy||0)*.12,.45,1.6)));
 if(R()<f)return fumStart(c,y,sk);
 endPlay(y,sk?'SACKED!':(c.x<1.1||c.x>52.2)?'Pushed out of bounds':'Tackled',{sk,oob:!sk&&(c.x<.35||c.x>52.95)})}
@@ -1587,7 +1587,7 @@ const CEL=[['SPIN MOVE',(m,t)=>{m.rotation.y+=t*9;m.A[0].rotation.x=m.A[1].rotat
 function sy(o,j,f,q){if(!o.m){o.sk=plSkinOf(o);const mine=q&&!g.sw&&!g.injW;o.m=mk3(j,1.1,o.sk,{nm:mine?j.nm:(o.nm||''),num:mine?S.num:(o.num==null?'':o.num)},mine&&S.ap,0,q?1:0);DYN.add(o.m)}
 const m=o.m,P=g.pl,v=Math.hypot(o.vx||0,o.vy||0),t=performance.now()/1000,ia=S.hand=='Left'?0:1,car=P.car===o;
 m.position.set(o.x-26.5,v>.3?Math.abs(Math.sin(t*14))*.14:0,-o.y);m.rotation.x=0;m.rotation.z=0;m.A[0].rotation.z=m.A[1].rotation.z=0;if(m.ar)artRst(m);
-if(o.kd&&o.stun>0){m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}if(o.kd&&!(o.stun>0))o.kd=0;
+if(o.kd&&o.stun>0){if(o.kdS&&typeof trkPose=='function'){trkPose(o,m);return}m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}if(o.kdS&&!(o.stun>0))o.kdS=0;if(o.kd&&!(o.stun>0))o.kd=0;
 if(v>.3){m.rotation.y=Math.atan2(-o.vx,o.vy);const s=Math.sin(t*(car?12:14)),a=car?1.15:.8;m.L[0].rotation.x=s*a;m.L[1].rotation.x=-s*a;
 if(car){m.rotation.x=-.28;m.rotation.z=s*.06;m.A[ia].rotation.x=1.3;m.A[1-ia].rotation.x=-s*1.3}else{m.A[0].rotation.x=-s*.8;m.A[1].rotation.x=s*.8}if(m.ar){for(const l of m.L)l.S.rotation.x=-.25-Math.max(0,-l.rotation.x)*1.1;for(const a_ of m.A)a_.F.rotation.x=1.25}}
 else{m.rotation.y=f;m.L[0].rotation.x=m.L[1].rotation.x=0;m.A[0].rotation.x=m.A[1].rotation.x=0}
@@ -1611,7 +1611,7 @@ if(a){P.tr=P.tr||[];P.tr.push([P.bm.position.x+26.5,-P.bm.position.z,P.bm.positi
 
 const ring=(p,col)=>{cx.strokeStyle=col;cx.lineWidth=4;cx.beginPath();cx.ellipse(p[0],p[1],ringR()*1.3,ringR()*.55,0,0,7);cx.stroke()};
 (g.sw?[]:P.wr).forEach(w=>{if(w===P.car)return;const sp=Math.min(...P.def.map(d=>Math.hypot(d.x-w.x,d.y-w.y)));ring(pj(w.x,w.y),sp>3?'#4fd37a':sp>1.8?'#ffd83b':'#ff5a5a')});if(!g.sw)ring(pj(P.qb.x,P.qb.y),'#ff6a1f');const fs_=(CAMI==1||CAMI==2)?11:Math.round(Math.max(10,Math.min(15,sc*1.05)));cx.font='700 '+fs_+'px sans-serif';cx.lineWidth=3;cx.strokeStyle='#000';
-[...P.ol,...P.wr,P.qb,...P.def].forEach(o=>{const p=pj(o.x,o.y,3.3),t=(CAMI==1||CAMI==2)?(CAMI==1&&Math.hypot(o.x-P.qb.x,o.y-P.qb.y)<9?'':String(o.num)):(P.def.includes(o)?((sc>13&&o.nm?o.nm.slice(0,9)+' ':'')+o.num):((o.nm?o.nm.slice(0,13)+' ':'')+o.num));cx.strokeText(t,p[0],p[1]);cx.fillStyle=P.def.includes(o)?'#ffd0d0':'#fff';cx.fillText(t,p[0],p[1])});
+(S.ntag==='off'?[]:[...P.ol,...P.wr,P.qb,...P.def]).forEach(o=>{const p=pj(o.x,o.y,3.3),t=S.ntag==='num'?String(o.num):(CAMI==1||CAMI==2)?(CAMI==1&&Math.hypot(o.x-P.qb.x,o.y-P.qb.y)<9?'':String(o.num)):(P.def.includes(o)?((sc>13&&o.nm?o.nm.slice(0,9)+' ':'')+o.num):((o.nm?o.nm.slice(0,13)+' ':'')+o.num));cx.strokeText(t,p[0],p[1]);cx.fillStyle=P.def.includes(o)?'#ffd0d0':'#fff';cx.fillText(t,p[0],p[1])});
 if(g.ph=='pre'&&g.tk&&g.sel){const pl=PB[g.sel[0]][g.sel[1]],rs=pl[2].split(',');cx.lineWidth=4;cx.setLineDash([10,7]);cx.lineDashOffset=-(performance.now()/40)%17;
 P.wr.forEach((w,k)=>{const wp=RTE(rs[k],w.x,w.y,w.sd);if(!wp.length||(wp.length==1&&Math.abs(wp[0][1]-w.y)<.1))return;drawPath([[w.x,w.y],...wp.map(q=>[cl(q[0],2,51),q[1]])],PCOL[k])});
 const xp=XP[pl[0]];if(xp)drawPath(xp.map(q=>[q[0],q[1]+g.los]),'#ff5a5a');cx.setLineDash([])}
@@ -1621,7 +1621,7 @@ cx.fillStyle='#8b4a1e';cx.strokeStyle='#000';cx.lineWidth=3;cx.beginPath();cx.el
 let nb=null,nd=1e9;P.wr.forEach(w=>{const d=Math.hypot(w.x-t[0],w.y-t[1]);if(d<nd){nd=d;nb=w}});if(nb)ring(pj(nb.x,nb.y),nd<7?'#4fd37a':'#ffffff');try{const yd=Math.round(Math.max(0,t[1]-q.y)),tp=pj(t[0],t[1]),off=tp[1]<40||tp[1]>H-20||tp[0]<0||tp[0]>W,lab=yd+' yd throw'+(nb&&nd<7&&nb.n?' → '+String(nb.n).split(' ').lnPop():'');cx.save();cx.font='700 13px "Press Start 2P",monospace';cx.textAlign='center';cx.lineWidth=4;cx.strokeStyle='#000';const lx=cl(bp[0],70,W-70),ly=cl(bp[1]-40,60,H-30);cx.strokeText(lab,lx,ly);cx.fillStyle=far?'#ff5a5a':'#ffe93b';cx.fillText(lab,lx,ly);if(off){const ax=cl(tp[0],24,W-24);cx.fillStyle='#ffe93b';cx.beginPath();cx.moveTo(ax,36);cx.lineTo(ax-12,58);cx.lineTo(ax+12,58);cx.closePath();cx.fill();cx.stroke()}cx.restore()}catch(e){}
 cx.fillStyle=col;const Tt=Math.hypot(t[0]-q.x,t[1]-q.y),ht=Math.min(6,Tt/(16+S.q.pow*.1)*5);for(let i=1;i<=14;i++){const f=i/14,a=pj(q.x+(t[0]-q.x)*f,q.y+(t[1]-q.y)*f,1.6+Math.sin(Math.PI*f)*ht);cx.beginPath();cx.arc(a[0],a[1],i==14?0:4.5-f*2,0,7);cx.fill()}
 const tp=pj(t[0],t[1]);cx.strokeStyle=col;cx.lineWidth=4;cx.beginPath();cx.ellipse(tp[0],tp[1],sc*1.5,sc*.65,0,0,7);cx.stroke();cx.beginPath();cx.ellipse(tp[0],tp[1],sc*.6,sc*.26,0,0,7);cx.stroke()}}
-if(g.ph=='live'&&g.pl&&g.pl.car===g.pl.qb&&!g.pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2){cx.globalAlpha=.9;cx.font='700 '+Math.max(10,Math.min(W/33,20))+'px "Press Start 2P",monospace';cx.fillStyle='#000';cx.fillText('PULL BACK OR SWIPE UP TO THROW',W/2+2,H*.8+2);cx.fillStyle='#fff';cx.fillText('PULL BACK OR SWIPE UP TO THROW',W/2,H*.8);cx.globalAlpha=1}
+if(g.ph=='live'&&g.pl&&g.pl.car===g.pl.qb&&!g.pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2&&!(typeof CTL!='undefined'&&CTL.mode==='pad')){cx.globalAlpha=.9;cx.font='700 '+Math.max(10,Math.min(W/33,20))+'px "Press Start 2P",monospace';cx.fillStyle='#000';cx.fillText('PULL BACK OR SWIPE UP TO THROW',W/2+2,H*.8+2);cx.fillStyle='#fff';cx.fillText('PULL BACK OR SWIPE UP TO THROW',W/2,H*.8);cx.globalAlpha=1}
 if((CAMI==1||CAMI==2)&&g.ph=='live'&&!aim&&!swp){cx.globalAlpha=.8;cx.font='700 '+Math.max(9,Math.min(W/38,16))+'px "Press Start 2P",monospace';cx.fillStyle='#000';cx.fillText('SWIPE ↑ THROW · DRAG LOOK · PULL ↓ AIM',W/2+2,H*.96+2);cx.fillStyle='#fff';cx.fillText('SWIPE ↑ THROW · DRAG LOOK · PULL ↓ AIM',W/2,H*.96);cx.globalAlpha=1}
 swDraw(cx);if(joy){cx.strokeStyle='#fff8';cx.lineWidth=3;cx.beginPath();cx.arc(joy.ox,joy.oy,45,0,7);cx.stroke();cx.fillStyle='#fff6';cx.beginPath();cx.arc(joy.ox+joy.x*45,joy.oy-joy.y*45,18,0,7);cx.fill()}
 if(g.ph=='pre'&&g.tk&&g.stage=='line'&&!g.am){cx.globalAlpha=.65+.35*Math.sin(performance.now()/260);cx.font='700 '+Math.max(16,Math.min(W/16,34))+'px "Press Start 2P",monospace';cx.fillStyle='#000';cx.fillText('TAP TO HUT',W/2+3,H*.86+3);cx.fillStyle='#ffe93b';cx.fillText('TAP TO HUT',W/2,H*.86);cx.globalAlpha=1;cx.font='700 '+Math.max(8,Math.min(W/42,12))+'px "Press Start 2P",monospace';cx.fillStyle='#000';cx.fillText('RUN: ←→ JUKE · ↑ TRUCK · ↗ SPIN · ↓ SLIDE',W/2+1,H*.93+1);cx.fillStyle='#fff';cx.fillText('RUN: ←→ JUKE · ↑ TRUCK · ↗ SPIN · ↓ SLIDE',W/2,H*.93)}
@@ -4212,7 +4212,7 @@ function athTxt(F){if(!F||!F.ath||F.ath=='none')return '';const s=F.athS||{},m=F
 const CELB=[
 ['tscoot','Travis Scoot','cactusjerk',0,4,4,'#1b1b1b',2,1,0,'#7a5a3a','#d9c39a','#3b3b3b','chain',3,'hyped, says "it\'s lit" and "straight up", uses lots of fire emojis','braids',['Cactus Jerk Meal','a fast-food combo named after you']],
 ['drizzle','Drizzle','drizzleovo',0,3,1,'#1b1b1b',3,1,1,'#111111','#d4af37','#111111','chain',3,'smooth and a little emotional, reps his hometown, calls people "fam"','short',['OVOvo','a hoodie collab']],
-['kyeast','Kanye Westley','kanyewestley',0,4,1,'#1b1b1b',1,1,1,'#2a2a2a','#555555','#2a2a2a','shades',3,'eccentric genius, posts hot takes in ALL CAPS','buzz',['Westzy','a sneaker collab']],
+['kyeast','Kanye Westley','kanyewestley',0,4,1,'#1b1b1b',1,1,1,'#2a2a2a','#555555','#2a2a2a','shades',3,'eccentric genius, posts hot takes in ALL CAPS','buzz',['Yeezers','a sneaker collab']],
 ['yeet','Yeet','yeetmusic',0,2,0,'#1b1b1b',2,1,0,'#4a4a32','#3a3a28','#2a2a2a','balaclava,capback',2,'talks in weird made-up slang, very chill','curly'],
 ['diddly','Didd-E','didde',0,5,0,'#1b1b1b',1,1,1,'#ffffff','#d4af37','#ffffff','shades,chain',3,'flashy party host, always promoting his brand','bald'],
 ['beyelash','Billie Eyelash','billieeyelash',1,0,4,'#111111',0,0,1,'#1b1b1b','#a6f20c','#1b1b1b','roots:#a6f20c,chain',3,'soft-spoken, dry sense of humor, lowercase texts','long'],
@@ -5737,7 +5737,7 @@ function lnSt(o,m,v){if(!LNP[o.pos]||!g||g.ph=='dead'||g.ph=='wdead')return;cons
 // big words on the field always fit the screen (shrinks, then wraps to two lines)
 function fitFlash(m){const pad=W*.06,maxW=W-pad*2;let fs=Math.max(14,Math.min(W/22,30));cx.font='700 '+fs+'px "Press Start 2P",monospace';let w=cx.measureText(m).width;
  let lines=[m];if(w>maxW){const s2=fs*maxW/w;if(s2>=12){fs=s2}else{const ws=String(m).split(' ');let a='',b='';const half=String(m).length/2;for(const x of ws){if((a+' '+x).trim().length<=half||!a)a=(a+' '+x).trim();else b=(b+' '+x).trim()}lines=b?[a,b]:[a];cx.font='700 '+fs+'px "Press Start 2P",monospace';const mw=Math.max(...lines.map(l=>cx.measureText(l).width));if(mw>maxW)fs=Math.max(9,fs*maxW/mw)}}
- cx.font='700 '+fs+'px "Press Start 2P",monospace';lines.forEach((l,i)=>{const y=H*.26+i*(fs*1.5);cx.fillStyle='#000';cx.fillText(l,W/2+3,y+3);cx.fillStyle='#ffe93b';cx.fillText(l,W/2,y)})}
+ cx.font='700 '+fs+'px "Press Start 2P",monospace';let y0_=H*.26;try{const hb=document.getElementById('hud').getBoundingClientRect();if(hb&&hb.height)y0_=Math.max(y0_,hb.bottom+fs+10);['tbr','camb'].forEach(id=>{const e=document.getElementById(id);if(e&&e.offsetParent){const r=e.getBoundingClientRect();if(r.height&&r.bottom<H*.5)y0_=Math.max(y0_,r.bottom+fs+8)}})}catch(e){}lines.forEach((l,i)=>{const y=y0_+i*(fs*1.5);cx.fillStyle='#000';cx.fillText(l,W/2+3,y+3);cx.fillStyle='#ffe93b';cx.fillText(l,W/2,y)})}
 // rings under players keep the same size in every camera (they used to blow up in Flick view)
 const ringR=()=>Math.min(sc,15);
 // Tayla Swiff: hard to get close to, and she's married to Tractor Swift
@@ -10060,7 +10060,7 @@ window.ctlStep=function(){try{
   if(lx||ly){kb.x=lx;kb.y=-ly;CTL.wasKb=true}else if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false;try{kv()}catch(e){}}
   const P=g.pl;
   if(g.ph==='live'&&P){const q=P.qb;
-   if(P.car===q&&!P.air&&!P.passed){for(let i=0;i<5;i++)if(edge(CTL_RB[i])){ctlThrow(i);break}}
+   if(P.car===q&&!P.air&&!P.passed){if(typeof ctlPA=='function')ctlPA(down,edge,lx,ly);else for(let i=0;i<5;i++)if(edge(CTL_RB[i])){ctlThrow(i);break}}
    else if(P.car&&P.car!==q||(P.car===q&&P.passed)){
     // the game's own run moves (what a swipe does): right stick left/right juke, up truck; B spin
     const k=(rx||ry)?(Math.abs(rx)>Math.abs(ry)?'x':'y'):'';
@@ -10078,7 +10078,7 @@ window.ctlThrow=function(i){try{const P=g.pl,q=P.qb,w=ctlRecv()[i];if(!w||g.ph!=
  g.swp={p:Math.round(Math.min(1,d/Rg)*100),t:performance.now()};doThrow(w,cl(lx,1.4,51.9),ly)}catch(e){}};
 // ---------- the button over each receiver ----------
 (()=>{try{const _d=draw;draw=function(){const r=_d.apply(this,arguments);try{if(CTL.mode==='pad'&&g&&g.ph==='live'&&g.pl&&g.pl.car===g.pl.qb&&!g.pl.air){const C=ctlRecv(),cols=CTL.kind==='ps'?['#5a8dee','#e0454e','#d77bd3','#3fbfa3','#ffffff']:['#3fb950','#e5534b','#4493f8','#e8b923','#ffffff'];
-  C.forEach((w,i)=>{const s=pj(w.x,w.y,2.6);if(!s||!isFinite(s[0]))return;cx.save();cx.setTransform(1,0,0,1,0,0);cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],13,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
+  C.forEach((w,i)=>{const s=pj(w.x,w.y,typeof paIconY!='undefined'?paIconY:2.6),s0=pj(w.x,w.y,2.4);if(!s||!isFinite(s[0]))return;const held=typeof PA!='undefined'&&PA.i>=0,sel=held&&PA.i===i,rr=sel?16:13;cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=held&&!sel?.35:1;if(s0&&isFinite(s0[0])){cx.strokeStyle=cols[i];cx.lineWidth=2;cx.beginPath();cx.moveTo(s[0],s[1]+rr);cx.lineTo(s0[0],s0[1]);cx.stroke()}cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],rr,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=sel?4:3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
 (function ctlLoop(){try{ctlStep()}catch(e){}requestAnimationFrame(ctlLoop)})();
 // ===== 🏟 Home and away jerseys =====
 // Tyler, 2026-11-14: "make sure there were home and away jerseys cause sometimes teams be wearing the same
@@ -10089,7 +10089,7 @@ window.ctlThrow=function(i){try{const P=g.pl,q=P.qb,w=ctlRecv()[i];if(!w||g.ph!=
 // time you look), homecoming is always home, playoffs go to the better seed. Home wears its colors, the
 // visitor wears white. Dallas (the Cowboys of this league) wears white at home, so their visitor wears
 // colors; on the road Dallas is the visitor in white like everyone else. If two jerseys still look alike, the old clash fix runs.
-window.hmWhiteHome=t=>{try{return !!t&&t.city==='Dallas'&&t.n==='Wildcatters'}catch(e){return false}};
+window.hmWhiteHome=t=>{try{return !!t&&t.city==='Dallas'&&(t.n==='Wildcatters'||t.n==='Cattle Boys')}catch(e){return false}};
 window.hmHome=function(){try{const o=g.oi,k=g.kind||'reg';
  const seed=(L,i)=>{const n=L?L.indexOf(i):-1;return n<0?99:n};
  if(k==='pp'&&S.pb&&S.pb.sd){const sd=[...S.pb.sd.RFC,...S.pb.sd.LFC],a=S.pb.sd.RFC.includes(0)?seed(S.pb.sd.RFC,0):seed(S.pb.sd.LFC,0),b=S.pb.sd.RFC.includes(o)?seed(S.pb.sd.RFC,o):seed(S.pb.sd.LFC,o);if(S.pb.r===3)return a<=b;return a<=b}
@@ -11983,7 +11983,7 @@ window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;c
  const me=mk3(g.mj,1.1,0,{nm:g.mj.nm,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29.2;SLV.z=-50}catch(e){console.warn(e)}};
 (()=>{try{const _c=cheerBuild;cheerBuild=function(){const r=_c.apply(this,arguments);try{slBuild()}catch(e){}return r}}catch(e){}})();
 // each watched drive starts with you on the sideline where the ball is
-window.slStart=function(){try{SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-29.2;SLV.yo=0;SLV.po=0;slCamTxt();
+window.slStart=function(){try{SLV.ay=null;SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-29.2;SLV.yo=0;SLV.po=0;slCamTxt();
  // the coach is right there with you, a few steps up the sideline; the Skip button moves to the corner so it never covers you
  SDL.children.forEach(c=>{if(c.coach)c.position.z=cl(-y-3.5*(c.coach<0?1:-1),-88,-12)});
  ovHide();let k=document.getElementById('slskip');if(!k){k=document.createElement('button');k.id='slskip';k.className='g';k.textContent='Skip drive ⏭';k.setAttribute('onclick','skipW()');k.style.cssText='position:fixed;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:auto;padding:8px 12px;font-size:10px;z-index:6';document.body.appendChild(k)}k.style.display='block'}catch(e){}};
@@ -11994,7 +11994,7 @@ window.slCamTxt=function(){try{const b=$('#camb');if(!b||!g||!g.watch)return;b.t
 (()=>{try{const _f=wFin;wFin=function(){try{if(SLV.av)SLV.av.visible=false;const k=document.getElementById('slskip');if(k)k.style.display='none'}catch(e){}return _f.apply(this,arguments)}}catch(e){}})();
 // walking + looking (only while watching from the sideline)
 cv.addEventListener('pointerdown',e=>{try{if(!slOnSide())return;const x=e.clientX,y=e.clientY;if(x<W*.38&&y>H*.6&&!joy&&slMe()){joy={id:e.pointerId,ox:x,oy:y,x:0,y:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}SLV.lk={id:e.pointerId,x,y};SLV.lt=performance.now()/1000}catch(_){}});
-cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=cl(SLV.yo-(e.clientX-L.x)*.006,-1.6,1.6);SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.5,.6);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
+cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=SLV.yo-(e.clientX-L.x)*.006;SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.7,.9);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
 ['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{try{if(SLV.lk&&e.pointerId==SLV.lk.id)SLV.lk=null;if(joy&&e.pointerId==joy.id&&g&&g.watch)joy=null}catch(_){}}));
 // nobody stands in the lens: bench players and cheerleaders right at the camera (or between it and you) step out of the shot
 window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G.children.forEach(c=>{if(c===SLV.av)return;if(R<=0){c.visible=true;return}const x=c.position.x,z=c.position.z;
@@ -12007,10 +12007,10 @@ window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G
  const tx=fxs,tz=-(cam-3);
  // walk
  const ix=(joy&&me?joy.x:0)+(kb.x||0),iy=(joy&&me?joy.y:0)+(kb.y||0);let mv=0;
- const ya=Math.atan2(tz-SLV.z,tx-SLV.x)+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
+ if(SLV.ay==null)SLV.ay=Math.atan2(tz-SLV.z,tx-SLV.x);const ya=SLV.ay+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
  if(me&&(ix||iy)){const sp=5.5*dt,rx=-fz,rz=fx;SLV.x=cl(SLV.x+(fx*iy+rx*ix)*sp,SLX0,SLX1);SLV.z=cl(SLV.z+(fz*iy+rz*ix)*sp,SLZ0,SLZ1);mv=1}
  if(!me){SLV.x=-29.2;SLV.z+=(cl(tz,SLZ0,SLZ1)-SLV.z)*.03}   // your own drive: a sideline camera keeps up with the ball
- if(!SLV.lk&&now-SLV.lt>2.2){SLV.yo*=.96;SLV.po*=.96}   // drift back to the ball
+    // free look: no drift back (Tyler 2026-11-16); double-tap looks at the ball
  if(av){av.position.set(SLV.x,mv?Math.abs(Math.sin(now*12))*.1:0,SLV.z);av.rotation.y=-ya-Math.PI/2;const s=mv?Math.sin(now*12)*.7:0;try{av.L[0].rotation.x=s;av.L[1].rotation.x=-s;av.A[0].rotation.x=-s*.6;av.A[1].rotation.x=s*.6}catch(e){}}
  const lp=SLV.po-.06;let px,py,pz,fv;
  if(SLV.m=='third'&&me){const bk=Math.min(4,Math.max(1.2,(SLV.x+41.5)/Math.max(.2,Math.abs(fx))));px=SLV.x-fx*bk;pz=SLV.z-fz*bk;py=5.4;fv=por?78:58}else{px=SLV.x;pz=SLV.z;py=2.75;fv=por?82:60}
@@ -12271,7 +12271,7 @@ window.bxRecv2=function(ti,L,r){try{if(typeof bxNew!='function'||!bxNew()||typeo
  // a backup receiver / tight end (bench) gets some looks too
  const bks=L.map((x,j)=>({x,j})).filter(o=>o.j>=25&&o.x&&!o.x.inj&&(o.x.pos==='WR'||o.x.pos==='TE')).slice(0,2);bks.forEach((o,i)=>{k.push(o.j);w.push(i===0?.14+(t[0]>.5?.03:0):.08);av.push(10.4);tw.push(i===0?.05:.02)});
  // the top receiver's share of the team's passing YARDS is capped (an elite No. 1 gets ~40%, an average one ~28%); the rest is spread to the others
- {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),mi=yw.indexOf(Math.max(...yw)),cap=cl(.2+((ov[mi]||75)-72)*.0095+(t[1]-.5)*.06,.2,.44);if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
+ {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),mi=yw.indexOf(Math.max(...yw)),cap=cl(.185+((ov[mi]||75)-72)*.009+(t[1]-.5)*.06,.18,.42);if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
  const sm=w.reduce((a,b)=>a+b,0);return {k,w:w.map(x=>x/sm),av,tw}}catch(e){return null}};
 // ---- the current season on the league stats page ----
 window.lgsCurOk=function(){try{return S&&S.stage==='pro'&&!(S.sled===S.py)&&Object.keys(S.gr||{}).length>0}catch(e){return false}};
@@ -12399,7 +12399,7 @@ window.RUPD3D=[['Doobie Emmanuel',1],['Kirko Chainz',1],['Franklin Lawford',1],[
 (()=>{try{const L=[];RUPD3D.forEach(([n,d])=>{let o=null,pos='';try{const q=PKS.find(x=>x[2]===n);if(q){o=q[3];q[3]+=d;pos=POSL[q[1]]||''}}catch(e){}if(o==null)try{const b=QBB.find(x=>x[0]===n);if(b){o=b[1];b[1]+=d;pos='QB'}}catch(e){}if(o==null)try{const p=QBP.find(x=>x[0]===n);if(p){o=p[1];p[1]+=d;pos='QB'}}catch(e){}if(o!=null)L.push([n,pos,o,o+d])});RUPD3={d:'Nov 15, 2026',L}}catch(e){}})();
 (()=>{try{const _t=tkPick;tkPick=function(){const r=_t.apply(this,arguments);try{[...ui.querySelectorAll('.card')].forEach(c=>{if(/Ratings update · Nov 14, 2026 · throwing power/.test(c.textContent))c.remove()})}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _v=rupdV;rupdV=function(){const r=_v.apply(this,arguments);try{const bk=[...ui.querySelectorAll('button')].find(b=>(b.getAttribute('onclick')||'')==='hub()');const d=document.createElement('div');
- d.innerHTML=(RUPD3&&RUPD3.L.length?`<div class=card><b>📈 Ratings update · ${RUPD3.d}</b><br><small>New save files only.</small>${RUPD3.L.map(x=>{const df=x[3]-x[2];return `<div class=row style="font-size:16px"><span>${esc(x[0])} <small>${x[1]}</small></span><span>${x[2]} → <b>${x[3]}</b> <b style="color:${df>0?'#7bed9f':'#ff6b6b'}">${df>0?'▲ +':'▼ '}${df}</b></span></div>`}).join('')}</div>`:'')+(typeof rupdCard=='function'?rupdCard():'');
+ d.innerHTML=(RUPD3&&RUPD3.L.length?`<div class=card><b>📈 Ratings update · ${RUPD3.d}</b><br><small>Every save (applied once).</small>${RUPD3.L.map(x=>{const df=x[3]-x[2];return `<div class=row style="font-size:16px"><span>${esc(x[0])} <small>${x[1]}</small></span><span>${x[2]} → <b>${x[3]}</b> <b style="color:${df>0?'#7bed9f':'#ff6b6b'}">${df>0?'▲ +':'▼ '}${df}</b></span></div>`}).join('')}</div>`:'')+(typeof rupdCard=='function'?rupdCard():'');
  if(bk)bk.parentNode.insertBefore(d,bk);else(ui.firstElementChild||ui).appendChild(d)}catch(e){}return r}}catch(e){}})();
 // ---- 12. Kenny Fallon (49ers) · Daejon Love (free agent, new worlds) ----
 window.KF26={n:'Kenny Fallon',pos:'WR',num:13,ovr:81,age:34,dr:{y:2013,r:3,p:76,tm:'LA',col:'California'},h:[[2013,15,1046,8],[2014,15,783,4],[2015,15,725,4],[2016,15,63,0],[2017,15,1393,6],[2018,15,1196,6],[2019,15,1199,6],[2020,15,992,8],[2021,15,1138,6],[2022,15,752,4],[2023,15,1243,7],[2024,20,744,7]],prev:'LA, CHI, IND'};
@@ -12516,11 +12516,12 @@ window.mvlRows=function(){const out=[];try{const sz=szGet()||{};
    if(p=='QB'&&z.pa>=40){s=z.py/25+z.ptd*4-z.pint*2+z.ry/30+z.rtd*3+W*5;ln=`${z.py.toLocaleString()} yds, ${z.ptd} TD, ${z.pint} INT${z.ry>=100?` · ${z.ry} rush yds`:''}`}
    else if(p=='RB'&&z.car>=30){s=z.ry/14+z.rtd*5+z.recy/25+W*3-12*f;ln=`${z.ry.toLocaleString()} rush yds, ${z.rtd+z.rectd} TD`}
    else if((p=='WR'||p=='TE')&&z.rec>=10){s=z.recy/18+z.rectd*5+W*2-28*f;ln=`${z.recy.toLocaleString()} rec yds, ${z.rectd} TD`}
-   if(s!=null)out.push({n:x.n,pos:p,tm:tAb(t),rec,s,ln})})});
+   if(s!=null)out.push({n:x.n,pos:p,tm:tAb(t),nk:t.n,rec,s,ln,z})})});
  // you: your own box-score line this season (falls back to your season totals)
- const t0=S.T[0],W0=t0.w||0;let u=(sz[0]||{})[S.name];
- if(!u||!u.g){const us=S.ssrk==='pro'+S.py?S.ssr:null;if(us&&us.g)u={g:us.g,pa:99,py:us.yds||0,ptd:us.td||0,pint:us.int||0,ry:0,rtd:0}}
- if(u&&u.g&&(u.pa||0)>=1)out.push({n:S.name,pos:'QB',tm:tAb(t0),rec:W0+'-'+(t0.l||0),me:1,s:(u.py||0)/25+(u.ptd||0)*4-(u.pint||0)*2+(u.ry||0)/30+(u.rtd||0)*3+W0*5,
+ // you: your real season totals (the same ones your season card and the end-of-season MVP vote use)
+ const t0=S.T[0],W0=t0.w||0;let u=null;{const us=S.ssrk==='pro'+S.py&&S.ssr&&S.ssr.g?S.ssr:(S.ss&&S.ss.g?S.ss:null);if(us)u={g:us.g,pa:us.att||99,py:us.yds||0,ptd:us.td||0,pint:us.int||0,ry:us.ry||0,rtd:us.rtd||0}}
+ if(!u){const z=(sz[0]||{})[S.name];if(z&&z.g)u=z}
+ if(u&&u.g&&(u.pa||0)>=1)out.push({n:S.name,pos:'QB',tm:tAb(t0),nk:t0.n,z:{py:u.py||0,ptd:u.ptd||0,pint:u.pint||0,ry:u.ry||0,rtd:u.rtd||0},rec:W0+'-'+(t0.l||0),me:1,s:(u.py||0)/25+(u.ptd||0)*4-(u.pint||0)*2+(u.ry||0)/30+(u.rtd||0)*3+W0*5,
   ln:`${(u.py||0).toLocaleString()} yds, ${u.ptd||0} TD, ${u.pint||0} INT${(u.ry||0)>=100?` · ${u.ry} rush yds`:''}`});
 }catch(e){}return out.sort((a,b)=>b.s-a.s)};
 window.mvlS=function(){const y=yrN();if(!S.mvl||S.mvl.y!==y)S.mvl={y,h:{}};return S.mvl};
@@ -12528,6 +12529,18 @@ window.mvlS=function(){const y=yrN();if(!S.mvl||S.mvl.y!==y)S.mvl={y,h:{}};retur
 window.mvlSnap=function(){try{if(!S||S.stage!=='pro'||S.ofs)return;const wk=S.wk||0;if(wk<1)return;const M=mvlS();if(M.h[wk])return;if(Object.keys(M.h).some(k=>+k>wk))return;
  const R_=mvlRows();if(!R_.length)return;M.h[wk]=R_.slice(0,MVLN).map(r=>r.n)}catch(e){}};
 (()=>{try{const _h=hub;hub=function(){try{if(S&&S.stage==='pro'&&!S.ofs&&(S.wk||0)<=17)mvlSnap()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// Tyler, 2026-11-16: "I want MVP ladder to really be its own section ... in the player menu, and not even its own icon, just kind of
+// like how you lay out the stats ... lay them out MVP race in order ... and on that, leave the icon where you tap pro bowl voting".
+// The MVP race is a card in the menu (under League leaders), in order, with the Pro Bowl voting button at its bottom.
+window.mvlCard=function(){try{mvlSnap();const M=mvlS(),wk=S.wk||0,R_=mvlRows().slice(0,MVLN),ks=Object.keys(M.h).map(Number).filter(k=>k<Math.min(wk,17)).sort((a,b)=>b-a),pw=ks[0],prev=pw!=null?M.h[pw]:null;
+ const mv=n=>{if(!prev)return '';const a=prev.indexOf(n),b=R_.findIndex(r=>r.n===n);if(a<0)return '<small style="color:#7cf">NEW</small>';const d=a-b;return d>0?`<small style="color:#5f5">▲${d}</small>`:d<0?`<small style="color:#f66">▼${-d}</small>`:'<small style="opacity:.6">–</small>'};
+ const A=S.law&&S.law[S.py],won=A&&A.yr===yrN()&&A.w&&A.w.MVP,V=pbS();
+ let h=`<div class=card data-mvl=1 style="text-align:left"><b>MVP race</b> <small>${!R_.length?'starts after week 1':wk>=17?'final regular season':'after week '+wk}${pw!=null?' · arrows since week '+pw:''}</small>`;
+ if(won)h+=`<div style="font-size:15px;margin:4px 0"><b>🏅 ${A.yr} MVP: ${won.me?'▶ ':''}${esc(won.n)}</b> <small>${won.pos} · ${won.tm}</small></div>`;
+ const sh=n=>{try{return abbr(n)}catch(e){return n}},z0=r=>r.z||{},main=r=>{const z=z0(r);return r.pos==='QB'?`${(z.py|0)}y ${z.ptd|0}TD ${z.pint|0}INT`:r.pos==='RB'?`${z.ry|0}y ${z.rtd|0}TD`:`${z.recy|0}y ${z.rectd|0}TD`},
+  sub=r=>{const z=z0(r);return r.pos==='QB'?`rush ${z.ry|0}y ${z.rtd|0}TD`:r.pos==='RB'?`rec ${z.recy|0}y ${z.rectd|0}TD`:`${z.rec|0} rec`};
+ h+=R_.map((r,i)=>`<div class=row style="gap:4px;font-size:17px;white-space:nowrap;align-items:flex-start;margin-bottom:0"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis">${i+1}. ${r.me?'▶ ':''}${esc(sh(r.n))} <small>${esc(r.nk||r.tm)}</small> ${mv(r.n)}</span><span style="text-align:right;flex:none">${main(r)}</span></div><div style="text-align:right;font-size:13px;opacity:.8;margin:-2px 0 6px">${sub(r)}</div>`).join('');
+ h+=`<button data-pbgo=1 onclick="pbV()" style="background:#6b6f76;color:#fff;border-color:#3a3d42;margin-top:8px">${V.closed?'🌴 Pro Bowl rosters':'🗳 Pro Bowl voting'}</button></div>`;return h}catch(e){return ''}};
 window.mvlV=function(){mvlSnap();const M=mvlS(),wk=S.wk||0,R_=mvlRows().slice(0,MVLN),ks=Object.keys(M.h).map(Number).filter(k=>k<Math.min(wk,17)||(wk>17&&k<17)).sort((a,b)=>b-a),pw=ks[0],prev=pw!=null?M.h[pw]:null;
  const mv=n=>{if(!prev)return '';const a=prev.indexOf(n),b=R_.findIndex(r=>r.n===n);if(a<0)return '<small style="color:#7cf">NEW</small>';const d=a-b;return d>0?`<small style="color:#5f5">▲${d}</small>`:d<0?`<small style="color:#f66">▼${-d}</small>`:'<small style="opacity:.6">–</small>'};
  const A=S.law&&S.law[S.py],won=A&&A.yr===yrN()&&A.w&&A.w.MVP;let body='';
@@ -12546,15 +12559,16 @@ window.pbVote=function(n){const V=pbT();if(V.closed)return pbV();const wk='w'+(S
  try{const row=[...ui.querySelectorAll('[data-pbn]')].find(e=>e.getAttribute('data-pbn')===n);if(row){pbRow(row,n);const l=ui.querySelector('[data-pbleft]');if(l)l.innerHTML=pbLeft();return}}catch(e){}pbV()};
 window.pbLeft=function(){const V=pbT(),used=V.wk['w'+(S.wk||0)]||0,left=Math.max(0,PBWEEK-used);return `You have <b>${left}</b> tap${left==1?'':'s'} left this week (${Math.floor(left/PBTAPS)} vote${Math.floor(left/PBTAPS)==1?'':'s'}).`};
 window.pbRow=function(el,n){const V=pbT(),t=(V.t||{})[n]||0,c=(pbBallot()[PBG]||[]).find(z=>z.n===n);if(!c)return;const sm=el.querySelector('[data-pbv2]');if(sm)sm.innerHTML=pbLine(c,t)};
-window.pbLine=function(c,t){const k=Math.round(pbVotes(c)/1000).toLocaleString(),m=pbMine(c.n)/1000,r=t%PBTAPS;return `${k}k votes${m?` · yours ${m}k`:''}${t?` · ${'●'.repeat(r)}${'○'.repeat(PBTAPS-r)}`:''}`};
+window.pbLine=function(c,t){const k=Math.round(pbVotes(c)/1000).toLocaleString(),m=pbMine(c.n)/1000,r=t%PBTAPS;return `${k}k votes${m?` · you rallied ${m}k fans`:''}${t?` · ${'●'.repeat(r)}${'○'.repeat(PBTAPS-r)}`:''}`};
 window.pbV=function(g){if(g)PBG=g;const V=pbT(),P=pbBallot();let body='';
  if(V.closed){body=['RFC','LFC'].map(cf=>`<div class=card><b>${cf} Pro Bowl roster</b>${Object.keys(PBSL).map(k=>`<div style="font-size:15px"><b>${k}</b> <small>${(V.r[cf][k]||[]).map(c=>(c.me?'▶ ':'')+esc(c.n)+' ('+c.tm+')'+(c.ub?' · in the Ultra Bowl':'')+(c.alt?' · replacing '+esc(c.for):'')).join(', ')}</small></div>`).join('')}</div>`).join('')+(V.g?`<div class=card><b>🌴 All-Star game</b><br>${V.g}</div>`:'')}
  else{const L=(P[PBG]||[]).sort((a,b)=>pbVotes(b)-pbVotes(a)).slice(0,24);const used=V.wk['w'+(S.wk||0)]||0,can=used<PBWEEK;
-  body=`<div class=card><small>The fans vote all season (it grows every week); voting closes after week 17. Every ${PBTAPS} taps on a player is one 1,000-vote ballot from you. <span data-pbleft=1>${pbLeft()}</span></small></div><p class=tabs>${Object.keys(PBSL).map(k=>`<button class="${k==PBG?'':'g'}" onclick="pbV('${k}')">${k}</button>`).join('')}</p>
+  body=`<div class=card><small>The fans vote all season (it grows every week); voting closes after week 17. Every ${PBTAPS} taps on a player rallies 1,000 more fans to vote for him. <span data-pbleft=1>${pbLeft()}</span></small></div><p class=tabs>${Object.keys(PBSL).map(k=>`<button class="${k==PBG?'':'g'}" onclick="pbV('${k}')">${k}</button>`).join('')}</p>
   <div class=card><b>${PBG} · top ${PBSL[PBG]} per conference make it</b>${L.map((c,i)=>`<div class=row data-pbn="${esc(c.n)}" style="font-size:15px;gap:6px"><span>${i+1}. ${c.me?'▶ ':''}${esc(c.n)} <small>${c.tm} · ${c.conf}</small><br><small data-pbv2=1>${pbLine(c,(V.t||{})[c.n]||0)}</small></span>${can?`<button class=g style="width:auto;flex:none;touch-action:manipulation" onclick="pbVote('${String(c.n).replace(/\\/g,'').replace(/'/g,"\\'")}')">👆 Tap</button>`:''}</div>`).join('')}</div>`}
- ui.innerHTML=`<div><h2>🗳 ${V.y} Pro Bowl${V.closed?' rosters':' voting'}</h2>${body}<button class=g onclick="pbV()">🔄 Re-sort</button><button class=g onclick="mvlV()">🏆 MVP ladder</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
+ ui.innerHTML=`<div><h2>🗳 ${V.y} Pro Bowl${V.closed?' rosters':' voting'}</h2>${body}<button class=g onclick="pbV()">🔄 Re-sort</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
 // the menu: one "MVP ladder" section (Pro Bowl voting sits at its bottom)
-(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=ui.querySelector('[data-pbv]');if(b){b.textContent='🏆 MVP ladder · 🗳 Pro Bowl';b.onclick=()=>mvlV()}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=ui.querySelector('[data-pbv]');if(b){b.remove();if(!ui.querySelector('[data-mvl]')){const cards=[...ui.querySelectorAll('.card')],ll=cards.find(c=>{const t=c.querySelector('b');return t&&/^League leaders/.test(t.textContent)})||cards.find(c=>{const t=c.querySelector('b');return t&&/Your \d{4} season/.test(t.textContent)});
+ const html=mvlCard();if(html){if(ll)ll.insertAdjacentHTML('afterend',html);else (ui.firstElementChild||ui).insertAdjacentHTML('beforeend',html)}}}}catch(e){}return r}}catch(e){}})();
 // ===== 🔑 YOUR OWN SAVE CODE NAME =====
 // Tyler, 2026-11-15: "whenever they press save code they type it in, it can't be reused but it'll load from that point" /
 // "Let's say I want to save the code for Frank Castle ... It would be easier to type something that I created."
@@ -12635,5 +12649,300 @@ window.tmRn2=function(s){try{if(!s||s.tmrn2)return 0;s.tmrn2=1;let n=0;const fix
  const walk=(v,d)=>{if(!v||typeof v!=='object'||d>8)return;for(const k of Object.keys(v)){const x=v[k];if(typeof x==='string'){let y=x;TMRN2.forEach(([c,o,nw])=>{if(y.indexOf(c+' '+o)>=0)y=y.split(c+' '+o).join(c+' '+nw)});if(y!==x){v[k]=y;n++}}else if(x&&typeof x==='object')walk(x,d+1)}};
  for(const k of Object.keys(s)){if(k==='ro'||k==='seal'||k==='pc')continue;walk(s[k],0)}return n}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)tmRn2(r)}catch(e){}return r}}catch(e){}})();
+// Tyler 2026-11-16: "I told you to call Kanye's brand name Yeezers, why is it Westzy" — the celebrity card said Westzy. Saves that
+// stored the old name say Yeezers too.
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&!r.yzr){r.yzr=1;const walk=(v,d)=>{if(!v||typeof v!=='object'||d>7)return;for(const k of Object.keys(v)){const x=v[k];if(typeof x==='string'&&x.indexOf('Westzy')>=0)v[k]=x.split('Westzy').join('Yeezers');else if(x&&typeof x==='object')walk(x,d+1)}};for(const k of Object.keys(r)){if(k==='ro'||k==='seal')continue;walk(r[k],0)}}}catch(e){}return r}}catch(e){}})();
+// ===== 📋 YOUR BOX SCORES ADD UP TO YOUR REAL SEASON =====
+// Tyler, 2026-11-16: "make sure all box scores match all stat seasonal and make sure they update by the week by the game and make sure
+// there's no future stats shown."
+// WHY THEY DIDN'T: your games' box scores were kept in a list capped at 60; when an old one was dropped, that game's box score was
+// rebuilt from scratch with a made-up line for you (2,417 yds / 16 TD on box scores vs your real 2,843 / 27 in Simmons 2037).
+// NOW:
+//  - your own line from every game is also kept in a tiny per-game record (S.ugl) that is never dropped, and a box score that has to
+//    be rebuilt uses it, so the game reads the same every time;
+//  - games from before this update that have no record left get your real season totals split across them once (by how that game
+//    went), then stored, so the box scores add up exactly to your season page;
+//  - only games already played are ever counted (the schedule's results); nothing ahead of the current week shows up.
+window.UGF=['att','cmp','yds','td','int','ry','rtd','sk','fum'];
+window.uglLine=function(A){try{const p=(A.pass||[]).find(x=>x&&x.n===S.name);if(!p)return null;const r=(A.rush||[]).find(x=>x&&x.n===S.name)||{};
+ return {att:p.a|0,cmp:p.c|0,yds:p.y|0,td:p.td|0,int:p.i|0,ry:r.y|0,rtd:r.td|0,sk:A.sk|0,fum:0}}catch(e){return null}};
+// copy your line out of every stored box score (never removes anything)
+window.uglSync=function(){try{if(!S||!S.bx)return 0;S.ugl=S.ugl||{};let n=0;for(const k in S.bx){if(S.ugl[k])continue;const x=S.bx[k];if(!x||!x.A||!x.B)continue;const A=x.A.ti===0?x.A:x.B.ti===0?x.B:null;if(!A)continue;const L=uglLine(A);if(L){S.ugl[k]=L;n++}}return n}catch(e){return 0}};
+// a rebuilt box score of your game uses your stored line
+(()=>{try{const _g=bxGet;bxGet=function(w,a,b){try{const k=bxKey(w,a,b);if(!(S.bx&&S.bx[k])&&(a===0||b===0)&&S.ugl&&S.ugl[k]){const r=schRes(w,a,b);if(r)return bxMake(w,a,b,r[0],r[1],S.ugl[k])}}catch(e){}return _g.apply(this,arguments)};window.bxGet=bxGet}catch(e){}})();
+// your season totals as the season page shows them
+window.uglSeason=function(){try{if(S.stage==='pro'){const s=S.ssrk==='pro'+S.py&&S.ssr&&S.ssr.g?S.ssr:S.ss;return s&&s.g?s:null}if(S.stage==='col')return S.ss&&S.ss.g?S.ss:null}catch(e){}return null};
+// your games this season that have been played (from the schedule's results only)
+window.uglGames=function(){const out=[];try{const G=S.gr||{};Object.keys(G).map(Number).sort((a,b)=>a-b).forEach(w=>{(G[w]||[]).forEach(gm=>{if(!gm||gm.length<4)return;if(gm[0]!==0&&gm[1]!==0)return;const o=gm[0]===0?gm[1]:gm[0];out.push({w,o,k:bxKey(w,0,o)})})})}catch(e){}return out};
+// fill the games that have no record: what's left of the season, split by how each game went; done once per game, then stored
+window.uglFill=function(){try{if(!S||!(S.stage==='pro'||S.stage==='col'))return 0;uglSync();const T=uglSeason();if(!T)return 0;const Gs=uglGames();if(!Gs.length)return 0;S.ugl=S.ugl||{};
+ const known=Gs.filter(x=>S.ugl[x.k]),miss=Gs.filter(x=>!S.ugl[x.k]);if(!miss.length)return 0;
+ const slots=Math.max(0,Math.min(miss.length,(T.g|0)-known.length));if(!slots)return 0;const use=miss.slice(0,slots);
+ const left={};UGF.forEach(f=>{left[f]=Math.max(0,(T[f]|0)-known.reduce((s,x)=>s+(S.ugl[x.k][f]|0),0))});
+ // weights: the made-up line each game would have had (bigger games get more)
+ const base=use.map(x=>{try{const r=schRes(x.w,0,x.o);const bx=bxMake(x.w,0,x.o,r?r[0]:20,r?r[1]:20,null);return uglLine(bx.A.ti===0?bx.A:bx.B)||{}}catch(e){return {}}});
+ const split=(tot,ws)=>{const s=ws.reduce((a,b)=>a+b,0);const raw=ws.map(v=>s>0?tot*v/s:tot/ws.length),fl=raw.map(Math.floor);let rem=tot-fl.reduce((a,b)=>a+b,0);raw.map((v,i)=>[v-fl[i],i]).sort((a,b)=>b[0]-a[0]).forEach(([_,i])=>{if(rem>0){fl[i]++;rem--}});return fl};
+ const per={};UGF.forEach(f=>{const wf={att:'att',cmp:'att',yds:'yds',td:'td',int:'int',ry:'ry',rtd:'rtd',sk:'sk',fum:'fum'}[f];per[f]=f==='cmp'?null:split(left[f],base.map(b=>Math.max(.5,(b[wf]|0)+1)))});per.cmp=split(left.cmp,per.att.map(v=>v+.01));for(let i=0;i<use.length;i++)if(per.cmp[i]>per.att[i]){const j=per.cmp.findIndex((c,k)=>c<per.att[k]);if(j>=0){per.cmp[j]++;per.cmp[i]--}}
+ use.forEach((x,i)=>{const L={};UGF.forEach(f=>L[f]=per[f][i]);L.fill=1;S.ugl[x.k]=L});try{szCache=null}catch(e){}return use.length}catch(e){return 0}};
+(()=>{try{const _h=hub;hub=function(){try{if(S&&(S.stage==='pro'||S.stage==='col')){const n=uglFill();if(n)try{save()}catch(e){}}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// the season page totals and the box-score totals: the cache key also follows your records
+(()=>{try{const _k=window.szKey;window.szKey=function(){return _k.apply(this,arguments)+'|'+Object.keys(S.ugl||{}).length}}catch(e){}})();
+// ===== 🎮 PLACEMENT & ACCURACY PASSING (controller) =====
+// Tyler's spec (2026-11-15/16): receiver icons; hold the receiver's button and a meter fills (tap = lob, medium = touch, full =
+// bullet); a blue accuracy window in the meter, its size from your QB's accuracy, smaller on the run or under pressure; the left
+// stick places the ball (lead him, back shoulder, toward the sideline), how far from your awareness; "L1 does high throw, LT low".
+// Touch, swipe and slingshot throwing are unchanged; this is only the controller.
+//  - LOB: floats (35% longer in the air), always as accurate as your QB is. TOUCH: normal speed. BULLET: 20% faster.
+//  - Release inside the blue window: your QB throws it as if 10 points more accurate. Outside: up to 26 points less.
+//  - LB / L1 held = high (over a defender underneath), LT / L2 held = low (under a defender over the top).
+//  - Your throw power still sets the range; nothing here throws farther than your QB can.
+window.PAFULL=1.0;window.PA={i:-1};
+window.paZones=function(){return [['lob',0,.33],['touch',.33,.7],['bullet',.7,1]]};
+// the blue part of a zone: its last stretch; bigger with accuracy, smaller on the run / under pressure
+window.paWin=function(){try{const Q=S.q||{},P=g.pl,q=P&&P.qb;let f=cl(.3+((Q.acc||60)-60)/100,.18,.7);
+ const mov=Math.hypot((inp&&inp.x)||0,(inp&&inp.y)||0)>.2,pr=P&&P.dl&&q&&P.dl.some(d=>d.beat&&Math.hypot(d.x-q.x,d.y-q.y)<3.5);if(mov)f*=.78;if(pr)f*=.7;return f}catch(e){return .35}};
+window.paRead=function(m0){const over=m0>1.02;let m=Math.min(1,m0);if(over){const Z=paZones();return {kind:'bullet',z:Z[2],w0:1,inWin:false,over:1,miss:1}}const Z=paZones(),z=Z.find(x=>m<x[2])||Z[2],f=paWin(),w0=z[2]-(z[2]-z[1])*f;return {kind:z[0],z,w0,inWin:z[0]==='lob'||m>=w0,miss:z[0]==='lob'||m>=w0?0:(w0-m)/Math.max(.01,w0-z[1])}};
+window.paFill=function(){return PA.i<0?0:(performance.now()-PA.t0)/1000/PAFULL};
+// one frame, from ctlStep while you have the ball behind the line
+window.ctlPA=function(down,edge,lx,ly){try{const P=g.pl;
+ if(PA.i<0){for(let i=0;i<5;i++)if(edge(CTL_RB[i])&&ctlRecv()[i]){PA={i,t0:performance.now()};break}return}
+ if(!P||P.air||P.car!==P.qb||g.ph!=='live'){PA={i:-1};return}
+ PA.hi=PA.hi||!!down[4];PA.lo=!PA.hi&&(PA.lo||!!down[6]);PA.sx=lx||0;PA.sy=ly||0;PA.m=paFill();
+ if(!down[CTL_RB[PA.i]]||PA.m>=1.4)paRelease()}catch(e){PA={i:-1}}};
+window.paRelease=function(){const s={...PA};PA={i:-1};try{const P=g.pl,q=P.qb,w=ctlRecv()[s.i];if(!w||g.ph!=='live'||P.air||P.car!==q)return;const Q=S.q,rd=paRead(s.m||0);
+ const v=16+((Q&&Q.pow)||60)*.1;let T=Math.hypot(w.x-q.x,w.y-q.y)/v;for(let k=0;k<3;k++)T=Math.hypot(w.x+(w.vx||0)*T-q.x,w.y+(w.vy||0)*T-q.y)/v;
+ let lx=w.x+(w.vx||0)*T,ly=w.y+(w.vy||0)*T;
+ // placement: the stick moves the spot (up = lead him deeper, down = back shoulder / shorter, left/right = toward that side)
+ const aw=(Q&&Q.awr)||60,rl=1.2+aw/50,rd_=1.5+aw/40;lx+=(s.sx||0)*rl;ly+=-(s.sy||0)*rd_;
+ const Rg=thrR(),d=Math.hypot(lx-q.x,ly-q.y);if(d>Rg){lx=q.x+(lx-q.x)*Rg/d;ly=q.y+(ly-q.y)*Rg/d}
+ const a0=Q.acc;Q.acc=cl(a0+(rd.kind==='lob'?0:rd.inWin?10:-(8+18*Math.min(1,rd.miss)))-(rd.over?30:0),5,99);
+ g.swp={p:Math.round(Math.min(1,d/Rg)*100),t:performance.now()};
+ try{doThrow(w,cl(lx,1.4,51.9),ly)}finally{Q.acc=a0}
+ const A=P.air;if(A){A.T*= {lob:1.35,touch:1,bullet:.8}[rd.kind]*(s.hi?1.1:s.lo?.92:1);A.T=Math.max(.25,A.T);A.kind=rd.kind;A.hl=s.hi?'high':s.lo?'low':'';
+  g.paLast={kind:rd.kind,inWin:rd.inWin,hl:A.hl,m:+(s.m||0).toFixed(2)};
+  try{slRel(innerWidth/2,innerHeight-90,(rd.kind==='lob'?'Lob':rd.kind==='touch'?'Touch':'Bullet')+(A.hl?' · '+A.hl:'')+(rd.over?' · ✗ held too long, it sails':rd.kind==='lob'?'':rd.inWin?' · ✓ on target':' · ✗ off target'),!rd.over&&(rd.kind==='lob'||rd.inWin))}catch(e){}}}catch(e){}};
+// high / low: the defender the throw goes over (high) or under (low) gets less reach; a bullet gives them less time; high/low are a bit harder to catch
+(()=>{try{const _l=land;land=function(){const P=g.pl,a=P&&P.air;const und=[];try{if(a&&a.kind){const w=a.tgt,ds=P.db.concat(P.lb).map(d=>({d,e:Math.hypot(d.x-a.lx,d.y-a.ly)})).sort((x,y)=>x.e-y.e),D=ds[0]&&ds[0].d;
+  const push=(d,k)=>{const dx=d.x-a.lx,dy=d.y-a.ly,l=Math.hypot(dx,dy)||1;und.push([d,d.x,d.y]);d.x+=dx/l*k;d.y+=dy/l*k};
+  if(D){if(a.hl==='high'&&D.y<a.ly-.3)push(D,.9);else if(a.hl==='low'&&D.y>a.ly+.3)push(D,.9);else if(a.kind==='bullet')push(D,.4)}
+  if(w&&(a.hl||(a.kind==='bullet'&&Math.hypot(a.lx-a.x0,a.ly-a.y0)<10))){und.push([w,null,null,w.hands]);w.hands=Math.max(30,(w.hands||70)-5)}}}catch(e){}
+ try{return _l.apply(this,arguments)}finally{und.forEach(([o,x,y,h])=>{if(h!=null){o.hands=h;return}if(g.pl&&g.pl.car===o)return;o.x=x;o.y=y})}}}catch(e){}})();
+// the meter: a curved arc right by the receiver (Madden style), so you never look away from him.
+// Tyler 2026-11-16: "touch pass blue, lob pass green, bullet pass ... a good purple"; "a little curved bar meter ... by the player".
+// LOB green · TOUCH blue · BULLET bright purple; the precision window in each is the bright white band; the fill glows as it charges.
+window.PAC={lob:'#3ddc6e',touch:'#3d9bff',bullet:'#b84dff'};
+window.paIconY=5.9;   // button icons float above the receiver (not over his face or his defender)
+(()=>{try{const _d=draw;draw=function(){const r=_d.apply(this,arguments);try{if(PA.i>=0&&g&&g.ph==='live'&&g.pl&&!g.pl.air){const P=g.pl,q=P.qb,w=ctlRecv()[PA.i];if(!w)return r;
+  const m=Math.min(1,paFill()),f=paWin(),s=pj(w.x,w.y,paIconY);if(!s||!isFinite(s[0]))return r;
+  cx.save();cx.setTransform(1,0,0,1,0,0);const R=30,a0=Math.PI*1.08,a1=Math.PI*1.92,A=t=>a0+(a1-a0)*t;
+  cx.lineCap='butt';cx.lineWidth=10;cx.strokeStyle='#000b';cx.beginPath();cx.arc(s[0],s[1],R,A(0)-.04,A(1)+.04);cx.stroke();
+  paZones().forEach(([k,a,b])=>{cx.lineWidth=7;cx.strokeStyle=PAC[k]+'55';cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(b)-.01);cx.stroke();
+   if(m>a){cx.strokeStyle=PAC[k];cx.shadowColor=PAC[k];cx.shadowBlur=8;cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(Math.min(m,b))-.01);cx.stroke();cx.shadowBlur=0}
+   if(k!=='lob'){const w0=b-(b-a)*f;cx.lineWidth=3;cx.strokeStyle='#ffffff';cx.beginPath();cx.arc(s[0],s[1],R+6,A(w0),A(b)-.01);cx.stroke()}});
+  if(paFill()>1.02){cx.lineWidth=7;cx.strokeStyle='#ff3b3b';cx.shadowColor='#ff3b3b';cx.shadowBlur=10;cx.beginPath();cx.arc(s[0],s[1],R,A(1)+.03,A(1)+.03+Math.min(.5,(paFill()-1)*1.2));cx.stroke();cx.shadowBlur=0}const ang=A(m);cx.fillStyle='#fff';cx.beginPath();cx.arc(s[0]+Math.cos(ang)*R,s[1]+Math.sin(ang)*R,4.5,0,7);cx.fill();
+  const rd=paRead(m);cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillStyle=PAC[rd.kind];cx.fillText(rd.kind.toUpperCase()+(PA.hi?' · HIGH':PA.lo?' · LOW':''),s[0],s[1]-R-10);
+  // the spot the ball is going
+  const Q=S.q||{},v=16+(Q.pow||60)*.1,T=Math.hypot(w.x-q.x,w.y-q.y)/v,aw=Q.awr||60;const lx=w.x+(w.vx||0)*T+(PA.sx||0)*(1.2+aw/50),ly=w.y+(w.vy||0)*T-(PA.sy||0)*(1.5+aw/40);const sp=pj(lx,ly,0);
+  if(sp&&isFinite(sp[0])){cx.strokeStyle=PAC[rd.kind];cx.lineWidth=3;cx.beginPath();cx.arc(sp[0],sp[1],11,0,7);cx.stroke();cx.beginPath();cx.moveTo(sp[0]-16,sp[1]);cx.lineTo(sp[0]+16,sp[1]);cx.moveTo(sp[0],sp[1]-16);cx.lineTo(sp[0],sp[1]+16);cx.stroke()}
+  cx.restore()}}catch(e){}return r}}catch(e){}})();
+// the button guide
+(()=>{try{const _g=window.ctlLegend;window.ctlLegend=function(){_g.apply(this,arguments);try{const lg=document.getElementById('ctlleg'),P=g&&g.pl;if(lg&&g&&g.ph==='live'&&P&&P.car===P.qb&&!P.air&&!ctlRoot()){const G=k=>ctlGlyph(k),hi=CTL.kind==='ps'?'L1':'LB',lo=CTL.kind==='ps'?'L2':'LT';
+  const t=`Hold ${G(0)} ${G(1)} ${G(2)} ${G(3)} ${G(4)}: tap lob · hold bullet · release in the blue · L-stick place · ${hi} high · ${lo} low`;if(lg.textContent!==t)lg.textContent=t}}catch(e){}}}catch(e){}})();
+// ===== 🛡 NOBODY RUNS FREE: AN IDLE DEFENDER PICKS UP THE OPEN MAN =====
+// Tyler, 2026-11-16: "DBs come off WRs sometimes, they should at least try to guard them, otherwise I'm getting an open pass
+// everytime. But obviously still create separation so passes can be completed, football logic".
+// In zone, a defender whose area is empty used to stand on his spot while a receiver ran free past him (now more often, since
+// routes run all the way to the sideline). Now an idle zone defender takes the nearest receiver nobody is guarding (within 20 yds)
+// and trails him: a step behind, closing at a speed set by his coverage against the receiver's route running, so good routes
+// still get open and passes are still completed.
+window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
+// Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
+// is taking off for a deep play ... they can still be caught". Measured: a 99-speed QB running wide behind the line then up the
+// sideline averaged 19-24 yards a scramble. Now the defense contains: once you leave the pocket (outside the tackles, moving), zone
+// defenders on that side and the underneath ones stop dropping and come up to cut you off; deep defenders come down to the edge.
+window.zcScr=function(P){try{const q=P.qb;return P.car===q&&!P.passed&&!P.air&&P.t>.8&&(Math.abs(q.x-26.5)>6.5||q.y>g.los+.3)&&Math.hypot(q.vx||0,q.vy||0)>3}catch(e){return false}};
+window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.y,lat=(d.x-26.5)*side;
+ if(d.dz){if(Math.abs(d.x-q.x)>22)return null;const lead=.8;return [cl(q.x+(q.vx||0)*lead,2,51.3),Math.max(g.los+6,Math.min(d.y,q.y+10))]}
+ if(lat<-8&&Math.abs(d.x-q.x)>16)return null;const dd=Math.hypot(q.x-d.x,q.y-d.y),ld=cl(dd/(d.sp+.1)*.6,.3,1.2);return [cl(q.x+(q.vx||0)*ld,1,52.3),Math.max(g.los+.5,q.y+(q.vy||0)*ld+.6)]};
+(()=>{try{const _z=zoneT;zoneT=function(d,P){const r=_z.apply(this,arguments);try{
+ if(zcScr(P)){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}
+ const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
+ if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
+ if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t}}
+ if(d.pk){const w=d.pk,lag=.35,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9),s_=Math.hypot(tx-d.x,ty-d.y);
+  if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
+  d.cbB=s_>2.2?cl((w.sp||8)*(.9+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,.95,1.06):0;return [tx,ty]}
+}catch(e){}return r}}catch(e){}})();
+// the end on the side you roll to sheds his block to set the edge (an end, or the outside rusher on that side)
+(()=>{try{const _r=rushP;rushP=function(d,b,P){const r=_r.apply(this,arguments);try{if(zcScr(P)){const q=P.qb,side=Math.sign(q.x-26.5)||1;if((d.x-26.5)*side>2)return Math.max(r,1.6*cl(((S.q&&S.q.mob)||60)-40,15,50)/50)}}catch(e){}return r}}catch(e){}})();
+// ===== 💥 A REAL TRUCK =====
+// Tyler, 2026-11-16: "there should be a real truck animation, usually someone on defense falls backward after a successful truck by a
+// player. Sometimes to the ground or at least shrugs them off" / "Trucking usually looks more like that".
+// Before: the defender teleported 1.8 yards and was instantly flat. Now (same odds of a truck as before):
+//  - about 6 in 10: he's KNOCKED DOWN — driven back over a third of a second, falls backward to the ground, lies there, gets up;
+//  - the rest: SHRUGGED OFF — he staggers back, arms flung up, stays on his feet but is out of the play for a moment.
+window.trkE=t=>1-Math.pow(1-Math.min(1,Math.max(0,t)),3);
+window.trkPose=function(o,m){try{const t=(performance.now()-o.kdS)/1000,f=o.kbFrom,p=trkE(t/.32);
+ if(f){m.position.x=(f[0]+(o.x-f[0])*p)-26.5;m.position.z=-(f[1]+(o.y-f[1])*p)}m.rotation.y=o.kdr||0;
+ if(o.kdF){const up=Math.max(0,o.kdU-t);   // seconds left before he's back on his feet
+  const down=trkE(t/.34),rise=up<.45?up/.45:1,k=Math.min(down,rise);m.rotation.x=1.45*k;m.position.y=.3*k;
+  try{m.A[0].rotation.x=m.A[1].rotation.x=-2.4*k;m.L[0].rotation.x=-.5*k;m.L[1].rotation.x=.3*k}catch(e){}}
+ else{const s=Math.sin(Math.min(1,t/.6)*Math.PI);m.rotation.x=.42*s;m.position.y=0;try{m.A[0].rotation.x=-2.6*s;m.A[1].rotation.x=-2.1*s;m.A[0].rotation.z=.5*s;m.A[1].rotation.z=-.5*s;m.L[0].rotation.x=-.4*s;m.L[1].rotation.x=.5*s}catch(e){}}}catch(e){}};
+// ===== 📺 WATCHED DRIVES: NO MORE STUTTERING TACKLES =====
+// Tyler, 2026-11-15/16: "whenever I'm watching drive and my team is trying to tackle. They'll kind of stutter and run in place whenever
+// the tackle should probably be made ... very shaky and stuttery" / "Still a stuttering tackle glitch when watching drives".
+// WHY: a watched play is already decided (how far it goes); one defender is steered to make the tackle at that spot. But the normal
+// tackle check kept running too: every other defender who touched the carrier on the way "missed" a tackle, which stumbled the
+// carrier and froze the defender, again and again (measured: the carrier was stumbling 70-90% of the time he had the ball).
+// NOW: while watching, a defender who reaches the carrier before the planned spot glances off (no stumble, no freeze, he can't touch
+// him again for a moment); the planned tackler makes the tackle at the spot, as before. Sacks and the QB are left to the script.
+(()=>{try{const _h=hit;hit=function(d){try{const P=g.pl;if(g&&g.ph==='watch'&&P&&P.e){const c=P.car;if(!c||c===P.qb){d.cd=Math.max(d.cd||0,.8);return}
+  if(d!==P.wTk&&!(P.endY!=null&&c.y>=P.endY-.6)){d.cd=1.4;d.stun=.45;const dx=d.x-c.x,dy=d.y-c.y,l=Math.hypot(dx,dy)||1;d.x+=dx/l*.8;d.y+=dy/l*.8-.3;c.stum=0;return}
+  d.cd=Math.max(d.cd||0,.5);c.stum=0;return}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== 🪪 THE LOOKALIKES GET THEIR OWN NAMES (Tyler's call, 2026-11-16) =====
+// Tyler: "If the made-up players are just sharing the names and nothing else, then I would just change their names to one of the
+// auto-generated last and first names I gave you ... if they're directly identical [to the stars I gave you], change their names."
+// Made-up players who carry the exact name of one of Tyler's stars but play a different position (a college left tackle named
+// Christopher McCunngingham while the real one is a pro running back) get a new random name from Tyler's first/last name lists,
+// once per save. Everything they did stays theirs (their seasons are on their own record and move with them; their sealed history
+// and card follow by their id). The real stars, a star's own younger self (same position; WR and TE count as the same) and your
+// own player are never touched. The name is never one of Tyler's stars and never a name already in that save.
+window.laStars=function(){const star={};try{PKS.forEach(q=>star[q[2]]=POSL[q[1]])}catch(e){}try{QBB.forEach(q=>star[q[0]]='QB')}catch(e){}try{QBP.forEach(q=>star[q[0]]='QB')}catch(e){}
+ try{ADD26.forEach(q=>star[q[2]]=POSL[q[1]])}catch(e){}try{FA26.forEach(q=>star[q[0]]=q[1])}catch(e){}try{Object.entries(PKC).forEach(([n,v])=>{if(!star[n])star[n]=v[0]})}catch(e){}return star};
+window.laGrp=function(p){let g_=p;try{g_=lgGrp(p)}catch(e){}return (g_==='WR'||g_==='TE'||p==='WR'||p==='TE')?'REC':g_};
+window.laFix=function(s){try{if(!s||!s.ro||s.la1)return 0;s.la1=1;const star=laStars(),taken=new Set(),hits=[];
+ for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L))L.forEach(x=>{if(x&&x.n)taken.add(x.n)})}Object.values(s.seal||{}).forEach(o=>o&&o.n&&taken.add(o.n));
+ for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L))continue;L.forEach(x=>{if(!x||!x.n||x.n===s.name||!(x.n in star))return;if(laGrp(x.pos)===laGrp(star[x.n]))return;hits.push(x)})}
+ if(!hits.length)return 0;const r=rng(((s.seed||1)*97+7)>>>0),M=myNames();s.laLog=s.laLog||[];
+ hits.forEach(x=>{let n='',k=0;do{n=NF[r()*NF.length|0]+' '+NL[r()*NL.length|0];k++}while((M.has(n)||taken.has(n)||n in star)&&k<200);if(!n||k>=200)return;
+  const old=x.n;taken.add(n);x.n=n;try{const id=x.pid;if(id!=null){if(s.seal&&s.seal[id]&&s.seal[id].n===old)s.seal[id].n=n;if(s.pc&&s.pc.p&&s.pc.p[id]&&s.pc.p[id].n===old)s.pc.p[id].n=n}}catch(e){}
+  s.laLog.push({was:old,now:n,pos:x.pos,t:Date.now()})});return s.laLog.length}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)laFix(r)}catch(e){}return r}}catch(e){}})();
+// ===== ❤️ PLAYER LIVES MATTER: COLLEGE PLAYERS STAY IN COLLEGE · TRADES HAPPEN · SIMMONS 2037 RESTARTS =====
+// Tyler, 2026-11-16: "Why the hell do I see Darnold Mansion on a team? ... it's 2026 season on my save ... if they're supposed to be
+// in college, let them play their season in college before they enter the NFL. Remember, I'm supposed to watch them get drafted."
+// "Kirko Chainz just got traded to the Vikings. Jake Efficiency got traded to the Ravens. Ben Epstein got traded to Chicago. Manny
+// Escort got traded to Buffalo" (2026-11-10, saves made after that). "get rid of Kyler Murray's stats. Kirk, just take away the
+// rushing yards ... give him Kyler Murray's passing stats ... the same receiving stats for all of his receivers. And for Nandolorean,
+// whatever you think's best." "you could just restart my whole season ... back to the beginning of the season where all the players
+// that aren't retired yet should be playing."
+//
+// 1) WHY college players were in the NFL: in a takeover / free-agent career the game treated every named college prospect as
+//    already in the pros (that is only true for a career that started in high school in 2022). Now in those careers a prospect's
+//    class follows the real calendar (Tyler's list: his class in 2026), he stays in college until he's eligible, then he's in that
+//    year's league draft class (you can watch him get picked). Any still-in-college prospect found on an NFL roster (every load,
+//    every menu) goes back to college and his NFL spot goes to that team's best free agent at the position (or a made-up backup).
+//    The season's NFL box scores are rebuilt from the rosters, so his snaps go to the man in his spot.
+// 2) The Nov 10 trades, for new leagues and EVERY existing pro-QB (takeover / free-agent) save, any year — only where the player is
+//    still on his original team (if he already moved or retired, nothing is undone); Tyler: "make that a permanent fix for all of them": Kirko Chainz <-> Kyle Kerr (Minnesota's QB);
+//    in Las Vegas, Ferb Nandolorean starts and Kerr backs him up. Jake Efficiency <-> Baltimore's backup QB. Ben Epstein <->
+//    Chicago's lowest-rated DT. Manny Escort <-> Buffalo's lowest-rated safety. Every roster stays full, nobody is invented.
+//    This season's games so far: Minnesota's QB line (Kerr's passing, receivers unchanged) is Kirko's now and his runs follow his
+//    own legs; Las Vegas's QB line is Nandolorean's; your stored box scores against them say so too.
+// 3) Simmons 2037 (Tyler's real save only, once): back to week 1 of 2037 with everyone who hasn't retired (Ricky MaClones, Jarsh
+//    Fallon) playing. Undone: every 2037 stat line, your 2037 season, standings, results, box scores, playoffs, 2037 awards and
+//    Pro Bowl. Everything before 2037 stays exactly as it was.
+window.NPXY0=2026;
+window.npxTk=function(p){try{if(!S||!S.tk||S.stage!=='pro'||p.tkDr)return null;const cy=(p.off|0)+1+(yrN()-NPXY0);return cy<=4?{lv:'col',y:Math.max(1,cy),toD:Math.max(0,4-cy)}:{lv:'col',y:4,toD:0}}catch(e){return null}};
+window.npxOut=function(s){try{s=s||S;if(!s||!s.tk||s.stage!=='pro'||!s.npx||!s.ro)return 0;const S0=S;S=s;let n=0;try{const Y_=yrN(),col=p=>!p.tkDr&&((p.off|0)+1+(Y_-NPXY0))<=4;s.npx.forEach(p=>{if(col(p)&&p.pro){p.pro=0;p.tkUn=1}});const nm=new Map(s.npx.filter(col).map(p=>[p.n,p]));
+ for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L)||!/^h\.\d+$/.test(k))continue;const ti=+String(k).split('.')[1];L.forEach((x,j)=>{if(!x||!x.n||x.n===s.name)return;const p=nm.get(x.n);if(!p)return;
+  // a free agent at his position, else a made-up backup
+  let rep=null;try{const F=lgFA();const g_=lgGrp(x.pos);const c=F.filter(f=>f&&lgGrp(f.pos)===g_&&!f.npx).sort((a,b)=>(b.ovr||0)-(a.ovr||0))[0];if(c){const i=F.indexOf(c);rep=c;if(i>=0)F.splice(i,1)}}catch(e){}
+  if(!rep){const r=rng(((s.seed||1)*31+j*7+ti*131)>>>0);let nn,g=0;const M=myNames();do nn=NF[r()*NF.length|0]+' '+NL[r()*NL.length|0];while(M.has(nn)&&g++<30);rep={n:nn,pos:x.pos,num:x.num,ovr:Math.max(55,Math.min(72,(x.ovr|0)-8)),age:24+(r()*6|0),pot:70,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{}}}
+  rep.pos=rep.pos||x.pos;if(rep.num==null)rep.num=x.num;L[j]=rep;n++;(s.npxLog=s.npxLog||[]).push({n:x.n,from:k,slot:j,by:rep.n,t:Date.now()})})}}finally{S=S0}try{szCache=null}catch(e){}return n}catch(e){return 0}};
+// prospects enter the league draft when they're eligible (takeover / free-agent careers): seniors, plus juniors of 84+ who declare
+(()=>{try{const _c=lgClass;lgClass=function(Y){const out=_c.apply(this,arguments);try{if(S&&S.tk&&S.npx){const add=[];S.npx.forEach(p=>{if(p.tkDr)return;const cyLast=(p.off|0)+1+((Y-1)-NPXY0);let go=cyLast>=4;if(!go&&cyLast===3&&(p.T||0)>=84){const r=rng(((S.seed||1)*13+p.id*101+Y)>>>0);go=r()<.5}if(!go)return;
+   let ovr=p.T||70;try{ovr=npxRating(p,{lv:'col',y:4,toD:0})}catch(e){}const pot=Math.min(99,ovr+8);add.push({n:p.n,pos:p.pos,ovr,pot,age:22,col:p.sch||p.cn||'',gr:+(ovr+(pot-ovr)*.45+3).toFixed(1),npxId:p.id})});
+  if(add.length){const nm=new Set(add.map(a=>a.n));const rest=out.filter(o=>!nm.has(o.n));return add.concat(rest).sort((a,b)=>b.gr-a.gr)}}}catch(e){}return out};window.lgClass=lgClass}catch(e){}})();
+(()=>{try{const _d=lgDraft;lgDraft=function(){const r=_d.apply(this,arguments);try{if(S&&S.tk&&S.npx){const by=new Map(S.npx.filter(p=>!p.tkDr).map(p=>[p.n,p]));for(const k in S.ro){const L=S.ro[k];if(Array.isArray(L))L.forEach(x=>{const p=x&&by.get(x.n);if(p&&x.dr){p.pro=1;p.tkDr=1;x.npx=p.id;if(p.num!=null)x.num=p.num}})}}}catch(e){}return r};window.lgDraft=lgDraft}catch(e){}})();
+// ---- the Nov 10 trades ----
+window.trFind=function(s,pred){for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L))continue;const ti=+String(k).split('.')[1];if(!(ti>=0))continue;const t=s.T&&s.T[ti];if(!t||t.city==null)continue;for(let j=0;j<L.length;j++){const x=L[j];if(x&&pred(x,t,ti,j))return {k,L,ti,j,x,t}}}return null};
+window.trTeam=function(s,city){const ti=(s.T||[]).findIndex(t=>t&&String(t.city||'').indexOf(city)>=0);return ti>=0?{ti,L:s.ro['h.'+ti],t:s.T[ti]}:null};
+window.trSwap=function(a,b){const t=a.L[a.j];a.L[a.j]=b.L[b.j];b.L[b.j]=t};
+window.tr1110=function(s,fresh){try{if(!s||s.tr1110||s.stage!=='pro'||!s.ro||!s.T)return 0;const S0=S;S=s;let Y=0;try{Y=yrN()}finally{S=S0}if(!fresh&&Y!==2026&&!s.tk)return 0;const onT=(h,city)=>!!h&&String(h.t.city||'').indexOf(city)>=0;s.tr1110=1;const done=[];
+ const at=(ti,j)=>({L:s.ro['h.'+ti],j});
+ // Kirko Chainz <-> Kyle Kerr; Nandolorean starts in Las Vegas, Kerr backs him up
+ const kc=trFind(s,x=>x.n==='Kirko Chainz'),mn=trTeam(s,'Minneapolis');if(kc&&mn&&mn.L&&kc.ti!==mn.ti&&onT(kc,'Las Vegas')){const ker=mn.L[0];if(ker&&ker.n!==s.name){trSwap({L:kc.L,j:kc.j},{L:mn.L,j:0});done.push('Kirko Chainz -> Minnesota');
+  const lv=kc.L,nd=lv.findIndex(x=>x&&x.n==='Ferb Nandolorean');if(kc.j===0&&nd>0){const kk=lv[0];lv[0]=lv[nd];lv[nd]=kk;done.push('Ferb Nandolorean starts in Las Vegas, '+(kk&&kk.n)+' backs him up')}
+  s.trRen=Object.assign(s.trRen||{},{[mn.ti]:{[ker.n]:'Kirko Chainz'}});if(nd>0&&kc.j===0)s.trRen[kc.ti]={'Kirko Chainz':'Ferb Nandolorean'}}}
+ // Jake Efficiency <-> Baltimore's backup QB
+ const je=trFind(s,x=>x.n==='Jake Efficiency'),bal=trTeam(s,'Baltimore');if(je&&bal&&bal.L&&je.ti!==bal.ti&&bal.L[23]&&onT(je,'Phoenix')){trSwap({L:je.L,j:je.j},{L:bal.L,j:23});done.push('Jake Efficiency -> Baltimore')}
+ // Ben Epstein <-> Chicago's lowest DT; Manny Escort <-> Buffalo's lowest safety
+ const low=(T,re,sl)=>{let b=-1,bo=1e9;sl.forEach(j=>{const x=T.L[j];if(x&&re.test(x.pos||'')&&x.n!==s.name&&(x.ovr||0)<bo){bo=x.ovr||0;b=j}});return b};
+ const be=trFind(s,x=>x.n==='Ben Epstein'),chi=trTeam(s,'Chicago');if(be&&chi&&chi.L&&be.ti!==chi.ti&&onT(be,'Nashville')){let j=low(chi,/^DT$/,[11,12,13,14]);if(j<0)j=low(chi,/^(DT|DE|NT)$/,[11,12,13,14]);if(j>=0){trSwap({L:be.L,j:be.j},{L:chi.L,j});done.push('Ben Epstein -> Chicago')}}
+ const me_=trFind(s,x=>x.n==='Manny Escort'),buf=trTeam(s,'Buffalo');if(me_&&buf&&buf.L&&me_.ti!==buf.ti&&onT(me_,'Nashville')){const j=low(buf,/^(S|FS|SS)$/,[18,19,20,21]);if(j>=0){trSwap({L:me_.L,j:me_.j},{L:buf.L,j});done.push('Manny Escort -> Buffalo')}}
+ // your stored box scores of this season name the new QBs
+ try{const R=s.trRen||{};for(const key in s.bx||{}){const x=s.bx[key];[x.A,x.B].forEach(sd=>{const m=sd&&R[sd.ti];if(!m)return;['pass','rush','rec'].forEach(f=>(sd[f]||[]).forEach(p=>{if(p&&m[p.n])p.n=m[p.n]}))})}}catch(e){}
+ s.trLog=(s.trLog||[]).concat(done.map(d=>({d,t:Date.now()})));try{szCache=null}catch(e){}return done.length}catch(e){return 0}};
+// ---- Simmons 2037: back to week 1 (Tyler's real save only, once) ----
+window.simRs37=function(s){try{if(!s||s.rs37||s.name!=='Simothy Simmons'||s.seed!==676914057||s.py!==9||s.sled!==9||!s.psum)return 0;s.rs37=Date.now();
+ const ss=s.ss||{};if(s.cs)for(const k in ss)if(typeof ss[k]==='number'&&typeof s.cs[k]==='number')s.cs[k]-=ss[k];
+ for(const k in ss)if(typeof ss[k]==='number')ss[k]=0;if(s.ssr)for(const k in s.ssr)if(typeof s.ssr[k]==='number')s.ssr[k]=0;s.ssrk='';
+ (s.T||[]).forEach(t=>{if(t){t.w=0;t.l=0;if(t.t)t.t=0}});s.wk=0;s.gr={};s.pb=null;s.psum=null;s.sled=8;s.gs=[];
+ const pre=(()=>{const S0=S;S=s;try{return grK()+'|'}catch(e){return null}finally{S=S0}})();if(pre){for(const k of Object.keys(s.bx||{}))if(k.startsWith(pre))delete s.bx[k];for(const k of Object.keys(s.ugl||{}))if(k.startsWith(pre))delete s.ugl[k]}
+ if(s.law)delete s.law[9];if(s.pbh)delete s.pbh[2037];s.pbv=null;s.mvl=null;if(s.dc)delete s.dc[2037];s.inj=null;s.injg=0;
+ const sg0=s.sgFix||0,S0=S;S=s;try{statGuard(s)}finally{S=S0}s.rs37n=(s.sgFix||0)-sg0;if(sg0)s.sgFix=sg0;else delete s.sgFix;   // removes every 2037 line (the season is no longer finished) and recounts careers; logged as the restart's, not as invented lines
+ return 1}catch(e){return 0}};
+// ---- every load: in order ----
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r){simRs37(r);npxOut(r);tr1110(r)}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&S.tk&&S.stage==='pro'&&npxOut(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// new leagues get the trades as soon as their rosters exist
+(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{npxOut(S);tr1110(S,1)}catch(e){}return r}}catch(e){}})();
+// ===== 📈 RATINGS UPDATES REACH EVERY SAVE =====
+// Tyler, 2026-11-16: "None of my other player ratings that I gave you have been updated ... Kirko Chainz ... Jack Mascott. Where are
+// all those at? ... You can give Femmifer Allen a +1 on your own, as well as No Pix. I also told you to lower Drako ... Joseph Shiesty +1."
+// The Nov 15 list was only built into new save files. Now every rating update is applied to every existing save as well, once per
+// save and per change (marked in the save, so it never repeats), and new saves get it from the start.
+window.RUPD4=[['Femmifer Allen',1],['No Pix',1],['DaSettlement Won',1]];   // DaSettlement Won: Tyler 2026-11-16 "Mr. Settlement one should be +1"
+try{RUPD4.forEach(([n,d])=>{if(!RUPD3||RUPD3.L.some(x=>x[0]===n))return;let o=null,pos='';const q=PKS.find(x=>x[2]===n);if(q){o=q[3];q[3]+=d;pos=POSL[q[1]]||''}else{const p=QBP.find(x=>x[0]===n);if(p){o=p[1];p[1]+=d;pos='QB'}else{const b_=QBB.find(x=>x[0]===n);if(b_){o=b_[1];b_[1]+=d;pos='QB'}}}
+ if(o!=null){RUPD3.L.push([n,pos,o,o+d]);RUPD3D.push([n,d])}});if(RUPD3)RUPD3.d='Nov 16, 2026'}catch(e){}
+window.RUPDALL=function(){return (RUPD3D||[]).concat(RUPD4.filter(e=>!(RUPD3D||[]).some(x=>x[0]===e[0])))};
+// a save made by this build already has the changes in its players: mark them done
+(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{if(S&&!S.rupdA){S.rupdA={};RUPDALL().forEach(([n,d])=>S.rupdA[n+'|'+d]=1)}}catch(e){}return r}}catch(e){}})();
+window.rupdApply=function(s){try{if(!s||!s.ro)return 0;s.rupdA=s.rupdA||{};let n=0;RUPDALL().forEach(([nm,d])=>{const key=nm+'|'+d;if(s.rupdA[key])return;let hit=0;
+  for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L))continue;L.forEach(x=>{if(x&&x.n===nm&&x.n!==s.name&&typeof x.ovr==='number'){x.ovr=Math.max(40,Math.min(99,x.ovr+d));if(x.pk!=null)x.pk=Math.max(x.pk,x.ovr);hit++}})}
+  if(hit||s.stage==='pro'){s.rupdA[key]=1;n+=hit}});return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&r.stage==='pro')rupdApply(r)}catch(e){}return r}}catch(e){}})();
+// Tyler, 2026-11-16: "remember to put that icon whether they went up or down. put it all in one ratings update ... they're one rating
+// update together". One card with every change (Oct 24, Oct 30, Nov 15-16), each with ▲ / ▼.
+window.rupdAll=function(){const out=[],seen=new Set();const add=x=>{if(!x||seen.has(x[0]))return;seen.add(x[0]);out.push(x)};
+ try{(RUPD3&&RUPD3.L||[]).forEach(add)}catch(e){}try{(RUPD2&&RUPD2.L||[]).forEach(add)}catch(e){}try{(RUPD||[]).forEach(u=>u.L.forEach(add))}catch(e){}return out};
+(()=>{try{const _v=rupdV;rupdV=function(){const r=_v.apply(this,arguments);try{const L=rupdAll();
+ // the separate update cards (Oct 24, Oct 30, Nov 15) and the old "new save files only" note become ONE card
+ [...ui.querySelectorAll('.card')].forEach(c=>{const b=c.querySelector('b'),t=(b?b.textContent:'')+'|'+c.textContent.slice(0,90);if(/Ratings update · (Oct|Nov)|^Oct \d+, 2026|Updates apply to new save files only/.test(t)&&!/throwing power|Exact ratings/i.test(t))c.remove()});
+ const h=`<div class=card data-rupd1=1><b>📈 Ratings update · Oct 24 · Oct 30 · Nov 15–16, 2026</b><br><small>The Nov 15–16 changes are in every save (applied once). The Oct 24 and Oct 30 changes are in every save started after those dates.</small>${L.map(x=>{const df=x[3]-x[2];return `<div class=row style="font-size:16px"><span>${esc(x[0])} <small>${x[1]}</small></span><span>${x[2]} → <b>${x[3]}</b> <b style="color:${df>0?'#7bed9f':'#ff6b6b'}">${df>0?'▲ +':'▼ '}${df}</b></span></div>`}).join('')}</div>`;
+ const h2=ui.querySelector('h2');if(h2)h2.insertAdjacentHTML('afterend',h);else (ui.firstElementChild||ui).insertAdjacentHTML('afterbegin',h);const bk=[...ui.querySelectorAll('button')].find(x=>/^Back$/.test(x.textContent.trim()));if(bk&&bk.parentNode)bk.parentNode.appendChild(bk)}catch(e){}return r};window.rupdV=rupdV}catch(e){}})();
+
+// Tyler, 2026-11-16: "you don't need to display their arm strength whenever you're picking a Pro QB ... unnecessary to show one
+// attribute" / "if it's an update already applied, just go ahead and leave the symbol anyways". The picker shows the ratings arrow
+// (▲ / ▼) for anyone on the ratings update, nothing else.
+rupdTag=function(n){try{const x=rupdAll().find(y=>y[0]===n);if(!x)return '';const d=x[3]-x[2];return ` <b style="color:${d>0?'#7bed9f':'#ff6b6b'}">${d>0?'▲ +':'▼ '}${d}</b>`}catch(e){return ''}};
+// ===== 🏷 NAME TAGS TOGGLE · 👀 FREE LOOK ON THE SIDELINE · 🚶 A LIVING BENCH =====
+// Tyler, 2026-11-16: "There should also be a way to toggle name tags off, cause name tags can get in the way on the field." /
+// "on sideline ... you should have more control on where you're looking around, because it just kind of auto locks on things and
+// then maybe players should move around a little bit too. Some of them are obviously gonna be standing still watching the game,
+// but maybe some are moving around as well."
+// - Name tags: Names + numbers / Numbers only / Off. In Settings and in the pause menu during a game. Saved with your career.
+// - Sideline look: free look. Drag (or the right stick) turns you anywhere, all the way around, and it stays where you leave it.
+//   Double-tap looks back at the ball.
+// - The bench: about a third of each team moves around (paces, wanders a few steps and back); the rest stand and turn to watch the ball.
+window.NTAGS=[['all','Names + numbers'],['num','Numbers only'],['off','Off']];
+window.ntagSet=function(v,back){S.ntag=v;try{save()}catch(e){}if(back==='pm')return pm();if(back==='set')return settings()};
+window.ntagRow=function(back){const cur=S.ntag||'all';return `<div class=card data-ntag=1><b>🏷 Name tags on the field</b><p class=tabs>${NTAGS.map(([k,l])=>`<button class="${k===cur?'':'g'}" onclick="ntagSet('${k}','${back}')">${l}</button>`).join('')}</p></div>`};
+(()=>{try{const _s=settings;settings=function(){const r=_s.apply(this,arguments);try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-ntag]')){const c=d.querySelector('.card');(c||d).insertAdjacentHTML(c?'afterend':'beforeend',ntagRow('set'))}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _p=pm;pm=function(){const r=_p.apply(this,arguments);try{if(ov&&!ov.querySelector('[data-ntag]')){const bs=[...ov.querySelectorAll('button')];const last=bs[bs.length-1];const h=ntagRow('pm');if(last)last.insertAdjacentHTML('beforebegin',h);else ov.insertAdjacentHTML('beforeend',h)}}catch(e){}return r}}catch(e){}})();
+// ---- free look on the sideline ----
+window.slLookBall=function(){SLV.ay=null;SLV.yo=0;SLV.po=0};
+(()=>{let lastTap=0;cv.addEventListener('pointerdown',e=>{try{if(!slOnSide())return;const now=performance.now();if(now-lastTap<300&&!(e.clientX<W*.38&&e.clientY>H*.6))slLookBall();lastTap=now}catch(_){}})})();
+// ---- the bench moves ----
+window.slWander=function(c,t,dt){if(c.wd==null){c.wd=Math.random()<.33?1:0;c.bx=c.position.x;c.bz=c.position.z;c.tx=c.bx;c.tz=c.bz;c.nt=t+1+Math.random()*4}
+ if(!c.wd){return false}
+ if(t>c.nt){const sd=Math.sign(c.bx)||1;c.tx=c.bx+sd*(Math.random()*1.6-.8);c.tz=c.bz+(Math.random()*6-3);c.nt=t+3+Math.random()*6}
+ const dx=c.tx-c.position.x,dz=c.tz-c.position.z,d=Math.hypot(dx,dz);if(d<.15)return false;const sp=Math.min(d,1.1*dt);c.position.x+=dx/d*sp;c.position.z+=dz/d*sp;c.rotation.y=Math.atan2(dx,dz);
+ const s=Math.sin(t*9+c.ph)*.55;try{c.L[0].rotation.x=s;c.L[1].rotation.x=-s;c.A[0].rotation.x=-s*.5;c.A[1].rotation.x=s*.5}catch(e){}return true};
+(()=>{try{let lt=performance.now()/1000;const _t=slTick;window.slTick=function(){const r=_t.apply(this,arguments);try{if(!SDL.children.length)return r;const t=performance.now()/1000,dt=Math.min(.1,t-lt);lt=t;const ballZ=-(cam-3);
+  SDL.children.forEach(c=>{if(c===SLV.av||c.coach||!c.A||c.position.y>.05)return;if(slWander(c,t,dt))return;   // walking
+   // watching: turn toward the ball, slowly
+   const want=Math.atan2(26.5*0-c.position.x*0+(0-c.position.x),ballZ-c.position.z);let a=c.rotation.y,d=((want-a+Math.PI*3)%(Math.PI*2))-Math.PI;c.rotation.y=a+d*Math.min(1,dt*1.5);try{c.L[0].rotation.x=c.L[1].rotation.x=0}catch(e){}})}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

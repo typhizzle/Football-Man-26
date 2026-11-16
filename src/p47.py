@@ -1048,3 +1048,39 @@ r("Chicago|Gales","Chicago|Icemen")
 r("Dallas|Wildcatters","Dallas|Cattle Boys")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m213.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m214: your box scores add up to your real season (per-game record of your line, never dropped; old games filled from your totals)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m214.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m215: placement & accuracy passing on the controller (hold meter lob/touch/bullet, blue window, stick placement, LB high, LT low)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m215.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# the touch throw hint is hidden while you use a controller
+r("pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2){cx.globalAlpha=.9;","pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2&&!(typeof CTL!='undefined'&&CTL.mode==='pad')){cx.globalAlpha=.9;")
+# Tyler 2026-11-16: routes with no end run all the way to the sideline / back of the end zone, then work back open; curls and
+# comebacks sit in it ~2.4 s first; no more 0.6 s then wander (the stutter)
+r("if(P.passed||(P.t-w.sct<.6&&!ob_)){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else{",
+  "if(P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!ob_){tx=nx;ty=ny}else if(d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<2.4){tx=w.x;ty=w.y;sp=0}else{")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m216.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m217: a real truck (knocked down with a fall and get-up, or shrugged off with a stagger)
+r("d.x+=(c.vx||0)/vl*1.8;d.y+=(c.vy||0)/vl*1.8;d.stun=1.7;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=.35;g.flash='TRUCKED!';",
+  "d.kbFrom=[d.x,d.y];d.kdS=performance.now();d.kdF=R()<.62;d.x+=(c.vx||0)/vl*(d.kdF?2.2:1.3);d.y+=(c.vy||0)/vl*(d.kdF?2.2:1.3);d.stun=d.kdF?1.9:.95;d.kdU=d.stun;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=d.kdF?.4:.22;g.flash=d.kdF?'TRUCKED!':'SHRUGGED OFF!';")
+r("if(o.kd&&o.stun>0){m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}",
+  "if(o.kd&&o.stun>0){if(o.kdS&&typeof trkPose=='function'){trkPose(o,m);return}m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}if(o.kdS&&!(o.stun>0))o.kdS=0;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m217.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m218.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m219: the lookalike made-up players get their own random names (Tyler's call)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m219.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m220: Player Lives Matter — takeover calendar for college prospects (stay in college until drafted), Nov-10 trades, Simmons 2037 restart
+r("const npxAt=p=>{if(p.pro)return{lv:'pro'};","const npxAt=p=>{if(p.pro)return{lv:'pro'};if(typeof npxTk=='function'){const t_=npxTk(p);if(t_)return t_}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m220.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m221.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m222: name tags toggle (names+numbers / numbers / off), free look on the sideline, a living bench
+r("[...P.ol,...P.wr,P.qb,...P.def].forEach(o=>{const p=pj(o.x,o.y,3.3),t=(CAMI==1||CAMI==2)?","(S.ntag==='off'?[]:[...P.ol,...P.wr,P.qb,...P.def]).forEach(o=>{const p=pj(o.x,o.y,3.3),t=S.ntag==='num'?String(o.num):(CAMI==1||CAMI==2)?")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m222.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
