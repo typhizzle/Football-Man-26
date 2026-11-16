@@ -1113,3 +1113,6 @@ r("m=injOut()?'🚑 You sat out hurt. '+injLeft():'You sat behind '","m=window._
 r("${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}`}","${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}${st&&typeof restBtn=='function'?restBtn(e):''}`}")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m228.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m229: exact overalls (Tyler 2026-11-16)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m229.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
