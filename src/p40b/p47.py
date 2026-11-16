@@ -1119,3 +1119,12 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m230: the beaten defender gets a tackle try right after a downfield catch
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m230.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m231: lob / touch / bullet ratings (Tyler 2026-11-16)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m231.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m232: controller button prompts (field walk Y leave / X stats / A talk)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m232.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-16: DBs leave receivers wide open deep -> an underneath man only hands his receiver off deep if a free deep defender
+# is actually there (within 8 yds); otherwise he stays on him, over the top
+r("(!d.dz&&d.mw.y>d.zy+9)","(!d.dz&&d.mw.y>d.zy+9&&P.db.concat(P.lb).some(o=>o!==d&&o.dz&&!o.mw&&Math.hypot(o.x-d.mw.x,o.y-d.mw.y)<8))")

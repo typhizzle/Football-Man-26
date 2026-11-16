@@ -80,6 +80,9 @@ window.ctlStep=function(){try{
   if(edge(0)){const a=document.getElementById('lra');if(a&&ctlVis(a)&&a.querySelector('button'))a.querySelector('button').click();else if(a&&ctlVis(a)&&a.onclick)a.click();else{
     // talk to / use whatever is nearest within reach
     let hit=null,bd=3.2;(LR.O||[]).forEach(o=>{const d=Math.hypot(o.x-LR.p.x,o.z-LR.p.z);if(d<bd){bd=d;hit=o}});if(hit){LR.pend=hit;LR.tg={x:LR.p.x,z:LR.p.z}}}}
+  // Tyler 2026-11-16: walking the field, buttons to leave and to see the game stats (Y leave, X game stats)
+  if(LR.field&&edge(3)){const b=[...document.querySelectorAll('#lrw button')].find(x=>/locker room|Leave/i.test(x.textContent));if(b){b.click();CTL.prev=down;return}}
+  if(LR.field&&edge(2)){const b=document.querySelector('.bxb');if(b)b.click();else try{ovShow(`<h2>📊 Game stats</h2><p>${g.m.n} ${g.s[0]} – ${g.s[1]} ${g.o.n}</p><p>${sline(g.st)}</p><button class=g onclick=ovHide()>Back</button>`)}catch(e){}CTL.prev=down;return}
   if(edge(1))ctlBack();
   CTL.prev=down;return}
  if(inGame){

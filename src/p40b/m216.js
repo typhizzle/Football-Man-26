@@ -10,6 +10,8 @@
 // (the picked-up defender sat in FRONT of the receiver, in the throwing lane). Now he trails a step BEHIND and reacts a beat later
 // (still guards him), and receivers run their routes the way they did in the 91% version (ROLD): 69-71% / 16-21 picks again.
 // Test swp1 holds this in every update.
+// Tyler 2026-11-16 (later): "DBs are still leaving receivers wide open when they go deep. They're supposed to stay on them and play over."
+// Deep (12+ yds past the line): the man on him plays OVER the top; underneath he still trails behind (the swipe fix).
 window.ZC={lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
 window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
 // Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
@@ -24,8 +26,8 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
  if(zcScr(P)){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
  if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
- if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t}}
- if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*ZC.top,s_=Math.hypot(tx-d.x,ty-d.y);
+ if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
+ if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*(w.y-g.los>12?1:ZC.top),s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
   d.cbB=s_>2.2?cl((w.sp||8)*(ZC.k+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,ZC.lo,ZC.hi):0;return [tx,ty]}
 }catch(e){}return r}}catch(e){}})();

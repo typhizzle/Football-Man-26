@@ -16,5 +16,14 @@ window.ovSetApply=function(s){try{if(!s||!s.ro)return 0;s.ovSetA=s.ovSetA||{};le
 // honest roll (same teams, same spot, same clock) 30% of the time: ~43% of drives score. Better offenses still score more, better
 // defenses less. League games are not touched.
 window.OPPX=.3;
-(()=>{try{const _d=simDrive;simDrive=function(){const r=_d.apply(this,arguments);try{if(window._oppD&&r&&!(r.pts>0)&&R()<OPPX){const r2=_d.apply(this,arguments);if(r2&&r2.pts>0)return r2}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _d=simDrive;simDrive=function(){const sv=!!window._rsR;const r=_d.apply(this,arguments);try{if(!sv&&window._oppD&&r&&!(r.pts>0)&&R()<OPPX){const r2=_d.apply(this,arguments);if(r2&&r2.pts>0)return r2}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _o=oppBall;oppBall=function(){window._oppD=1;try{return _o.apply(this,arguments)}finally{window._oppD=0}}}catch(e){}})();
+// ===== 🏆 REAL COLLEGE AWARDS FOR REAL COUNTERPARTS =====
+// Tyler 2026-11-16: "College awards should show up for the pro players, the ones with counterparts. Example: Cam Newton, he has a
+// Heisman and national championship. Where it at though". Real, verified ones only (college year = his playing year):
+// Cam Newton: Heisman + national title (Auburn 2010, his 4th college season); Johnny Manziel: Heisman (2012, 2nd season, redshirt
+// freshman); Robert Griffin III: Heisman (2011, 4th season). Added once to those careers' trophy cases (saves already made too).
+window.FACAW={'Cameron Nugent':['College yr 4: Heisman Trophy','College yr 4: National Champions'],'Johnny Football':['College yr 2: Heisman Trophy'],'Rob Griffith III':['College yr 4: Heisman Trophy']};
+window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const A=FACAW[s.tk];if(!A){s.facaw=s.tk;return 0}s.aw=s.aw||[];let n=0;A.forEach(a=>{if(!s.aw.includes(a)){s.aw.push(a);n++}});s.facaw=s.tk;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)faCol(r)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&faCol(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();

@@ -6317,7 +6317,7 @@ defPost=function(P,y,o,r){const dc=P.dc,V=DCV[dc]||DCV.zone,as=V[1].split(' '),p
 // ---- in coverage: deep zones stay over the top, underneath zones sit in the lanes, match zones carry who comes to them ----
 function zoneT(d,P){const los=g.los,q=P.qb;d.cbB=0;
  const chase=(w,dy)=>{const tx=w.x+(w.vx||0)*.35,ty=w.y+(w.vy||0)*.3+dy,s_=Math.hypot(tx-d.x,ty-d.y);d.cbB=s_>1.6?Math.max(1.05,((w.sp||8)*.95)/d.sp):0;return[tx,ty]};
- if(d.mt){if(d.mw&&(Math.abs(d.mw.x-d.zx)>(d.dz?16:13)||(!d.dz&&d.mw.y>d.zy+9))){P.mcl.delete(d.mw);d.mw=null}
+ if(d.mt){if(d.mw&&(Math.abs(d.mw.x-d.zx)>(d.dz?16:13)||(!d.dz&&d.mw.y>d.zy+9&&P.db.concat(P.lb).some(o=>o!==d&&o.dz&&!o.mw&&Math.hypot(o.x-d.mw.x,o.y-d.mw.y)<8)))){P.mcl.delete(d.mw);d.mw=null}
   if(!d.mw){let b=null,bd=d.dz?9:7;P.wr.forEach(w=>{if(P.mcl.has(w)||(d.dz&&w.y<los+6))return;const dd=Math.hypot(w.x-d.zx,w.y-d.zy);if(dd<bd){bd=dd;b=w}});if(b){d.mw=b;P.mcl.add(b)}}
   if(d.mw)return chase(d.mw,d.dz?2.2:1)}
  if(d.dz){// deep: only routes that threaten deep; the single-high safety helps on the deepest one anywhere
@@ -10060,6 +10060,9 @@ window.ctlStep=function(){try{
   if(edge(0)){const a=document.getElementById('lra');if(a&&ctlVis(a)&&a.querySelector('button'))a.querySelector('button').click();else if(a&&ctlVis(a)&&a.onclick)a.click();else{
     // talk to / use whatever is nearest within reach
     let hit=null,bd=3.2;(LR.O||[]).forEach(o=>{const d=Math.hypot(o.x-LR.p.x,o.z-LR.p.z);if(d<bd){bd=d;hit=o}});if(hit){LR.pend=hit;LR.tg={x:LR.p.x,z:LR.p.z}}}}
+  // Tyler 2026-11-16: walking the field, buttons to leave and to see the game stats (Y leave, X game stats)
+  if(LR.field&&edge(3)){const b=[...document.querySelectorAll('#lrw button')].find(x=>/locker room|Leave/i.test(x.textContent));if(b){b.click();CTL.prev=down;return}}
+  if(LR.field&&edge(2)){const b=document.querySelector('.bxb');if(b)b.click();else try{ovShow(`<h2>📊 Game stats</h2><p>${g.m.n} ${g.s[0]} – ${g.s[1]} ${g.o.n}</p><p>${sline(g.st)}</p><button class=g onclick=ovHide()>Back</button>`)}catch(e){}CTL.prev=down;return}
   if(edge(1))ctlBack();
   CTL.prev=down;return}
  if(inGame){
@@ -12711,9 +12714,9 @@ window.uglFill=function(){try{if(!S||!(S.stage==='pro'||S.stage==='col'))return 
 window.PAFULL=1.0;window.PA={i:-1};
 window.paZones=function(){return [['lob',0,.33],['touch',.33,.7],['bullet',.7,1]]};
 // the blue part of a zone: its last stretch; bigger with accuracy, smaller on the run / under pressure
-window.paWin=function(){try{const Q=S.q||{},P=g.pl,q=P&&P.qb;let f=cl(.3+((Q.acc||60)-60)/100,.18,.7);
+window.paWin=function(kind){try{const Q=S.q||{},P=g.pl,q=P&&P.qb;let f=typeof ptWin=='function'&&kind?ptWin(kind):cl(.3+((Q.acc||60)-60)/100,.18,.7);
  const mov=Math.hypot((inp&&inp.x)||0,(inp&&inp.y)||0)>.2,pr=P&&P.dl&&q&&P.dl.some(d=>d.beat&&Math.hypot(d.x-q.x,d.y-q.y)<3.5);if(mov)f*=.78;if(pr)f*=.7;return f}catch(e){return .35}};
-window.paRead=function(m0){const over=m0>1.02;let m=Math.min(1,m0);if(over){const Z=paZones();return {kind:'bullet',z:Z[2],w0:1,inWin:false,over:1,miss:1}}const Z=paZones(),z=Z.find(x=>m<x[2])||Z[2],f=paWin(),w0=z[2]-(z[2]-z[1])*f;return {kind:z[0],z,w0,inWin:z[0]==='lob'||m>=w0,miss:z[0]==='lob'||m>=w0?0:(w0-m)/Math.max(.01,w0-z[1])}};
+window.paRead=function(m0){const over=m0>1.02;let m=Math.min(1,m0);if(over){const Z=paZones();return {kind:'bullet',z:Z[2],w0:1,inWin:false,over:1,miss:1}}const Z=paZones(),z=Z.find(x=>m<x[2])||Z[2],f=paWin(z[0]),w0=z[2]-(z[2]-z[1])*f;return {kind:z[0],z,w0,inWin:m>=w0,miss:m>=w0?0:(w0-m)/Math.max(.01,w0-z[1])}};
 window.paFill=function(){return PA.i<0?0:(performance.now()-PA.t0)/1000/PAFULL};
 // one frame, from ctlStep while you have the ball behind the line
 window.ctlPA=function(down,edge,lx,ly){try{const P=g.pl;
@@ -12727,12 +12730,12 @@ window.paRelease=function(){const s={...PA};PA={i:-1};try{const P=g.pl,q=P.qb,w=
  // placement: the stick moves the spot (up = lead him deeper, down = back shoulder / shorter, left/right = toward that side)
  const aw=(Q&&Q.awr)||60,rl=1.2+aw/50,rd_=1.5+aw/40;lx+=(s.sx||0)*rl;ly+=-(s.sy||0)*rd_;
  const Rg=thrR(),d=Math.hypot(lx-q.x,ly-q.y);if(d>Rg){lx=q.x+(lx-q.x)*Rg/d;ly=q.y+(ly-q.y)*Rg/d}
- const a0=Q.acc;Q.acc=cl(a0+(rd.kind==='lob'?0:rd.inWin?10:-(8+18*Math.min(1,rd.miss)))-(rd.over?30:0),5,99);
+ const a0=Q.acc;Q.acc=cl(a0+(rd.inWin?10:-(8+18*Math.min(1,rd.miss)))-(rd.over?30:0),5,99);
  g.swp={p:Math.round(Math.min(1,d/Rg)*100),t:performance.now()};
  try{doThrow(w,cl(lx,1.4,51.9),ly)}finally{Q.acc=a0}
  const A=P.air;if(A){A.T*= {lob:1.35,touch:1,bullet:.8}[rd.kind]*(s.hi?1.1:s.lo?.92:1);A.T=Math.max(.25,A.T);A.kind=rd.kind;A.hl=s.hi?'high':s.lo?'low':'';
   g.paLast={kind:rd.kind,inWin:rd.inWin,hl:A.hl,m:+(s.m||0).toFixed(2)};
-  try{slRel(innerWidth/2,innerHeight-90,(rd.kind==='lob'?'Lob':rd.kind==='touch'?'Touch':'Bullet')+(A.hl?' · '+A.hl:'')+(rd.over?' · ✗ held too long, it sails':rd.kind==='lob'?'':rd.inWin?' · ✓ on target':' · ✗ off target'),!rd.over&&(rd.kind==='lob'||rd.inWin))}catch(e){}}}catch(e){}};
+  try{slRel(innerWidth/2,innerHeight-90,(rd.kind==='lob'?'Lob':rd.kind==='touch'?'Touch':'Bullet')+(A.hl?' · '+A.hl:'')+(rd.over?' · ✗ held too long, it sails':rd.inWin?' · ✓ on target':' · ✗ off target'),!rd.over&&rd.inWin)}catch(e){}}}catch(e){}};
 // high / low: the defender the throw goes over (high) or under (low) gets less reach; a bullet gives them less time; high/low are a bit harder to catch
 (()=>{try{const _l=land;land=function(){const P=g.pl,a=P&&P.air;const und=[];try{if(a&&a.kind){const w=a.tgt,ds=P.db.concat(P.lb).map(d=>({d,e:Math.hypot(d.x-a.lx,d.y-a.ly)})).sort((x,y)=>x.e-y.e),D=ds[0]&&ds[0].d;
   const push=(d,k)=>{const dx=d.x-a.lx,dy=d.y-a.ly,l=Math.hypot(dx,dy)||1;und.push([d,d.x,d.y]);d.x+=dx/l*k;d.y+=dy/l*k};
@@ -12748,9 +12751,9 @@ window.paIconY=5.9;   // button icons float above the receiver (not over his fac
   const m=Math.min(1,paFill()),f=paWin(),s=pj(w.x,w.y,paIconY);if(!s||!isFinite(s[0]))return r;
   cx.save();cx.setTransform(1,0,0,1,0,0);const R=30,a0=Math.PI*1.08,a1=Math.PI*1.92,A=t=>a0+(a1-a0)*t;
   cx.lineCap='butt';cx.lineWidth=10;cx.strokeStyle='#000b';cx.beginPath();cx.arc(s[0],s[1],R,A(0)-.04,A(1)+.04);cx.stroke();
-  paZones().forEach(([k,a,b])=>{cx.lineWidth=7;cx.strokeStyle=PAC[k]+'55';cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(b)-.01);cx.stroke();
+  paZones().forEach(([k,a,b])=>{const wf=paWin(k),wa=b-(b-a)*wf;cx.lineWidth=7;cx.strokeStyle='#000';cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(wa));cx.stroke();cx.strokeStyle=PAC[k]+'66';cx.beginPath();cx.arc(s[0],s[1],R,A(wa),A(b)-.01);cx.stroke();
    if(m>a){cx.strokeStyle=PAC[k];cx.shadowColor=PAC[k];cx.shadowBlur=8;cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(Math.min(m,b))-.01);cx.stroke();cx.shadowBlur=0}
-   if(k!=='lob'){const w0=b-(b-a)*f;cx.lineWidth=3;cx.strokeStyle='#ffffff';cx.beginPath();cx.arc(s[0],s[1],R+6,A(w0),A(b)-.01);cx.stroke()}});
+   {cx.lineWidth=3;cx.strokeStyle='#ffffff';cx.beginPath();cx.arc(s[0],s[1],R+6,A(wa),A(b)-.01);cx.stroke()}});
   if(paFill()>1.02){cx.lineWidth=7;cx.strokeStyle='#ff3b3b';cx.shadowColor='#ff3b3b';cx.shadowBlur=10;cx.beginPath();cx.arc(s[0],s[1],R,A(1)+.03,A(1)+.03+Math.min(.5,(paFill()-1)*1.2));cx.stroke();cx.shadowBlur=0}const ang=A(m);cx.fillStyle='#fff';cx.beginPath();cx.arc(s[0]+Math.cos(ang)*R,s[1]+Math.sin(ang)*R,4.5,0,7);cx.fill();
   const rd=paRead(m);cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillStyle=PAC[rd.kind];cx.fillText(rd.kind.toUpperCase()+(PA.hi?' · HIGH':PA.lo?' · LOW':''),s[0],s[1]-R-10);
   // the spot the ball is going
@@ -12759,7 +12762,7 @@ window.paIconY=5.9;   // button icons float above the receiver (not over his fac
   cx.restore()}}catch(e){}return r}}catch(e){}})();
 // the button guide
 (()=>{try{const _g=window.ctlLegend;window.ctlLegend=function(){_g.apply(this,arguments);try{const lg=document.getElementById('ctlleg'),P=g&&g.pl;if(lg&&g&&g.ph==='live'&&P&&P.car===P.qb&&!P.air&&!ctlRoot()){const G=k=>ctlGlyph(k),hi=CTL.kind==='ps'?'L1':'LB',lo=CTL.kind==='ps'?'L2':'LT';
-  const t=`Hold ${G(0)} ${G(1)} ${G(2)} ${G(3)} ${G(4)}: tap lob · hold bullet · release in the blue · L-stick place · ${hi} high · ${lo} low`;if(lg.textContent!==t)lg.textContent=t}}catch(e){}}}catch(e){}})();
+  const t=`Hold ${G(0)} ${G(1)} ${G(2)} ${G(3)} ${G(4)}: tap lob · hold bullet · let go in the color, not the black · L-stick place · ${hi} high · ${lo} low`;if(lg.textContent!==t)lg.textContent=t}}catch(e){}}}catch(e){}})();
 // ===== 🛡 NOBODY RUNS FREE: AN IDLE DEFENDER PICKS UP THE OPEN MAN =====
 // Tyler, 2026-11-16: "DBs come off WRs sometimes, they should at least try to guard them, otherwise I'm getting an open pass
 // everytime. But obviously still create separation so passes can be completed, football logic".
@@ -12772,6 +12775,8 @@ window.paIconY=5.9;   // button icons float above the receiver (not over his fac
 // (the picked-up defender sat in FRONT of the receiver, in the throwing lane). Now he trails a step BEHIND and reacts a beat later
 // (still guards him), and receivers run their routes the way they did in the 91% version (ROLD): 69-71% / 16-21 picks again.
 // Test swp1 holds this in every update.
+// Tyler 2026-11-16 (later): "DBs are still leaving receivers wide open when they go deep. They're supposed to stay on them and play over."
+// Deep (12+ yds past the line): the man on him plays OVER the top; underneath he still trails behind (the swipe fix).
 window.ZC={lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
 window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
 // Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
@@ -12786,8 +12791,8 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
  if(zcScr(P)){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
  if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
- if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t}}
- if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*ZC.top,s_=Math.hypot(tx-d.x,ty-d.y);
+ if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
+ if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*(w.y-g.los>12?1:ZC.top),s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
   d.cbB=s_>2.2?cl((w.sp||8)*(ZC.k+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,ZC.lo,ZC.hi):0;return [tx,ty]}
 }catch(e){}return r}}catch(e){}})();
@@ -13133,8 +13138,17 @@ window.ovSetApply=function(s){try{if(!s||!s.ro)return 0;s.ovSetA=s.ovSetA||{};le
 // honest roll (same teams, same spot, same clock) 30% of the time: ~43% of drives score. Better offenses still score more, better
 // defenses less. League games are not touched.
 window.OPPX=.3;
-(()=>{try{const _d=simDrive;simDrive=function(){const r=_d.apply(this,arguments);try{if(window._oppD&&r&&!(r.pts>0)&&R()<OPPX){const r2=_d.apply(this,arguments);if(r2&&r2.pts>0)return r2}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _d=simDrive;simDrive=function(){const sv=!!window._rsR;const r=_d.apply(this,arguments);try{if(!sv&&window._oppD&&r&&!(r.pts>0)&&R()<OPPX){const r2=_d.apply(this,arguments);if(r2&&r2.pts>0)return r2}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _o=oppBall;oppBall=function(){window._oppD=1;try{return _o.apply(this,arguments)}finally{window._oppD=0}}}catch(e){}})();
+// ===== 🏆 REAL COLLEGE AWARDS FOR REAL COUNTERPARTS =====
+// Tyler 2026-11-16: "College awards should show up for the pro players, the ones with counterparts. Example: Cam Newton, he has a
+// Heisman and national championship. Where it at though". Real, verified ones only (college year = his playing year):
+// Cam Newton: Heisman + national title (Auburn 2010, his 4th college season); Johnny Manziel: Heisman (2012, 2nd season, redshirt
+// freshman); Robert Griffin III: Heisman (2011, 4th season). Added once to those careers' trophy cases (saves already made too).
+window.FACAW={'Cameron Nugent':['College yr 4: Heisman Trophy','College yr 4: National Champions'],'Johnny Football':['College yr 2: Heisman Trophy'],'Rob Griffith III':['College yr 4: Heisman Trophy']};
+window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const A=FACAW[s.tk];if(!A){s.facaw=s.tk;return 0}s.aw=s.aw||[];let n=0;A.forEach(a=>{if(!s.aw.includes(a)){s.aw.push(a);n++}});s.facaw=s.tk;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)faCol(r)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&faCol(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
 // ===== 🧱 A JUMP BALL IS CONTESTED AFTER THE CATCH TOO =====
 // Tyler 2026-11-16: "when you launch up a jump ball, the guy catches it and just is able to run straight to the end zone. There needs to
 // be some kind of tackle animation or broken tackle animation." WHY: the defender who went up for it and lost was still in his
@@ -13145,5 +13159,31 @@ window.OPPX=.3;
   const D=P.db.concat(P.lb).map(d=>({d,e:Math.hypot(d.x-w.x,d.y-w.y)})).sort((x,y)=>x.e-y.e)[0];if(D&&D.e<2.2)P.jbT={d:D.d,t:P.t+.25,w}}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _u=upd;upd=function(dt){const r=_u.apply(this,arguments);try{const P=g&&g.pl,J=P&&P.jbT;if(J&&g.ph==='live'&&!P.done&&P.car===J.w&&P.t>=J.t){P.jbT=null;const d=J.d;
   if(Math.hypot(d.x-J.w.x,d.y-J.w.y)<3.2){d.cd=0;d.stun=0;d.x+=(J.w.x-d.x)*.5;d.y+=(J.w.y-d.y)*.5;const t0=d.tkl;d.tkl=(d.tkl||60)+25;try{hit(d)}finally{d.tkl=t0}if(!P.done&&P.car===J.w){g.flash='BROKE THE TACKLE!';g.ft=.8}}}else if(J&&(P.done||P.car!==J.w))P.jbT=null}catch(e){}return r}}catch(e){}})();
+// ===== 🎯 LOB · TOUCH · BULLET RATINGS =====
+// Tyler 2026-11-16: "every meter has gotta be different ... start making a bullet pass rating, lob pass rating, and touch pass rating,
+// and obviously the higher the rating, the bigger the meter and window is for it ... judge that off of their throwing attributes ...
+// Cam ... 66 lob ... 62 for his bullets and 52 for his touch ... you can make an attribute that you upgrade as well" / "there should be
+// some black space that makes it inaccurate. Everyone should have at least a little bit of black space".
+// Kept apart from the six ratings that make the overall (S.qp), so no overall changes. Start values come from throwing (accuracy,
+// power, awareness), shaped so Cam lands on Tyler's 66/52/62; Tyler's named QBs use his exact numbers. Upgrade with training points.
+// On the meter, each pass's colored window is its rating; the rest of that section is black (off target); a 99 still has black.
+window.PTN={'Cameron Nugent':{lob:66,tch:52,blt:62},'Ricky MaClones':{lob:97,tch:99,blt:97},'Jarsh Fallon':{lob:98,tch:99,blt:97}};
+window.ptBase=function(q){q=q||{};const a=q.acc||60,p=q.pow||60,w=q.awr||60;const c=v=>Math.max(30,Math.min(99,Math.round(v)));
+ return {lob:c(.4*p+.35*a+.25*w-6),tch:c(.6*a+.4*w-13),blt:c(.5*p+.4*a+.1*w-12)}};
+window.ptGet=function(){try{if(!S)return {lob:60,tch:60,blt:60};if(!S.qp){S.qp=PTN[S.name]?{...PTN[S.name]}:ptBase(S.q)}return S.qp}catch(e){return {lob:60,tch:60,blt:60}}};
+window.ptWin=function(kind){const k={lob:'lob',touch:'tch',bullet:'blt'}[kind]||'tch',r=ptGet()[k]||60;return Math.max(.1,Math.min(.8,.1+(r-40)*.0118))};   // 99 -> .80 (20% black), 52 -> .24
+window.ptUp=function(k){try{const P=ptGet();if(S.pts>=2&&P[k]<99){S.pts-=2;P[k]++;save();hub()}}catch(e){}};
+window.ptCard=function(){try{if(!S||!(S.stage==='pro'||S.stage==='col'||S.stage==='hs'))return '';const P=ptGet(),N={lob:'🟢 Lob pass',tch:'🔵 Touch pass',blt:'🟣 Bullet pass'};
+ return `<div class=card data-pt=1><b>🎯 Pass types</b> <small>(bigger = bigger target on the controller meter; not part of your overall)</small>${Object.keys(N).map(k=>`<div class=row><span>${N[k]}</span><b>${P[k]}</b>${P[k]>=99?'<small>MAX</small>':`<button class=g onclick="ptUp('${k}')">+1 (2 pts)</button>`}</div>`).join('')}</div>`}catch(e){return ''}};
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{if(typeof ui!='undefined'&&ui&&!ui.querySelector('[data-pt]')&&S&&(S.stage==='pro'||S.stage==='col'||S.stage==='hs')){const cards=[...ui.querySelectorAll('.card')];const tc=cards.find(c=>/Training points/.test(c.textContent));if(tc)tc.insertAdjacentHTML('afterend',ptCard())}}catch(e){}return r}}catch(e){}})();
+// ===== 🎮 BUTTON PROMPTS (controller) =====
+// Tyler 2026-11-16: "When you're walking the field, there needs to be buttons for leaving the game and checking the game stats ... put
+// whatever button icon you need to for the thing you are selecting or whenever you're talking to someone, you can just have the little
+// A or X". With a controller on: the leave button shows Y, Game stats shows X, and whatever you can talk to / use shows A.
+window.cpGl=function(i){try{return ctlGlyph(i)}catch(e){return ['A','B','X','Y'][i]||''}};
+window.cpTag=function(el,i){if(!el)return;const has=el.querySelector&&el.querySelector('.cpg');const want=CTL.mode==='pad';if(want&&!has){const sp=document.createElement('span');sp.className='cpg';sp.style.cssText='display:inline-block;margin-right:6px;padding:0 6px;border-radius:9px;background:#000a;color:#fff;font:700 13px sans-serif';sp.textContent=cpGl(i);el.prepend(sp)}else if(!want&&has)has.remove()};
+setInterval(()=>{try{if(typeof CTL=='undefined')return;const w=document.getElementById('lrw');if(!w||w.style.display!=='block'){return}
+ [...w.querySelectorAll('button')].forEach(b=>{if(/locker room/i.test(b.textContent))cpTag(b,3)});const bx=document.querySelector('.bxb');if(bx)cpTag(bx,2);
+ const a=document.getElementById('lra');if(a){const b=a.querySelector('button')||a;if(a.textContent.trim())cpTag(b,0)}}catch(e){}},400);
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>
