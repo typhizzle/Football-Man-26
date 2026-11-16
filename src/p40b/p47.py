@@ -1128,3 +1128,5 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # Tyler 2026-11-16: DBs leave receivers wide open deep -> an underneath man only hands his receiver off deep if a free deep defender
 # is actually there (within 8 yds); otherwise he stays on him, over the top
 r("(!d.dz&&d.mw.y>d.zy+9)","(!d.dz&&d.mw.y>d.zy+9&&P.db.concat(P.lb).some(o=>o!==d&&o.dz&&!o.mw&&Math.hypot(o.x-d.mw.x,o.y-d.mw.y)<8))")
+# Tyler's pinned overall (Ricky 98 / Jarsh 97 with his exact ratings): qo follows the pin for your own player
+r("qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];return Math.min(","qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];try{if(typeof S!='undefined'&&S&&q===S.q&&S.ovPin)return Math.max(1,Math.min(99,Math.round(S.ovPin.o+(v.reduce((a,b)=>a+(b||0),0)/6-S.ovPin.b))))}catch(e){}return Math.min(")

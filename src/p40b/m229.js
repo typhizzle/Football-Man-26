@@ -36,4 +36,12 @@ window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const 
 try{QBX26['Ricky MaClones']={s:[97,98,97,87,92,83],fix:[],ovr:null,v:3};QBX26['Jarsh Fallon']={s:[95,98,93,89,87,96],fix:[],ovr:null,v:3}}catch(e){}
 // Tyler 2026-11-16 (later): "just get it closer to what I have. There's no reason to give him max ... I didn't give him max". So a career
 // playing as them gets his numbers exactly (Ricky avg 92, Jarsh 93); the league keeps their 98 / 97.
-(()=>{try{const _q=qbExact;qbExact=function(n,ovr){if(ovr==null&&(n==='Ricky MaClones'||n==='Jarsh Fallon')){const X=QBX26[n];const k=['acc','pow','awr','mob','sec','trk'],q={};k.forEach((x,i)=>q[x]=X.s[i]);return q}return _q.apply(this,arguments)};window.qbExact=qbExact}catch(e){}})();
+(()=>{try{const _q=qbExact;qbExact=function(n,ovr){if(n==='Ricky MaClones'||n==='Jarsh Fallon'){const X=QBX26[n];const k=['acc','pow','awr','mob','sec','trk'],q={};k.forEach((x,i)=>q[x]=X.s[i]);return q}return _q.apply(this,arguments)};window.qbExact=qbExact}catch(e){}})();
+// ===== 📌 TYLER'S OVERALL + TYLER'S RATINGS, BOTH KEPT =====
+// Tyler 2026-11-16: "I want to maintain my ratings too" (after keep the overall). A career playing as Ricky MaClones or Jarsh Fallon gets
+// his exact ratings AND the overall Tyler set (98 / 97); the overall is pinned to that, and every upgrade still moves it as it would
+// move his average (overall = pinned + (average now - average at the start)). Nobody else's overall changes.
+window.OVPIN={'Ricky MaClones':98,'Jarsh Fallon':97};
+const _avg6=q=>[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk].reduce((a,b)=>a+(b||0),0)/6;
+(()=>{try{const _q=qo;qo=function(q){const r=_q.apply(this,arguments);try{if(S&&q===S.q&&S.ovPin){return Math.max(1,Math.min(99,Math.round(S.ovPin.o+(_avg6(q)-S.ovPin.b))))}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _a=qbx26Apply;window.qbx26Apply=qbx26Apply=function(s,fresh){const r=_a.apply(this,arguments);try{s=s||S;const n=s&&(s.tk||s.name);if(n&&OVPIN[n]&&!s.ovPin&&s.q){s.ovPin={o:OVPIN[n],b:_avg6(s.q)};try{const L=s.ro&&s.ro['h.0'];if(L&&L[0]&&L[0].n===s.name)L[0].ovr=OVPIN[n]}catch(e){}}}catch(e){}return r}}catch(e){}})();
