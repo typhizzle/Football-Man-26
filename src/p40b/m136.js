@@ -42,7 +42,7 @@ window.ctlLegend=function(){const lg=document.getElementById('ctlleg');if(!lg)re
  else t=`${G(0)} select · ${G(1)} back · D-pad / L-stick move`;
  if(lg.textContent!==t)lg.textContent=t};
 // ---------- keyboard / mouse / touch take over again the moment they are used ----------
-['pointerdown','mousemove','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
+['pointerdown','mousemove','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;/* Tyler 2026-11-16 (MacBook + controller): a click, trackpad touch or key press switched controller mode off, so no icons or meter. Now: used in the last 10 s, the controller stays on */if(CTL.lastPad&&performance.now()-CTL.lastPad<10000)return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
 addEventListener('gamepadconnected',e=>{CTL.on=true;CTL.kind=ctlTypeOf(e.gamepad&&e.gamepad.id);CTL.id=e.gamepad&&e.gamepad.id||''});
 addEventListener('gamepaddisconnected',()=>{CTL.on=false;CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null);try{if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false}}catch(e){}});
 // ---------- one frame of controller input ----------
@@ -55,7 +55,7 @@ window.ctlStep=function(){try{
  const now=performance.now(),down=[],edge=i=>B(i)&&!CTL.prev[i];
  for(let i=0;i<17;i++)down[i]=B(i);
  const lx=ax(0),ly=ax(1),rx=ax(2),ry=ax(3),dl=B(14),dr=B(15),du=B(12),dd=B(13);
- const active=down.some(Boolean)||lx||ly||rx||ry;
+ const active=down.some(Boolean)||lx||ly||rx||ry;if(active)CTL.lastPad=now;
  if(active&&CTL.mode!=='pad'){CTL.mode='pad';document.body.classList.add('ctlpad')}
  if(CTL.mode!=='pad'){CTL.prev=down;return}
  ctlLegend();
@@ -87,7 +87,7 @@ window.ctlStep=function(){try{
   if(lx||ly){kb.x=lx;kb.y=-ly;CTL.wasKb=true}else if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false;try{kv()}catch(e){}}
   const P=g.pl;
   if(g.ph==='live'&&P){const q=P.qb;
-   if(P.car===q&&!P.air&&!P.passed){for(let i=0;i<5;i++)if(edge(CTL_RB[i])){ctlThrow(i);break}}
+   if(P.car===q&&!P.air&&!P.passed){if(typeof ctlPA=='function')ctlPA(down,edge,lx,ly);else for(let i=0;i<5;i++)if(edge(CTL_RB[i])){ctlThrow(i);break}}
    else if(P.car&&P.car!==q||(P.car===q&&P.passed)){
     // the game's own run moves (what a swipe does): right stick left/right juke, up truck; B spin
     const k=(rx||ry)?(Math.abs(rx)>Math.abs(ry)?'x':'y'):'';
@@ -105,5 +105,5 @@ window.ctlThrow=function(i){try{const P=g.pl,q=P.qb,w=ctlRecv()[i];if(!w||g.ph!=
  g.swp={p:Math.round(Math.min(1,d/Rg)*100),t:performance.now()};doThrow(w,cl(lx,1.4,51.9),ly)}catch(e){}};
 // ---------- the button over each receiver ----------
 (()=>{try{const _d=draw;draw=function(){const r=_d.apply(this,arguments);try{if(CTL.mode==='pad'&&g&&g.ph==='live'&&g.pl&&g.pl.car===g.pl.qb&&!g.pl.air){const C=ctlRecv(),cols=CTL.kind==='ps'?['#5a8dee','#e0454e','#d77bd3','#3fbfa3','#ffffff']:['#3fb950','#e5534b','#4493f8','#e8b923','#ffffff'];
-  C.forEach((w,i)=>{const s=pj(w.x,w.y,2.6);if(!s||!isFinite(s[0]))return;cx.save();cx.setTransform(1,0,0,1,0,0);cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],13,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
+  C.forEach((w,i)=>{const s=pj(w.x,w.y,typeof paIconY!='undefined'?paIconY:2.6),s0=pj(w.x,w.y,2.4);if(!s||!isFinite(s[0]))return;const held=typeof PA!='undefined'&&PA.i>=0,sel=held&&PA.i===i,rr=sel?16:13;cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=held&&!sel?.35:1;if(s0&&isFinite(s0[0])){cx.strokeStyle=cols[i];cx.lineWidth=2;cx.beginPath();cx.moveTo(s[0],s[1]+rr);cx.lineTo(s0[0],s0[1]);cx.stroke()}cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],rr,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=sel?4:3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
 (function ctlLoop(){try{ctlStep()}catch(e){}requestAnimationFrame(ctlLoop)})();

@@ -10021,7 +10021,7 @@ window.ctlLegend=function(){const lg=document.getElementById('ctlleg');if(!lg)re
  else t=`${G(0)} select · ${G(1)} back · D-pad / L-stick move`;
  if(lg.textContent!==t)lg.textContent=t};
 // ---------- keyboard / mouse / touch take over again the moment they are used ----------
-['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
+['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;/* Tyler 2026-11-16 (MacBook + controller): a click, trackpad touch or key press switched controller mode off, so no icons or meter. Now: used in the last 10 s, the controller stays on */if(CTL.lastPad&&performance.now()-CTL.lastPad<10000)return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
 addEventListener('gamepadconnected',e=>{CTL.on=true;CTL.kind=ctlTypeOf(e.gamepad&&e.gamepad.id);CTL.id=e.gamepad&&e.gamepad.id||''});
 addEventListener('gamepaddisconnected',()=>{CTL.on=false;CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null);try{if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false}}catch(e){}});
 // ---------- one frame of controller input ----------
@@ -10034,7 +10034,7 @@ window.ctlStep=function(){try{
  const now=performance.now(),down=[],edge=i=>B(i)&&!CTL.prev[i];
  for(let i=0;i<17;i++)down[i]=B(i);
  const lx=ax(0),ly=ax(1),rx=ax(2),ry=ax(3),dl=B(14),dr=B(15),du=B(12),dd=B(13);
- const active=down.some(Boolean)||lx||ly||rx||ry;
+ const active=down.some(Boolean)||lx||ly||rx||ry;if(active)CTL.lastPad=now;
  if(active&&CTL.mode!=='pad'){CTL.mode='pad';document.body.classList.add('ctlpad')}
  if(CTL.mode!=='pad'){CTL.prev=down;return}
  ctlLegend();

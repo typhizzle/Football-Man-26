@@ -14,7 +14,7 @@ const r=await pg.evaluate(async(j)=>{const out={};try{
  // a box-score overlay: B closes it
  const G=S.gr||{},w0=Object.keys(G)[0],gm=G[w0][0];bxOpen(+w0,gm[0],gm[1]);out.E_overlayOpen=ov.style.display!=='none';ctlStep();out.E_highlightInOverlay=!!(CTL.sel&&ov.contains(CTL.sel));press(1);out.E_bClosesOverlay=ov.style.display==='none'||!ov.innerHTML;
  // keyboard takes over again
- dispatchEvent(new KeyboardEvent('keydown',{key:'x'}));out.F_keyboardTakesOver=CTL.mode==='kbm'&&!document.querySelector('.ctlf');
+ CTL.lastPad=performance.now()-11000;/* 2026-11-16: the keyboard takes over once the controller has been quiet 10 s */dispatchEvent(new KeyboardEvent('keydown',{key:'x'}));out.F_keyboardTakesOver=CTL.mode==='kbm'&&!document.querySelector('.ctlf');
  // PlayStation
  PAD=mk('DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c)');press(13);out.G_ps=CTL.kind==='ps'&&ctlGlyph(0)==='✕'&&ctlGlyph(3)==='△';
  // gameplay: left stick moves, A throws to receiver A
