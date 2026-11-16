@@ -33,4 +33,7 @@ window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const 
 // (98 / 97) is kept (Tyler: "Overall stayed the same as I gave you, just adjust ratings according to what I'm giving you"): all six rise
 // evenly from his numbers to reach it, so each keeps his shape (Ricky's truck and speed stay his lowest). Used whenever a
 // career plays as them; league ratings unchanged.
-try{QBX26['Ricky MaClones']={s:[97,98,97,87,92,83],fix:[],ovr:98,v:3};QBX26['Jarsh Fallon']={s:[95,98,93,89,87,96],fix:[],ovr:97,v:3}}catch(e){}
+try{QBX26['Ricky MaClones']={s:[97,98,97,87,92,83],fix:[],ovr:null,v:3};QBX26['Jarsh Fallon']={s:[95,98,93,89,87,96],fix:[],ovr:null,v:3}}catch(e){}
+// Tyler 2026-11-16 (later): "just get it closer to what I have. There's no reason to give him max ... I didn't give him max". So a career
+// playing as them gets his numbers exactly (Ricky avg 92, Jarsh 93); the league keeps their 98 / 97.
+(()=>{try{const _q=qbExact;qbExact=function(n,ovr){if(ovr==null&&(n==='Ricky MaClones'||n==='Jarsh Fallon')){const X=QBX26[n];const k=['acc','pow','awr','mob','sec','trk'],q={};k.forEach((x,i)=>q[x]=X.s[i]);return q}return _q.apply(this,arguments)};window.qbExact=qbExact}catch(e){}})();
