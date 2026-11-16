@@ -38,7 +38,7 @@ window.FAHOME={'Rylan Tannen':['MIA','TEN']};window.FAQN=null;
 // ---- 9. exotic skins ----
 try{for(let i=0;i<SKP.length;i++)if(SKP[i]>0)SKP[i]=Math.max(1000000,SKP[i]*500)}catch(e){}
 // ---- 10. no backwards throws ----
-(()=>{try{const _d=doThrow;doThrow=function(w,lx,ly){try{const q=g&&g.pl&&g.pl.qb;if(q&&ly<q.y+1)ly=q.y+1}catch(e){}return _d.call(this,w,lx,ly)}}catch(e){}})();
+(()=>{try{const _d=doThrow;doThrow=function(w,lx,ly){let q=null;try{q=g&&g.pl&&g.pl.qb;if(q&&ly<q.y+1)ly=q.y+1}catch(e){}const r=_d.call(this,w,lx,ly);try{const A=g&&g.pl&&g.pl.air;if(A&&q&&A.ly<A.y0+1){A.ly=A.y0+1}}catch(e){}return r}}catch(e){}})();   /* accuracy scatter can't push it behind him either */
 // ---- 11. one transactions button ----
 (()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=[...ui.querySelectorAll('button')].find(x=>(x.getAttribute('onclick')||'')==='txV()');const lo=document.getElementById('lgob');if(b&&lo){b.textContent='🧾 Transactions & league office';b.setAttribute('onclick','lgV()');lo.remove()}}catch(e){}return r}}catch(e){}})();
 // ---- 4/5. ratings updates page ----

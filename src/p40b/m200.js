@@ -15,8 +15,8 @@ window.bxRecv2=function(ti,L,r){try{if(typeof bxNew!='function'||!bxNew()||typeo
  const w=base.map((b,i)=>cl(b*(1+(ov[i]-mean)*.022)*(.78+t[i]*.44),.04,.42));
  // a backup receiver / tight end (bench) gets some looks too
  const bks=L.map((x,j)=>({x,j})).filter(o=>o.j>=25&&o.x&&!o.x.inj&&(o.x.pos==='WR'||o.x.pos==='TE')).slice(0,2);bks.forEach((o,i)=>{k.push(o.j);w.push(i===0?.14+(t[0]>.5?.03:0):.08);av.push(10.4);tw.push(i===0?.05:.02)});
- // the top receiver's share of the team's passing YARDS is capped (22-32%, a team tendency); the rest is spread to the others
- {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),cap=.22+t[1]*.1,mi=yw.indexOf(Math.max(...yw));if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
+ // the top receiver's share of the team's passing YARDS is capped (an elite No. 1 gets ~40%, an average one ~28%); the rest is spread to the others
+ {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),mi=yw.indexOf(Math.max(...yw)),cap=cl(.2+((ov[mi]||75)-72)*.0095+(t[1]-.5)*.06,.2,.44);if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
  const sm=w.reduce((a,b)=>a+b,0);return {k,w:w.map(x=>x/sm),av,tw}}catch(e){return null}};
 // ---- the current season on the league stats page ----
 window.lgsCurOk=function(){try{return S&&S.stage==='pro'&&!(S.sled===S.py)&&Object.keys(S.gr||{}).length>0}catch(e){return false}};

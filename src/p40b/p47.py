@@ -996,3 +996,8 @@ r("aim.px=px;aim.py=py;aim.t=slt(aim)}","aim.px=px;aim.py=py;aim.t=slt(aim);{con
 r("const a=aim;aim=null;if(!g||g.ph!='live')return;const P=g.pl,q=P.qb,c=P.car,run=","const a=aim;aim=null;if(!g||g.ph!='live')return;if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m205.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m206: one man, one record (retirement replacements get their own id/history; the calendar fix runs before the stat guard)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m206.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# a retiring player's roster slot becomes a NEW man: no registry id or prospect link carried over (the seal was restoring the retiree's seasons onto him)
+r("Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,","delete x.pid;delete x.npx;delete x.fa26;delete x.add26;delete x.kf26;delete x.back;delete x.prev;Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,")

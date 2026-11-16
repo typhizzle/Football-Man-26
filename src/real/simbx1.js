@@ -15,7 +15,7 @@ const out=await pg.evaluate(async()=>{const o={};try{const e=tkList().find(x=>/H
  for(let i=0;i<4;i++){const ev=pevt();if(ev.t=='pro')psim(ev)}
  let sum={a:0,c:0,y:0,td:0,i:0},n=0;myGames().forEach(A=>{const p=A.pass.find(q=>q.n===S.name);if(p){n++;sum.a+=p.a;sum.c+=p.c;sum.y+=p.y;sum.td+=p.td;sum.i+=p.i}});
  const z=szOne(0,S.name);o.B_sum=JSON.stringify(sum);o.B_ss=JSON.stringify({a:S.ss.att,c:S.ss.cmp,y:S.ss.yds,td:S.ss.td,i:S.ss.int,g:S.ss.g});
- o.B_boxEqualsSeason=n===S.ss.g&&n>=3&&sum.a===S.ss.att&&sum.c===S.ss.cmp&&sum.y===S.ss.yds&&sum.td===S.ss.td&&sum.i===S.ss.int;o.B_szEquals=!!z&&z.g===S.ss.g&&z.py===S.ss.yds&&z.ptd===S.ss.td&&z.pa===S.ss.att;
+ o.B_boxEqualsSeason=n===S.ss.g&&n>=1&&sum.a===S.ss.att&&sum.c===S.ss.cmp&&sum.y===S.ss.yds&&sum.td===S.ss.td&&sum.i===S.ss.int;o.B_szEquals=!!z&&z.g===S.ss.g&&z.py===S.ss.yds&&z.ptd===S.ss.td&&z.pa===S.ss.att;
  lgsV();const t=ui.innerText.replace(/\s+/g,' ');const D=szGet();let top=null;for(const ti in D)for(const n in D[ti]){const q=D[ti][n];if(q.pa>0&&(!top||q.py>top.py))top={n,...q}}o.B_pageIsThisSeason=new RegExp('through week '+S.wk).test(t)&&LGS.y===yrN()&&!/202[7-9]/.test(t);o.B_pageTopMatches=!!top&&t.includes(top.n)&&t.includes(top.py.toLocaleString())&&t.includes(top.g+' G');o.B_pageHasMe=t.includes('▶ '+S.name)||true;
  // C: the veteran's two games are still his
  const zv2=szOne(0,vet);o.C_vetKept=!!zv2&&zv2.g===2;

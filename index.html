@@ -790,7 +790,7 @@ x.sfl=0;x.sfg=0;if(!rg&&x.ovr<100&&a>=26&&wins<=3&&R()<.6){x.ovr=Math.max(30,x.o
 if(h==1&&!rg&&cap>=100){x.ovr=100;x.pot=100}if(x.ovr>=100)x.sl=0;
 x.ovr=Math.min(x.ovr,cap);const gap=x.pot-(x.ovr+(x.sl||0)+(x.rg||0));if(a>=30&&gap>2)x.pot-=ri(1,Math.ceil(gap/2));else if(a>=27&&gap>6)x.pot-=ri(0,2);
 x.pot=Math.max(x.ovr,Math.min(x.ovr>=100?100:99,cap,x.pot));x.bs=0;x.bsd=0;x.ws=0}
-function cpuRet(x,t){const a=x.age,P=x.pos,qk=P=='QB'||P=='K',rb=P=='RB',ol=/^(LT|LG|C|RG|RT)$/.test(P);if(qk?qbRet(x):othRet(x,rb)){if(x.pos=='QB'||x.ovr>=85)(S.rets=S.rets||[])[x.pos=='QB'?'unshift':'push'](x.n);{const c=x.cs||{},aw=x.aw||{};if(c.pyd>=15000||c.ptd>=100||c.ryd>=6000||c.rtd>=50||c.cyd>=6000||c.ctd>=50||c.sk>=50||Object.values(aw).some(v=>v)){(S.alum=S.alum||[]).push({n:x.n,pos:x.pos,tm:x.tm,cs:c,aw});if(S.alum.length>400)S.alum.shift()}}const o=cl(Math.round(t.ovr-(x.pos=='QB'?0:6)+ri(-6,6)),45,88),ag=ri(21,23);Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,pot:Math.min(99,o+ri(x.pos=='QB'?8:4,x.pos=='QB'?22:18)),cs:{},h:[],tm:[],aw:{},ny:0,rs:x.pos=='QB'?+Math.pow(R(),3).toFixed(2):0,sl:0,bs:0,ws:0,qp:1});return 1}}
+function cpuRet(x,t){const a=x.age,P=x.pos,qk=P=='QB'||P=='K',rb=P=='RB',ol=/^(LT|LG|C|RG|RT)$/.test(P);if(qk?qbRet(x):othRet(x,rb)){if(x.pos=='QB'||x.ovr>=85)(S.rets=S.rets||[])[x.pos=='QB'?'unshift':'push'](x.n);{const c=x.cs||{},aw=x.aw||{};if(c.pyd>=15000||c.ptd>=100||c.ryd>=6000||c.rtd>=50||c.cyd>=6000||c.ctd>=50||c.sk>=50||Object.values(aw).some(v=>v)){(S.alum=S.alum||[]).push({n:x.n,pos:x.pos,tm:x.tm,cs:c,aw});if(S.alum.length>400)S.alum.shift()}}const o=cl(Math.round(t.ovr-(x.pos=='QB'?0:6)+ri(-6,6)),45,88),ag=ri(21,23);delete x.pid;delete x.npx;delete x.fa26;delete x.add26;delete x.kf26;delete x.back;delete x.prev;Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,pot:Math.min(99,o+ri(x.pos=='QB'?8:4,x.pos=='QB'?22:18)),cs:{},h:[],tm:[],aw:{},ny:0,rs:x.pos=='QB'?+Math.pow(R(),3).toFixed(2):0,sl:0,bs:0,ws:0,qp:1});return 1}}
 function leagueDev(){S.rets=[];S.retq=[];S.T.forEach((t,i)=>{rost('h.'+i).forEach((x,k)=>{if(i==0&&k==0)return;if(x.age!=null){cpuDev(x,t.w);retSnap(x,t,i,k)}for(const f of ['sl','bs','bsd','ws','rg','hq'])if(!x[f])delete x[f]});const L=rost('h.'+i);if(i&&L[23]&&L[0]&&L[23].ovr>L[0].ovr+1){[L[0],L[23]]=[L[23],L[0]]}});const v=S.vetP;if(v){cpuDev(v,S.T[0].w);if(cpuRet(v,{ovr:S.T[0].ovr-6}))S.vet=v.n;S.sq=v.ovr}}
 function qpkLg(pro,skip){pro.forEach((t,i)=>{if(skip&&skip(t))return;const q=QBP[i];if(!q)return;t.ovr=cl(Math.round(t.ovr*.55+q[1]*.45+PKS.filter(p=>p[0]==i).length),55,95)})}
 function rost(a){if((S.stage=='col'&&a[0]=='c')||(S.stage=='pro'&&a[0]=='p')){const ix=tix(gt(a));if(ix>=0)a='h.'+ix}const t=gt(a);S.ro=S.ro||{};if(!S.npx&&S.T)npxEnsure();let L=S.ro[a];if(!L){L=S.ro[a]=genRo(a,t);try{rosSide(L,t)}catch(e){}try{rosDedup(L)}catch(e){}};proFill(a,t,L);try{hsGr(a,L);hsAlumIn(a,t,L)}catch(e){}try{proAlumIn(a,t,L)}catch(e){}
@@ -12277,8 +12277,8 @@ window.bxRecv2=function(ti,L,r){try{if(typeof bxNew!='function'||!bxNew()||typeo
  const w=base.map((b,i)=>cl(b*(1+(ov[i]-mean)*.022)*(.78+t[i]*.44),.04,.42));
  // a backup receiver / tight end (bench) gets some looks too
  const bks=L.map((x,j)=>({x,j})).filter(o=>o.j>=25&&o.x&&!o.x.inj&&(o.x.pos==='WR'||o.x.pos==='TE')).slice(0,2);bks.forEach((o,i)=>{k.push(o.j);w.push(i===0?.14+(t[0]>.5?.03:0):.08);av.push(10.4);tw.push(i===0?.05:.02)});
- // the top receiver's share of the team's passing YARDS is capped (22-32%, a team tendency); the rest is spread to the others
- {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),cap=.22+t[1]*.1,mi=yw.indexOf(Math.max(...yw));if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
+ // the top receiver's share of the team's passing YARDS is capped (an elite No. 1 gets ~40%, an average one ~28%); the rest is spread to the others
+ {const yw=w.map((v,i)=>v*av[i]),sm0=yw.reduce((a,b)=>a+b,0),mi=yw.indexOf(Math.max(...yw)),cap=cl(.2+((ov[mi]||75)-72)*.0095+(t[1]-.5)*.06,.2,.44);if(yw[mi]/sm0>cap){const ex=yw[mi]-cap*sm0,rest=sm0-yw[mi];yw[mi]-=ex;yw.forEach((v,i)=>{if(i!==mi)yw[i]=v+ex*v/rest})}yw.forEach((v,i)=>{w[i]=v/av[i]})}
  const sm=w.reduce((a,b)=>a+b,0);return {k,w:w.map(x=>x/sm),av,tw}}catch(e){return null}};
 // ---- the current season on the league stats page ----
 window.lgsCurOk=function(){try{return S&&S.stage==='pro'&&!(S.sled===S.py)&&Object.keys(S.gr||{}).length>0}catch(e){return false}};
@@ -12398,7 +12398,7 @@ window.FAHOME={'Rylan Tannen':['MIA','TEN']};window.FAQN=null;
 // ---- 9. exotic skins ----
 try{for(let i=0;i<SKP.length;i++)if(SKP[i]>0)SKP[i]=Math.max(1000000,SKP[i]*500)}catch(e){}
 // ---- 10. no backwards throws ----
-(()=>{try{const _d=doThrow;doThrow=function(w,lx,ly){try{const q=g&&g.pl&&g.pl.qb;if(q&&ly<q.y+1)ly=q.y+1}catch(e){}return _d.call(this,w,lx,ly)}}catch(e){}})();
+(()=>{try{const _d=doThrow;doThrow=function(w,lx,ly){let q=null;try{q=g&&g.pl&&g.pl.qb;if(q&&ly<q.y+1)ly=q.y+1}catch(e){}const r=_d.call(this,w,lx,ly);try{const A=g&&g.pl&&g.pl.air;if(A&&q&&A.ly<A.y0+1){A.ly=A.y0+1}}catch(e){}return r}}catch(e){}})();   /* accuracy scatter can't push it behind him either */
 // ---- 11. one transactions button ----
 (()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=[...ui.querySelectorAll('button')].find(x=>(x.getAttribute('onclick')||'')==='txV()');const lo=document.getElementById('lgob');if(b&&lo){b.textContent='🧾 Transactions & league office';b.setAttribute('onclick','lgV()');lo.remove()}}catch(e){}return r}}catch(e){}})();
 // ---- 4/5. ratings updates page ----
@@ -12422,5 +12422,20 @@ window.kfJoin=function(s){try{s=s||S;if(!s||!s.ro||s.kf26)return 0;const y=(s.y0
 window.DL26={n:'Daejon Love',pos:'WR',num:11,ovr:86,age:35,spd:94};
 (()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.dl26){S.ro=S.ro||{};if(!Array.isArray(S.ro.fa))S.ro.fa=[];if(!S.ro.fa.some(x=>x&&x.n===DL26.n))S.ro.fa.push({...DL26,pot:86,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},prev:'',fa:2026,story:'A 35-year-old burner (94 speed) looking for one more big year.'});S.dl26=1}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{if(S&&S.ro&&Array.isArray(S.ro.fa)&&S.dl26){/* the pool survives proStart (m182) */}}catch(e){}return r}}catch(e){}})();
+// ===== 🪪 ONE MAN, ONE RECORD (Player Lives Matter audit, 2026-11-16) =====
+// The audit over Tyler's real saves found:
+//  1. When a star retired, the quarterback who took his job was a COPY of him: same registry id, and the star's last season sitting
+//     in the new man's history (Makai Neal carried Jarsh Fallon's 2036; Jimmy Cattle carried Ricky MaClones's 2036). On load, the
+//     copy gets his own id and keeps only the seasons that are his; the original keeps everything.
+//  2. The guard against stat lines from unplayed seasons ran before the free-agent-career calendar fix, so on a 2022-dated save it
+//     could strip real 2022-2024 seasons (Kenny Fallon lost three). The calendar is now fixed first; Kenny Fallon's seasons are
+//     restored from his record if a save lost them.
+(()=>{try{const _g=statGuard;window.statGuard=function(s){try{if(typeof faYearFix=='function')faYearFix(s||S)}catch(e){}return _g.apply(this,arguments)}}catch(e){}})();
+window.kfRestore=function(s){try{s=s||S;if(!s||!s.ro)return 0;let n=0;for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L))continue;L.forEach(x=>{if(!x||x.n!==KF26.n||!x.kf26)return;const have=new Set((x.h||[]).map(r=>r[0]));const miss=KF26.h.filter(r=>!have.has(r[0]));if(!miss.length)return;x.h=[...(x.h||[]),...miss.map(r=>r.slice())].sort((a,b)=>a[0]-b[0]);x.cs={};x.tm=[];x.h.forEach(r=>{csAdd(x,'w',r.slice(2));tmAdd(x,r[1])});tmAdd(x,9);x.ny=x.h.length;n++})}return n}catch(e){return 0}};
+window.dupFix=function(s){try{s=s||S;if(!s||!s.ro)return 0;const by={};for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L)||k==='fa')continue;L.forEach((x,i)=>{if(x&&x.pid)(by[x.pid]=by[x.pid]||[]).push(x)})}let n=0;
+ Object.keys(by).forEach(pid=>{const A=by[pid];if(A.length<2)return;const sealN=s.seal&&s.seal[pid]&&s.seal[pid].n;let keep=A.find(x=>x.n===sealN)||A.slice().sort((a,b)=>(b.ny||0)-(a.ny||0))[0];
+  A.forEach(x=>{if(x===keep)return;const theirs=new Set((keep.h||[]).map(r=>JSON.stringify(r)));x.h=(x.h||[]).filter(r=>!theirs.has(JSON.stringify(r)));delete x.pid;try{const g=SG(x.pos);if(g){x.cs={};x.tm=[];x.h.forEach(r=>{csAdd(x,g,r.slice(2));tmAdd(x,r[1])})}}catch(e){}x.ny=x.h.length;try{if(typeof pcId=='function'){const S0=S;S=s;try{pcId(x)}finally{S=S0}}}catch(e){}n++})});
+ if(n)s.dupfx=(s.dupfx||0)+n;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r){kfRestore(r);dupFix(r)}}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

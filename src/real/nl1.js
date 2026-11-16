@@ -24,7 +24,7 @@ const out=await pg.evaluate(async(fc,si)=>{const o={};try{window.confirm=()=>tru
  S.fanN=5e6;S.fanF=1e9;o.C_holdNoDrop=fanHold(1000,S.pop)===5e6;
  S.fanMsgN=S.fanN;S.popSeen=S.pop;S.pop+=3;const m=fanMsg('Big win. Fans +3');o.C_msg=m;o.C_msgReal=/Fans \+[\d,]{4,}/.test(m)&&!/Fans \+3\b/.test(m);
  // D: sponsorships
- S.stage='pro';S.spOff=0;S.spLv=2;S.spo=null;const n2=spEns().L.length;spSet(0);S.spo=null;const n0=spEns().L.length;o.D_counts=n2+'>'+n0;o.D_meter=n0<n2&&spN()===2;
+ S.stage='pro';S.spOff=0;S.spLv=2;S.spo=null;const n2=spEns().L.length;spSet(0);S.spo=null;const n0=spEns().L.length;o.D_counts=n2+'>'+n0;o.D_meter=n0<n2&&spN()<=2;   /* offers per season now (m203): 1 or 2 at the low settings */
  S.fmsg='';spToggle();o.D_off=S.spOff===1&&spEns().L.length===0&&/GSPN/.test(S.fmsg);spToggle();o.D_backOn=!S.spOff;
  settings();o.D_settingsCard=!!ui.querySelector('[data-spset]');
  S.pb=null;S.wk=5;S.evc=null;let L=[{k:'pot',n:'x',d:'y'}];L=evcFilter(L);o.D_potNotWk6=!L.some(e=>e.k==='pot');
