@@ -24,7 +24,7 @@ window.faYearFix=function(s){try{if(!s||s.stage!=='pro'||!s.tk||s.fayf)return 0;
 window.FAQSH={'Cameron Nugent':[67,83,63,83,70,84],'Johnny Football':[53,75,46,90,74,49]};
 window.FALOOK={'Cameron Nugent':4,'Johnny Football':0,'Rylan Tannen':0,'Kellen Kapper':4,'Rob Griffith III':4,'James Garo':0,'Taylen Hills':0,'Devin Turner-Robertson':4,'Mike Coral':0,'Jake Portals':0,'Nick Parkerman':0,'Tyron Hills':4,'Raymond Monster':4,'Kerry Hunter':4,'Mason Latimer':4,'Brett Waggoner':4};
 window.FAAW={'Cameron Nugent':['Pro yr 1: Offensive Rookie of the Year','Pro yr 5: MVP','Pro yr 5: Ultra Bowl appearance'],'Rob Griffith III':['Pro yr 1: Offensive Rookie of the Year'],'Rylan Tannen':['Pro yr 8: Comeback Player of the Year']};
-window.faShape=function(){try{const sh=FAQSH[S.tk];if(!sh||S.shp26===S.tk)return;QBSH[S.tk]=sh;const q=qbShape(S.tk,qo(S.q));if(q){S.q={...S.q,...q};S.shp26=S.tk;const L=S.ro&&S.ro['h.0'];if(L&&L[0]&&L[0].n===S.name)L[0].ovr=qo(S.q)}}catch(e){}};
+window.faShape=function(){try{const sh=FAQSH[S.tk];if(!sh||S.shp26===S.tk||(typeof QBX26!='undefined'&&QBX26[S.tk]))return;   /* m207 handles these, keeping the overall */QBSH[S.tk]=sh;const q=qbShape(S.tk,qo(S.q));if(q){S.q={...S.q,...q};S.shp26=S.tk;const L=S.ro&&S.ro['h.0'];if(L&&L[0]&&L[0].n===S.name)L[0].ovr=qo(S.q)}}catch(e){}};
 window.faLook=function(){try{const sk=FALOOK[S.tk];if(sk==null||S.look26===S.tk)return;S.ap={...(S.ap||{}),sk};S.look26=S.tk;if(sk>=4&&!(S.ap.hcl))S.ap.hcl='#1b1b1b'}catch(e){}};
 window.faAwards=function(){try{const A=FAAW[S.tk];if(!A||S.faaw===S.tk)return;S.aw=S.aw||[];A.forEach(a=>{if(!S.aw.includes(a))S.aw.push(a)});S.faaw=S.tk}catch(e){}};
 try{Object.keys(FAQSH).forEach(n=>{QBSH[n]=FAQSH[n]})}catch(e){}

@@ -22,14 +22,6 @@ function rateApply(o,x,i){const v=x&&x.ovr;if(!(v>0)||i==0)return;const j=()=>(R
  else if(i>=15&&i<=21){o.tkl=cl(v+j(),35,99);if(o.rush!=null)o.rush=cl(v-4+j(),35,99)}
  else if(i==1){o.sp=6.3+(v-60)*.045;o.elu=cl(v+j(),35,99);o.hands=cl(v-4+j(),35,99)}
  else if(i>=2&&i<=5){o.sp=Math.max(o.sp||0,6.9+(v-60)*.035);o.hands=cl(v+j(),35,99);o.elu=cl(v-3+j(),35,99)}}
-// ===================== 🎃 HALLOWEEN CELEBRITIES (originals) =====================
-try{CELB.push(
- ['vvelvet','Count Vlad Velvet','countvelvet',0,0,1,'#111111',0,1,0,'#2b0a3d','#8b0000','#111111','shades,chain',1,'old-money vampire who owns The Grave Inn, a haunted hotel; dramatic, only goes out after sundown, loves night games','short',['The Grave Inn','a midnight stay at his haunted hotel']],
- ['fbolt','Franky Bolt','frankybolt',0,1,1,'#1b1b1b',0,1,2,'#3d5a3d','#2b2b2b','#2b2b2b','chain',1,'gentle giant monster wrestler, talks slow, scared of fire, huge football fan','short',['Bolt Energy','a lightning-green energy drink can']],
- ['nnate','Nightmare Nate','nightmarenate',0,0,3,'#3a2a1a',1,0,1,'#5a2a2a','#111111','#2b2b2b','glasses',2,'horror movie director, everything is a jump scare, wants to cast you in his next movie','short'],
- ['ppete','Puzzle Pete','puzzlepete',0,2,1,'#6b6b6b',2,1,1,'#2b2b2b','#c0392b','#111111','glasses',1,'escape-room TV host, talks in riddles, loves trick plays','short'],
- ['rrex','Robo Rex','roborex',0,0,2,'#d35400',0,1,2,'#d35400','#f1c40f','#7f8c8d','shades',1,'singing robot dinosaur from a pizza arcade chain, glitches when excited, beeps a lot','spiky'],
- ['wwinnie','Witchy Winnie','witchywinnie',1,1,4,'#2c1a3d',0,0,0,'#2c1a3d','#27ae60','#111111','',2,'witchy pop singer with a Halloween album, reads tarot for players before big games','long'])}catch(e){}
 try{const t=CELB.find(c=>c[0]=='tswiff');if(t&&!/Tractor/.test(t[15]))t[15]='married to Tractor Swift (TE, Kansas City Monarchs); '+t[15]}catch(e){}
 // no two players with the same name on one team (renames the extra one), checked when rosters load
 function rosDupFix(){try{if(!S||!S.ro)return;const star=n=>n==S.name||PKS.some(q=>q[2]==n)||QBB.some(b=>b[0]==n)||QBP.some(q=>q[0]==n);const all=new Set();for(const k in S.ro){const L=S.ro[k];if(Array.isArray(L))L.forEach(x=>x&&all.add(x.n))}

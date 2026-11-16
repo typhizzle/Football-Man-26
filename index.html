@@ -6169,14 +6169,6 @@ function rateApply(o,x,i){const v=x&&x.ovr;if(!(v>0)||i==0)return;const j=()=>(R
  else if(i>=15&&i<=21){o.tkl=cl(v+j(),35,99);if(o.rush!=null)o.rush=cl(v-4+j(),35,99)}
  else if(i==1){o.sp=6.3+(v-60)*.045;o.elu=cl(v+j(),35,99);o.hands=cl(v-4+j(),35,99)}
  else if(i>=2&&i<=5){o.sp=Math.max(o.sp||0,6.9+(v-60)*.035);o.hands=cl(v+j(),35,99);o.elu=cl(v-3+j(),35,99)}}
-// ===================== 🎃 HALLOWEEN CELEBRITIES (originals) =====================
-try{CELB.push(
- ['vvelvet','Count Vlad Velvet','countvelvet',0,0,1,'#111111',0,1,0,'#2b0a3d','#8b0000','#111111','shades,chain',1,'old-money vampire who owns The Grave Inn, a haunted hotel; dramatic, only goes out after sundown, loves night games','short',['The Grave Inn','a midnight stay at his haunted hotel']],
- ['fbolt','Franky Bolt','frankybolt',0,1,1,'#1b1b1b',0,1,2,'#3d5a3d','#2b2b2b','#2b2b2b','chain',1,'gentle giant monster wrestler, talks slow, scared of fire, huge football fan','short',['Bolt Energy','a lightning-green energy drink can']],
- ['nnate','Nightmare Nate','nightmarenate',0,0,3,'#3a2a1a',1,0,1,'#5a2a2a','#111111','#2b2b2b','glasses',2,'horror movie director, everything is a jump scare, wants to cast you in his next movie','short'],
- ['ppete','Puzzle Pete','puzzlepete',0,2,1,'#6b6b6b',2,1,1,'#2b2b2b','#c0392b','#111111','glasses',1,'escape-room TV host, talks in riddles, loves trick plays','short'],
- ['rrex','Robo Rex','roborex',0,0,2,'#d35400',0,1,2,'#d35400','#f1c40f','#7f8c8d','shades',1,'singing robot dinosaur from a pizza arcade chain, glitches when excited, beeps a lot','spiky'],
- ['wwinnie','Witchy Winnie','witchywinnie',1,1,4,'#2c1a3d',0,0,0,'#2c1a3d','#27ae60','#111111','',2,'witchy pop singer with a Halloween album, reads tarot for players before big games','long'])}catch(e){}
 try{const t=CELB.find(c=>c[0]=='tswiff');if(t&&!/Tractor/.test(t[15]))t[15]='married to Tractor Swift (TE, Kansas City Monarchs); '+t[15]}catch(e){}
 // no two players with the same name on one team (renames the extra one), checked when rosters load
 function rosDupFix(){try{if(!S||!S.ro)return;const star=n=>n==S.name||PKS.some(q=>q[2]==n)||QBB.some(b=>b[0]==n)||QBP.some(q=>q[0]==n);const all=new Set();for(const k in S.ro){const L=S.ro[k];if(Array.isArray(L))L.forEach(x=>x&&all.add(x.n))}
@@ -12385,7 +12377,7 @@ window.faYearFix=function(s){try{if(!s||s.stage!=='pro'||!s.tk||s.fayf)return 0;
 window.FAQSH={'Cameron Nugent':[67,83,63,83,70,84],'Johnny Football':[53,75,46,90,74,49]};
 window.FALOOK={'Cameron Nugent':4,'Johnny Football':0,'Rylan Tannen':0,'Kellen Kapper':4,'Rob Griffith III':4,'James Garo':0,'Taylen Hills':0,'Devin Turner-Robertson':4,'Mike Coral':0,'Jake Portals':0,'Nick Parkerman':0,'Tyron Hills':4,'Raymond Monster':4,'Kerry Hunter':4,'Mason Latimer':4,'Brett Waggoner':4};
 window.FAAW={'Cameron Nugent':['Pro yr 1: Offensive Rookie of the Year','Pro yr 5: MVP','Pro yr 5: Ultra Bowl appearance'],'Rob Griffith III':['Pro yr 1: Offensive Rookie of the Year'],'Rylan Tannen':['Pro yr 8: Comeback Player of the Year']};
-window.faShape=function(){try{const sh=FAQSH[S.tk];if(!sh||S.shp26===S.tk)return;QBSH[S.tk]=sh;const q=qbShape(S.tk,qo(S.q));if(q){S.q={...S.q,...q};S.shp26=S.tk;const L=S.ro&&S.ro['h.0'];if(L&&L[0]&&L[0].n===S.name)L[0].ovr=qo(S.q)}}catch(e){}};
+window.faShape=function(){try{const sh=FAQSH[S.tk];if(!sh||S.shp26===S.tk||(typeof QBX26!='undefined'&&QBX26[S.tk]))return;   /* m207 handles these, keeping the overall */QBSH[S.tk]=sh;const q=qbShape(S.tk,qo(S.q));if(q){S.q={...S.q,...q};S.shp26=S.tk;const L=S.ro&&S.ro['h.0'];if(L&&L[0]&&L[0].n===S.name)L[0].ovr=qo(S.q)}}catch(e){}};
 window.faLook=function(){try{const sk=FALOOK[S.tk];if(sk==null||S.look26===S.tk)return;S.ap={...(S.ap||{}),sk};S.look26=S.tk;if(sk>=4&&!(S.ap.hcl))S.ap.hcl='#1b1b1b'}catch(e){}};
 window.faAwards=function(){try{const A=FAAW[S.tk];if(!A||S.faaw===S.tk)return;S.aw=S.aw||[];A.forEach(a=>{if(!S.aw.includes(a))S.aw.push(a)});S.faaw=S.tk}catch(e){}};
 try{Object.keys(FAQSH).forEach(n=>{QBSH[n]=FAQSH[n]})}catch(e){}
@@ -12448,13 +12440,17 @@ window.QBX26={'Cameron Nugent':{s:[67,83,63,83,70,84],fix:['mob'],ovr:68,v:2},'J
 window.qbExact=function(n,ovr){const X=QBX26[n];if(!X)return null;const k=['acc','pow','awr','mob','sec','trk'],q={};k.forEach((x,i)=>q[x]=X.s[i]);
  const tgt=ovr!=null?ovr:(X.ovr!=null?X.ovr:Math.round(X.s.reduce((a,b)=>a+b,0)/6));let d=tgt*6-k.reduce((a,x)=>a+q[x],0);const free=k.filter(x=>!X.fix.includes(x));let g=0;
  while(d!==0&&g++<400){let moved=0;for(const x of free){if(d===0)break;if(d>0&&q[x]<99){q[x]++;d--;moved++}else if(d<0&&q[x]>25){q[x]--;d++;moved++}}if(!moved)break}return q};
-(()=>{try{const _s=qbShape;qbShape=function(n,ovr){if(QBX26[n])return qbExact(n,QBX26[n].ovr!=null?QBX26[n].ovr:ovr);return _s.apply(this,arguments)}}catch(e){}})();
-window.qbx26Apply=function(s){try{s=s||S;if(!s||!s.q)return 0;const n=s.tk||s.name;const X=QBX26[n];if(!X)return 0;s.qx26=s.qx26||{};if(s.qx26[n]===X.v)return 0;
+(()=>{try{const _s=qbShape;qbShape=function(n,ovr){if(QBX26[n])return qbExact(n,ovr);return _s.apply(this,arguments)}}catch(e){}})();
+// Tyler 2026-11-16: "make sure whatever ratings you fix for me are adjusted to my overall ... The overall is the most important thing ... If I
+// gave you a specific attribute to keep, then keep it ... pre-existing saves ... can keep their overalls". So: an existing career
+// ALWAYS keeps the overall it has (his upgrades stay); only the pinned rating is exact. The list's overall is only for a brand-new start.
+window.qbx26Apply=function(s,fresh){try{s=s||S;if(!s||!s.q)return 0;const n=s.tk||s.name;const X=QBX26[n];if(!X)return 0;s.qx26=s.qx26||{};if(s.qx26[n]===X.v+10)return 0;
  const cur=(()=>{const v=[s.q.acc,s.q.pow,s.q.awr,s.q.mob,s.q.sec,s.q.trk==null?s.q.sec:s.q.trk];return Math.round(v.reduce((a,b)=>a+b,0)/6)})();
- const q=qbExact(n,X.ovr!=null?X.ovr:cur);if(!q)return 0;s.q={...s.q,...q};s.qx26[n]=X.v;try{const L=s.ro&&s.ro['h.0'];if(L&&L[0]&&L[0].n===s.name)L[0].ovr=Math.round(Object.values(q).reduce((a,b)=>a+b,0)/6)}catch(e){}return 1}catch(e){return 0}};
+ s.qx26pre=s.qx26pre||{};if(!s.qx26pre[n])s.qx26pre[n]={...s.q};
+ const q=qbExact(n,fresh&&X.ovr!=null?X.ovr:cur);if(!q)return 0;s.q={...s.q,...q};s.qx26[n]=X.v+10;try{const L=s.ro&&s.ro['h.0'];if(L&&L[0]&&L[0].n===s.name)L[0].ovr=Math.round(Object.values(q).reduce((a,b)=>a+b,0)/6)}catch(e){}return 1}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)qbx26Apply(r)}catch(e){}return r}}catch(e){}})();
-(()=>{try{const _f=faqSign;window.faqSign=function(){const r=_f.apply(this,arguments);try{if(S&&qbx26Apply(S))save()}catch(e){}return r}}catch(e){}})();
-(()=>{try{const _t=tkGo;tkGo=function(){const r=_t.apply(this,arguments);try{if(S&&qbx26Apply(S))save()}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _f=faqSign;window.faqSign=function(){const r=_f.apply(this,arguments);try{if(S&&qbx26Apply(S,1))save()}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _t=tkGo;tkGo=function(){const r=_t.apply(this,arguments);try{if(S&&qbx26Apply(S,1))save()}catch(e){}return r}}catch(e){}})();
 // Shiesty +1 (new worlds), shown with the Nov 15 list
 try{RUPD3D.push(['Joseph Shiesty',1]);const q=QBP.find(x=>x[0]==='Joseph Shiesty');if(q&&RUPD3&&!RUPD3.L.some(x=>x[0]==='Joseph Shiesty')){RUPD3.L.push(['Joseph Shiesty','QB',q[1],q[1]+1]);q[1]+=1}}catch(e){}
 // the ratings page: every list there is, plus the exact-rating changes
@@ -12474,8 +12470,13 @@ window.cbcFix=function(s){try{if(!s||s.cbc)return 0;s.cbc=1;let n=0;const fixT=t
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)cbcFix(r)}catch(e){}return r}}catch(e){}})();
 // ---- the six made-up celebrities are gone (anything a save remembers about them still resolves, nothing new ever shows them) ----
 window.CELGONE=['vvelvet','fbolt','nnate','ppete','rrex','wwinnie'];
-try{window.XCEL=window.XCEL||[];for(let i=CELB.length-1;i>=0;i--){if(CELGONE.includes(CELB[i][0])){XCEL.push(CELB[i]);CELB.splice(i,1)}}}catch(e){}
-(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&Array.isArray(r.cfan))r.cfan=r.cfan.filter(id=>!CELGONE.includes(id))}catch(e){}return r}}catch(e){}})();
+try{for(let i=CELB.length-1;i>=0;i--){if(CELGONE.includes(CELB[i][0]))CELB.splice(i,1)}}catch(e){}
+// every trace in a save goes too: fans list, friendships, phone contacts, sponsor deals, invites
+window.celGoneClean=function(s){try{if(!s||s.celgone)return;s.celgone=1;const G=new Set(CELGONE),bad=v=>G.has(String(v).replace(/^cel:/,''));
+ if(Array.isArray(s.cfan))s.cfan=s.cfan.filter(id=>!bad(id));['cf','cfo','cask','cnum','cmet'].forEach(k=>{if(s[k]&&typeof s[k]==='object')Object.keys(s[k]).forEach(id=>{if(bad(id))delete s[k][id]})});
+ if(s.ph&&Array.isArray(s.ph.c))s.ph.c=s.ph.c.filter(x=>!bad(x&&x.id));if(Array.isArray(s.spc))s.spc=s.spc.filter(c=>!(c&&c.cel&&bad(c.cel)));if(s.spo&&Array.isArray(s.spo.L))s.spo.L=s.spo.L.filter(o=>!(o&&o.cel&&bad(o.cel)));
+ if(s.spe&&Array.isArray(s.spe.L))s.spe.L=s.spe.L.filter(o=>!(o&&o.cel&&bad(o.cel)))}catch(e){}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)celGoneClean(r)}catch(e){}return r}}catch(e){}})();
 // ---- Mia ----
 window.MIANUM=73;
 (()=>{try{const _t2=talk;talk=function(w,nm,line,mood,btns,ex){const r=_t2.apply(this,arguments);try{if(w==='reporter'&&/^Reporter Mia/.test(nm||'')){const B=[...ov.querySelectorAll('button')];B.forEach(x=>{if(/^😏 Flirt with Mia \(/.test(x.textContent))x.textContent='😏 Flirt with Mia'});

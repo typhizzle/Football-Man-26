@@ -10,8 +10,13 @@ window.cbcFix=function(s){try{if(!s||s.cbc)return 0;s.cbc=1;let n=0;const fixT=t
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)cbcFix(r)}catch(e){}return r}}catch(e){}})();
 // ---- the six made-up celebrities are gone (anything a save remembers about them still resolves, nothing new ever shows them) ----
 window.CELGONE=['vvelvet','fbolt','nnate','ppete','rrex','wwinnie'];
-try{window.XCEL=window.XCEL||[];for(let i=CELB.length-1;i>=0;i--){if(CELGONE.includes(CELB[i][0])){XCEL.push(CELB[i]);CELB.splice(i,1)}}}catch(e){}
-(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&Array.isArray(r.cfan))r.cfan=r.cfan.filter(id=>!CELGONE.includes(id))}catch(e){}return r}}catch(e){}})();
+try{for(let i=CELB.length-1;i>=0;i--){if(CELGONE.includes(CELB[i][0]))CELB.splice(i,1)}}catch(e){}
+// every trace in a save goes too: fans list, friendships, phone contacts, sponsor deals, invites
+window.celGoneClean=function(s){try{if(!s||s.celgone)return;s.celgone=1;const G=new Set(CELGONE),bad=v=>G.has(String(v).replace(/^cel:/,''));
+ if(Array.isArray(s.cfan))s.cfan=s.cfan.filter(id=>!bad(id));['cf','cfo','cask','cnum','cmet'].forEach(k=>{if(s[k]&&typeof s[k]==='object')Object.keys(s[k]).forEach(id=>{if(bad(id))delete s[k][id]})});
+ if(s.ph&&Array.isArray(s.ph.c))s.ph.c=s.ph.c.filter(x=>!bad(x&&x.id));if(Array.isArray(s.spc))s.spc=s.spc.filter(c=>!(c&&c.cel&&bad(c.cel)));if(s.spo&&Array.isArray(s.spo.L))s.spo.L=s.spo.L.filter(o=>!(o&&o.cel&&bad(o.cel)));
+ if(s.spe&&Array.isArray(s.spe.L))s.spe.L=s.spe.L.filter(o=>!(o&&o.cel&&bad(o.cel)))}catch(e){}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)celGoneClean(r)}catch(e){}return r}}catch(e){}})();
 // ---- Mia ----
 window.MIANUM=73;
 (()=>{try{const _t2=talk;talk=function(w,nm,line,mood,btns,ex){const r=_t2.apply(this,arguments);try{if(w==='reporter'&&/^Reporter Mia/.test(nm||'')){const B=[...ov.querySelectorAll('button')];B.forEach(x=>{if(/^😏 Flirt with Mia \(/.test(x.textContent))x.textContent='😏 Flirt with Mia'});
