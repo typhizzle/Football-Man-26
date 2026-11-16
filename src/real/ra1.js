@@ -9,7 +9,7 @@ const out=await pg.evaluate(async(jc,js)=>{const o={};try{window.confirm=()=>tru
  const names0=new Set();for(const k in snap.ro){(snap.ro[k]||[]).forEach(x=>x&&names0.add(x.n))}
  S=mig(snap);const where={};for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&ADD26N.has(x.n))(where[x.n]=where[x.n]||[]).push(k)})}
  o.A_built=Object.keys(where).length;o.A_onTeam=ADD26.every(e=>(where[e[2]]||[]).length===1&&where[e[2]][0]==='p.'+e[0]);
- const names1=new Set();for(const k in S.ro){(S.ro[k]||[]).forEach(x=>x&&names1.add(x.n))}o.A_lost=[...names0].filter(n=>!names1.has(n)).slice(0,5).join(', ');o.A_nobodyLost=o.A_lost==='';
+ const names1=new Set();for(const k in S.ro){(S.ro[k]||[]).forEach(x=>x&&names1.add(x.n))}o.A_lost=[...names0].filter(n=>!names1.has(n)&&!(typeof isGen=='function'&&isGen(n)&&(S.dk1&&[...Object.values(S.ro)].some(R=>Array.isArray(R)&&R.some(y=>y&&y.n==='Dawson Kingsley')))))   /* Tyler 2026-11-16: an auto-generated man replaced by a real player (Dawson Kingsley) may vanish */.slice(0,5).join(', ');o.A_nobodyLost=o.A_lost==='';
  const e0=ADD26[1];const p0=S.ro['p.'+e0[0]].find(x=>x.n===e0[2]);o.A_history=!!p0&&p0.dr&&p0.dr.y===2021&&p0.dr.p===112&&(p0.h||[]).length===0;
  // B: a 2037 save is left alone (2026 ages)
  S=mig(JSON.parse(js));let any=0;for(const k in S.ro){(S.ro[k]||[]).forEach(x=>{if(x&&ADD26N.has(x.n))any++})}o.B_lateSaveAlone=any===0;

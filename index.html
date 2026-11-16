@@ -50,7 +50,7 @@ PF=['Ridge','Lake','Mesa','North','West','Oak','Iron','Cedar','Harbor','Summit',
 MS=['Hawks','Wolves','Titans','Raiders','Bears','Comets','Knights','Vipers','Rams','Storm','Falcons','Miners'],
 Z=()=>({drp:0,g:0,w:0,l:0,att:0,cmp:0,yds:0,td:0,int:0,ry:0,rtd:0,sk:0,fum:0}),
 ordn=n=>['1st','2nd','3rd','4th'][n-1],fp=y=>y<50?'own '+y:y==50?'50':'opp '+(100-y),
-qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];try{if(typeof S!='undefined'&&S&&q===S.q&&S.ovPin)return Math.max(1,Math.min(99,Math.round(S.ovPin.o+(v.reduce((a,b)=>a+(b||0),0)/6-S.ovPin.b))))}catch(e){}return Math.min(Math.round(v.reduce((a,b)=>a+b,0)/6),v.every(x=>x>=100)?100:99)},
+qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];try{if(typeof qoW=='function'){const r_=qoW(q,v);if(r_!=null)return r_}}catch(e){}return Math.min(Math.round(v.reduce((a,b)=>a+b,0)/6),v.every(x=>x>=100)?100:99)},
 
 sline=s=>`${s.cmp}/${s.att}${s.att?' ('+Math.round(s.cmp/s.att*100)+'%)':''} · ${s.yds} yds · ${s.td} TD · ${s.int} INT · ${s.ry} rush yds · ${s.rtd} rush TD`;
 try{Object.defineProperty(Array.prototype,'lnPop',{value:function(){const l=this.pop();if(l!=null&&/^(II|III|IV|V|Jr\.?|Sr\.?)$/i.test(String(l))&&this.length)return this.pop()+' '+l;return l},enumerable:false,configurable:true})}catch(e){}
@@ -13163,7 +13163,7 @@ try{QBX26['Ricky MaClones']={s:[97,98,97,87,92,83],fix:[],ovr:null,v:3};QBX26['J
 // Tyler 2026-11-16: "I want to maintain my ratings too" (after keep the overall). A career playing as Ricky MaClones or Jarsh Fallon gets
 // his exact ratings AND the overall Tyler set (98 / 97); the overall is pinned to that, and every upgrade still moves it as it would
 // move his average (overall = pinned + (average now - average at the start)). Nobody else's overall changes.
-window.OVPIN={'Ricky MaClones':98,'Jarsh Fallon':97};
+window.OVPIN={};   // superseded by the weighted QB overall (m233): Ricky and Jarsh reach 98 / 97 from Tyler's exact ratings
 const _avg6=q=>[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk].reduce((a,b)=>a+(b||0),0)/6;
 (()=>{try{const _q=qo;qo=function(q){const r=_q.apply(this,arguments);try{if(S&&q===S.q&&S.ovPin){return Math.max(1,Math.min(99,Math.round(S.ovPin.o+(_avg6(q)-S.ovPin.b))))}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _a=qbx26Apply;window.qbx26Apply=qbx26Apply=function(s,fresh){const r=_a.apply(this,arguments);try{s=s||S;const n=s&&(s.tk||s.name);if(n&&OVPIN[n]&&!s.ovPin&&s.q){s.ovPin={o:OVPIN[n],b:_avg6(s.q)};try{const L=s.ro&&s.ro['h.0'];if(L&&L[0]&&L[0].n===s.name)L[0].ovr=OVPIN[n]}catch(e){}}}catch(e){}return r}}catch(e){}})();
@@ -13203,5 +13203,57 @@ window.cpTag=function(el,i){if(!el)return;const has=el.querySelector&&el.querySe
 setInterval(()=>{try{if(typeof CTL=='undefined')return;const w=document.getElementById('lrw');if(!w||w.style.display!=='block'){return}
  [...w.querySelectorAll('button')].forEach(b=>{if(/locker room/i.test(b.textContent))cpTag(b,3)});const bx=document.querySelector('.bxb');if(bx)cpTag(bx,2);
  const a=document.getElementById('lra');if(a){const b=a.querySelector('button')||a;if(a.textContent.trim())cpTag(b,0)}}catch(e){}},400);
+// ===== 🧮 WEIGHTED QB OVERALL (football logic) =====
+// Tyler 2026-11-16: "if [Madden is] just picking overall and pick their attributes, then I guess we can do that too. I'll just need a good
+// weighted system for quarterbacks ... not many quarterbacks have a 99 ... come up with a weighted system for the upgrading ... close to
+// what I gave you and makes football logic".
+// Weights: accuracy 25 · awareness 23 · throw power 15 · lob 5 · touch 5 · bullet 5 · speed 10 · carrying 7 · truck 5.
+// Scale (Madden-style): up to 75 the overall is the weighted value; above 75 each point counts 1.139 (so mid-90s ratings = a 98 without
+// 99s). Tyler's numbers: Ricky MaClones -> 98, Jarsh Fallon -> 97. Upgrades: accuracy/awareness move the overall most, truck least.
+// EXISTING careers keep the overall they have (pinned at the switch; their upgrades still move it by the new weights). New careers use it.
+window.QOW={acc:.25,awr:.23,pow:.15,lob:.05,tch:.05,blt:.05,mob:.10,sec:.07,trk:.05};
+window.qoRaw=function(q,pt){pt=pt||(typeof ptBase=='function'?ptBase(q):{lob:q.acc,tch:q.acc,blt:q.acc});const t={...q,trk:q.trk==null?q.sec:q.trk,lob:pt.lob,tch:pt.tch,blt:pt.blt};
+ let W=0;for(const k in QOW)W+=QOW[k]*(t[k]||0);return W<=75?W:75+(W-75)*1.139};
+window.qoBase=function(q,pt){const r=qoRaw(q,pt);if(r>75)return r;const t=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];return t.reduce((a,b)=>a+(b||0),0)/6};   /* below 75 the plain average; weights shape the elite end */
+window.qoW=function(q,v){if(!q)return null;if(v.every(x=>x>=100))return 100;let pt=null;try{if(typeof S!='undefined'&&S&&q===S.q)pt=ptGet()}catch(e){}
+ let raw=qoBase(q,pt);   /* below 75 the plain average (Tyler's age list, every low-end career unchanged); weights only shape the elite end */
+ let o=raw;try{if(typeof S!='undefined'&&S&&q===S.q&&S.ovP2)o=S.ovP2.o+(raw-S.ovP2.b)}catch(e){}try{if(typeof S!='undefined'&&S&&q===S.q&&typeof ageCap=='function'){const c=ageCap(S.age||0);if(c<100)o=Math.min(o,c)}}catch(e){}return Math.max(1,Math.min(99,Math.round(o)))};   /* Tyler's age ceilings cap the overall too */
+// existing careers: pin the overall they have right now (computed the old way), once
+window.qoPinOld=function(s){try{if(!s||!s.q||s.ovP2||s.qoNew)return 0;const v=[s.q.acc,s.q.pow,s.q.awr,s.q.mob,s.q.sec,s.q.trk==null?s.q.sec:s.q.trk];
+ let old=s.ovPin?Math.max(1,Math.min(99,Math.round(s.ovPin.o+(v.reduce((a,b)=>a+(b||0),0)/6-s.ovPin.b)))):Math.min(Math.round(v.reduce((a,b)=>a+b,0)/6),v.every(x=>x>=100)?100:99);
+ const o=S;S=s;let raw;try{raw=qoBase(s.q,ptGet())}finally{S=o}s.ovP2={o:old,b:raw};return 1}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)qoPinOld(r)}catch(e){}return r}}catch(e){}})();
+// a brand-new career is born on the new system (no pin)
+['newC','tkGo','faqSign'].forEach(f=>{try{const _f=window[f];if(typeof _f!=='function')return;const w=function(){const r=_f.apply(this,arguments);try{if(S){delete S.ovP2;delete S.ovPin;S.qoNew=1;const nm_=S.tk||S.name,X=typeof QBX26!='undefined'&&QBX26[nm_];if(X&&nm_!=='Ricky MaClones'&&nm_!=='Jarsh Fallon'){const o_=X.ovr!=null?X.ovr:Math.round(X.s.reduce((a,b)=>a+b,0)/6);['acc','pow','awr','mob','sec','trk'].forEach((k,i)=>S.q[k]=X.s[i]);S.ovP2={o:o_,b:qoBase(S.q,ptGet())}   /* Tyler: "I gave you attributes for Johnny Football ... just keep those": his exact ratings + his overall */}}}catch(e){}   /* Tyler's set overall (Cam 68, Johnny 57) stays his on a new career */return r};window[f]=w;try{eval(f+'=w')}catch(e){}}catch(e){}});
+// ===== ➕ DAWSON KINGSLEY · TE · BUFFALO · 83 (Tyler 2026-11-16) =====
+// Real counterpart: Dawson Knox. Real seasons (checked against his career totals 229 rec / 2,694 yds / 27 TD through 2025):
+// 2019 15g 28-388-2 · 2020 12g 24-288-3 · 2021 15g 49-587-9 · 2022 15g 48-517-6 · 2023 12g 22-186-2 · 2024 16g 22-311-1 · 2025 17g 36-417-4.
+// Like every added star, his card carries the real 2022-2025 seasons (the game's real-history window). Then:
+//  - every save (and every new world): he is on Buffalo, starting TE. Tyler: "Auto-generated people can vanish if I'm replacing them with
+//    a real player": an auto-generated starter is replaced; a real one moves to the bench;
+//  - a save already in the middle of 2026: the weeks already played stay exactly as they were (his old starter keeps those lines);
+//    his own games start the week he arrives; after that, the game's box scores (tied to the QB's passing) keep his season;
+//  - a save past his playing days (age 36+, e.g. a 2037 league): he isn't added (no invented seasons).
+window.DKX={n:'Dawson Kingsley',pos:'TE',ovr:83,num:88,team:1,age26:29,h:[[2022,1,517,6],[2023,1,186,2],[2024,1,311,1],[2025,1,417,4]]};
+window.dkRoster=function(s){try{const pro=s.stage==='pro'||s.stage==='draft';if(pro){const i=(s.T||[]).findIndex((t,k)=>{try{const o=S;S=s;const r=pIdx(t);S=o;return r===DKX.team}catch(e){return false}});return i>=0?'h.'+i:null}return 'p.'+DKX.team}catch(e){return null}};
+window.dkAdd=function(s){try{s=s||S;if(!s||!s.ro||s.dk1)return 0;const o=S;S=s;let yr;try{yr=yrN()}finally{S=o}const age=DKX.age26+(yr-2026);
+ const key=dkRoster(s);const L=key&&s.ro[key];if(!Array.isArray(L)||L.length<23)return 0;   // roster not built yet: try again later
+ for(const k in s.ro){const R=s.ro[k];if(Array.isArray(R)&&R.some(x=>x&&x.n===DKX.n)){s.dk1=1;return 0}}
+ if(age>=36){s.dk1=1;return 0}
+ const h=DKX.h.filter(r=>r[0]<yr);const x={n:DKX.n,pos:'TE',ovr:DKX.ovr,age,num:DKX.num,pot:DKX.ovr,qp:1,qn:1,ny:h.length,h:h.map(r=>[...r]),cs:{},tm:[],aw:{},pid:'p'+(s.pidN=(s.pidN||0)+1),dkx:1};
+ x.h.forEach(r=>{try{csAdd(x,'w',r.slice(2));tmAdd(x,r[1])}catch(e){}});if(!x.tm.length)x.tm=['BUF'];
+ const old=L[5];let gone=false;try{gone=!!old&&typeof isGen=='function'&&isGen(old.n)}catch(e){}   /* Tyler: an auto-generated man is replaced (he vanishes); a real player moves to the bench */
+ if(old&&!gone){const bench=L.slice(25).findIndex(y=>!y);if(bench>=0)L[25+bench]=old;else L.push(old)}
+ L[5]=x;L.forEach(y=>{if(y&&y!==x&&+y.num===88)y.num=y.num===88?(y.pos==='TE'?87:y.num+1):y.num});
+ if(s.stage==='pro'&&(s.wk||0)>0){const o2=S;S=s;try{x.dkJ={k:grK(),w:s.wk,o:old&&old.n};if(gone)x.dkJ.obj=JSON.parse(JSON.stringify(old))}catch(e){}finally{S=o2}}
+ s.dk1=1;return 1}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)dkAdd(r)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&dkAdd(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// weeks before he arrived: he was not there (his lines go to the man who played those weeks)
+(()=>{try{const _o=gmOut;window.gmOut=function(x,key){try{if(x&&x.dkJ&&key){const [k,w]=String(key).split('|');if(k===x.dkJ.k&&+w<x.dkJ.w)return true}}catch(e){}return _o.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _s=gmSub;window.gmSub=function(L,k,key){try{const x=L[k];if(x&&x.dkJ&&x.dkJ.o){const j=L.findIndex(y=>y&&y.n===x.dkJ.o);if(j>=0)return j}}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();   // those weeks go to the TE who really played them
+// a week before he arrived is built with the lineup as it was (the old starter in his spot), so those box scores never change
+(()=>{try{const _b=bxSide;bxSide=function(ti){let L=null,i=-1,j=-1;try{if(typeof BXW!=='undefined'&&BXW!=null){L=rost('h.'+ti);i=Array.isArray(L)?L.findIndex(y=>y&&y.dkJ):-1;if(i>=0){const x=L[i];const k_=grK();if(x.dkJ.k===k_&&BXW<x.dkJ.w&&x.dkJ.o){j=L.findIndex(y=>y&&y.n===x.dkJ.o);if(j>=0){const t=L[i];L[i]=L[j];L._dkT=t;if(j===L.length-1){L.pop();L._dkP=1}else L[j]=null}else if(x.dkJ.obj){L._dkT=L[i];L[i]=x.dkJ.obj;L._dkG=1;j=-2}else i=-1}else i=-1}}}catch(e){i=-1}
+ try{return _b.apply(this,arguments)}finally{if(i>=0&&L&&L._dkG){L[i]=L._dkT;delete L._dkT;delete L._dkG}else if(i>=0&&j>=0){if(L._dkP){L.push(L[i]);delete L._dkP}else L[j]=L[i];L[i]=L._dkT;delete L._dkT}}};window.bxSide=bxSide}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

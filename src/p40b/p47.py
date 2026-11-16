@@ -1129,4 +1129,10 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # is actually there (within 8 yds); otherwise he stays on him, over the top
 r("(!d.dz&&d.mw.y>d.zy+9)","(!d.dz&&d.mw.y>d.zy+9&&P.db.concat(P.lb).some(o=>o!==d&&o.dz&&!o.mw&&Math.hypot(o.x-d.mw.x,o.y-d.mw.y)<8))")
 # Tyler's pinned overall (Ricky 98 / Jarsh 97 with his exact ratings): qo follows the pin for your own player
-r("qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];return Math.min(","qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];try{if(typeof S!='undefined'&&S&&q===S.q&&S.ovPin)return Math.max(1,Math.min(99,Math.round(S.ovPin.o+(v.reduce((a,b)=>a+(b||0),0)/6-S.ovPin.b))))}catch(e){}return Math.min(")
+r("qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];return Math.min(","qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];try{if(typeof qoW=='function'){const r_=qoW(q,v);if(r_!=null)return r_}}catch(e){}return Math.min(")
+# m233: weighted QB overall
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m233.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m234: Dawson Kingsley (TE, BUF, 83) in every save
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m234.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
