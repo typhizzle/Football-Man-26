@@ -1468,8 +1468,8 @@ if((CAMI==1||CAMI==2)&&!slBoxHit(x,y)){if(!lk)lk={id:e.pointerId,x,y,x0:x,y0:y,p
 if(!aim){const P_=g.pl,q_=P_&&P_.qb;aim={id:e.pointerId,ox:x,oy:y,px:0,py:0,t:null,pts:[{x,y,t:performance.now()}],thr:!(P_&&P_.run&&P_.car===q_&&q_.y>g.los+.6)}}});
 cv.addEventListener('pointermove',e=>{swMove(e);swAim(e);if(joy&&e.pointerId==joy.id){const dx=(e.clientX-joy.ox)/45,dy=-(e.clientY-joy.oy)/45,l=Math.hypot(dx,dy)||1,m=Math.min(1,l);joy.x=dx/l*m;joy.y=dy/l*m}
 if(lk&&e.pointerId==lk.id&&!swLk(e)){LY=cl(LY+(e.clientX-lk.x)*.006,-1.7,1.7);LP=cl(LP-(e.clientY-lk.y)*.005,-.5,.7);lk.x=e.clientX;lk.y=e.clientY}
-if(aim&&e.pointerId==aim.id){let px=e.clientX-aim.ox,py=e.clientY-aim.oy;const m=Math.hypot(px,py);const LM=Math.min(W,H)*SLL;if(m>LM){px*=LM/m;py*=LM/m}aim.px=px;aim.py=py;aim.t=slt(aim)}});
-cv.addEventListener('pointerup',e=>{if(swEnd(e)){if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null;return}if(lk&&e.pointerId==lk.id){if(lk.mv&&g&&g.ph=='live')mvmove(e.clientX-lk.x0,e.clientY-lk.y0);lk=null}if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id){const a=aim;aim=null;if(!g||g.ph!='live')return;const P=g.pl,q=P.qb,c=P.car,run=c&&P.run&&c===q&&q.y>g.los+.6,mg=Math.hypot(a.px,a.py);
+if(aim&&e.pointerId==aim.id){let px=e.clientX-aim.ox,py=e.clientY-aim.oy;const m=Math.hypot(px,py);const LM=Math.min(W,H)*SLL;if(m>LM){px*=LM/m;py*=LM/m}aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_)){aim.mm=mm_;aim.mx=px;aim.my=py}}}});
+cv.addEventListener('pointerup',e=>{if(swEnd(e)){if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null;return}if(lk&&e.pointerId==lk.id){if(lk.mv&&g&&g.ph=='live')mvmove(e.clientX-lk.x0,e.clientY-lk.y0);lk=null}if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id){const a=aim;aim=null;if(!g||g.ph!='live')return;if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=c&&P.run&&c===q&&q.y>g.los+.6,mg=Math.hypot(a.px,a.py);
 if(run&&a.thr){g.flash='Past the line: no throw';g.ft=.8;return}if(run){if(mg>35)mvmove(a.px,a.py);else if(P.call.t=='option'&&c===q){P.car=P.rb;P.passed=false;P.lane=q.x>26.5?46:7}return}
 if(S.thm=='swipe'&&mg>=28){g.flash='Swipe up to throw (slingshot is off: pause menu)';g.ft=1.2;return}let b=null,bd=1e9;
 if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;return}if(mg<28&&a.t){const q0=P.qb,dx=a.t[0]-q0.x,dy=a.t[1]-q0.y,dl=Math.hypot(dx,dy)||1;let bw=null,bs=-9;P.wr.forEach(w=>{const wx=w.x-q0.x,wy=w.y-q0.y,wl=Math.hypot(wx,wy)||1,al=(wx*dx+wy*dy)/(wl*dl),s_=al-wl/60;if(al>.5&&s_>bs){bs=s_;bw=w}});if(bw)a.t=[bw.x,bw.y]}
@@ -4345,7 +4345,7 @@ const SPNEED=[0,15000,80000,400000];
 function spPay(mult){const st=S.stage||'hs',f=Math.max(1000,myFans());const b=st=='pro'?250000*Math.sqrt(f/1e6):6000*Math.sqrt(f/5e4);return Math.max(st=='pro'?50000:1000,Math.round(b*mult*athM()/500)*500)}
 function spEns(){S.spc=S.spc||[];if(!(S.stage=='col'||S.stage=='pro'))return S.spo=S.spo||{k:'',L:[]};const k=dk();if(S.spo&&S.spo.k==k)return S.spo;
  const r=rng((S.seed||1)*131+hsh(String(k))),act=S.spc.map(c=>c.cat),pool=SPB.filter(b=>!act.includes(b[2])&&(!/^tb/.test(b[0])||tbOk())).sort(()=>r()-.5),pick=[];
- if(!act.includes('apparel')&&!pool.slice(0,6).some(b=>b[0]=='goat_ap')){const g=SPB.find(b=>b[0]=='goat_ap');pick.push(g)} // Goaty's is the main brand: always in the mix
+ if(!act.includes('apparel')&&!pool.slice(0,(typeof spN=='function'?spN():7)).some(b=>b[0]=='goat_ap')){const g=SPB.find(b=>b[0]=='goat_ap');pick.push(g)} // Goaty's is the main brand: always in the mix
  pool.forEach(b=>{if(pick.length<(typeof spN=='function'?spN():7)&&!pick.includes(b))pick.push(b)});
  const L=pick.map(b=>({id:b[0],b:b[1],cat:b[2],what:b[3],tier:b[4],yrs:1+(r()*3|0),pay:spPay(b[5]*(.85+r()*.3)),fan:b[6],t:0}));
  // celebrity brand offers: only from stars who are fans of yours and know who you are
@@ -10021,7 +10021,7 @@ window.ctlLegend=function(){const lg=document.getElementById('ctlleg');if(!lg)re
  else t=`${G(0)} select · ${G(1)} back · D-pad / L-stick move`;
  if(lg.textContent!==t)lg.textContent=t};
 // ---------- keyboard / mouse / touch take over again the moment they are used ----------
-['pointerdown','mousemove','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
+['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;if(CTL.mode==='pad'){CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null)}},{passive:true,capture:true}));
 addEventListener('gamepadconnected',e=>{CTL.on=true;CTL.kind=ctlTypeOf(e.gamepad&&e.gamepad.id);CTL.id=e.gamepad&&e.gamepad.id||''});
 addEventListener('gamepaddisconnected',()=>{CTL.on=false;CTL.mode='kbm';document.body.classList.remove('ctlpad');ctlSet(null);try{if(CTL.wasKb){kb.x=kb.y=0;CTL.wasKb=false}}catch(e){}});
 // ---------- one frame of controller input ----------
@@ -10042,6 +10042,7 @@ window.ctlStep=function(){try{
  const inGame=typeof g!=='undefined'&&g&&document.getElementById('cv')&&document.getElementById('cv').style.display==='block'&&!root;
  // Start / Options: pause during a game
  if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}
+ if(edge(9)&&inLR&&!root){const m_=[...lrw.querySelectorAll('button')].find(x=>/☰/.test(x.textContent));if(m_){m_.click();CTL.prev=down;return}}
  if(typeof ctlWatch=='function'&&ctlWatch(down,edge,lx,ly,rx,ry)){CTL.prev=down;return}
  if(inGame&&edge(8)&&typeof camb=='function')camb();
  if(root){
@@ -11148,7 +11149,7 @@ window.spToggle=function(){S.spOff=S.spOff?0:1;S.spo=null;
  save();settings()};
 // the player menu (Settings): the switch + the 5-step meter
 (()=>{try{const _s=settings;settings=function(){const r=_s.apply(this,arguments);try{const d=ui.firstElementChild;if(d&&!d.querySelector('[data-spset]')){const c=document.createElement('div');c.className='card';c.setAttribute('data-spset','1');const lv=spLv();
- c.innerHTML=`<b>🤝 Sponsorships</b><br><small>${S.spOff?'OFF: no sponsor offers or brand events. Deals you already signed keep paying until they end.':'ON: '+SPLV[lv].n+' ('+SPLV[lv].offers+' offers at a time, up to '+SPLV[lv].party+' brand events a season)'}</small>
+ c.innerHTML=`<b>🤝 Sponsorships</b><br><small>${S.spOff?'OFF: no sponsor offers or brand events. Deals you already signed keep paying until they end.':'ON: '+SPLV[lv].n+' ('+SPLV[lv].offers+' offers a season, one at a time; up to '+SPLV[lv].party+' brand events a season)'}</small>
  <button class=${S.spOff?'':'g'} onclick="spToggle()">${S.spOff?'Turn sponsorships ON':'Turn sponsorships OFF'}</button>${S.spOff?'':`<div style="display:flex;gap:4px;margin-top:6px">${SPLV.map((x,i)=>`<button class="${i==lv?'':'g'}" style="flex:1;padding:6px 2px;font-size:12px" onclick="spSet(${i})">${['Very few','Less','Average','More','Max'][i]}</button>`).join('')}</div>`}`;
  const back=[...d.querySelectorAll(':scope > button')].pop();if(back)d.insertBefore(c,back);else d.appendChild(c)}}catch(e){}return r}}catch(e){}})();
 // weekly invites: sponsorships off removes brand/sponsor events; the brand-event cap follows the meter;
@@ -12307,5 +12308,119 @@ window.lgsCurBody=function(){const Y=yrN(),D=szGet(),rows=[];for(const ti in D){
   if(sat){const L=rost('h.0'),v=(typeof injSub=='function'?injSub(L,0):null);const nm=(v&&v.n!==S.name?v.n:null)||S.vet||((L.slice(1).find(x=>x&&x.pos==='QB')||{}).n)||'Backup QB';
    const A=bx.A;(A.pass||[]).forEach(p=>{if(p.n===S.name)p.n=nm});(A.rush||[]).forEach(p=>{if(p.n===S.name)p.n=nm});(A.rec||[]).forEach(p=>{if(p.n===S.name)p.n=nm})}
   S.bx[k]=bx;const ks=Object.keys(S.bx);if(ks.length>60)ks.slice(0,ks.length-60).forEach(q=>delete S.bx[q]);try{szCache=null}catch(_){}save()}catch(err){console.warn('simbox',err)}return r}}catch(e){}})();
+// ===== 🎯 THE SWIPE IS THE THROW; HELP ONLY AS GOOD AS YOUR QUARTERBACK =====
+// Tyler, 2026-11-15: "I don't think the swipe should automatically go to the players anyways. They just should help if your
+// quarterback has the ability to do it based on attributes ... sometimes it throws it deep when I'm trying to throw it short.
+// It should be pretty obvious when I'm throwing it short too ... there's a few where it throws out of bounds where it shouldn't be."
+// Rules (nothing else about the swipe changes):
+//  1. Your finger ON a man = that man (your intent). Unchanged.
+//  2. A man out along the line you drew only gets the ball if he is about as far as the swipe says. A short swipe is a short
+//     throw: the ball lands where the swipe says instead of jumping to a deep man on that line. How far "about as far" stretches
+//     depends on your QB's accuracy and awareness: a 60 gets about ±25-30% of the distance, a 95 gets about ±60-80%.
+//  3. Out of bounds only when your finger clearly left the field (more than 2.5 yards past the sideline), never from the sideline
+//     stripe itself.
+window.SWI=null;
+window.swHelp=function(){try{const q=S&&S.q||{};return cl((((q.acc||60)+(q.awr||60))/2-60)/35,0,1)}catch(e){return .3}};
+window.swMeant=function(p,rx,ry){try{const P=g.pl,q=P&&P.qb;if(!q)return null;const Rg=thrR();let d=Math.max(5,typeof thrD=='function'?thrD(p):Math.min(1,p)*Rg);
+ const G=(rx!=null&&typeof upj=='function')?upj(rx,ry):null;if(G){const rel=Math.hypot(G[0]-q.x,G[1]-q.y);if(rel>2)d=cl(Math.min(rel*.45+d*.55,d*1.5),5,Rg)}return d}catch(e){return null}};
+(()=>{try{const _t=swThrow;window.swThrow=function(sx,sy,p,x0,y0,pts,rx,ry){SWI={d:swMeant(p,rx,ry),p};try{return _t.apply(this,arguments)}finally{SWI=null}}}catch(e){}})();
+(()=>{try{const _p=swPick;window.swPick=function(rx,ry,ox,oy){const r=_p.apply(this,arguments);try{if(!r||!r.w||r.how==='box'||!SWI||!(SWI.d>0))return r;const P=g.pl,q=P&&P.qb;if(!q)return r;
+ const h=swHelp(),D=SWI.d,dist=Math.hypot(r.w.x-q.x,r.w.y-q.y),lo=D*(.7-.3*h)-3,hi=D*(1.25+.55*h)+3;if(dist<lo||dist>hi)return null}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _a=swAway;window.swAway=function(rx,ry){const G=_a.apply(this,arguments);try{if(G&&G[0]>-2.5&&G[0]<56.3)return null}catch(e){}return G}}catch(e){}})();
+// ===== 🤝 ENDORSEMENT OFFERS COME ONE AT A TIME, A FEW A SEASON =====
+// Tyler, 2026-11-15: "Instead of popping up all the endorsements at once, I think they should just show up week by week, and I
+// don't think it's as many as you should that you are showing, maybe just a couple of those a year."
+// The sponsorship meter now means offers per SEASON: Very few 1 · Fewer than average 2 · Average 3 · More than average 5 · As many
+// as possible 7. They arrive one at a time (week 1, then every third week in the pros, every other week in college). Goaty's is
+// still first. Brand-event invites and celebrity offers are not changed.
+try{SPLV[0].offers=1;SPLV[1].offers=2;SPLV[2].offers=3;SPLV[3].offers=5;SPLV[4].offers=7}catch(e){}
+(()=>{try{const _e=spEns;spEns=function(){const O=_e.apply(this,arguments);try{if(!O||!Array.isArray(O.L)||O.k==='off'||!O.k)return O;
+ if(!O.all||O.allK!==O.k){const gap=S.stage==='pro'?3:2;let n=0;const g0=O.L.find(o=>o.id==='goat_ap');O.all=[...(g0?[g0]:[]),...O.L.filter(o=>o!==g0)].map(o=>{if(o.cat==='event'||o.cat==='celeb')return o;o.wk=1+(n++)*gap;return o});O.allK=O.k}
+ const wk=(S.wk||0)+1;O.L=O.all.filter(o=>o.t||o.cat==='event'||o.cat==='celeb'||(o.wk||1)<=wk)}catch(e){}return O}}catch(e){}})();
+(()=>{try{const _v=spV;spV=function(){const r=_v.apply(this,arguments);try{const O=spEns(),later=(O.all||[]).filter(o=>!O.L.includes(o)).length;const c=[...ui.querySelectorAll('.card')].find(x=>/Offers this season/.test(x.textContent));if(c){const s=document.createElement('small');s.innerHTML='<br>Offers come one at a time during the season'+(later?': '+later+' more may still come.':'.');c.appendChild(s)}}catch(e){}return r}}catch(e){}})();
+// ===== 🎓 THE 2026 COLLEGE PLAYERS, AS TYLER LISTED THEM (future saves only) =====
+// Tyler, 2026-11-15, the 2026 college list: Darnold Mansion 77 Miami FR · Jeremy Smothers WR 87 OSU #4 Sr · Archer Manny 81 Texas #16 Sr ·
+// Ruger Nash 76 Georgia Sr · Delonte Less 73 Oregon #5 Sr · Watchu BiSayin 75 OSU #10 So · Kiwi Langfield 82 RB Ole Miss · Wun-in-da
+// Chamba 81 #6 Sr · DJ Suspense 71 Notre Dame · Kashon Tripdub 70 Alabama Fr · Jordan Tua 70 USC · Jarvis Hooters 69 Indiana · Charles
+// Beckham WR 80 Indiana · Bruce Undertree 66 Michigan So · Dill Rolley 75 Oregon So · Jade Ball 73 Florida Jr RB · Andrew Messmaker 68
+// Okla St Jr · Femmifer Coleman 79 WR Alabama Jr · Ham Leaver 68 LSU Jr · Noel Fifty 72 Arizona Sr · Charles Daphne QB Utah 70 Sr ·
+// Marshawn Books 68 QB A&M Sr · JD Speedway Baylor 67 Jr.
+// "don't change any current saves, just future ones ... seniors should always declare ... overall is around ... beginning pro rating
+// ... potentials should randomize each save ... they should definitely be good or decent college players ... player lives matter."
+// Most of these men were already in the game (the named prospects). This sets their 2026 class and rating to Tyler's list and adds
+// the four who were missing (Fifty, Daphne, Books, Speedway), for worlds created from now on. Saves that already exist keep their
+// prospects exactly as they are.
+try{NSCH.ariz=NSCH.ariz||['Arizona Wild Dawgs','Arizona','Arizona'];NSCH.utah=NSCH.utah||['Utah Red Rocks','Utah','Utah'];NSCH.bay=NSCH.bay||['Baylor Pandas','Texas','Baylor']}catch(e){}
+// class in 2026 (your college year 1 when you start high school in 2022): off = class - 1
+window.NPX26={'Darnold Mansion':{off:0},'Jeremy Smothers':{off:3},'Archer Manny':{off:3,T:81},'Ruger Nash':{off:3},'Delonte Less':{off:3},'Watchu BiSayin':{off:1},'Wun-in-da Chamba':{off:3},'Kashon Tripdub':{off:0},'Bruce Undertree':{off:1,T:66},'Dill Rolley':{off:1},'Jade Ball':{off:2},'Andrew Messmaker':{off:2},'Femmifer Coleman':{off:2},'Ham Leaver':{off:2}};
+window.NPX26N=[['Noel Fifty','QB','ariz',72,8,3],['Charles Daphne','QB','utah',70,3,3],['Marshawn Books','QB','tamu',68,14,3],['JD Speedway','QB','bay',67,1,2]];
+(()=>{try{const _e=npxEnsure;npxEnsure=function(){const had=!!(S&&S.npx);const r=_e.apply(this,arguments);try{if(!had&&S&&S.npx&&!S.npx26){S.npx26=1;const rr=rng((S.seed||1)*53+26);
+ S.npx.forEach(p=>{const z=NPX26[p.n];if(!z)return;p.off=z.off;if(z.T!=null)p.T=z.T;if(p.n==='Darnold Mansion'){p.rs=0;p.dmF=1}if(p.n==='Jeremy Smothers')p.jsF=1});
+ NPX26N.forEach(([n,pos,sk,T,num,off])=>{if(S.npx.some(p=>p.n===n))return;const sc=NSCH[sk],st=sc[1],TW=(typeof TWN!='undefined'&&TWN[st])||(typeof PF!='undefined'?PF:['Central']),mine=st===S.hst,hsi=mine?1+(rr()*39|0):-1;
+  S.npx.push({id:S.npx.length,n,pos,num,sk,cn:sc[0],sch:sc[2],st,T,tx:1,off,gen:0,hsi,hs:mine?null:TW[rr()*TW.length|0]+' '+(typeof MS!='undefined'?MS[rr()*12|0]:'Central')+' HS'})})}}catch(e){console.warn('npx26',e)}return r}}catch(e){}})();
+// ===== ⚡ QUICK FIXES, 2026-11-16 (Tyler's batch) =====
+// 1. A free-agent career (Play as an existing QB → free agents) starts in 2026, not 2022: the calendar was never set, so the week-1
+//    games were filed under 2022 and the league stats page (which shows the season being played) said "Nothing yet". Fixed for
+//    new careers and repaired on load for the one already started (its games are re-filed under 2026).
+// 2. Locker room: the controller's Start/Options button opens the player menu (same as the ☰ button).
+// 3. Moving the mouse no longer switches the controller off (Mac trackpads jitter), so the receiver buttons stay on screen.
+// 4. The throwing-power list is off the "Play as an existing QB" page; it lives on the Ratings updates page with the Nov 15 list.
+// 5. Ratings, all saves: Cameron Nugent (acc 67 · pow 83 · awr 63 · spd 83 · car 70 · trk 84, overall stays 68), Johnny Football
+//    (53 · 75 · 46 · 90 · 74 · 49, overall stays 57). New worlds: Doobie Emmanuel +1, Kirko Chainz +1, Franklin Lawford +1,
+//    Number Nine +1, Drako September −1, Jack Mascott −1 (shown with ▲▼ on the Ratings updates page until Tyler says otherwise).
+// 6. Free agents look like themselves (Cam Newton is not white).  7. Real awards in the trophy case (Cam: OROY, MVP; RG3: OROY;
+//    Tannehill: Comeback Player of the Year).  8. Free agents always get an offer from the team they played for longest (Tannehill:
+//    Miami and Tennessee).  9. Exotic skins cost millions.  10. No backwards throws; a slingshot pull-back that ends in a forward
+//    flick still throws the pull-back.  11. One transactions button (the league office one).  12. Kenny Fallon (Keenan Allen) WR 81
+//    joins the 49ers with his real seasons; Daejon Love WR 86 (35) enters free agency in new worlds.
+const RCODE={TEN:'NSH',CAR:'CHA',NE:'BOS',LAR:'LAG',LAC:'LA',ARI:'PHX',NYJ:'NYS',NYG:'NYE'};window.gCode=c=>RCODE[c]||c;
+// ---- 1. the free-agent career calendar ----
+window.faYearFix=function(s){try{if(!s||s.stage!=='pro'||!s.tk||s.fayf)return 0;const isFA=(typeof FA26!='undefined')&&FA26.some(e=>e[0]===s.tk);if(!isFA)return 0;s.fayf=1;
+ if((s.y0||2022)<2026&&!(s.hist||[]).length){s.y0=2026;const S0=S;S=s;let Y;try{Y=yrN()}finally{S=S0}
+  if(s.gr&&s.grk&&s.grk!=='pro'+Y){s.grk='pro'+Y}if(s.bxv&&s.bxv.y<Y)s.bxv.y=Y-1;if(s.bxv2&&s.bxv2.y<Y)s.bxv2.y=Y-1;['evc','pbv'].forEach(k=>{if(s[k]&&s[k].y<2026)s[k].y=Y});return 1}return 0}catch(e){return 0}};
+(()=>{try{const _f=faqSign;window.faqSign=function(){const r=_f.apply(this,arguments);try{if(S&&S.tk){S.y0=2026-((S.hist||[]).length);S.fayf=1;faLook();faAwards();faShape();save()}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&faYearFix(r)){const S0=S;S=r;try{faLook();faAwards();faShape()}finally{S=S0}}else if(r&&r.tk){const S0=S;S=r;try{faShape();faAwards();faLook()}finally{S=S0}}}catch(e){}return r}}catch(e){}})();
+// ---- 5/6/7. who the free agents are ----
+window.FAQSH={'Cameron Nugent':[67,83,63,83,70,84],'Johnny Football':[53,75,46,90,74,49]};
+window.FALOOK={'Cameron Nugent':4,'Johnny Football':0,'Rylan Tannen':0,'Kellen Kapper':4,'Rob Griffith III':4,'James Garo':0,'Taylen Hills':0,'Devin Turner-Robertson':4,'Mike Coral':0,'Jake Portals':0,'Nick Parkerman':0,'Tyron Hills':4,'Raymond Monster':4,'Kerry Hunter':4,'Mason Latimer':4,'Brett Waggoner':4};
+window.FAAW={'Cameron Nugent':['Pro yr 1: Offensive Rookie of the Year','Pro yr 5: MVP','Pro yr 5: Ultra Bowl appearance'],'Rob Griffith III':['Pro yr 1: Offensive Rookie of the Year'],'Rylan Tannen':['Pro yr 8: Comeback Player of the Year']};
+window.faShape=function(){try{const sh=FAQSH[S.tk];if(!sh||S.shp26===S.tk)return;QBSH[S.tk]=sh;const q=qbShape(S.tk,qo(S.q));if(q){S.q={...S.q,...q};S.shp26=S.tk;const L=S.ro&&S.ro['h.0'];if(L&&L[0]&&L[0].n===S.name)L[0].ovr=qo(S.q)}}catch(e){}};
+window.faLook=function(){try{const sk=FALOOK[S.tk];if(sk==null||S.look26===S.tk)return;S.ap={...(S.ap||{}),sk};S.look26=S.tk;if(sk>=4&&!(S.ap.hcl))S.ap.hcl='#1b1b1b'}catch(e){}};
+window.faAwards=function(){try{const A=FAAW[S.tk];if(!A||S.faaw===S.tk)return;S.aw=S.aw||[];A.forEach(a=>{if(!S.aw.includes(a))S.aw.push(a)});S.faaw=S.tk}catch(e){}};
+try{Object.keys(FAQSH).forEach(n=>{QBSH[n]=FAQSH[n]})}catch(e){}
+try{Object.keys(FALOOK).forEach(n=>{if(typeof PLK!='undefined'&&!PLK[n])PLK[n]={s:FALOOK[n],h:'#1b1b1b',hr:'short'}})}catch(e){}
+// ---- 8. the team he played for longest always calls ----
+window.FAHOME={'Rylan Tannen':['MIA','TEN']};window.FAQN=null;
+(()=>{try{const _g=faqGo;window.faqGo=function(nEnc){FAQN=decodeURIComponent(nEnc);try{return _g.apply(this,arguments)}finally{FAQN=null}}}catch(e){}})();
+(()=>{try{const _t=faqTeams;window.faqTeams=function(ovr,age){let L=_t.apply(this,arguments)||[];try{const n=FAQN;if(!n)return L;const e=FA26.find(x=>x[0]===n);if(!e)return L;const homes=FAHOME[n]||[String(e[4]||'').split(',')[0].trim()];
+ homes.forEach(c=>{const code=gCode(c),i=TA.indexOf(code);if(i<0||L.some(o=>o.i===i))return;const t=S.pro[i];const R=(S.ro&&S.ro['p.'+i])||[];const st=R[0]&&R[0].pos==='QB'?R[0]:(QBP[pIdx(t)]?{n:QBP[pIdx(t)][0],ovr:QBP[pIdx(t)][1]}:null);const so=st?st.ovr:75;
+  const comp=ovr>=so-3,role=comp?'Compete for the starting job':'Backup QB',sal=+(comp?Math.max(1.5,(ovr-55)*.45):Math.max(1.2,(ovr-55)*.2)).toFixed(1);L.push({i,team:tn(t),code:tAb(t),role,yrs:age<30?2:1,sal,why:'Where he made his name: the fans want him back.',fit:999,home:1})});L.sort((a,b)=>b.fit-a.fit);while(L.length>4){const k=L.map((o,i)=>o.home?-1:i).filter(i=>i>=0).pop();if(k==null)break;L.splice(k,1)}}catch(e){}return L}}catch(e){}})();
+// ---- 9. exotic skins ----
+try{for(let i=0;i<SKP.length;i++)if(SKP[i]>0)SKP[i]=Math.max(1000000,SKP[i]*500)}catch(e){}
+// ---- 10. no backwards throws ----
+(()=>{try{const _d=doThrow;doThrow=function(w,lx,ly){try{const q=g&&g.pl&&g.pl.qb;if(q&&ly<q.y+1)ly=q.y+1}catch(e){}return _d.call(this,w,lx,ly)}}catch(e){}})();
+// ---- 11. one transactions button ----
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=[...ui.querySelectorAll('button')].find(x=>(x.getAttribute('onclick')||'')==='txV()');const lo=document.getElementById('lgob');if(b&&lo){b.textContent='🧾 Transactions & league office';b.setAttribute('onclick','lgV()');lo.remove()}}catch(e){}return r}}catch(e){}})();
+// ---- 4/5. ratings updates page ----
+window.RUPD3D=[['Doobie Emmanuel',1],['Kirko Chainz',1],['Franklin Lawford',1],['Number Nine',1],['Drako September',-1],['Jack Mascott',-1]];window.RUPD3=null;
+(()=>{try{const L=[];RUPD3D.forEach(([n,d])=>{let o=null,pos='';try{const q=PKS.find(x=>x[2]===n);if(q){o=q[3];q[3]+=d;pos=POSL[q[1]]||''}}catch(e){}if(o==null)try{const b=QBB.find(x=>x[0]===n);if(b){o=b[1];b[1]+=d;pos='QB'}}catch(e){}if(o==null)try{const p=QBP.find(x=>x[0]===n);if(p){o=p[1];p[1]+=d;pos='QB'}}catch(e){}if(o!=null)L.push([n,pos,o,o+d])});RUPD3={d:'Nov 15, 2026',L}}catch(e){}})();
+(()=>{try{const _t=tkPick;tkPick=function(){const r=_t.apply(this,arguments);try{[...ui.querySelectorAll('.card')].forEach(c=>{if(/Ratings update · Nov 14, 2026 · throwing power/.test(c.textContent))c.remove()})}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _v=rupdV;rupdV=function(){const r=_v.apply(this,arguments);try{const bk=[...ui.querySelectorAll('button')].find(b=>(b.getAttribute('onclick')||'')==='hub()');const d=document.createElement('div');
+ d.innerHTML=(RUPD3&&RUPD3.L.length?`<div class=card><b>📈 Ratings update · ${RUPD3.d}</b><br><small>New save files only.</small>${RUPD3.L.map(x=>{const df=x[3]-x[2];return `<div class=row style="font-size:16px"><span>${esc(x[0])} <small>${x[1]}</small></span><span>${x[2]} → <b>${x[3]}</b> <b style="color:${df>0?'#7bed9f':'#ff6b6b'}">${df>0?'▲ +':'▼ '}${df}</b></span></div>`}).join('')}</div>`:'')+(typeof rupdCard=='function'?rupdCard():'');
+ if(bk)bk.parentNode.insertBefore(d,bk);else(ui.firstElementChild||ui).appendChild(d)}catch(e){}return r}}catch(e){}})();
+// ---- 12. Kenny Fallon (49ers) · Daejon Love (free agent, new worlds) ----
+window.KF26={n:'Kenny Fallon',pos:'WR',num:13,ovr:81,age:34,dr:{y:2013,r:3,p:76,tm:'LA',col:'California'},h:[[2013,15,1046,8],[2014,15,783,4],[2015,15,725,4],[2016,15,63,0],[2017,15,1393,6],[2018,15,1196,6],[2019,15,1199,6],[2020,15,992,8],[2021,15,1138,6],[2022,15,752,4],[2023,15,1243,7],[2024,20,744,7]],prev:'LA, CHI, IND'};
+window.kfJoin=function(s){try{s=s||S;if(!s||!s.ro||s.kf26)return 0;const y=(s.y0||2022)+((s.hist||[]).length);if(s.stage==='pro'&&y>2028){s.kf26=1;return 0}
+ for(const k in s.ro){const L=s.ro[k];if(Array.isArray(L)&&L.some(x=>x&&x.n===KF26.n)){s.kf26=1;return 0}}
+ const key=typeof add26Key=='function'?add26Key(s,28):'p.28';const L=s.ro[key];if(!Array.isArray(L)||!L.length)return 0;   /* joins when the 49ers roster exists */
+ const x={n:KF26.n,pos:'WR',num:KF26.num,ovr:KF26.ovr,pot:KF26.ovr,age:KF26.age,cls:0,qp:1,qn:1,ny:KF26.h.length,h:KF26.h.map(r=>r.slice()),cs:{},tm:[],aw:{},dr:{...KF26.dr},prev:KF26.prev,kf26:1};
+ try{x.h.forEach(r=>{csAdd(x,'w',r.slice(2));tmAdd(x,r[1])});tmAdd(x,9)}catch(e){}
+ const isG=p=>typeof isGen=='function'?isGen(p.n):true;let j=[3,4,2].find(i=>L[i]&&isG(L[i]));if(j==null){L.push(x)}else{const old=L[j];old.prev='SF';old.fa=y;old.why='roster spot taken by Kenny Fallon';s.ro.fa=Array.isArray(s.ro.fa)?s.ro.fa:[];s.ro.fa.push(old);L[j]=x}
+ s.kf26=1;try{lgTx({t:'trade',n:x.n,pos:'WR',ovr:x.ovr,age:x.age,from:'IND',to:'SF',d:'Traded from the Colts to the 49ers',big:true})}catch(e){}return 1}catch(e){return 0}};
+(()=>{try{const _r=rost;rost=function(a){const L=_r.apply(this,arguments);try{if(S&&!S.kf26&&S.pro){const key=typeof add26Key=='function'?add26Key(S,28):'p.28';if(S.ro[key]===L)kfJoin(S)}}catch(e){}return L}}catch(e){}})();
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)kfJoin(r)}catch(e){}return r}}catch(e){}})();
+window.DL26={n:'Daejon Love',pos:'WR',num:11,ovr:86,age:35,spd:94};
+(()=>{try{const _s=start;start=function(){const r=_s.apply(this,arguments);try{if(S&&!S.dl26){S.ro=S.ro||{};if(!Array.isArray(S.ro.fa))S.ro.fa=[];if(!S.ro.fa.some(x=>x&&x.n===DL26.n))S.ro.fa.push({...DL26,pot:86,cls:0,qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},prev:'',fa:2026,story:'A 35-year-old burner (94 speed) looking for one more big year.'});S.dl26=1}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{if(S&&S.ro&&Array.isArray(S.ro.fa)&&S.dl26){/* the pool survives proStart (m182) */}}catch(e){}return r}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

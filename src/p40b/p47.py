@@ -979,3 +979,20 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # a touchdown never goes to a receiver with no catch in that game (the bench target can have 0): it moves to the top catcher
 r("const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]}))",
   "if(_R2){recT.forEach((v,i)=>{if(v&&!(recC[i]>0)){recT[i]=0;const j=recC.indexOf(Math.max(...recC));if(j>=0)recT[j]+=v}})}const rec=recK.map((k,i)=>({n:nm(k),p:(L[k]&&L[k].pos)||POSL[k],c:recC[i],y:recY[i],td:recT[i]}))")
+# m202: the swipe is the throw (help scaled by the QB), m203: endorsement offers one at a time
+r("' offers at a time, up to '","' offers a season, one at a time; up to '")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m202.js')+M('m203.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Goaty's is always among the season's offers even when the meter allows only a few
+r("!pool.slice(0,6).some(b=>b[0]=='goat_ap')","!pool.slice(0,(typeof spN=='function'?spN():7)).some(b=>b[0]=='goat_ap')")
+# m204: Tyler's 2026 college list (classes, ratings, four new prospects) for new worlds only
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m204.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m205 quick fixes: Start opens the player menu in the locker room; the mouse no longer switches the controller off; slingshot keeps the pull-back
+r("if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}",
+  "if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}\n if(edge(9)&&inLR&&!root){const m_=[...lrw.querySelectorAll('button')].find(x=>/☰/.test(x.textContent));if(m_){m_.click();CTL.prev=down;return}}")
+r("['pointerdown','mousemove','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;","['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;")
+r("aim.px=px;aim.py=py;aim.t=slt(aim)}","aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_)){aim.mm=mm_;aim.mx=px;aim.my=py}}}")
+r("const a=aim;aim=null;if(!g||g.ph!='live')return;const P=g.pl,q=P.qb,c=P.car,run=","const a=aim;aim=null;if(!g||g.ph!='live')return;if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m205.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
