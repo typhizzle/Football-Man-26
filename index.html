@@ -54,7 +54,7 @@ qo=q=>{const v=[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk];return Ma
 
 sline=s=>`${s.cmp}/${s.att}${s.att?' ('+Math.round(s.cmp/s.att*100)+'%)':''} · ${s.yds} yds · ${s.td} TD · ${s.int} INT · ${s.ry} rush yds · ${s.rtd} rush TD`;
 try{Object.defineProperty(Array.prototype,'lnPop',{value:function(){const l=this.pop();if(l!=null&&/^(II|III|IV|V|Jr\.?|Sr\.?)$/i.test(String(l))&&this.length)return this.pop()+' '+l;return l},enumerable:false,configurable:true})}catch(e){}
-let S,g,W,H,sc,cam=0,inp={x:0,y:0},kb={x:0,y:0},joy=null,aim=null,last=0,hs='';
+window.NSLOT=8;window.SLOTS=()=>Array.from({length:NSLOT},(_,i)=>i+1);let S,g,W,H,sc,cam=0,inp={x:0,y:0},kb={x:0,y:0},joy=null,aim=null,last=0,hs='';
 const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 let LRNEXT=0,LASTS=[0,0],SLOT=1,HM='',CAMI=0,LY=0,LP=-.04,lk=null;
 let CL=null,cq=0,CLerr='';
@@ -65,14 +65,14 @@ async function cdocPut(d,k,o){const j=JSON.stringify(o),z=j.length>20000?await g
 const cdocGet=async dd=>dd&&dd.z?JSON.parse(await gunS(dd.z)):dd&&dd.j?JSON.parse(dd.j):null;
 function cloudQ(){if(!CL)return;clearTimeout(cq);cq=setTimeout(async()=>{try{const c={...S},ro=c.ro;delete c.ro;const i=SLOT;await cdocPut(CL.d,CL.p+'slot'+i,c);if(ro)await cdocPut(CL.d,CL.p+'ro'+i,ro)}catch(e){}},1500)}
 async function cloudInit(){try{if(typeof claude=='undefined'){CLerr='not available in this view';return}const u=await claude.use('user'),d=await claude.use('db');if(!u||!d){CLerr='permission not granted';return}const id=await u.id();if(!id){CLerr='not signed in';return}CL={d,p:'data/users/'+id+'/'};
-for(let i=1;i<=6;i++){const sn=await d.doc(CL.p+'slot'+i).get(),dd=sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null,cs=await cdocGet(dd),lr=lraw(i),ls=lr?JSON.parse(lr):null;
+for(let i=1;i<=NSLOT;i++){const sn=await d.doc(CL.p+'slot'+i).get(),dd=sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null,cs=await cdocGet(dd),lr=lraw(i),ls=lr?JSON.parse(lr):null;
 if(cs&&cs.T&&!((zTomb()[i]||0)>=(cs.ts||0))&&(!ls||(ls.ts||0)<(cs.ts||0))){const rr=await d.doc(CL.p+'ro'+i).get(),rd=rr.exists?(typeof rr.data=='function'?rr.data():rr.data):null;{const rv=await cdocGet(rd);if(rv)cs.ro=rv}localStorage.setItem(K+'_'+i,JSON.stringify(cs))}
 else if(ls&&ls.T&&(!cs||(cs.ts||0)<(ls.ts||0))){const c={...ls},ro=c.ro;delete c.ro;await cdocPut(d,CL.p+'slot'+i,c);if(ro)await cdocPut(d,CL.p+'ro'+i,ro)}}
 if(!g&&ui.querySelector('.mpan'))menuMain()}catch(e){CLerr=String(e&&e.message||e).slice(0,60)}}
 let LASTJ='';
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}};let SAVEFAIL=0;
 function save(){try{const jj=SLOT+JSON.stringify({...S,ts:0});if(jj==LASTJ)return;S.v=3;S.ts=Date.now();const k=K+'_'+SLOT,o=localStorage.getItem(k),js=JSON.stringify(S);if(o){const b=localStorage.getItem(k+'_b');if(b&&!lsSet(k+'_b2',b))localStorage.removeItem(k+'_b2');if(!lsSet(k+'_b',o))localStorage.removeItem(k+'_b')}
-let ok=lsSet(k,js);if(!ok)for(const s of [1,2,3,4,5]){for(const x of ['_b2','_b']){if(s==SLOT&&x=='_b'&&!localStorage.getItem(k))continue;localStorage.removeItem(K+'_'+s+x);if(lsSet(k,js)){ok=true;break}}if(ok)break}
+let ok=lsSet(k,js);if(!ok)for(const s of SLOTS()){for(const x of ['_b2','_b']){if(s==SLOT&&x=='_b'&&!localStorage.getItem(k))continue;localStorage.removeItem(K+'_'+s+x);if(lsSet(k,js)){ok=true;break}}if(ok)break}
 if(ok){LASTJ=jj;SAVEFAIL=0}else SAVEFAIL=1}catch(e){}cloudQ()}
 function load(i){i=i||SLOT;for(const k of [K+'_'+i,K+'_'+i+'_b',K+'_'+i+'_b2',i==1?K:'',i==1?K+'_b':''])try{if(!k)continue;const s=JSON.parse(localStorage.getItem(k));if(s&&s.T)return mig(s)}catch(e){}return null}
 const FN=['Jordan','Cam','Trey','Mason','Eli','Dante'],LN=['Pike','Boone','Reyes','Hale','Cruz','Stone'],LG=['F','D-','D','D+','C-','C','C+','B-','B','B+','A-','A','A+'],GT=[0,45,50,55,60,64,68,72,76,80,84,88,92],
@@ -802,7 +802,7 @@ function kq(){return KKt(0).ovr}
 function fgP(d,K,lv){const hs=(lv||S.stage||'hs')=='hs'&&K.kp<90,rg=35+K.kp*.3-(hs?6:0),b=.78+K.ka*.002-(hs?.03:0);if(d>rg+3)return .02;if(d<=25)return cl(b,.05,.99);return cl(b-Math.pow((d-25)/Math.max(5,rg-25),2.2)*.7,.02,.99)}
 function ro(a){const L=rost(a),t=gt(a),me=a=='h.0';ui.innerHTML=`<div><h2>${S.T&&S.T.includes(t)?tnr(t):tn(t)} roster</h2><p><small>Team rating ${t.ovr} (average of these starters). ${me?'Your quarterback is edited in Name & jersey.':''} Edits are saved with this player file.</small></p><div class=card><div class=rg><small>Name</small><small>#</small><small>Pos</small><small>OVR</small></div>${L.map((p,i)=>`<div class=rg><input id=rn${i} value="${q_(p.n)}" ${me&&!i?'disabled':''}><input id=rb${i} type=number min=0 max=99 value=${p.num} ${me&&!i?'disabled':''}><select id=rp${i} ${me&&!i?'disabled':''}>${POSU.map(x=>`<option ${x==p.pos?'selected':''}>${x}`).join('')}</select><input id=rv${i} type=number min=30 max=99 value=${p.ovr} ${me&&!i?'disabled':''}></div>`).join('')}</div><button onclick="rsv('${a}')">Save roster</button><button class=g onclick="delete S.ro['${a}'];ro('${a}')">Regenerate</button><button class=g onclick="te('${a}')">Back</button></div>`;ui.scrollTop=0}
 function rsv(a){const L=S.ro[a],t=gt(a);L.forEach((p,i)=>{if(a=='h.0'&&!i)return;{const nv=$('#rn'+i).value;if(nv&&nv!=p.n){p.n=nv;p.ed=1}}p.num=cl(+$('#rb'+i).value||0,0,99);p.pos=$('#rp'+i).value;p.ovr=cl(+$('#rv'+i).value||50,30,99)});t.ovr=Math.round(avg(L.map(p=>p.ovr)));save();ro(a)}
-function menuEdit(){for(let i=1;i<=5;i++){const d=load(i);if(d){SLOT=i;S=d;lg('h');return}}ui.insertAdjacentHTML('afterbegin','<div class=card>Start a career first. Rosters are saved with each player file.</div>')}
+function menuEdit(){for(let i=1;i<=NSLOT;i++){const d=load(i);if(d){SLOT=i;S=d;lg('h');return}}ui.insertAdjacentHTML('afterbegin','<div class=card>Start a career first. Rosters are saved with each player file.</div>')}
 function te(a){ea=a;const t=gt(a),p=t.city!=null;ui.innerHTML=`<div><h2>Edit team</h2><div class=card>${p?`<label>City<input id=tc value="${q_(t.city)}"></label>`:''}<label>${p?'Nickname':'Name'}<input id=tm value="${q_(t.n)}"></label>
 <div class=row><span>Primary color</span><input type=color id=t1 value=${t.c1} style="width:64px;padding:2px"></div><div class=row><span>Secondary color</span><input type=color id=t2 value=${t.c2} style="width:64px;padding:2px"></div><div class=row><span>Pants color</span><input type=color id=tp value=${t.pc||'#f2f2f2'} style="width:64px;padding:2px"></div>
 <label>Jersey design<select id=td>${DS.map((n,i)=>`<option value=${i} ${t.d==i?'selected':''}>${n}`).join('')}</select></label></div><button onclick=tsv()>Save</button><button class=g onclick="tsv();ro(ea)">Save &amp; edit roster</button><button class=g onclick="lg('${ea[0]}')">Cancel</button></div>`}
@@ -841,7 +841,7 @@ function dealsHtml(){dealsEns();badDeals();return `<div class=card><b>Endorsemen
 async function mkCode(){save();const j=JSON.stringify(S);try{const st=new Blob([j]).stream().pipeThrough(new CompressionStream('gzip')),b=new Uint8Array(await new Response(st).arrayBuffer());let s='';for(let i=0;i<b.length;i+=8192)s+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return 'FMZ1'+btoa(s)}catch(e){return 'FMJ1'+btoa(unescape(encodeURIComponent(j)))}}
 async function readCode(t){t=(t||'').trim();let j;if(t.startsWith('FMZ1')){const b=Uint8Array.from(atob(t.slice(4)),c=>c.charCodeAt(0));j=await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text()}else if(t.startsWith('FMJ1'))j=decodeURIComponent(escape(atob(t.slice(4))));else j=t;const s=JSON.parse(j);if(!s||!s.T)throw 0;return mig(s)}
 async function expS(){const c=await mkCode();$('#xc').value=c;try{await navigator.clipboard.writeText(c);$('#xm').textContent='Copied! Paste it into Notes or a text to yourself. Size: '+Math.round(c.length/1024)+' KB.'}catch(e){$('#xm').textContent='Select everything in the box and copy it. Size: '+Math.round(c.length/1024)+' KB.'}}
-function impScreen(){ui.innerHTML=`<div><h2>Import a save code</h2><div class=card><small>Paste a code you exported from Settings. Pick a slot: anything in that slot is replaced.</small><textarea id=xc style="width:100%;height:120px;font:14px monospace;background:#1a1a1a;color:#fff;border:3px solid #000"></textarea><p id=xm></p>${[1,2,3,4,5].map(i=>`<button class=g onclick="impS(${i})">Import into slot ${i}</button>`).join('')}</div><button class=g onclick=menu()>Back</button></div>`}
+function impScreen(){ui.innerHTML=`<div><h2>Import a save code</h2><div class=card><small>Paste a code you exported from Settings. Pick a slot: anything in that slot is replaced.</small><textarea id=xc style="width:100%;height:120px;font:14px monospace;background:#1a1a1a;color:#fff;border:3px solid #000"></textarea><p id=xm></p>${SLOTS().map(i=>`<button class=g onclick="impS(${i})">Import into slot ${i}</button>`).join('')}</div><button class=g onclick=menu()>Back</button></div>`}
 async function impS(i){try{const s=await readCode($('#xc').value);SLOT=i;S=s;LASTJ='';save();hub()}catch(e){$('#xm').textContent='That code did not work. Make sure you copied all of it.'}}
 function settings(){ui.innerHTML=`<div><h2>Settings</h2><div class=card><label>Game length: <b id=dv2>${S.dur}</b> min (applies to your next game)<input type=range min=2 max=10 value=${Math.min(10,S.dur)} oninput="S.dur=+this.value;dv2.textContent=this.value;save()"></label></div><div class=card><b>Injuries</b><br><small>Injuries are rare and only happen on contact. Turning them off also heals everyone who is hurt right now.</small><div class=row style="gap:8px"><button class="${S.noInj?'g':''}" onclick="if(S.noInj)injToggle()">On</button><button class="${S.noInj?'':'g'}" onclick="if(!S.noInj)injToggle()">Off</button></div></div><div class=card><b>Graphics</b><br><small>Sharp looks best. Smooth runs faster on older or hot phones (lower resolution, no shadows). Saved on this device.</small><div class=row style="gap:8px"><button class="${GFX=='lo'?'g':''}" onclick="gfxSet('hi')">Sharp</button><button class="${GFX=='lo'?'':'g'}" onclick="gfxSet('lo')">Smooth</button></div></div><div class=card><b>Road to the draft</b><br><small>How each pre-draft event plays out.</small>${[['cb','Scouting Combine'],['pd','Pro Day'],['iv','Pre-draft visits']].map(([k,n])=>`<label>${n}<select onchange="dpsSet('${k}',this.value)">${[['play','Play it'],['sim','Simulate'],['skip','Skip']].map(([v,l])=>`<option value=${v} ${dps(k)==v?'selected':''}>${l}`).join('')}</select></label>`).join('')}<label>Draft night<select onchange="dpsSet('dn',this.value)"><option value=show ${dps('dn')=='show'?'selected':''}>Full show (green room, commissioner, walk to the stage)<option value=quick ${dps('dn')=='quick'?'selected':''}>Quick draft board</select></label></div><div class=card><label>Locker room camera speed: <b id=lsv>${Math.round((S.lsens||1)*100)}%</b><input type=range min=30 max=200 value=${Math.round((S.lsens||1)*100)} oninput="S.lsens=this.value/100;lsv.textContent=this.value+'%';save()"></label></div><div class=card><b>Backup save code</b><br><small>A copy of this career you can keep anywhere. Import it from the main menu if a save is ever lost or you switch devices.</small><textarea id=xc style="width:100%;height:90px;font:12px monospace;background:#1a1a1a;color:#fff;border:3px solid #000" readonly></textarea><p id=xm></p><button class=g onclick=expS()>Create and copy save code</button></div><button class=g onclick=hub()>Back</button></div>`}
 function jumpCol(){S.yr=4;S.po=null;S.sum=null;addOffers(1);S.yr=5;endC()}
@@ -1469,12 +1469,12 @@ if((CAMI==1||CAMI==2)&&!slBoxHit(x,y)){if(!lk)lk={id:e.pointerId,x,y,x0:x,y0:y,p
 if(!aim){const P_=g.pl,q_=P_&&P_.qb;aim={id:e.pointerId,ox:x,oy:y,px:0,py:0,t:null,pts:[{x,y,t:performance.now()}],thr:!(P_&&P_.run&&P_.car===q_&&q_.y>g.los+.6)}}});
 cv.addEventListener('pointermove',e=>{swMove(e);swAim(e);if(joy&&e.pointerId==joy.id){const dx=(e.clientX-joy.ox)/45,dy=-(e.clientY-joy.oy)/45,l=Math.hypot(dx,dy)||1,m=Math.min(1,l);joy.x=dx/l*m;joy.y=dy/l*m}
 if(lk&&e.pointerId==lk.id&&!swLk(e)){LY=cl(LY+(e.clientX-lk.x)*.006,-1.7,1.7);LP=cl(LP-(e.clientY-lk.y)*.005,-.5,.7);lk.x=e.clientX;lk.y=e.clientY}
-if(aim&&e.pointerId==aim.id){let px=e.clientX-aim.ox,py=e.clientY-aim.oy;const m=Math.hypot(px,py);const LM=Math.min(W,H)*SLL;if(m>LM){px*=LM/m;py*=LM/m}aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_)){aim.mm=mm_;aim.mx=px;aim.my=py}}}});
-cv.addEventListener('pointerup',e=>{if(swEnd(e)){if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null;return}if(lk&&e.pointerId==lk.id){if(lk.mv&&g&&g.ph=='live')mvmove(e.clientX-lk.x0,e.clientY-lk.y0);lk=null}if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id){const a=aim;aim=null;if(!g||g.ph!='live')return;if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=c&&P.run&&c===q&&q.y>g.los+.6,mg=Math.hypot(a.px,a.py);
+if(aim&&e.pointerId==aim.id){let px=e.clientX-aim.ox,py=e.clientY-aim.oy;const m=Math.hypot(px,py);const LM=Math.min(W,H)*SLL;if(m>LM){px*=LM/m;py*=LM/m}aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_-1)){aim.mm=Math.max(aim.mm||0,mm_);aim.mx=px;aim.my=py}if(mm_<aim.mm*.93){if(!aim.dropT)aim.dropT=performance.now()}else aim.dropT=0}}});
+cv.addEventListener('pointerup',e=>{if(swEnd(e)){if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null;return}if(lk&&e.pointerId==lk.id){if(lk.mv&&g&&g.ph=='live')mvmove(e.clientX-lk.x0,e.clientY-lk.y0);lk=null}if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id){const a=aim;aim=null;if(!g||g.ph!='live')return;let full_=0;if(a.mm>14&&(Math.hypot(a.px,a.py)<a.mm*.6||(a.dropT&&performance.now()-a.dropT<350))){a.px=a.mx;a.py=a.my;full_=1;try{a.t=slt(a)}catch(e){}}const ex_=e.clientX,ey_=e.clientY;const P=g.pl,q=P.qb,c=P.car,run=c&&P.run&&c===q&&q.y>g.los+.6,mg=Math.hypot(a.px,a.py);
 if(run&&a.thr){g.flash='Past the line: no throw';g.ft=.8;return}if(run){if(mg>35)mvmove(a.px,a.py);else if(P.call.t=='option'&&c===q){P.car=P.rb;P.passed=false;P.lane=q.x>26.5?46:7}return}
 if(S.thm=='swipe'&&mg>=28){g.flash='Swipe up to throw (slingshot is off: pause menu)';g.ft=1.2;return}let b=null,bd=1e9;
-if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;return}if(mg<28&&a.t){const q0=P.qb,dx=a.t[0]-q0.x,dy=a.t[1]-q0.y,dl=Math.hypot(dx,dy)||1;let bw=null,bs=-9;P.wr.forEach(w=>{const wx=w.x-q0.x,wy=w.y-q0.y,wl=Math.hypot(wx,wy)||1,al=(wx*dx+wy*dy)/(wl*dl),s_=al-wl/60;if(al>.5&&s_>bs){bs=s_;bw=w}});if(bw)a.t=[bw.x,bw.y]}
-if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}doThrow(b,t0,t1)}}}});
+if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;if(!run)try{slRel(ex_,ey_,'Not thrown: pull back further',0)}catch(_){}return}if(mg<28&&a.t){const q0=P.qb,dx=a.t[0]-q0.x,dy=a.t[1]-q0.y,dl=Math.hypot(dx,dy)||1;let bw=null,bs=-9;P.wr.forEach(w=>{const wx=w.x-q0.x,wy=w.y-q0.y,wl=Math.hypot(wx,wy)||1,al=(wx*dx+wy*dy)/(wl*dl),s_=al-wl/60;if(al>.5&&s_>bs){bs=s_;bw=w}});if(bw)a.t=[bw.x,bw.y]}
+if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}const air0_=!!P.air;doThrow(b,t0,t1);try{if(P.air&&!air0_)slRel(ex_,ey_,'🏈 '+slWho(b)+' · '+Math.max(0,Math.round(t1-g.los))+' yd'+(full_?' · full pull-back':''),1);else if(g.ft>0&&g.flash)slRel(ex_,ey_,g.flash,0)}catch(_){}}}}});
 cv.addEventListener('lostpointercapture',e=>{if(aim&&e.pointerId==aim.id)aim=null;if(joy&&e.pointerId==joy.id)joy=null;if(lk&&e.pointerId==lk.id)lk=null});cv.addEventListener('pointercancel',e=>{if(swp&&e.pointerId==swp.id)swp=null;if(lk&&e.pointerId==lk.id)lk=null;if(joy&&e.pointerId==joy.id)joy=null;if(aim&&e.pointerId==aim.id)aim=null});
 const slt=a=>{const q=g.pl.qb,m=Math.hypot(a.px,a.py)||1,k=(typeof thrD=='function'?thrD(slPow(m)):slPow(m)*thrR());if(CAMI>=3){try{const d_=swDir(-a.px/m,-a.py/m);if(d_)return[q.x+d_[0]*k,q.y+d_[1]*k]}catch(e){}}const yw=CAMI==1||CAMI==2?LY:0,l=-a.px/m,f=a.py/m;return[q.x+(f*Math.sin(yw)+l*Math.cos(yw))*k,q.y+(f*Math.cos(yw)-l*Math.sin(yw))*k]};
 function mvmove(px,py){const c=g.pl.car;if(c.mv>0||g.pl.t-(c.lm||-9)<1.4)return;c.trkU=0;const ax=Math.abs(px),ay=Math.abs(py);let mt='juke';if(py>0&&ay>ax*1.1)mt='slide';else if(py<0&&ay>ax*1.5)mt='truck';else if(py<0&&ay>ax*.5)mt='spin';
@@ -1516,13 +1516,13 @@ for(let a=0;a<100;a+=5)fl(53.3,.4,5,(a/5&1)?0x3fa34d:0x4cb85a,0,-.2,-(a+2.5),P);
 {const hz=document.createElement('canvas');hz.width=512;hz.height=1024;const t=hz.getContext('2d');t.fillStyle='rgba(255,255,255,.85)';for(let y=1;y<100;y++){const Y=(100-y)*10.24;t.fillRect(224,Y-1,6,2);t.fillRect(282,Y-1,6,2);t.fillRect(2,Y-1,10,2);t.fillRect(500,Y-1,10,2)}
 const hm=new T3.Mesh(new T3.PlaneGeometry(53.3,100),new T3.MeshBasicMaterial({map:new T3.CanvasTexture(hz),transparent:true}));hm.rotation.x=-Math.PI/2;hm.position.set(0,.07,-50);P.add(hm)}
 for(let a=0;a<=100;a+=5)bx(53.3,.05,a%10?.12:.22,0xffffff,0,.02,-a,P);
-[-1,1].forEach(s=>{bx(4.4,.08,120,0xb5793f,s*28.85,-.02,-50,P);bx(.5,.1,120,0xffffff,s*26.65,.04,-50,P)});bx(53.8,.1,.5,0xffffff,0,.05,-110,P);bx(53.8,.1,.5,0xffffff,0,.05,10,P);LOSm=bx(53.3,.08,.3,0x3b8bff,0,.08,0,P);FDm=bx(53.3,.08,.3,0xffd83b,0,.08,0,P);[[-26.6,0],[26.6,0],[-26.6,-10],[26.6,-10],[-26.6,-100],[26.6,-100],[-26.6,-110],[26.6,-110]].forEach(q=>bx(.35,.9,.35,0xff6a00,q[0],.45,q[1],P));[-1,1].forEach(s=>{bx(1.2,1,24,0x2d3748,s*33.2,.5,-50,P);bx(1.4,.25,24,0x4a5568,s*33.4,1.1,-50,P)});P.ch1=bx(.25,3,.25,0xff6a00,27.6,1.5,0,P);P.ch2=bx(.25,3,.25,0xff6a00,27.6,1.5,0,P);
+[-1,1].forEach(s=>{bx(15.4,.08,120,0xb5793f,s*34.6,-.02,-50,P);bx(.5,.1,120,0xffffff,s*26.65,.04,-50,P)});bx(53.8,.1,.5,0xffffff,0,.05,-110,P);bx(53.8,.1,.5,0xffffff,0,.05,10,P);LOSm=bx(53.3,.08,.3,0x3b8bff,0,.08,0,P);FDm=bx(53.3,.08,.3,0xffd83b,0,.08,0,P);[[-26.6,0],[26.6,0],[-26.6,-10],[26.6,-10],[-26.6,-100],[26.6,-100],[-26.6,-110],[26.6,-110]].forEach(q=>bx(.35,.9,.35,0xff6a00,q[0],.45,q[1],P));[-1,1].forEach(s=>{bx(1.2,1,30,0x2d3748,s*36.4,.5,-50,P);bx(1.4,.25,30,0x4a5568,s*36.6,1.1,-50,P)});P.ch1=bx(.25,3,.25,0xff6a00,27.6,1.5,0,P);P.ch2=bx(.25,3,.25,0xff6a00,27.6,1.5,0,P);
 for(let a=10;a<=90;a+=10){const n=Math.min(a,100-a);[-18,18].forEach(x=>{const m=new T3.Mesh(new T3.PlaneGeometry(4,4),new T3.MeshBasicMaterial({map:tex(String(n),64,'#fff'),transparent:true}));m.rotation.x=-Math.PI/2;m.position.set(x,.06,-a);P.add(m)})}
 const cc=[0xff5a5a,0xffd83b,0x4fb4ff,0xffffff,0x5ad65a,0xb07bff];
-[-1,1].forEach(s=>{for(let k=0;k<3;k++){const t=1.2+k*1.3;bx(3,t,125,0x4a5568,s*(32+k*3),t/2-.6,-50,P);for(let z=-12;z<112;z+=2.2)if(Math.random()<.8)bx(1.2,1.4,1.2,cc[Math.random()*6|0],s*(32+k*3),t-.6+.7,-z,P)}});
-[-1,1].forEach(s=>{bx(.6,10,150,0x3a4a63,s*45,5,-50,P);for(let z=-10;z<110;z+=14)bx(.3,4,6,cc[Math.random()*6|0],s*44.6,7,-z,P);[12,-112].forEach(z=>{bx(1,24,1,0x556677,s*40,12,z,P);bx(7,3,1.2,0xfff6b0,s*40,25,z,P)})});
+[-1,1].forEach(s=>{for(let k=0;k<3;k++){const t=1.2+k*1.3;bx(3,t,125,0x4a5568,s*(43+k*3),t/2-.6,-50,P);for(let z=-12;z<112;z+=2.2)if(Math.random()<.8)bx(1.2,1.4,1.2,cc[Math.random()*6|0],s*(43+k*3),t-.6+.7,-z,P)}});
+[-1,1].forEach(s=>{bx(.6,10,150,0x3a4a63,s*56,5,-50,P);for(let z=-10;z<110;z+=14)bx(.3,4,6,cc[Math.random()*6|0],s*55.6,7,-z,P);[12,-112].forEach(z=>{bx(1,24,1,0x556677,s*51,12,z,P);bx(7,3,1.2,0xfff6b0,s*51,25,z,P)})});
 [10,-110].forEach(z=>{bx(.3,4,.3,0xffd83b,0,2,z,P);bx(6.6,.3,.3,0xffd83b,0,4.1,z,P);bx(.3,3,.3,0xffd83b,-3.3,5.6,z,P);bx(.3,3,.3,0xffd83b,3.3,5.6,z,P)});
-for(let i=0;i<10;i++){const c_=bx(8+Math.random()*8,2,4+Math.random()*4,0xffffff,(i%2?1:-1)*(55+Math.random()*70),85+Math.random()*20,-Math.random()*130,P);c_.castShadow=false;c_.receiveShadow=false}P.children.forEach(m=>{const x=Math.abs(m.position.x),y=m.position.y;if(m.geometry&&((x>=31.9&&y>=1.25)||x>=34.5||y>=8))m.castShadow=false});mrg(P,[LOSm,FDm,P.ch1,P.ch2]);frz(P,[LOSm,FDm,P.ch1,P.ch2])}
+for(let i=0;i<10;i++){const c_=bx(8+Math.random()*8,2,4+Math.random()*4,0xffffff,(i%2?1:-1)*(55+Math.random()*70),85+Math.random()*20,-Math.random()*130,P);c_.castShadow=false;c_.receiveShadow=false}P.children.forEach(m=>{const x=Math.abs(m.position.x),y=m.position.y;if(m.geometry&&((x>=42.9&&y>=1.25)||x>=45.5||y>=8))m.castShadow=false});mrg(P,[LOSm,FDm,P.ch1,P.ch2]);frz(P,[LOSm,FDm,P.ch1,P.ch2])}
 function buildEZ(a,b,sw){clr(EZ);bx(53.3,.38,10,a,0,-.17,5,EZ);bx(53.3,.38,10,b,0,-.17,-105,EZ);
 const mn=g&&g.m?(g.m.sh||g.m.n.split(' ').lnPop()).toUpperCase():'HOME',on=g&&g.o?(g.o.sh||g.o.n.split(' ').lnPop()).toUpperCase():'AWAY',
 txt=(s,z)=>{const c=document.createElement('canvas');c.width=1024;c.height=256;const t=c.getContext('2d');t.textAlign='center';t.font='700 150px Impact,sans-serif';t.fillStyle='#fff';t.strokeStyle='#000';t.lineWidth=10;t.strokeText(s,512,190);t.fillText(s,512,190);const m=new T3.Mesh(new T3.PlaneGeometry(38,9.5),new T3.MeshBasicMaterial({map:new T3.CanvasTexture(c),transparent:true}));m.rotation.x=-Math.PI/2;m.position.set(0,.07,z);EZ.add(m)};
@@ -1561,7 +1561,7 @@ const att=PL.cvm!='menu',sw=Math.sin(t*.22)*.14,push=att?Math.sin(t*.18)*.6:0,a=
 const dx=F[0]-cx,dz=F[2]-cz,dl=Math.hypot(dx,dz),rx=-dz/dl,rz=dx/dl,nx=att?(por?0:.32):(por?0:-.66),ny=att?(por?-.06:-.04):(por?.4:-.02),th=Math.tan(fv*Math.PI/360),asp=W/H;
 cm.fov=fv;cm.position.set(cx,cy,cz);cm.lookAt(F[0]-rx*dl*nx*th*asp,F[1]-dl*(ny-(PL.dy||0))*th,F[2]-rz*dl*nx*th*asp);cm.updateMatrixWorld();cm.updateProjectionMatrix();ttlFit()}
 let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0010</small></div>`;ui.scrollTop=0}
-function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=6;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
+function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=NSLOT;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
 ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0010</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
 // a clear "scroll for more" hint whenever a screen runs past the bottom
 function scrH(){let e=$('#scrh');if(!e){e=document.createElement('div');e.id='scrh';e.innerHTML='▼ Scroll for more ▼';e.onclick=()=>ui.scrollBy({top:ui.clientHeight*.7,behavior:'smooth'});document.body.appendChild(e)}const show=ui.style.display!='none'&&!(typeof LR!='undefined'&&LR)&&cv.style.display!='block'&&ui.scrollHeight-ui.clientHeight-ui.scrollTop>40;e.style.display=show?'block':'none'}
@@ -5299,7 +5299,7 @@ function slotDel(i){const d=load(i);if(!d)return menuMain();if(!window.CF_OK&&!c
  slotKeys(i).forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});try{zTombSet(i,1);if(CL){CL.d.doc(CL.p+'slot'+i).delete();CL.d.doc(CL.p+'ro'+i).delete()}}catch(e){}if(SLOT==i){SLOT=0}menuMain()}
 function trashV(){const L=trashL();ui.style.display='block';ui.innerHTML=`<div><h2>♻️ Recently deleted</h2><div class=card><small>The last ${DELMAX} deleted saves are kept here. Recover one into any empty slot.</small></div>
 ${L.length?L.map((x,j)=>{let s=null;try{s=JSON.parse(dz(x.s))}catch(e){}return `<div class=card><b>${esc(x.n||'Save')}</b> <small>was Slot ${x.slot} · deleted ${new Date(x.t).toLocaleDateString()}${s?' · QB '+qo(s.q):''}</small><br><button onclick="trashRec(${j})">Recover</button><button class=g onclick="trashGone(${j})">Delete forever</button></div>`}).join(''):'<div class=card>Nothing here.</div>'}<button class=g onclick=menuMain()>Back</button></div>`;ui.scrollTop=0}
-function trashRec(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=6;k++)if(!load(k)){i=k;break}}if(!i){HM='';alert('All 6 slots are full. Delete one first.');return trashV()}
+function trashRec(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=NSLOT;k++)if(!load(k)){i=k;break}}if(!i){HM='';alert('All '+NSLOT+' slots are full. Delete one first.');return trashV()}
  try{localStorage.setItem(K+'_'+i,x.s)}catch(e){zSquash();try{localStorage.setItem(K+'_'+i,x.s)}catch(e2){return}}L.splice(j,1);localStorage.setItem(DELK(),JSON.stringify(L));menuMain()}
 function trashGone(j){if(!window.CF_OK&&!confirm('Delete this save forever?'))return;const L=trashL();L.splice(j,1);localStorage.setItem(DELK(),JSON.stringify(L));trashV()}
 // ===================== 🎃 HALLOWEEN COSTUMES (on sale through Nov 6, 11:59 PM) =====================
@@ -5348,7 +5348,7 @@ function zFlush(){clearTimeout(ZTM);const P=ZPEND;if(!P)return;ZPEND=null;try{co
  // storage full: drop old raw (uncompressed) backups and the oldest "recently deleted" saves first, then other slots' extra backups
  if(!ok){zSquash();ok=lsSet(k,z)}
  if(!ok){const L=trashL();while(!ok&&L.length){L.pop();try{localStorage.setItem(DELK(),JSON.stringify(L))}catch(e){}ok=lsSet(k,z)}}
- if(!ok)for(const s of [1,2,3,4,5,6]){for(const x of ['_b2','_b']){if(s==P.slot&&x=='_b')continue;localStorage.removeItem(K+'_'+s+x);if(lsSet(k,z)){ok=true;break}}if(ok)break}
+ if(!ok)for(const s of SLOTS()){for(const x of ['_b2','_b']){if(s==P.slot&&x=='_b')continue;localStorage.removeItem(K+'_'+s+x);if(lsSet(k,z)){ok=true;break}}if(ok)break}
  SAVEFAIL=ok?0:1;if(!ok)LASTJ=''}catch(e){}}
 // re-store any old uncompressed save so it takes a fraction of the space
 function zSquash(){try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k||k.indexOf(K+'_')!=0)continue;const v=localStorage.getItem(k);if(v&&v.length>4000&&v[0]=='{'){try{localStorage.setItem(k,zPack(v))}catch(e){}}}}catch(e){}}
@@ -5590,7 +5590,7 @@ let TKB=null,TKVQ=null;
 function tkPost(){const n=S.name;try{const st=QBSTY[n];if(st&&AR.some(a=>a.n==st))S.arch=st;const o=qo(S.q),q=qbShape(n,o);if(q)S.q=q;const p=PLK[n];if(p){S.ap={...(S.ap||{}),...plAp(n,S.ap||{})}}
  const C=TKCOL[n];if(C){C.forEach(([a,y])=>{const s='College yr '+y+': '+a;if(!S.aw.includes(s))S.aw.unshift(s)})}}catch(e){}}
 // existing-player careers: finish a season with one to unlock the next; a created QB who finishes a pro season unlocks them all
-(()=>{const _ts=tkStart;tkStart=function(){try{let tk=0,ok=0;for(let i=1;i<=6;i++){if(i==SLOT)continue;const d=load(i);if(!d)continue;if(d.tk){if(!((d.py||0)>=2||d.ret))tk++}else if(d.stage=='pro'&&(d.py||0)>=2)ok=1}
+(()=>{const _ts=tkStart;tkStart=function(){try{let tk=0,ok=0;for(let i=1;i<=NSLOT;i++){if(i==SLOT)continue;const d=load(i);if(!d)continue;if(d.tk){if(!((d.py||0)>=2||d.ret))tk++}else if(d.stage=='pro'&&(d.py||0)>=2)ok=1}
  if(tk>=1&&!ok){ui.innerHTML=`<div><h2>🎭 Play as an existing QB</h2><div class=card><b>Finish a season with your existing QB first.</b><br><small>Play one full season with your current existing-QB career to unlock another one. Or take a QB you created all the way to the pros and finish a pro season: that unlocks as many existing-QB careers as you want.</small></div><button class=g onclick=menuMain()>Back</button></div>`;return}}catch(e){}return _ts.apply(this,arguments)}})();
 
 // ---------- new names ----------
@@ -6955,7 +6955,7 @@ window.fmtM=v=>{v=+v;if(!v&&v!==0)return'0';return(v>=1e3?(v/1e3).toFixed(1)+'B'
   window._lastShortCode='';
   try{
    const db=await getDb();
-   if(db&&full.startsWith('FMZ1')){
+   if(db&&full.startsWith('FMZ1')&&!window._scNoRand){
     const data=full.slice(4);
     const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let code='';
@@ -7653,7 +7653,7 @@ window.hwPicksLeft=()=>Math.max(0,hwPicksOwed()-hwKept().length);
 
 // ---- every save file that trick-or-treated ----
 window.hwkElig=function(){const out=[];
- for(let i=1;i<=6;i++){let d=null;try{d=load(i)}catch(e){d=null}
+ for(let i=1;i<=NSLOT;i++){let d=null;try{d=load(i)}catch(e){d=null}
   if(d&&hwTook(d))out.push({i,n:d.name||('Slot '+i)})}
  return out};
 window.hwkSlots=function(){return hwPicksLeft()>0?hwkElig():[]};
@@ -7662,7 +7662,7 @@ window.hwkSlots=function(){return hwPicksLeft()>0?hwkElig():[]};
 window.hwkSync=function(){
  const keep=hwKept();if(!keep.length)return 0;
  const oldSlot=SLOT,oldS=S,oldJ=(typeof LASTJ!='undefined'?LASTJ:'');let n=0;
- try{for(let i=1;i<=6;i++){let d=null;try{d=load(i)}catch(e){d=null}
+ try{for(let i=1;i<=NSLOT;i++){let d=null;try{d=load(i)}catch(e){d=null}
   if(!d||!hwTook(d))continue;
   const cur=Array.isArray(d.hwHats)?d.hwHats.slice():[];
   let chg=false;keep.forEach(k=>{if(!cur.includes(k)){cur.push(k);chg=true}});
@@ -9520,7 +9520,7 @@ window.lawSealCheck=function(s){try{
   if(s.hwHat&&!L.includes(s.hwHat))L.push(s.hwHat);return L.length}catch(e){return 0}};
  window.hwPicksUsed=function(){let n=hwKept().length;
   try{if(typeof S!='undefined'&&S)n=Math.max(n,owned(S))}catch(e){}
-  for(let i=1;i<=6;i++){let d=null;try{d=load(i)}catch(e){d=null}n=Math.max(n,owned(d))}
+  for(let i=1;i<=NSLOT;i++){let d=null;try{d=load(i)}catch(e){d=null}n=Math.max(n,owned(d))}
   return n};
  window.hwPicksLeft=()=>Math.max(0,hwPicksOwed()-hwPicksUsed());
 }catch(e){}})();
@@ -10131,7 +10131,7 @@ window.cloudWarn=function(e){try{CLerr=String(e&&e.message||e).slice(0,80);if(S)
 cdocPut=cdPut2;
 cloudQ=function(){if(!CL)return;clearTimeout(cq);cq=setTimeout(async()=>{try{const c={...S},ro=c.ro;delete c.ro;const i=SLOT;await cdPut2(CL.d,CL.p+'slot'+i,c);if(ro)await cdPut2(CL.d,CL.p+'ro'+i,ro);if(S)S.cloudOk=Date.now()}catch(e){cloudWarn(e)}},1500)};
 cloudInit=async function(){try{if(typeof claude=='undefined'){CLerr='not available in this view';return}const u=await claude.use('user'),d=await claude.use('db');if(!u||!d){CLerr='permission not granted';return}const id=await u.id();if(!id){CLerr='not signed in';return}CL={d,p:'data/users/'+id+'/'};
- for(let i=1;i<=6;i++){try{const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(lr):null;
+ for(let i=1;i<=NSLOT;i++){try{const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(lr):null;
   // Tyler, 2026-11-14: "Make sure no Cloud backup bullshit restarts my seasons". The cloud NEVER
   // replaces a save that is on this device. If the device has no save in that slot, the cloud copy is
   // brought in. If the cloud's copy is newer (another device), the main menu ASKS, and the device copy
@@ -10143,7 +10143,7 @@ cloudInit=async function(){try{if(typeof claude=='undefined'){CLerr='not availab
  if(!g&&ui.querySelector('.mpan'))menuMain()}catch(e){CLerr=String(e&&e.message||e).slice(0,60)}};
 // ---- short save codes: the same pieces ----
 (()=>{try{const _mc=mkCode;mkCode=async function(){const full=await _mc.apply(this,arguments);
- try{if(!window._lastShortCode&&full&&full.startsWith('FMZ1')&&window.claude&&claude.use){const db=await claude.use('db');if(db){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let code='';for(let i=0;i<5;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+ try{if(!window._lastShortCode&&!window._scNoRand&&full&&full.startsWith('FMZ1')&&window.claude&&claude.use){const db=await claude.use('db');if(db){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let code='';for(let i=0;i<5;i++)code+=chars[Math.floor(Math.random()*chars.length)];
   const P=cdChunks(full.slice(4)),tag=Date.now().toString(36);for(let i=1;i<P.length;i++)await db.doc('codes/'+code+'~'+i).set({d:P[i],tag});await db.doc('codes/'+code).set({d:P[0],n:P.length,tag,t:Date.now(),n2:(S&&S.name)||''});window._lastShortCode=code}}}catch(e){cloudWarn(e)}
  return full}}catch(e){}})();
 (()=>{try{const _rc=readCode;readCode=async function(t){t=(t||'').trim();
@@ -10165,7 +10165,7 @@ window.cloOffer=async function(i,use){try{const o=(window.CLOFF||{})[i];if(!o)re
 // takes the backup's place. The restored save is stamped "now" so an older cloud copy can't win again.
 window.bkInfo=function(v){try{const s=JSON.parse(dz(v));if(!s||!s.T)return null;const yr=(s.y0||2022)+((s.hist||[]).length);
  return {name:s.name||'?',stage:s.stage||'hs',yr,wk:(s.wk||0)+1,py:s.py||0,ts:s.ts||0}}catch(e){return null}};
-window.bkList=function(){const out=[];for(let i=1;i<=6;i++){['','_b','_b2'].forEach(suf=>{const v=localStorage.getItem(K+'_'+i+suf);if(!v)return;const f=bkInfo(v);if(f)out.push({i,suf,...f})})}return out};
+window.bkList=function(){const out=[];for(let i=1;i<=NSLOT;i++){['','_b','_b2'].forEach(suf=>{const v=localStorage.getItem(K+'_'+i+suf);if(!v)return;const f=bkInfo(v);if(f)out.push({i,suf,...f})})}return out};
 window.bkV=function(){const L=bkList(),st={hs:'High school',col:'College',draft:'Draft',pro:'Pro'},when=t=>t?new Date(t).toLocaleString():'unknown time';
  const rows=L.map(x=>`<div class=row style="font-size:16px;gap:6px;align-items:flex-start"><span style="min-width:0"><b>Slot ${x.i}</b> ${x.suf?'<small>(earlier copy)</small>':'<small style="color:#7bed9f">(what loads now)</small>'}<br>${esc(x.name)} · ${st[x.stage]||x.stage} · ${x.yr} · week ${x.wk}<br><small>saved ${when(x.ts)}</small></span>${x.suf?`<button class=g style="width:auto;flex:none" onclick="bkUse(${x.i},'${x.suf}')">Restore</button>`:''}</div>`).join('');
  ui.style.display='block';ui.innerHTML=`<div><h2>🛟 Restore an earlier save</h2><div class=card><small>The game keeps the two previous versions of every save on this device. Restoring swaps them: the save you replace becomes the earlier copy, so nothing is lost.</small></div><div class=card>${rows||'<small>No saves on this device.</small>'}</div><button class=g onclick="menuMain()">Back</button></div>`;ui.scrollTop=0};
@@ -10208,7 +10208,7 @@ window.kpHw=function(i){try{return JSON.parse(localStorage.getItem(K+'_hw'+i)||'
 window.KPWARN={};
 const _kpSet=Storage.prototype.setItem,_kpGet=Storage.prototype.getItem;
 const kpHwSet=(i,f)=>{try{_kpSet.call(localStorage,K+'_hw'+i,JSON.stringify({key:f.key,p:f.p,yr:f.yr,wk:f.wk,name:f.name,ts:Date.now()}))}catch(e){}};
-window.kpSlotOf=function(k){if(typeof k!=='string'||typeof K!=='string'||k.indexOf(K+'_')!==0)return 0;const m=/^_([1-6])$/.exec(k.slice(K.length));return m?+m[1]:0};
+window.kpSlotOf=function(k){if(typeof k!=='string'||typeof K!=='string'||k.indexOf(K+'_')!==0)return 0;const m=/^_([1-9])$/.exec(k.slice(K.length));return m&&+m[1]<=NSLOT?+m[1]:0};
 Storage.prototype.setItem=function(k,v){
  const i=this===localStorage?kpSlotOf(k):0;
  if(i){try{
@@ -10236,7 +10236,7 @@ window.kpTrim=function(i){return kpAll().then(L=>{const w=L.filter(x=>String(x.i
 (()=>{try{const _zf=zFlush;zFlush=function(){try{const P=ZPEND;window.KPCUR=(P&&S&&SLOT===P.slot)?{slot:P.slot,f:kpInfo(S)}:null;return _zf.apply(this,arguments)}finally{window.KPCUR=null}}}catch(e){}})();
 
 // on start: learn the furthest point of saves that are already on the phone (no rewrite of anything)
-(()=>{try{for(let i=1;i<=6;i++){const v=_kpGet.call(localStorage,K+'_'+i);if(!v)continue;const f=kpInfoV(v);const hw=kpHw(i);if(f&&(!hw||hw.key!==f.key||f.p>hw.p))kpHwSet(i,f);
+(()=>{try{for(let i=1;i<=NSLOT;i++){const v=_kpGet.call(localStorage,K+'_'+i);if(!v)continue;const f=kpInfoV(v);const hw=kpHw(i);if(f&&(!hw||hw.key!==f.key||f.p>hw.p))kpHwSet(i,f);
  if(f&&hw&&hw.key===f.key&&f.p<hw.p)KPWARN[i]={had:hw,now:f}}}catch(e){}})();
 
 // ---- main menu: say it out loud when a slot is behind where it got to ----
@@ -11528,7 +11528,7 @@ window.trashAdd=function(d,slot,why){try{const L=trashL();L.unshift({t:Date.now(
 // delete: the save goes to the master list FIRST (all 5 kept), then the slot is cleared exactly as before
 (()=>{try{const _d=slotDel;slotDel=function(i){const d=load(i);if(!d)return _d.apply(this,arguments);const keep=trashL();
  const r=_d.apply(this,arguments);try{if(!load(i)){const loc=trashLocal(),x=loc.find(y=>y.slot===i&&y.n===d.name&&Date.now()-y.t<60000)||{t:Date.now(),slot:i,n:d.name,s:ez(JSON.stringify(d))};trashPut([x,...keep])}}catch(e){}return r}}catch(e){}})();
-trashRec=function(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=6;k++)if(!load(k)){i=k;break}}if(!i){alert('All 6 slots are full. Delete one first.');return trashV()}
+trashRec=function(j){const L=trashL(),x=L[j];if(!x)return trashV();let i=x.slot;if(load(i)){i=0;for(let k=1;k<=NSLOT;k++)if(!load(k)){i=k;break}}if(!i){alert('All '+NSLOT+' slots are full. Delete one first.');return trashV()}
  try{localStorage.setItem(K+'_'+i,x.s)}catch(e){try{zSquash();localStorage.setItem(K+'_'+i,x.s)}catch(e2){alert('Not enough room on this phone to recover it right now. It stays in Recently deleted.');return trashV()}}
  try{zTombSet(i,0)}catch(e){}L.splice(j,1);trashPut(L);try{trashDelCloud(x.t)}catch(e){}menuMain()};
 trashGone=function(j){if(!window.CF_OK&&!confirm('Delete this save forever?'))return;const L=trashL(),x=L[j];L.splice(j,1);trashPut(L);try{if(x)trashDelCloud(x.t)}catch(e){}trashV()};
@@ -11537,7 +11537,7 @@ window.sameCareer=function(a,b){try{return !!a&&!!b&&(a.seed!=null&&b.seed!=null
 // (same rules as m138: split cloud pieces, the cloud never replaces a save already on this phone, a newer cloud copy is
 //  offered on the menu) but every slot at once, and the menu shows it's loading until all six are done
 cloudInit=async function(){try{if(typeof claude=='undefined'){CLerr='not available in this view';return}const u=await claude.use('user'),d=await claude.use('db');if(!u||!d){CLerr='permission not granted';return}const id=await u.id();if(!id){CLerr='not signed in';return}CL={d,p:'data/users/'+id+'/'};
- await Promise.all([1,2,3,4,5,6].map(async i=>{try{const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(lr):null;
+ await Promise.all(SLOTS().map(async i=>{try{const cs=await cdGet2(d,CL.p+'slot'+i),lr=lraw(i),ls=lr?JSON.parse(lr):null;
   if(cs&&cs.T&&!((zTomb()[i]||0)>=(cs.ts||0))&&(!ls||(ls.ts||0)<(cs.ts||0))){
    if(ls&&ls.T){(window.CLOFF=window.CLOFF||{})[i]={ts:cs.ts||0,wk:(cs.wk||0)+1,yr:(cs.y0||2022)+((cs.hist||[]).length),name:cs.name||'',my:{wk:(ls.wk||0)+1,yr:(ls.y0||2022)+((ls.hist||[]).length)}};return}
    const rv=await cdGet2(d,CL.p+'ro'+i);if(rv)cs.ro=rv;localStorage.setItem(K+'_'+i,JSON.stringify(cs));clRedraw()}
@@ -11857,7 +11857,7 @@ window.CLKEEPMAX=24;
 window.cdOrphans=async function(d,k,n){try{for(let i=Math.max(1,n);i<n+CLKEEPMAX;i++){const sn=await d.doc(k+'~'+i).get();if(!sn||!sn.exists){if(i>n+2)break;continue}await d.doc(k+'~'+i).delete()}}catch(e){}};
 window.myCodes=function(){try{return JSON.parse(localStorage.getItem(K+'_codes')||'[]')}catch(e){return []}};
 window.cloudSweep=async function(){try{if(!CL)return;const d=CL.d;
- for(let i=1;i<=6;i++){const local=lraw(i);for(const b of ['slot','ro']){const k=CL.p+b+i;try{const sn=await d.doc(k).get(),dd=sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null;
+ for(let i=1;i<=NSLOT;i++){const local=lraw(i);for(const b of ['slot','ro']){const k=CL.p+b+i;try{const sn=await d.doc(k).get(),dd=sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null;
   if(!local&&(zTomb()[i]||0)>0){if(dd){await cdOrphans(d,k,1);await d.doc(k).delete()}continue}   /* a slot you deleted */
   await cdOrphans(d,k,dd&&dd.n?dd.n:1)}catch(e){}}}
  try{const t=await d.doc(CL.p+'trashidx').get();if(t&&t.exists){const idx=JSON.parse((typeof t.data=='function'?t.data():t.data).j||'[]');for(const x of idx){await cdOrphans(d,CL.p+'trash_'+x.t,1);await d.doc(CL.p+'trash_'+x.t).delete()}await d.doc(CL.p+'trashidx').delete()}}catch(e){}
@@ -11967,8 +11967,8 @@ window.dtCol=function(){try{const D=S.dr;if(!D||D.pk>=224)return;D.swap=D.swap||
 // camera button cycles: 👀 Sideline (your eyes) -> 🧍 Third person (behind you) -> 📺 TV broadcast. Sideline is the default.
 // Joystick (bottom-left) walks you along the sideline; drag anywhere else to look around (it drifts back to the ball).
 // Only the camera changes: the play, its speed and the clock run exactly the same in every view.
-window.SLV={m:'third',x:-31.2,z:-50,yo:0,po:0,lt:0,lk:null,av:null,lastT:0};
-const SLX0=-33.4,SLX1=-28.4,SLZ0=-88,SLZ1=-12;
+window.SLV={m:'third',x:-29.2,z:-50,yo:0,po:0,lt:0,lk:null,av:null,lastT:0};
+const SLX0=-37.6,SLX1=-27.4,SLZ0=-88,SLZ1=-12;
 window.slOnSide=function(){try{return !!(g&&g.watch&&SLV.m!='tv'&&cv.style.display=='block')}catch(e){return false}};
 window.slMe=function(){return !(W_&&W_.own&&!g.injW)};   // you're on the sideline unless it's your own drive and you're the one playing
 // both benches: 18 a side, two rows, between the 25s, facing the field
@@ -11980,10 +11980,10 @@ window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;c
  try{const cj=[{c1:'#23232f',c2:'#555555',d:0,pc:'#3a3a3a'},{c1:(g.o&&g.o.c1)||'#333333',c2:'#333333',d:0,pc:'#3a3a3a'}],ca=[{sk:1,hr:1,hcl:'#bbbbbb',fh:2,ht:1,bd:1},{sk:4,hr:3,hcl:'#777777',fh:2,ht:1,bd:1}];
   [-1,1].forEach((sd,i)=>{const m=mk3(cj[i],1.2,0,null,ca[i],1);m.position.set(sd*29.4,0,-50);m.rotation.y=sd<0?-Math.PI/2:Math.PI/2;m.coach=sd;m.ph=i*2;SDL.add(m);if(sd<0)SLV.coach=m})}catch(e){}
  // you
- const me=mk3(g.mj,1.1,0,{nm:g.mj.nm,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-31.2;SLV.z=-50}catch(e){console.warn(e)}};
+ const me=mk3(g.mj,1.1,0,{nm:g.mj.nm,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29.2;SLV.z=-50}catch(e){console.warn(e)}};
 (()=>{try{const _c=cheerBuild;cheerBuild=function(){const r=_c.apply(this,arguments);try{slBuild()}catch(e){}return r}}catch(e){}})();
 // each watched drive starts with you on the sideline where the ball is
-window.slStart=function(){try{SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-31.2;SLV.yo=0;SLV.po=0;slCamTxt();
+window.slStart=function(){try{SLV.m=SLV.m0||'third';const y=(g.y||50);SLV.z=cl(-y,SLZ0,SLZ1);SLV.x=-29.2;SLV.yo=0;SLV.po=0;slCamTxt();
  // the coach is right there with you, a few steps up the sideline; the Skip button moves to the corner so it never covers you
  SDL.children.forEach(c=>{if(c.coach)c.position.z=cl(-y-3.5*(c.coach<0?1:-1),-88,-12)});
  ovHide();let k=document.getElementById('slskip');if(!k){k=document.createElement('button');k.id='slskip';k.className='g';k.textContent='Skip drive ⏭';k.setAttribute('onclick','skipW()');k.style.cssText='position:fixed;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:auto;padding:8px 12px;font-size:10px;z-index:6';document.body.appendChild(k)}k.style.display='block'}catch(e){}};
@@ -12009,11 +12009,11 @@ window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G
  const ix=(joy&&me?joy.x:0)+(kb.x||0),iy=(joy&&me?joy.y:0)+(kb.y||0);let mv=0;
  const ya=Math.atan2(tz-SLV.z,tx-SLV.x)+SLV.yo,fx=Math.cos(ya),fz=Math.sin(ya);   // facing
  if(me&&(ix||iy)){const sp=5.5*dt,rx=-fz,rz=fx;SLV.x=cl(SLV.x+(fx*iy+rx*ix)*sp,SLX0,SLX1);SLV.z=cl(SLV.z+(fz*iy+rz*ix)*sp,SLZ0,SLZ1);mv=1}
- if(!me){SLV.x=-31.2;SLV.z+=(cl(tz,SLZ0,SLZ1)-SLV.z)*.03}   // your own drive: a sideline camera keeps up with the ball
+ if(!me){SLV.x=-29.2;SLV.z+=(cl(tz,SLZ0,SLZ1)-SLV.z)*.03}   // your own drive: a sideline camera keeps up with the ball
  if(!SLV.lk&&now-SLV.lt>2.2){SLV.yo*=.96;SLV.po*=.96}   // drift back to the ball
  if(av){av.position.set(SLV.x,mv?Math.abs(Math.sin(now*12))*.1:0,SLV.z);av.rotation.y=-ya-Math.PI/2;const s=mv?Math.sin(now*12)*.7:0;try{av.L[0].rotation.x=s;av.L[1].rotation.x=-s;av.A[0].rotation.x=-s*.6;av.A[1].rotation.x=s*.6}catch(e){}}
  const lp=SLV.po-.06;let px,py,pz,fv;
- if(SLV.m=='third'&&me){const bk=Math.min(4,Math.max(1.2,(SLV.x+35.2)/Math.max(.2,Math.abs(fx))));px=SLV.x-fx*bk;pz=SLV.z-fz*bk;py=5.4;fv=por?78:58}else{px=SLV.x;pz=SLV.z;py=2.75;fv=por?82:60}
+ if(SLV.m=='third'&&me){const bk=Math.min(4,Math.max(1.2,(SLV.x+41.5)/Math.max(.2,Math.abs(fx))));px=SLV.x-fx*bk;pz=SLV.z-fz*bk;py=5.4;fv=por?78:58}else{px=SLV.x;pz=SLV.z;py=2.75;fv=por?82:60}
  cm.position.set(px,py,pz);slNear(px,pz,SLV.m=='third'&&me?3.6:2.4,me?SLV.x:px,me?SLV.z:pz);const D=30;cm.lookAt(px+fx*D*Math.cos(lp),py+Math.sin(lp)*D-(SLV.m=="third"?4.6:1.6),pz+fz*D*Math.cos(lp));return fv
 }catch(e){return _g.apply(this,arguments)}}}catch(e){}})();
 // benches breathe a little; they cheer a touchdown for their side
@@ -12073,7 +12073,7 @@ window.kpCopies=async function(i){try{const db=await kpDb();if(!db)return [];con
  const out=[];for(const id of keys){if(!new RegExp('^(top|end|wk|pre|cl)_'+i+'(_|$)').test(String(id)))continue;const x=await kpGet(id);if(!x||!x.v)continue;try{const s=JSON.parse(dz(x.v));if(s&&s.T)out.push({id,s})}catch(e){}}return out.sort((a,b)=>(b.s.ts||0)-(a.s.ts||0))}catch(e){return []}};
 // ---- store a save on the phone compressed; make room the same way a normal save does ----
 window.clStore=function(i,s){const k=K+'_'+i,z=ez(JSON.stringify(s));if(lsSet(k,z))return true;try{zSquash()}catch(e){}if(lsSet(k,z))return true;
- for(const x of ['_b2','_b'])for(const t of [1,2,3,4,5,6]){localStorage.removeItem(K+'_'+t+x);if(lsSet(k,z))return true}
+ for(const x of ['_b2','_b'])for(const t of SLOTS()){localStorage.removeItem(K+'_'+t+x);if(lsSet(k,z))return true}
  try{kpPut('cl_'+i,z,{name:s.name,ts:s.ts})}catch(e){}return false};
 window.CLST={};window.CLFAIL={};
 window.clSlot=async function(i){const d=CL&&CL.d;if(!d)return;CLST[i]='loading';delete CLFAIL[i];clRedraw();try{
@@ -12090,7 +12090,7 @@ window.clSlot=async function(i){const d=CL&&CL.d;if(!d)return;CLST[i]='loading';
   const c={...ls},ro=c.ro;delete c.ro;await cdPut2(d,CL.p+'slot'+i,c);if(ro)await cdPut2(d,CL.p+'ro'+i,ro)}
  CLST[i]='ok'}catch(e){CLST[i]=CLST[i]==='ok'?'ok':'fail';if(CLST[i]==='fail'){let nm='';try{const sn=await d.doc(CL.p+'slot'+i).get();nm=sn&&sn.exists?'a career':''}catch(_){}if(nm)CLFAIL[i]={name:'',why:String(e&&e.message||e).slice(0,80)};else CLST[i]='ok'}cloudWarn(e)}finally{clRedraw()}};
 cloudInit=async function(){try{if(typeof claude=='undefined'){CLerr='not available in this view';return}const u=await claude.use('user'),d=await claude.use('db');if(!u||!d){CLerr='permission not granted';return}const id=await u.id();if(!id){CLerr='not signed in';return}CL={d,p:'data/users/'+id+'/'};
- [1,2,3,4,5,6].forEach(i=>{if(!load(i))CLST[i]='loading'});clRedraw();await Promise.all([1,2,3,4,5,6].map(i=>clSlot(i)))}catch(e){CLerr=String(e&&e.message||e).slice(0,60)}
+ SLOTS().forEach(i=>{if(!load(i))CLST[i]='loading'});clRedraw();await Promise.all(SLOTS().map(i=>clSlot(i)))}catch(e){CLerr=String(e&&e.message||e).slice(0,60)}
  finally{CLREADY=true;try{await trashSync()}catch(e){}clRedraw()}};
 window.clRetry=async function(i){await clSlot(i);if(CLST[i]==='ok'&&load(i))HM='✅ Slot '+i+' loaded.';clRedraw()};
 // ---- the menu: every slot says what's going on; a slot with a career in the cloud is never "New career" ----
@@ -12500,5 +12500,123 @@ try{SPLV[0].offers=1;SPLV[1].offers=1;SPLV[2].offers=2;SPLV[3].offers=3;SPLV[4].
 setInterval(()=>{try{const h=document.getElementById('hud'),t=document.getElementById('tbr');if(!h||!t||h.style.display==='none')return;const b=h.getBoundingClientRect();if(b.height>0&&b.bottom>0){const top=Math.round(b.bottom+4);if(t.style.top!==top+'px')t.style.top=top+'px';const f=document.getElementById('flk');if(f&&f.style.display!=='none'){const tb=t.getBoundingClientRect();f.style.top=Math.round(tb.bottom+4)+'px'}}}catch(e){}},300);
 // ---- QB kneel you can see: the kneel play (m41) flagged the QB as kneeling but nothing drew it; now he drops to a knee ----
 (()=>{try{const _s=sy;sy=function(o,j,f,q){const r=_s.apply(this,arguments);try{if(o&&o.kn&&o.m){const k=o.kn,m=o.m;m.position.y=-.55*k;m.L[0].rotation.x=-1.5*k;m.L[1].rotation.x=1.2*k;m.A[0].rotation.x=m.A[1].rotation.x=.9*k;m.rotation.x=-.12*k}}catch(e){}return r}}catch(e){}})();
+// ===== 🏆 MVP LADDER + 👆 PRO BOWL TAP VOTES =====
+// Tyler, 2026-11-15/16: "Should be an MVP ladder as well, just to see who the CPU thinks is leading after each week ...
+// we should go by how they're playing by the season, but it should update by the week." / "give MVP ladder its own
+// section, and you can put the pro bowl voting icon at the bottom to tap and vote. Remember my voting system" /
+// "I don't think each vote should be worth 1k for pro bowl, maybe every 5 times u tap on them its a 1k vote, also that
+// can be in a different section. Obviously fan votes should matter too."
+// The ladder is the season so far (box-score totals + team wins, the same weights the end-of-season MVP vote uses),
+// redrawn every week, with each man's move since last week. Pro Bowl voting is its own page at the bottom: every 5 taps
+// on a player is one 1,000-vote ballot (50 taps a week = 10 ballots, like before). The fans keep voting all season.
+window.MVLN=10;window.PBTAPS=5;window.PBWEEK=50;
+window.mvlRows=function(){const out=[];try{const sz=szGet()||{};
+ S.T.forEach((t,i)=>{const W=t.w||0,L=t.l||0,gp=Math.max(1,W+L+(t.t||0)),f=Math.min(1,gp/17),rec=W+'-'+L;
+  (rost('h.'+i)||[]).forEach((x,k)=>{if(!x||!x.n||k>24)return;if(i==0&&k==0)return;const z=(sz[i]||{})[x.n];if(!z||!z.g)return;const p=x.pos;let s=null,ln='';
+   if(p=='QB'&&z.pa>=40){s=z.py/25+z.ptd*4-z.pint*2+z.ry/30+z.rtd*3+W*5;ln=`${z.py.toLocaleString()} yds, ${z.ptd} TD, ${z.pint} INT${z.ry>=100?` · ${z.ry} rush yds`:''}`}
+   else if(p=='RB'&&z.car>=30){s=z.ry/14+z.rtd*5+z.recy/25+W*3-12*f;ln=`${z.ry.toLocaleString()} rush yds, ${z.rtd+z.rectd} TD`}
+   else if((p=='WR'||p=='TE')&&z.rec>=10){s=z.recy/18+z.rectd*5+W*2-28*f;ln=`${z.recy.toLocaleString()} rec yds, ${z.rectd} TD`}
+   if(s!=null)out.push({n:x.n,pos:p,tm:tAb(t),rec,s,ln})})});
+ // you: your own box-score line this season (falls back to your season totals)
+ const t0=S.T[0],W0=t0.w||0;let u=(sz[0]||{})[S.name];
+ if(!u||!u.g){const us=S.ssrk==='pro'+S.py?S.ssr:null;if(us&&us.g)u={g:us.g,pa:99,py:us.yds||0,ptd:us.td||0,pint:us.int||0,ry:0,rtd:0}}
+ if(u&&u.g&&(u.pa||0)>=1)out.push({n:S.name,pos:'QB',tm:tAb(t0),rec:W0+'-'+(t0.l||0),me:1,s:(u.py||0)/25+(u.ptd||0)*4-(u.pint||0)*2+(u.ry||0)/30+(u.rtd||0)*3+W0*5,
+  ln:`${(u.py||0).toLocaleString()} yds, ${u.ptd||0} TD, ${u.pint||0} INT${(u.ry||0)>=100?` · ${u.ry} rush yds`:''}`});
+}catch(e){}return out.sort((a,b)=>b.s-a.s)};
+window.mvlS=function(){const y=yrN();if(!S.mvl||S.mvl.y!==y)S.mvl={y,h:{}};return S.mvl};
+// the weekly snapshot (the top 10 after week N); written once per week, never rewritten
+window.mvlSnap=function(){try{if(!S||S.stage!=='pro'||S.ofs)return;const wk=S.wk||0;if(wk<1)return;const M=mvlS();if(M.h[wk])return;if(Object.keys(M.h).some(k=>+k>wk))return;
+ const R_=mvlRows();if(!R_.length)return;M.h[wk]=R_.slice(0,MVLN).map(r=>r.n)}catch(e){}};
+(()=>{try{const _h=hub;hub=function(){try{if(S&&S.stage==='pro'&&!S.ofs&&(S.wk||0)<=17)mvlSnap()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+window.mvlV=function(){mvlSnap();const M=mvlS(),wk=S.wk||0,R_=mvlRows().slice(0,MVLN),ks=Object.keys(M.h).map(Number).filter(k=>k<Math.min(wk,17)||(wk>17&&k<17)).sort((a,b)=>b-a),pw=ks[0],prev=pw!=null?M.h[pw]:null;
+ const mv=n=>{if(!prev)return '';const a=prev.indexOf(n),b=R_.findIndex(r=>r.n===n);if(a<0)return '<small style="color:#7cf">NEW</small>';const d=a-b;return d>0?`<small style="color:#5f5">▲${d}</small>`:d<0?`<small style="color:#f66">▼${-d}</small>`:'<small style="opacity:.6">–</small>'};
+ const A=S.law&&S.law[S.py],won=A&&A.yr===yrN()&&A.w&&A.w.MVP;let body='';
+ if(won)body+=`<div class=card><b>🏅 ${A.yr} MVP: ${won.me?'▶ ':''}${esc(won.n)}</b> <small>${won.pos} · ${won.tm}</small></div>`;
+ if(!R_.length)body+=`<div class=card><small>No games played yet this season. The ladder starts after week 1.</small></div>`;
+ else body+=`<div class=card><small>${wk>=17?'Final regular-season ladder':'After week '+Math.min(wk,17)} · who the league thinks is leading, from how they've played all season${pw!=null?` · arrows: since week ${pw}`:''}</small>${R_.map((r,i)=>`<div class=row style="font-size:15px;gap:6px;align-items:center"><span style="min-width:0">${i+1}. ${r.me?'<b style="color:#ffe93b">▶ '+esc(r.n)+'</b>':esc(r.n)} <small>${r.pos} · ${r.tm} (${r.rec})</small><br><small>${r.ln}</small></span><span style="flex:none">${mv(r.n)}</span></div>`).join('')}</div>`;
+ const V=pbS();
+ ui.innerHTML=`<div><h2>🏆 ${yrN()} MVP ladder</h2>${body}<button data-pbgo=1 onclick="pbV()">${V.closed?'🌴 Pro Bowl rosters':'🗳 Pro Bowl voting · tap to vote'}</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
+// ---------- Pro Bowl: 5 taps = one 1,000-vote ballot; the fans vote every week ----------
+window.pbT=function(){const V=pbS();if(!V.tp){V.t=V.t||{};for(const n in (V.u||{}))V.t[n]=(V.t[n]||0)+V.u[n]*PBTAPS;for(const w in (V.wk||{}))V.wk[w]=(V.wk[w]||0)*PBTAPS;V.tp=1}return V};
+window.pbFan=function(c){return Math.round(c.fan*(40+Math.min(17,S.wk||0)*14))};
+window.pbMine=function(n){const V=pbT();return Math.floor(((V.t||{})[n]||0)/PBTAPS)*1000};
+window.pbVotes=function(c){return pbFan(c)+pbMine(c.n)};
+window.pbVote=function(n){const V=pbT();if(V.closed)return pbV();const wk='w'+(S.wk||0);V.wk[wk]=V.wk[wk]||0;if(V.wk[wk]>=PBWEEK){HM='You\'ve used all '+PBWEEK+' taps this week ('+PBWEEK/PBTAPS+' votes). Come back next week.';return pbV()}
+ V.wk[wk]++;V.t[n]=(V.t[n]||0)+1;V.u[n]=Math.floor(V.t[n]/PBTAPS);clearTimeout(window._pbSv);window._pbSv=setTimeout(()=>{try{save()}catch(e){}},1200);
+ try{const row=[...ui.querySelectorAll('[data-pbn]')].find(e=>e.getAttribute('data-pbn')===n);if(row){pbRow(row,n);const l=ui.querySelector('[data-pbleft]');if(l)l.innerHTML=pbLeft();return}}catch(e){}pbV()};
+window.pbLeft=function(){const V=pbT(),used=V.wk['w'+(S.wk||0)]||0,left=Math.max(0,PBWEEK-used);return `You have <b>${left}</b> tap${left==1?'':'s'} left this week (${Math.floor(left/PBTAPS)} vote${Math.floor(left/PBTAPS)==1?'':'s'}).`};
+window.pbRow=function(el,n){const V=pbT(),t=(V.t||{})[n]||0,c=(pbBallot()[PBG]||[]).find(z=>z.n===n);if(!c)return;const sm=el.querySelector('[data-pbv2]');if(sm)sm.innerHTML=pbLine(c,t)};
+window.pbLine=function(c,t){const k=Math.round(pbVotes(c)/1000).toLocaleString(),m=pbMine(c.n)/1000,r=t%PBTAPS;return `${k}k votes${m?` · yours ${m}k`:''}${t?` · ${'●'.repeat(r)}${'○'.repeat(PBTAPS-r)}`:''}`};
+window.pbV=function(g){if(g)PBG=g;const V=pbT(),P=pbBallot();let body='';
+ if(V.closed){body=['RFC','LFC'].map(cf=>`<div class=card><b>${cf} Pro Bowl roster</b>${Object.keys(PBSL).map(k=>`<div style="font-size:15px"><b>${k}</b> <small>${(V.r[cf][k]||[]).map(c=>(c.me?'▶ ':'')+esc(c.n)+' ('+c.tm+')'+(c.ub?' · in the Ultra Bowl':'')+(c.alt?' · replacing '+esc(c.for):'')).join(', ')}</small></div>`).join('')}</div>`).join('')+(V.g?`<div class=card><b>🌴 All-Star game</b><br>${V.g}</div>`:'')}
+ else{const L=(P[PBG]||[]).sort((a,b)=>pbVotes(b)-pbVotes(a)).slice(0,24);const used=V.wk['w'+(S.wk||0)]||0,can=used<PBWEEK;
+  body=`<div class=card><small>The fans vote all season (it grows every week); voting closes after week 17. Every ${PBTAPS} taps on a player is one 1,000-vote ballot from you. <span data-pbleft=1>${pbLeft()}</span></small></div><p class=tabs>${Object.keys(PBSL).map(k=>`<button class="${k==PBG?'':'g'}" onclick="pbV('${k}')">${k}</button>`).join('')}</p>
+  <div class=card><b>${PBG} · top ${PBSL[PBG]} per conference make it</b>${L.map((c,i)=>`<div class=row data-pbn="${esc(c.n)}" style="font-size:15px;gap:6px"><span>${i+1}. ${c.me?'▶ ':''}${esc(c.n)} <small>${c.tm} · ${c.conf}</small><br><small data-pbv2=1>${pbLine(c,(V.t||{})[c.n]||0)}</small></span>${can?`<button class=g style="width:auto;flex:none;touch-action:manipulation" onclick="pbVote('${String(c.n).replace(/\\/g,'').replace(/'/g,"\\'")}')">👆 Tap</button>`:''}</div>`).join('')}</div>`}
+ ui.innerHTML=`<div><h2>🗳 ${V.y} Pro Bowl${V.closed?' rosters':' voting'}</h2>${body}<button class=g onclick="pbV()">🔄 Re-sort</button><button class=g onclick="mvlV()">🏆 MVP ladder</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
+// the menu: one "MVP ladder" section (Pro Bowl voting sits at its bottom)
+(()=>{try{const _h=hub;hub=function(){const r=_h.apply(this,arguments);try{const b=ui.querySelector('[data-pbv]');if(b){b.textContent='🏆 MVP ladder · 🗳 Pro Bowl';b.onclick=()=>mvlV()}}catch(e){}return r}}catch(e){}})();
+// ===== 🔑 YOUR OWN SAVE CODE NAME =====
+// Tyler, 2026-11-15: "whenever they press save code they type it in, it can't be reused but it'll load from that point" /
+// "Let's say I want to save the code for Frank Castle ... It would be easier to type something that I created."
+// The backup card has a box for the code's name, filled in with your last name (CASTLE). The name belongs to whoever made it
+// first: anyone else gets "taken" and a free one is offered (CASTLE2). Making it again later updates YOUR code to that point.
+// Type the name on Import (any device, claude.ai version) and the save loads from where you made it. Named codes are never
+// cleaned up by the cloud's space sweep; you can delete your own from the same card.
+window.scClean=function(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10)};
+window.scDefault=function(){try{const p=String((S&&S.name)||'').trim().split(/\s+/);let l=p.length>1?p.lnPop():p[0];return scClean(l)||'MYSAVE'}catch(e){return 'MYSAVE'}};
+window.scNamed=function(){try{return JSON.parse(localStorage.getItem(K+'_named')||'[]')}catch(e){return []}};
+window.scNamedSet=function(L){try{localStorage.setItem(K+'_named',JSON.stringify(L.slice(-30)))}catch(e){}};
+window.scDb=async function(){try{if(window.claude&&claude.use){const d=await claude.use('db');let id='';try{const u=await claude.use('user');id=u&&u.id?await u.id():''}catch(e){}return d?{d,id:id||''}:null}}catch(e){}return null};
+window.scGet=async function(d,c){try{const sn=await d.doc('codes/'+c).get();return sn&&sn.exists?(typeof sn.data=='function'?sn.data():sn.data):null}catch(e){return null}};
+// mine: made by this account (or by this phone, for codes made before names had owners)
+window.scMine=function(dd,c,id){if(!dd)return true;if(dd.own&&id&&dd.own===id)return true;if(!dd.own&&scNamed().some(x=>x.c===c))return true;return false};
+window.scFree=async function(base){const B=scDb&&await scDb();if(!B)return base;const b=base.slice(0,9);for(let k=0;k<30;k++){const c=k?(b+(k+1)).slice(0,10):base;const dd=await scGet(B.d,c);if(scMine(dd,c,B.id))return c}return base};
+window.scMake=async function(){const xm=$('#xm'),xc=$('#xc'),inp=$('#scn');const say=t=>{if(xm)xm.textContent=t};
+ const c=scClean(inp&&inp.value);if(c.length<2)return say('Give your code a name: 2 to 10 letters or numbers.');if(c.startsWith('FM'))return say('Codes can\'t start with "FM". Try another name.');
+ const B=await scDb();if(!B){say('Named codes need the claude.ai version (that\'s where the codes are kept). Here is your full backup code instead.');return expS()}
+ say('Checking "'+c+'"…');const dd=await scGet(B.d,c);
+ if(!scMine(dd,c,B.id)){const f=await scFree(c);if(inp)inp.value=f;return say('"'+c+'" is already taken by someone else. "'+f+'" is free — tap Create again to use it.')}
+ if(dd&&!confirm('Update your code "'+c+'" to right now? It will load from this point from now on.'))return say('Kept "'+c+'" where it was.');
+ say('Saving "'+c+'"…');let full='';try{window._scNoRand=1;full=await mkCode()}finally{window._scNoRand=0}
+ if(!full||!full.startsWith('FMZ1')){if(xc)xc.value=full||'';return say('Could not make the code right now. Your game is still saved.')}
+ try{const P=cdChunks(full.slice(4)),tag=Date.now().toString(36);for(let i=1;i<P.length;i++)await B.d.doc('codes/'+c+'~'+i).set({d:P[i],tag});
+  await B.d.doc('codes/'+c).set({d:P[0],n:P.length,tag,t:Date.now(),n2:(S&&S.name)||'',own:B.id||'',named:1,slot:SLOT||0});
+  try{if(typeof cdOrphans=='function')cdOrphans(B.d,'codes/'+c,P.length)}catch(e){}
+  const L=scNamed().filter(x=>x.c!==c);L.push({c,n:(S&&S.name)||'',t:Date.now(),y:(typeof yrN=='function'?yrN():0),wk:(S&&S.wk)||0});scNamedSet(L);
+  if(xc)xc.value=c;try{await navigator.clipboard.writeText(c)}catch(e){}
+  say('☁️ Your code is "'+c+'". On any device (claude.ai version), type it under Import a save code and it loads from this point. Make it again any time to update it.');scList()}
+ catch(e){try{cloudWarn(e)}catch(x){}say('The cloud didn\'t take it just now ('+String(e&&e.message||e).slice(0,40)+'). Your game is safe; try again in a moment.')}};
+window.scDel=async function(c){if(!confirm('Delete your code "'+c+'"? The save itself is not touched.'))return;const B=await scDb();if(B){const dd=await scGet(B.d,c);if(dd&&scMine(dd,c,B.id)){try{for(let i=1;i<(dd.n||1)+2;i++){try{await B.d.doc('codes/'+c+'~'+i).delete()}catch(e){}}await B.d.doc('codes/'+c).delete()}catch(e){}}}scNamedSet(scNamed().filter(x=>x.c!==c));scList()};
+window.scList=function(){const el=$('#scl');if(!el)return;const L=scNamed().slice().reverse();el.innerHTML=L.length?'<small>Your codes on this device:</small>'+L.map(x=>`<div class=row style="font-size:15px;gap:6px"><span><b>${esc(x.c)}</b> <small>${esc(x.n||'')}${x.y?' · '+x.y+' week '+((x.wk||0)+1):''}</small></span><button class=g style="width:auto;flex:none" onclick="scDel('${x.c}')">🗑</button></div>`).join(''):''};
+// the backup card: a name box (your last name), and the button makes the named code
+(()=>{try{const _s=settings;settings=function(){const r=_s.apply(this,arguments);try{const xc=$('#xc');if(xc&&!$('#scn')){const card=xc.closest('.card'),btn=card&&[...card.querySelectorAll('button')].find(b=>/expS/.test(b.getAttribute('onclick')||''));
+  if(btn){const d0=scDefault();btn.insertAdjacentHTML('beforebegin',`<label style="display:block;margin:6px 0">Name your code <input id=scn value="${d0}" maxlength=10 autocapitalize=characters autocomplete=off spellcheck=false style="width:9em;font:16px monospace;text-transform:uppercase"></label>`);
+   btn.setAttribute('onclick','scMake()');btn.textContent='Create and copy save code';btn.insertAdjacentHTML('afterend','<div id=scl></div><button class=g onclick="expS()" style="font-size:13px">Full backup code (works anywhere, even off claude.ai)</button>');scList();
+   scFree(d0).then(f=>{const i=$('#scn');if(i&&i.value===d0&&f!==d0)i.value=f}).catch(()=>{})}}}catch(e){}return r}}catch(e){}})();
+// ===== 🏟️ A REAL SIDELINE: ROOM FOR THE WHOLE TEAM, CHEERLEADERS BEHIND =====
+// Tyler, 2026-11-16: "I saw Jaylen Hurts on my sideline and also my teammates are in the crowd. I asked you to make sidelines
+// bigger so we can make this happen. Cheerleaders should be behind us as well, so just add a bunch of sideline space and add the
+// full team. Not hard".
+// The stands now start 11 yards further back (the field builder moves them), leaving a wide team area on each side. Each side has
+// its whole team (40, in three rows, between the 25s), in its own jersey only: nobody from the other team stands on yours. The
+// benches are behind the team and the cheerleaders behind the benches, in front of the stands. You walk the whole area.
+window.SLROWS=[{x:30.2,n:14},{x:31.9,n:13},{x:33.6,n:13}];
+window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;const mk=(j,X,z,ry,num,sk)=>{const m=mk3(j,1.1,sk,{nm:'',num},null,1);m.position.set(X,0,z);m.rotation.y=ry;m.ph=Math.random()*6;try{mrgM(m)}catch(e){}SDL.add(m);return m};
+ [[g.mj,-1],[g.oj,1]].forEach(([j,sd])=>{const used=new Set(sd<0?[S.num]:[]);const nb=()=>{let n;do n=1+Math.floor(Math.random()*98);while(used.has(n));used.add(n);return n};let i=0;
+  SLROWS.forEach((R_,row)=>{for(let k=0;k<R_.n;k++){const z=-32-k*(36/R_.n)-row*.8+(Math.random()-.5)*.5,X=sd*(R_.x+(Math.random()-.5)*.35);mk(j,X,z,(sd<0?-Math.PI/2:Math.PI/2)+(Math.random()-.5)*.5,nb(),SK[(i*7+(sd>0?3:0))%6]);i++}})});
+ try{const cj=[{c1:'#23232f',c2:'#555555',d:0,pc:'#3a3a3a'},{c1:(g.o&&g.o.c1)||'#333333',c2:'#333333',d:0,pc:'#3a3a3a'}],ca=[{sk:1,hr:1,hcl:'#bbbbbb',fh:2,ht:1,bd:1},{sk:4,hr:3,hcl:'#777777',fh:2,ht:1,bd:1}];
+  [-1,1].forEach((sd,i)=>{const m=mk3(cj[i],1.2,0,null,ca[i],1);m.position.set(sd*28.6,0,-50);m.rotation.y=sd<0?-Math.PI/2:Math.PI/2;m.coach=sd;m.ph=i*2;SDL.add(m);if(sd<0)SLV.coach=m})}catch(e){}
+ const me=mk3(g.mj,1.1,S.ap&&S.ap.sk,{nm:S.nm||S.name,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29;SLV.z=-50;
+ // cheerleaders: behind each team's bench, facing the field, spread along the whole side
+ try{CHR.children.forEach((c,i)=>{const home=c.position.x<0,sd=home?-1:1,k=Math.floor(i/2);c.position.x=sd*(39.4+(k%2)*.9);c.position.z=-8-((k*13.7+(home?0:6))%94);c.rotation.y=home?-Math.PI/2:Math.PI/2})}catch(e){}
+}catch(e){console.warn(e)}};
+// ===== 🏈 SLINGSHOT: YOU SEE THE RELEASE =====
+// Tyler, 2026-11-16: "sometimes it doesn't register where I'm dragging back and needs to be let known whenever I release it to
+// throw it." When you let go, a tag pops up right at your finger for about a second: who the ball went to and how far
+// downfield, and "from your full pull-back" when your finger flicked forward on release and the game used your deepest pull.
+// If the release didn't throw (too small a pull, past the line), the same spot says why.
+window.slRel=function(x,y,t,ok){try{const d=document.createElement('div');d.className='slrel';d.textContent=t;d.style.cssText=`position:fixed;left:${Math.max(8,Math.min(innerWidth-190,x-90))}px;top:${Math.max(40,y-70)}px;width:180px;text-align:center;font:bold 13px system-ui,sans-serif;color:${ok?'#111':'#fff'};background:${ok?'#ffe93b':'#e5534b'};border:2px solid #000;border-radius:8px;padding:4px 6px;z-index:7;pointer-events:none;transition:opacity .35s,transform .9s;opacity:1`;document.body.appendChild(d);
+ requestAnimationFrame(()=>{d.style.transform='translateY(-18px)'});setTimeout(()=>{d.style.opacity='0'},850);setTimeout(()=>d.remove(),1250)}catch(e){}};
+window.slWho=function(w){try{return w.nm||w.name||w.n||((w.pos||'')+' #'+(w.num||''))}catch(e){return ''}};
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

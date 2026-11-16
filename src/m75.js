@@ -1,0 +1,26 @@
+// ===================== 🏆 CONFERENCE TITLE WEEK (after your game) · 🏟 BOWL GAMES · labels =====================
+// other conference title games wait until yours is played
+(()=>{const _cc=ccSetup;ccSetup=function(){const n0=((S.gr||[])[S.wk]||[]).length,_gm=gm,pend=[];let user=false;
+ const _cs=cfpSetup;gm=function(a,b){pend.push([a,b]);return a};cfpSetup=function(){};try{_cc.apply(this,arguments)}finally{gm=_gm;cfpSetup=_cs}
+ S.ccK=pend.map(([a,b])=>a<b?a+','+b:b+','+a).concat(S.ccu?[Math.min(...S.ccu)+','+Math.max(...S.ccu)]:[]);
+ // ccSetup recorded placeholder winners from our stub: redo them for real now (or after your game)
+ S.cch=[];if(S.ccu){S.ccPend=pend}else{pend.forEach(([a,b])=>S.cch.push(gm(a,b)));S.ccPend=null;cfpSetup()}}})();
+(()=>{const _d=cdone;cdone=function(w,k){if(k=='cc'&&S.ccPend){const P=S.ccPend;S.ccPend=null;P.forEach(([a,b])=>S.cch.push(gm(a,b)))}if(k=='bowl')return bwlDone(w);return _d.apply(this,arguments)}})();
+// conference record counts only the real title game in title week
+(()=>{const _f=confFix;confFix=function(){_f.apply(this,arguments);try{if(!S||S.stage!='col'||!S.ccK||!Array.isArray(S.csch))return;const T=S.T,n=S.csch.length,G=(S.grk==grK()&&S.gr)||[],set=new Set(S.ccK);(G[n]||[]).forEach(([a,b,sa,sb])=>{if(!T[a]||!T[b]||T[a].cf!=T[b].cf)return;const k=a<b?a+','+b:b+','+a;if(set.has(k))return;const wi=sa>sb?a:b,li=wi==a?b:a;T[wi].cw--;T[li].cl--})}catch(e){}}})();
+// ---------- bowls: every 6-win team that misses the playoff gets one ----------
+const BWLN=[['Pizza Pie Bowl','Slice Stadium · Chicago'],['Hot Sauce Bowl','Ghost Pepper Field · New Mexico'],['Sunshine Citrus Bowl','Orange Grove Stadium · Orlando'],['Bayou Gumbo Bowl','Crawfish Dome · New Orleans'],['Cactus Jack Bowl','Desert Rock Arena · Phoenix'],['Snowcap Bowl','Glacier Field · Boise'],['Neon Lights Bowl','Jackpot Stadium · Las Vegas'],['Gator Swamp Bowl','Marsh Field · Jacksonville'],['Liberty Bell Bowl','Freedom Park · Philadelphia'],['Golden Gate Bowl','Fog City Stadium · San Francisco'],['Lone Star Barbecue Bowl','Brisket Stadium · Austin'],['Music City Bowl Jam','Guitar Arena · Nashville'],['Peach Cobbler Bowl','Georgia Dome Field · Atlanta'],['Big Apple Bowl','Skyline Stadium · New York'],['Aloha Bowl','Pineapple Stadium · Honolulu'],['Motor City Bowl','Piston Park · Detroit'],['Cheese Curd Bowl','Dairyland Stadium · Wisconsin'],['Rocky Mountain Bowl','Summit Field · Denver'],['Boardwalk Bowl','Seaside Stadium · Atlantic City'],['Space Coast Bowl','Launchpad Stadium · Cape Canaveral'],['Hollywood Bowl','Red Carpet Stadium · Los Angeles'],['Waffle Stack Bowl','Syrup Field · Charlotte'],['Lobster Roll Bowl','Harbor Light Stadium · Boston'],['Bourbon Barrel Bowl','Derby Field · Louisville']];
+function bwlSetup(){try{if(!S||S.stage!='col'||S.bwls)return;CRC=null;const C=crCalc(),fld=new Set((S.cb&&S.cb.sd)||[]),el=C.ord.filter(i=>C.W[i]>=6&&!fld.has(i));const pairs=[];for(let k=0;k+1<el.length&&pairs.length<BWLN.length;k+=2)pairs.push([el[k],el[k+1]]);
+ S.bwls=pairs.map((p,k)=>({a:p[0],b:p[1],k}));const mine=S.bwls.find(x=>x.a==0||x.b==0);S.bwl=mine?{o:mine.a==0?mine.b:mine.a,k:mine.k,done:0}:null;if(!S.bwl)bwlSimRest()}catch(e){console.warn('bowls',e)}}
+function bwlSimRest(){(S.bwls||[]).forEach(x=>{if(x.a==0||x.b==0||x.s)return;const T=S.T,s=simGame(teff(T[x.a]),teff(T[x.b]));if(s[0]==s[1])s[R()<.5?0:1]++;grRec(x.a,x.b,s);x.s=s;const wi=s[0]>s[1]?x.a:x.b,li=wi==x.a?x.b:x.a;T[wi].w++;T[li].l++})}
+function bwlDone(w){const T=S.T,b=S.bwl;if(!b)return;const o=b.o;T[w?0:o].w++;T[w?o:0].l++;grRec(0,o,g&&g.s?g.s:[w?1:0,w?0:1]);b.done=1;const x=S.bwls.find(y=>y.k==b.k);if(x)x.s=g&&g.s?g.s:[w?1:0,w?0:1];bwlSimRest();try{(S.aw=S.aw||[]);if(w)S.aw.push(yrN()+' '+BWLN[b.k][0]+' champion')}catch(e){}}
+const bwlName=(a,b)=>{const x=(S.bwls||[]).find(y=>(y.a==a&&y.b==b)||(y.a==b&&y.b==a));return x?BWLN[x.k]:null};
+// bowls are set once the playoff field is set; you play yours once you're out of the playoff (or weren't in it)
+(()=>{const _c=cfpSetup;cfpSetup=function(){const r=_c.apply(this,arguments);try{bwlSetup()}catch(e){}return r}})();
+(()=>{const _e=cevt;cevt=function(){const e=_e.apply(this,arguments);try{if(e&&e.t=='sum'&&S.bwl&&!S.bwl.done)return{t:'bowl',o:S.bwl.o}}catch(_){}return e}})();
+(()=>{const _t=gTitle;gTitle=function(k){if(k=='bowl'&&S.bwl){const B=BWLN[S.bwl.k];return '🏟 '+B[0]+' · '+B[1]}return _t.apply(this,arguments)}})();
+// new season: clear bowls
+(()=>{const _n=colNext;colNext=function(){try{if(S){S.bwls=null;S.bwl=null;S.ccPend=null;S.ccK=null}}catch(e){}return _n.apply(this,arguments)}})();
+// schedule labels: Conference Championship / bowl name / Playoff
+(()=>{const _s=schV;schV=function(i){const r=_s.apply(this,arguments);try{const W=schWeeks(),G=S.grk==grK()&&S.gr?S.gr:[],labs=[];for(let w=W.length;w<G.length;w++)(G[w]||[]).forEach(x=>{if(x[0]!=i&&x[1]!=i)return;const o=x[0]==i?x[1]:x[0],k=Math.min(i,o)+','+Math.max(i,o),B=bwlName(i,o);labs.push(B?'🏟 '+B[0]:(S.ccK||[]).includes(k)?'🏆 Conference Championship':'🎟 College Football Playoff')});
+ let n=0;ui.querySelectorAll('.card .row span').forEach(sp=>{if(/^Postseason · vs/.test(sp.textContent)&&labs[n]!=null){sp.innerHTML=sp.innerHTML.replace('Postseason',labs[n]);n++}})}catch(e){}return r}})();
