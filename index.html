@@ -13149,6 +13149,13 @@ window.FACAW={'Cameron Nugent':['College yr 4: Heisman Trophy','College yr 4: Na
 window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const A=FACAW[s.tk];if(!A){s.facaw=s.tk;return 0}s.aw=s.aw||[];let n=0;A.forEach(a=>{if(!s.aw.includes(a)){s.aw.push(a);n++}});s.facaw=s.tk;return n}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)faCol(r)}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _h=hub;hub=function(){try{if(S&&faCol(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== Ricky MaClones / Jarsh Fallon exact ratings (Tyler 2026-11-16) =====
+// Ricky: acc 97 · pow 98 · spd 87 · car 92 · awr 97 · trk 83 (avg 92) — Jarsh: acc 95 · pow 98 · spd 89 · trk 96 · car 87 · awr 93 (avg 93).
+// "if their ratings don't match their overall, just make it match the ones I gave you that were specific or stay the same": the overall
+// (98 / 97) is kept (Tyler: "Overall stayed the same as I gave you, just adjust ratings according to what I'm giving you"): all six rise
+// evenly from his numbers to reach it, so each keeps his shape (Ricky's truck and speed stay his lowest). Used whenever a
+// career plays as them; league ratings unchanged.
+try{QBX26['Ricky MaClones']={s:[97,98,97,87,92,83],fix:[],ovr:98,v:3};QBX26['Jarsh Fallon']={s:[95,98,93,89,87,96],fix:[],ovr:97,v:3}}catch(e){}
 // ===== 🧱 A JUMP BALL IS CONTESTED AFTER THE CATCH TOO =====
 // Tyler 2026-11-16: "when you launch up a jump ball, the guy catches it and just is able to run straight to the end zone. There needs to
 // be some kind of tackle animation or broken tackle animation." WHY: the defender who went up for it and lost was still in his
