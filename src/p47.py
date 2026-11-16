@@ -1043,3 +1043,8 @@ r("if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.
   "if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}const air0_=!!P.air;doThrow(b,t0,t1);try{if(P.air&&!air0_)slRel(ex_,ey_,'🏈 '+slWho(b)+' · '+Math.max(0,Math.round(t1-g.los))+' yd'+(full_?' · full pull-back':''),1);else if(g.ft>0&&g.flash)slRel(ex_,ey_,g.flash,0)}catch(_){}}}}});")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m212.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m213: Chicago Icemen, Dallas Cattle Boys (new worlds via the base list; old saves via tmRn2 on load)
+r("Chicago|Gales","Chicago|Icemen")
+r("Dallas|Wildcatters","Dallas|Cattle Boys")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m213.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
