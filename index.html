@@ -1032,8 +1032,8 @@ if(S.wk<18){const p=(S.psch[S.wk]||[]).find(x=>x[0]==0||x[1]==0);return p?{t:'pr
 function pplay(){if(gsOk())return resumeG();const e=pevt();if(e.t=='sum'){if(!S.psum)mkPsum();return hub()}if(e.t=='bye'){pWeek(null);save();return hub()}if(e.t=='ppbye'){ppAdv(0);save();return hub()}if(e.t=='fa'||e.t=='ret')return hub();if(pStarter()&&!injOut())return startGame(e.o,e.t);psim(e)}
 function pWeek(w,o){const T=S.T;(S.psch[S.wk]||[]).forEach(([a,b])=>{if(a!=0&&b!=0){const wi=gm(a,b);qbForm(a,wi==a);qbForm(b,wi==b)}});if(w!=null){T[w?0:o].w++;T[w?o:0].l++;qbForm(o,!w);grRec(0,o,g&&g.s?g.s:[w?1:0,w?0:1])}regainWk();injTick();S.wk++;if(S.wk>=18)ppSetup()}
 function pdone(w,k){rvRes(g.oi,w);const n=S.gs.length;if(n<(S.gsl||0))S.gsl=0;if(n>(S.gsl||0))userForm(S.gs[n-1],w);S.gsl=n;if(k=='pp')ppAdv(w);else pWeek(w,g.oi)}
-function psim(e){LRNEXT=1;const T=S.T,st0=pStarter()&&!injOut(),k=e.t,u=qo(S.q),sg=simGame(teff(T[0])+((st0?u:S.sq)-72)/3,teff(T[e.o])+(rvOf(e.o)?2:0)),w=sg[0]>sg[1]||(sg[0]==sg[1]&&R()<.5);g={oi:e.o,kind:k,w,s:sg};let m='';
-if(st0){const att=ri(24,38),cmp=Math.round(att*cl(.52+(S.q.acc-70)/200+gs()*.04,.35,.8)),yds=Math.round(cmp*cl(10.5+(S.q.pow-70)/14+gs(),6,15)),st={...Z(),att,cmp,yds,td:(typeof simTd=='function'?simTd(sg[0],gs(),Math.min(5,Math.round(sg[0]/12+gs()*.5))):Math.min(5,Math.round(sg[0]/12+gs()*.5))),int:R()<.5?ri(0,2):0,sk:ri(0,4),ry:ri(0,30),fum:(typeof simFum=='function'?simFum():(R()<.12?1:0))};addStats(st,w,k=='pp');S.pts+=athP(typeof simPts=='function'?simPts(st,w):2+(w?1:0));S.cash+=300+(w?500:0);const gr=Math.max(0,gsc(st,w)-4);S.gs.push(gr);userForm2(gr,w);m=`${cmp}/${att}, ${yds} yds, ${st.td} TD, ${st.int} INT · grade ${gl(gr)}`+injSimG()}else{S.pts+=1;m=injOut()?'🚑 You sat out hurt. '+injLeft():'You sat behind '+S.vet+' ('+S.sq+'). Train to win the job.'}
+function psim(e){LRNEXT=1;const T=S.T,st0=pStarter()&&!injOut()&&!window._restF,k=e.t,u=qo(S.q),sg=simGame(teff(T[0])+((st0?u:S.sq)-72)/3,teff(T[e.o])+(rvOf(e.o)?2:0)),w=sg[0]>sg[1]||(sg[0]==sg[1]&&R()<.5);g={oi:e.o,kind:k,w,s:sg};let m='';
+if(st0){const att=ri(24,38),cmp=Math.round(att*cl(.52+(S.q.acc-70)/200+gs()*.04,.35,.8)),yds=Math.round(cmp*cl(10.5+(S.q.pow-70)/14+gs(),6,15)),st={...Z(),att,cmp,yds,td:(typeof simTd=='function'?simTd(sg[0],gs(),Math.min(5,Math.round(sg[0]/12+gs()*.5))):Math.min(5,Math.round(sg[0]/12+gs()*.5))),int:R()<.5?ri(0,2):0,sk:ri(0,4),ry:ri(0,30),fum:(typeof simFum=='function'?simFum():(R()<.12?1:0))};addStats(st,w,k=='pp');S.pts+=athP(typeof simPts=='function'?simPts(st,w):2+(w?1:0));S.cash+=300+(w?500:0);const gr=Math.max(0,gsc(st,w)-4);S.gs.push(gr);userForm2(gr,w);m=`${cmp}/${att}, ${yds} yds, ${st.td} TD, ${st.int} INT · grade ${gl(gr)}`+injSimG()}else{S.pts+=1;m=window._restF?'🛌 Starters rested (the bye is locked up). The backups played.':injOut()?'🚑 You sat out hurt. '+injLeft():'You sat behind '+S.vet+' ('+S.sq+'). Train to win the job.'}
 pdone(w,k);HM=`${w?'W':'L'} ${sg[0]}-${sg[1]} · ${m} `+taskRes(null).replace(/<[^>]+>/g,'');save();hub()}
 function ppSetup(){const T=S.T,sd={};['RFC','LFC'].forEach(c=>{const I=T.map((t,i)=>i).filter(i=>(T[i].dv||'').startsWith(c)),dv={};I.forEach(i=>(dv[T[i].dv]=dv[T[i].dv]||[]).push(i));
 const win=Object.values(dv).map(L=>[...L].sort((a,b)=>pRec(b)-pRec(a))[0]).sort((a,b)=>pRec(b)-pRec(a)),wc=I.filter(i=>!win.includes(i)).sort((a,b)=>pRec(b)-pRec(a)).slice(0,3);sd[c]=[...win,...wc]});
@@ -1070,7 +1070,7 @@ ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} re
 function phub(){if(S.ret)return legacy();if(S.fmsg){HM=(HM?HM+' ':'')+S.fmsg;S.fmsg=''}scene('lock');const T=S.T,m=T[0],Q=S.q,e=pevt(),st=pStarter(),H2=injTag(HM),c=tc(),N={acc:'Accuracy',pow:'Throw power',awr:'Awareness',mob:'Speed',sec:'Carrying',trk:'Truck'};HM='';if(e.t=='sum'&&!S.psum)mkPsum();let main='';
 if(e.t=='fa')main=`<b>Free agency</b><p><small>Your contract is up. Pick your next team.</small></p>${S.fa.map((o,i)=>`<div class=row style="font-size:18px;gap:4px"><span>${tn(T[o.ti])}<br><small>$${o.sal}M/yr · ${o.yrs} yrs · ${o.gtd}% gtd · bonus $${o.bonus}M${o.ci?" · 🗣 say on the coach":""}${o.gi?" · 🗣 say on the GM":""}</small></span><button class=g onclick="faSign(${i})">Sign</button></div>`).join('')}`;
 else if(e.t=='sum'){const s=S.psum;main=`<b>Season ${S.py} complete</b><p>Record ${s.rec} · Ultra Bowl champion: ${s.champ}<br>${s.aw.length?'Awards: '+s.aw.join(', '):'No awards this season.'}<br>Paid this season: $${s.pay.toLocaleString()}</p>${lawHtml()}${proOffHtml()}${S.py>=3&&!S.extd&&S.ct.yrs>0?'<button class=g onclick=negotiate()>Negotiate an extension</button>':''}${S.py>=2&&S.treq!=S.py?'<button class=g onclick=treq()>Request a trade</button>':''}<button class=g onclick=retireNow()>Retire</button>`}
-else{const nx=e.t=='pbw'?'🌴 Pro Bowl week · the Ultra Bowl is next week':e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':(e.t=='pp'?PRN[S.pb.r]:'Week '+(S.wk+1))+' vs '+tn(T[e.o])+' (team rating '+T[e.o].ovr+')'+rvTag(e.o);main=`<b>${nx}</b><br><button onclick=play()>${e.t=='bye'||e.t=='ppbye'||e.t=='pbw'?'Continue':st?(gsOk()?gsLbl():'Play game'):'Watch from the bench (sim)'}</button>${e.t!='bye'&&e.t!='ppbye'&&e.t!='pbw'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}`}
+else{const nx=e.t=='pbw'?'🌴 Pro Bowl week · the Ultra Bowl is next week':e.t=='bye'?'Bye week':e.t=='ppbye'?'Playoff bye (No. 1 seed)':(e.t=='pp'?PRN[S.pb.r]:'Week '+(S.wk+1))+' vs '+tn(T[e.o])+' (team rating '+T[e.o].ovr+')'+rvTag(e.o);main=`<b>${nx}</b><br><button onclick=play()>${e.t=='bye'||e.t=='ppbye'||e.t=='pbw'?'Continue':st?(gsOk()?gsLbl():'Play game'):'Watch from the bench (sim)'}</button>${e.t!='bye'&&e.t!='ppbye'&&e.t!='pbw'?injWB():''}${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}${st&&typeof restBtn=='function'?restBtn(e):''}`}
 const D={};T.forEach((t,i)=>(D[t.dv]=D[t.dv]||[]).push(i));const dl=Object.keys(D).sort((a,b)=>(b==m.dv)-(a==m.dv));
 ui.style.display='block';ui.innerHTML=`<div><div class=sp></div><h2>${S.name} #${S.num} · QB ${qo(Q)}</h2><div style="font-weight:700;color:#7bed9f;margin:-4px 0 4px">💵 $${(S.cash||0).toLocaleString()}</div>${relTop()}<p><small>${tn(m)} · Pro season ${S.py} · age ${S.age} · ${S.arch||'QB'}${potTxt()}<br>Contract $${S.ct.sal}M/yr · ${S.ct.yrs} yr${S.ct.yrs==1?'':'s'} left · record ${m.w}-${m.l}</small></p>
 <div class=card>${H2?`<p><b>${H2}</b></p>`:''}<p>${st?'<b>Starting QB</b>':'<b>Backup QB</b> <small>'+S.vet+' starts ('+S.sq+') vs you '+qo(Q)+'</small>'} · Coach grade <b>${S.gs.length?gl(avg(S.gs)):'-'}</b><br><small>Head ${cLine(T[0])}</small></p>${main}</div>${S.gsave?gsH():''}${lrInfo()}${myCard()}
@@ -1173,7 +1173,7 @@ const wanderers=L.O.filter(o=>o.wd);
 L.all.forEach(o=>{if(!o.m)return;if(o.ext){const ex=p.x-o.x,ez=p.z-o.z;if(Math.hypot(ex,ez)<5){let a=Math.atan2(-ex,-ez)-o.m.rotation.y;a=Math.atan2(Math.sin(a),Math.cos(a));o.m.rotation.y+=a*Math.min(1,dt*5)}return}o.m.visible=L.O.includes(o);if(!o.m.visible)return;const rq=o.k=='mate'&&S.lrq&&S.lrq.ri==o.ri&&!S.task;if(o.bb)o.bb.visible=rq||o.k=='rep'||(o.k=='coach'&&S.lct!=L.wk);if(o.act=='sit')return;if(o.act=='cel'){celO(o,p,t);return}if(o.act=='dress'||o.act=='jam'){const ex=p.x-o.x,ez=p.z-o.z,ed=Math.hypot(ex,ez),s=Math.sin(t*(o.act=='jam'?6:2.2)+o.ri);let a=(ed<2.2?Math.atan2(-ex,-ez):0)-o.m.rotation.y;a=Math.atan2(Math.sin(a),Math.cos(a));o.m.rotation.y+=a*Math.min(1,dt*5);if(o.act=='dress'){o.m.A[0].rotation.x=2.45+s*.35;o.m.A[1].rotation.x=2.45-s*.35}else{o.m.position.y=Math.abs(s)*.07;o.m.A[0].rotation.x=.3+s*.15;o.m.A[1].rotation.x=.3-s*.15}return}
 const dx=p.x-o.x,dz=p.z-o.z,d=Math.hypot(dx,dz);let wk=false,face=null,talkA=false;
 if(o.act=='lift'){const s=Math.sin(t*3);o.m.A[0].rotation.x=o.m.A[1].rotation.x=2.35+s*.75;if(d<2.4)face=[dx,dz];else o.m.rotation.y=0}
-else if(rq&&d<10&&d>2.2&&!L.tg&&L.near!==o){const s=2.6*dt;o.x+=dx/d*s;o.z+=dz/d*s;wk=true;face=[dx,dz]}
+else if(rq&&d<10&&!L.tg&&(o.app?d>2.4:d>3.4)){o.app=1;const s=Math.min(d-2.35,2.6*dt);if(s>.001){o.x+=dx/d*s;o.z+=dz/d*s;wk=true}face=[dx,dz]}else if(rq&&d<10&&!L.tg){o.app=0;if(d<4)face=[dx,dz]}
 else if(o.wd&&d>1.6){if(o.wg){const gx=o.wg[0]-o.x,gz=o.wg[1]-o.z,gd=Math.hypot(gx,gz);if(gd<.3){o.wg=null;o.wait=2+R()*4}else{const s=1.5*dt;o.x+=gx/gd*s;o.z+=gz/gd*s;wk=true;face=[gx,gz]}}else{o.wait-=dt;if(o.bud&&L.O.includes(o.bud)){face=[o.bud.x-o.x,o.bud.z-o.z];talkA=true}if(o.wait<=0){const bd=R()<.5?wanderers[ri(0,wanderers.length-1)]:null;if(bd&&bd!==o){o.bud=bd;o.wg=[cl(bd.x+(R()<.5?-1.6:1.6),-9,6.5),cl(bd.z+.3,-3.8,10.2)]}else{o.bud=null;o.wg=[-9+R()*15.5,-3.8+R()*14]}}}}
 else if(d<2.4)face=[dx,dz];
 o.m.position.set(o.x,wk?Math.abs(Math.sin(t*10+o.ri))*.06:0,o.z);if(face){let a=Math.atan2(-face[0],-face[1])-o.m.rotation.y;a=Math.atan2(Math.sin(a),Math.cos(a));o.m.rotation.y+=a*Math.min(1,dt*5)}
@@ -1366,7 +1366,7 @@ const cu=P.car===q?((P.call.t=='run'&&!P.handed)?null:q):null;
 if(cu){const l=Math.hypot(inp.x,inp.y);if(l>.05){const s=cu.sp*(cu.stum>0?.55:1)*(cu.mv>0&&cu.mt=='truck'?1.25:1)*Math.min(1,l);cu.vx=inp.x/l*s;cu.vy=inp.y/l*s}else cu.vx=cu.vy=0;
 cu.x+=cu.vx*dt;cu.y+=cu.vy*dt;if(cu.x<0||cu.x>53.3||cu.y<-10)return endPlay(cu.y,'OUT OF BOUNDS',{oob:1});if(cu.stum>0)cu.stum-=dt;if(cu.mv>0)cu.mv-=dt;if(cu===q&&q.y>g.los+.6)P.run=true;if(cu.y>=100)return endPlay(100,'TOUCHDOWN RUN!')}
 P.ol.forEach(b=>b.y=g.los-.8-Math.min(P.t*.18,1.4));
-P.wr.forEach(w=>{if(w===P.car)return;let tx,ty,sp=w.sp;if(a&&a.tgt===w){tx=a.lx;ty=a.ly}else{const p=w.wp[0];if(!p){if(w.hold||['run','qbrun','option'].includes(P.call.t)){w.vx=w.vy=0;return}if(w.sct==null)w.sct=P.t;const d=w.ld||[0,1];if(d[1]<.35&&w.y<g.los+3.5&&!P.passed){w.ld=[d[0]*.6,.8];}const nx=w.x+d[0]*4,ny=w.y+d[1]*4,ob_=d[1]<-.3||nx<2||nx>51.3||ny>106;if(P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!ob_){tx=nx;ty=ny}else if(d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<2.4){tx=w.x;ty=w.y;sp=0}else{const s=scrSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.85;if(Math.hypot(tx-w.x,ty-w.y)<1.2){w.ss=null;w.ssT=0;const s2=scrSpot(w,P);tx=s2[0];ty=s2[1]}}}else{tx=p[0];ty=p[1];if(Math.hypot(tx-w.x,ty-w.y)<.6){w.wp.shift();try{wrCut(w,P)}catch(e){}}}}mv(w,tx,ty,sp,dt);w.x=cl(w.x,1.5,51.8);w.y=Math.min(w.y,108);const hv=Math.hypot(w.vx,w.vy);if(hv>1&&w.wp.length)w.ld=[w.vx/hv,w.vy/hv]});
+P.wr.forEach(w=>{if(w===P.car)return;let tx,ty,sp=w.sp;if(a&&a.tgt===w){tx=a.lx;ty=a.ly}else{const p=w.wp[0];if(!p){if(w.hold||['run','qbrun','option'].includes(P.call.t)){w.vx=w.vy=0;return}if(w.sct==null)w.sct=P.t;const d=w.ld||[0,1];if(d[1]<.35&&w.y<g.los+3.5&&!P.passed){w.ld=[d[0]*.6,.8];}const nx=w.x+d[0]*4,ny=w.y+d[1]*4,ob_=d[1]<-.3||nx<2||nx>51.3||ny>106;if(window.ROLD?(P.passed||(P.t-w.sct<.6&&!ob_)):P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!window.ROLD&&!ob_){tx=nx;ty=ny}else if(!window.ROLD&&d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<(window.RSIT||2.4)){tx=w.x;ty=w.y;sp=0}else{const s=scrSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.85;if(Math.hypot(tx-w.x,ty-w.y)<1.2){w.ss=null;w.ssT=0;const s2=scrSpot(w,P);tx=s2[0];ty=s2[1]}}}else{tx=p[0];ty=p[1];if(Math.hypot(tx-w.x,ty-w.y)<.6){w.wp.shift();try{wrCut(w,P)}catch(e){}}}}mv(w,tx,ty,sp,dt);w.x=cl(w.x,1.5,51.8);w.y=Math.min(w.y,108);const hv=Math.hypot(w.vx,w.vy);if(hv>1&&w.wp.length)w.ld=[w.vx/hv,w.vy/hv]});
 if(a){a.t+=dt;if(a.t>=a.T){land();if(P.done)return}}
 const c=P.car;if(c&&c!==q){let ax=0,ay=1.3;P.def.forEach(d=>{const dx=c.x-d.x,dy=c.y-d.y,dd=Math.hypot(dx,dy)||.1;if(dd<6&&dy<1.5){ax+=dx/dd*3/dd;ay-=.25/dd}});if(P.lane!=null&&c===P.rb&&c.y<g.los+8&&Math.abs(c.x-P.lane)>4){ax+=Math.sign(P.lane-c.x)*1.3;ay=Math.max(ay,1.2)}if(c.x<5)ax+=1.2;if(c.x>48.3)ax-=1.2;ay=Math.max(ay,.3);
 const l=Math.hypot(ax,ay),f=c.sp*(c.stum>0?.6:1)*(c===P.rb&&P.lane!=null?1.14:1);c.vx=ax/l*f;c.vy=ay/l*f;c.x+=c.vx*dt;c.y+=c.vy*dt;c.stum-=dt;P.run=true;
@@ -1393,9 +1393,9 @@ T=Math.max(.25,Math.hypot(lx-q.x,ly-q.y)/v);P.air={x0:q.x,y0:q.y,lx,ly,T,t:0,t0:
 function land(){const P=g.pl,a=P.air,w=a.tgt,Q=S.q;P.air=null;if(P.wf)return wLand(P,a,w);
 if(a.lx<0||a.lx>53.3)return endPlay(g.los,'OUT OF BOUNDS — incomplete',{inc:1,oob:1});if(a.ly>110)return endPlay(g.los,'OUT OF BOUNDS: back of the end zone',{inc:1,oob:1});
 const dw=Math.hypot(w.x-a.lx,w.y-a.ly),ds=P.db.concat(P.lb).map(d=>({d,e:Math.hypot(d.x-a.lx,d.y-a.ly)})).sort((x,y)=>x.e-y.e),D=ds[0],
-sep=Math.min(...P.def.map(d=>Math.hypot(d.x-w.x,d.y-w.y))),rc=2.4,wr=dw<rc,cont=sep<1.7;
+sep=Math.min(...P.def.map(d=>Math.hypot(d.x-w.x,d.y-w.y))),rc=2.4,wr=dw<rc,cont=sep<(window.CTC?CTC.r:1.7);
 if(D.e<rc*.95){const ip=cl((.02+(D.d.cov-60)/500+(1-D.e/rc)*.08+(cont?.06:0)+(D.e<dw?.05:0)-(Q.acc-60)/600+(wr?0:.03))*.35,.004,.3);if(R()<ip)return intStart(D.d,a)}
-if(wr){const pc=cl((cont?(.4+w.hands/100*.55):(.86+w.hands/100*.12))*(cont?.66+w.hands/600-((D.d.cov||70)-65)/450-(sep<1.05?.08:0)-(D.e<dw?.07:0):1)*(1-dw/rc*.2),.1,.985);
+if(wr){const pc=cl((cont?(.4+w.hands/100*.55):(.86+w.hands/100*.12))*(cont?(window.CTC?CTC.b:.66)+w.hands/600-((D.d.cov||70)-65)/450-(sep<1.05?.08:0)-(D.e<dw?.07:0):1)*(1-dw/rc*.2),.1,.985);
 if(R()<pc){P.car=w;g.st.cmp++;w.stum=0;w.x=a.lx;w.y=a.ly;g.msg='Caught!';if(w.ri!=null)(g.rc=g.rc||{})[w.ri]=(g.rc[w.ri]||0)+1;P.ct=P.t;g.sl=a.T>1.1?.55:.25;return}
 return endPlay(g.los,cont?'Pass broken up':'DROPPED!',{inc:1,drp:!cont})}
 endPlay(g.los,'Incomplete',{inc:1})}
@@ -1560,9 +1560,9 @@ function coverTick(t,por,dt){const m=PL.cv;if(!m)return;coverQB(m,t);
 const att=PL.cvm!='menu',sw=Math.sin(t*.22)*.14,push=att?Math.sin(t*.18)*.6:0,a=PL.cry-.75+sw,D=(att?(por?11.5:12.5):(por?19:12.5))-push,cx=-Math.sin(a)*D,cz=-46-Math.cos(a)*D,cy=att?(por?2.7:2.6):(por?3.2:2.9),F=[0,2.5,-46],fv=por?58:42;
 const dx=F[0]-cx,dz=F[2]-cz,dl=Math.hypot(dx,dz),rx=-dz/dl,rz=dx/dl,nx=att?(por?0:.32):(por?0:-.66),ny=att?(por?-.06:-.04):(por?.4:-.02),th=Math.tan(fv*Math.PI/360),asp=W/H;
 cm.fov=fv;cm.position.set(cx,cy,cz);cm.lookAt(F[0]-rx*dl*nx*th*asp,F[1]-dl*(ny-(PL.dy||0))*th,F[2]-rz*dl*nx*th*asp);cm.updateMatrixWorld();cm.updateProjectionMatrix();ttlFit()}
-let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0010</small></div>`;ui.scrollTop=0}
+let MENU0=1;function menu(){scene('cover');if(!MENU0)return menuMain();MENU0=0;PL.cvm='att';ui.style.display='block';ui.innerHTML=`<div class=att onclick=menuMain()><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="flex:1"></div><div class=cov>⭐ COVER ATHLETE<br><b>JARSH FALLON #17</b><br><small>Buffalo Chills · QB</small></div><div class=tap>TAP TO START</div><small style="opacity:.6">V 0.0.1.0011</small></div>`;ui.scrollTop=0}
 function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=NSLOT;i++){const d=load(i);s+=d?`<button onclick="SLOT=${i};S=load(${i});LRNEXT=1;hub()">Slot ${i}: ${d.name} · ${d.stage=='pro'?(d.ret?'Retired':'Pro yr '+d.py):d.stage=='draft'?'Pro draft':d.stage=='col'?'College yr '+Math.min(d.cy,4):'HS yr '+Math.min(d.yr,4)} · QB ${qo(d.q)}</button><button class=g style="margin-top:-4px;padding:6px;font-size:14px" onclick="slotDel(${i})">🗑 Delete Slot ${i}</button>`:`<button class=g onclick="SLOT=${i};newC()">Slot ${i}: New career</button>`}if(trashL().length)s+=`<button class=g onclick=trashV()>♻️ Recently deleted (${trashL().length})</button>`;
-ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0010</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
+ui.innerHTML=`<div style="text-align:center"><div class="ttl sm"><span class=t1>FOOTBALL</span><span class=t2>MAN</span></div><div class=splash>${SP[Math.random()*SP.length|0]}</div><div style="height:${W<H?'30vh':'0'}"></div><div class=mpan><div class=cov style="position:static;transform:none;margin:0 0 10px">⭐ COVER ATHLETE · <b>JARSH FALLON #17</b></div>${(typeof hwkBar=='function'?hwkBar():'')}${hwMenuBar()}${s}<button class=g onclick=menuEdit()>Edit rosters &amp; teams</button><button class=g onclick=impScreen()>Import a save code</button><div class=card style="text-align:left;margin-top:10px"><b>Save files</b> <small>(cloud backup: ${CL?'ON, survives updates':'off'+(CLerr?' · '+CLerr:'')})</small> <small>V 0.0.1.0011</small><br><small>5 player files, auto-saved after every game and when you leave. High school, college, the pro draft and the pro career are all playable.</small></div><button class=g onclick="MENU0=1;menu()">◀ Title screen</button></div></div>`;ui.scrollTop=0;scrH()}
 // a clear "scroll for more" hint whenever a screen runs past the bottom
 function scrH(){let e=$('#scrh');if(!e){e=document.createElement('div');e.id='scrh';e.innerHTML='▼ Scroll for more ▼';e.onclick=()=>ui.scrollBy({top:ui.clientHeight*.7,behavior:'smooth'});document.body.appendChild(e)}const show=ui.style.display!='none'&&!(typeof LR!='undefined'&&LR)&&cv.style.display!='block'&&ui.scrollHeight-ui.clientHeight-ui.scrollTop>40;e.style.display=show?'block':'none'}
 function scene(m){M=m;SPIN=0;const ind=m=='lock'||m=='iv'||m=='drf';FLD.visible=EZ.visible=!ind;LOK.visible=ind;if(m!='lock'&&$('#lrw')){$('#lrw').style.display='none';LR=null}if(m!='cmb'){const cw=$('#cmbw');if(cw)cw.style.display='none'}DYN.visible=m=='game';CHR.visible=m=='game';PL.visible=m!='game';LOSm.visible=FDm.visible=m=='game';scn.background=m=='lock'?new T3.Color(0x24323f):ind?new T3.Color(0x07080b):m=='cover'?NIGHT:SKY;scn.fog=ind?null:m=='cover'?new T3.Fog(0x0b1730,70,220):new T3.Fog(0xcdeeff,90,240);{const hm=scn.children.find(c=>c instanceof T3.HemisphereLight);if(hm)hm.intensity=m=='cover'?.5:.95;sun.intensity=m=='cover'?.35:.7}if(m=='lock')lockP();else if(m=='field')pract();else if(m=='cover')coverP()}
@@ -2807,7 +2807,7 @@ setInterval(()=>{try{scrH()}catch(e){}},500);
 function kScene(P,o,t,dt){const q=o.kind=='fg'?(P.wr[2]||P.wr[0]||P.qb):P.qb,kk=P.rb,C=P.ol&&P.ol[2],fg=o.kind=='fg';
  if(!o.init){o.init=1;P.car=null;P.air=null;P.passed=true;q.vx=q.vy=0;o.hy=fg?o.los-7:o.los-13;q.x=26.5;q.y=o.hy;q.kn=fg?1:0;if(!fg){q.x=-2.6;q.y=o.los-2;q.kn=0;q.vx=q.vy=0}else if(q!==P.qb){const Q=P.qb;Q.x=-2.6;Q.y=o.los-2;Q.kn=0;Q.vx=Q.vy=0;o.hold=q;q.wp=[]}
   P.wr.forEach(w=>{w.wp=[];w.vx=w.vy=0});[...P.dl,...P.lb,...P.db].forEach(d=>{d.vx=d.vy=0});
-  try{const L_=rost(g.sw?'h.'+g.oi:'h.0'),K=L_&&L_[22];if(K){kk.nm=K.n.split(' ').lnPop().toUpperCase().slice(0,13);kk.num=K.num;if(kk.m&&kk.m.parent){kk.m.parent.remove(kk.m);kk.m=null}}}catch(e){}
+  try{const L_=rost(g.sw?'h.'+g.oi:'h.0'),K=L_&&((!fg&&L_.find(x=>x&&x.pos==='P'))||L_[22]);if(K){kk.nm=K.n.split(' ').lnPop().toUpperCase().slice(0,13);kk.num=K.num;if(kk.m&&kk.m.parent){kk.m.parent.remove(kk.m);kk.m=null}}}catch(e){}
   if(fg){kk.x=24.4;kk.y=o.hy-2.6;o.Tf=.9+o.d*.012;o.tk=.62;o.yE=o.short?107.5:118;o.hc=o.short?2.2:5.4;o.fc=(110-o.hy)/(o.yE-o.hy);o.Hp=Math.min(24,Math.max(3,(o.hc-1)/(4*o.fc*(1-o.fc))))}
   else{kk.x=26.5;kk.y=o.hy;o.tk=.85;o.Tf=3.4+R()*.9;o.ly=Math.min(118,o.los+o.net);o.lx=cl(26.5+(R()-.5)*18,8,45);const r=P.db[3]||P.db[0];o.ret=r;r.x=o.lx+(R()-.5)*6;r.y=Math.min(o.ly+4,107)}}
  const snapT=fg?.4:.55,cy=C?C.y+.6:o.los,pn=fg?q:kk;let msg=null,end=false;
@@ -4140,7 +4140,7 @@ function babyYear(){if(!S.preg)return;const g=S.preg.g,n=(g=='b'?NF[ri(0,NF.leng
 function kidsHtml(){const K=S.kids||[];if(!K.length&&!S.preg)return '';return `<div class=card><b>👶 Your kids</b>${S.preg?'<p><small>A baby '+(S.preg.g=='b'?'boy':'girl')+' is on the way.</small></p>':''}${K.map((k,i)=>`<div class=row style="font-size:16px"><span>${esc(k.n)} <small>${k.g=='b'?'Son':'Daughter'} · age ${k.age}</small></span><button class=g onclick="kidName(${i})">Rename</button></div>`).join('')}</div>`}
 function kidName(i){const k=(S.kids||[])[i];if(!k)return famV();const n=prompt('Name your '+(k.g=='b'?'son':'daughter')+':',k.n.split(' ')[0]);if(n&&n.trim())k.n=n.trim().slice(0,20)+' '+lastN();save();famV()}
 function kidsYear(){(S.kids||[]).forEach(k=>k.age++)}
-// ===================== V 0.0.1.0010 · nicer 3D homes (cutaway walls + decor) =====================
+// ===================== V 0.0.1.0011 · nicer 3D homes (cutaway walls + decor) =====================
 // Walls between the camera and you drop down to a short stub (dollhouse view), so you can always see inside.
 function hmCut(L,C){(L.hw||[]).forEach(w=>{const out=w.ax=='z'?(C.z-w.v)*w.sg>-.2:(C.x-w.v)*w.sg>-.2;if(out===w.cut)return;w.cut=out;w.m.scale.y=out?.12:1;w.m.position.y=out?w.h*.06:w.h/2;(w.ex||[]).forEach(e=>e.visible=!out)})}
 function hmDecor(id,sz,W,D,x1,x2,zb,zf,z0,pal,hw,O){const P=PL,wb=hw[0],wL=hw[1],wR=hw[2],on=(w,m)=>{(w.ex=w.ex||[]).push(m);return m};
@@ -7030,6 +7030,12 @@ window.ubMvpFill=function(Y,ub,cur){
  // can't see the champion's roster -> keep whatever is on record rather than invent
  if(!roster.length)return blank?ubMvpMake(Y):cur;
  if(!blank&&roster.some(q=>q.n===c))return cur;        // already a champion's player
+ // Tyler 2026-11-16: "Why does it say Ultra Bowl MVP Ham Luther in 2025". The list above is the champion's QBs only, so a real
+ // non-QB MVP (2025 Kevin Sprinter, a back; 2021 Hooper Bol, a receiver) was swapped for the QB in every save. The real results
+ // (through 2025) are never replaced, and a name that isn't some other team's QB that season is kept (he may be a back,
+ // a receiver or a defender). Only a blank, or a QB of a different team, is replaced.
+ if(!blank){try{if(typeof RCH!='undefined'&&RCH[Y]&&RCH[Y].sbm===c)return cur}catch(e){}
+  let otherQB=false;try{otherQB=uPro(Y).some(x=>x.ti!==ub&&Array.isArray(x.q)&&x.q.some(q=>q&&q.n===c))}catch(e){}if(!otherQB)return cur}
  const q=roster.find(x=>!x.fill)||roster[0];           // otherwise the champion's starter
  return (q&&q.n)?q.n:(blank?ubMvpMake(Y):cur);
 };
@@ -8522,6 +8528,7 @@ window.szBuild=function(){
                      car:0,ry:0,rtd:0,rec:0,recy:0,rectd:0,tkl:0,sck:0,intc:0,pd:0}};
  const side=(ti,A)=>{
   if(!A)return;const touched=[];
+  (A.gs||[]).forEach(n=>{if(!n)return;const r=get(ti,n,'');r.gs=(r.gs||0)+1;touched.push(n)});   // games started (2026-11-16)
   (A.pass||[]).forEach(p=>{if(!p||!p.n||!(p.a>0))return;const r=get(ti,p.n,'QB');
    r.pa+=p.a|0;r.pc+=p.c|0;r.py+=p.y|0;r.ptd+=p.td|0;r.pint+=p.i|0;touched.push(p.n)});
   (A.rush||[]).forEach(p=>{if(!p||!p.n||!(p.c>0))return;const r=get(ti,p.n,p.p);
@@ -11994,7 +12001,7 @@ window.slCamTxt=function(){try{const b=$('#camb');if(!b||!g||!g.watch)return;b.t
 (()=>{try{const _f=wFin;wFin=function(){try{if(SLV.av)SLV.av.visible=false;const k=document.getElementById('slskip');if(k)k.style.display='none'}catch(e){}return _f.apply(this,arguments)}}catch(e){}})();
 // walking + looking (only while watching from the sideline)
 cv.addEventListener('pointerdown',e=>{try{if(!slOnSide())return;const x=e.clientX,y=e.clientY;if(x<W*.38&&y>H*.6&&!joy&&slMe()){joy={id:e.pointerId,ox:x,oy:y,x:0,y:0};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}SLV.lk={id:e.pointerId,x,y};SLV.lt=performance.now()/1000}catch(_){}});
-cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=SLV.yo-(e.clientX-L.x)*.006;SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.7,.9);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
+cv.addEventListener('pointermove',e=>{try{const L=SLV.lk;if(!L||e.pointerId!=L.id||!slOnSide())return;SLV.yo=SLV.yo+(e.clientX-L.x)*.006;   /* Tyler 2026-11-16: drag was reversed */SLV.po=cl(SLV.po-(e.clientY-L.y)*.004,-.7,.9);L.x=e.clientX;L.y=e.clientY;SLV.lt=performance.now()/1000}catch(_){}});
 ['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{try{if(SLV.lk&&e.pointerId==SLV.lk.id)SLV.lk=null;if(joy&&e.pointerId==joy.id&&g&&g.watch)joy=null}catch(_){}}));
 // nobody stands in the lens: bench players and cheerleaders right at the camera (or between it and you) step out of the shot
 window.slNear=function(cx,cz,R,mx,mz){try{SLV.hid=R>0?1:0;[SDL,CHR].forEach(G=>G.children.forEach(c=>{if(c===SLV.av)return;if(R<=0){c.visible=true;return}const x=c.position.x,z=c.position.z;
@@ -12278,7 +12285,7 @@ window.lgsCurOk=function(){try{return S&&S.stage==='pro'&&!(S.sled===S.py)&&Obje
 (()=>{try{const _y=lgsYears;lgsYears=function(lv){const L=_y.apply(this,arguments);try{if(lv==='p'&&lgsCurOk()){const c=yrN();if(!L.includes(c))L.push(c)}}catch(e){}return L}}catch(e){}})();
 window.lgsCurBody=function(){const Y=yrN(),D=szGet(),rows=[];for(const ti in D){const T=D[ti];for(const n in T){const z=T[n];if(z&&z.g>0)rows.push({...z,ti:+ti})}}
  const wk=Math.max(0,...rows.map(z=>z.g),0),card=(x,ti)=>{const L=rost('h.'+ti)||[];const k=L.findIndex(p=>p&&p.n===x.n);return k>=0?`pCard(${ti},${k})`:null};
- const tab=(ttl,h,R,v,x)=>`<div class=card><b>${ttl} · ${Y}</b>${lgsTh(h)}${R.slice(0,15).map((z,i)=>lgsTr(`${i+1}. ${z.n===S.name?'▶ ':''}${z.n}`,TA[z.ti]+(x?' · '+x(z):'')+' · '+z.g+' G',v(z),card(z,z.ti))).join('')||'<div class=row><small>Nothing yet.</small></div>'}</div>`;
+ const tab=(ttl,h,R,v,x)=>`<div class=card><b>${ttl} · ${Y}</b>${lgsTh(h)}${R.slice(0,15).map((z,i)=>lgsTr(`${i+1}. ${z.n===S.name?'▶ ':''}${z.n}`,TA[z.ti]+(x?' · '+x(z):'')+' · '+z.g+' G · '+(z.gs||0)+' GS',v(z),card(z,z.ti))).join('')||'<div class=row><small>Nothing yet.</small></div>'}</div>`;
  const P=rows.filter(z=>z.pa>0).sort((a,b)=>b.py-a.py),Ru=rows.filter(z=>z.car>0).sort((a,b)=>b.ry-a.ry),Re=rows.filter(z=>z.rec>0).sort((a,b)=>b.recy-a.recy),Sk=rows.filter(z=>z.sck>0).sort((a,b)=>b.sck-a.sck),In=rows.filter(z=>z.intc>0||z.tkl>0).sort((a,b)=>(b.intc*10+b.tkl)-(a.intc*10+a.tkl));
  const st=[0,1,2,3,4,5,6,7].map(di=>`<p style="margin:8px 0 2px"><small><b>${(S.pro[di*4]&&S.pro[di*4].dv)||''}</b></small></p>`+S.T.map((t,i)=>({t,i})).filter(o=>Math.floor(pIdx(o.t)/4)===di).sort((a,b)=>(b.t.w||0)-(a.t.w||0)).map(o=>`<div class=row style="font-size:15px"><span>${tn(o.t)}</span><b>${o.t.w||0}-${o.t.l||0}${o.t.t?'-'+o.t.t:''}</b></div>`).join('')).join('');
  return `<div class=card><small>📅 ${Y} season through week ${S.wk||wk}: every number below comes from the games played so far (tap a name for his card).</small></div>`+tab('Passing',['QB','YDS','TD','INT'],P,z=>[z.py.toLocaleString(),z.ptd,z.pint],z=>z.pc+'/'+z.pa)+tab('Rushing',['RB/QB','YDS','TD'],Ru,z=>[z.ry.toLocaleString(),z.rtd],z=>z.car+' att')+tab('Receiving',['WR/TE/RB','YDS','TD'],Re,z=>[z.recy.toLocaleString(),z.rectd],z=>z.rec+' rec')+tab('Sacks',['DEF','SACKS'],Sk,z=>[z.sck])+tab('Interceptions & tackles',['DEF','INT','TKL'],In,z=>[z.intc,z.tkl])+`<div class=card><b>Standings · ${Y}</b>${st}</div>`};
@@ -12509,7 +12516,10 @@ setInterval(()=>{try{const h=document.getElementById('hud'),t=document.getElemen
 // The ladder is the season so far (box-score totals + team wins, the same weights the end-of-season MVP vote uses),
 // redrawn every week, with each man's move since last week. Pro Bowl voting is its own page at the bottom: every 5 taps
 // on a player is one 1,000-vote ballot (50 taps a week = 10 ballots, like before). The fans keep voting all season.
-window.MVLN=10;window.PBTAPS=5;window.PBWEEK=50;
+window.MVLN=10;window.PBTAPS=1;window.PBWEEK=10;
+// Tyler 2026-11-16 (later): "it says I have 44 taps left and eight votes. Don't I get like 10 votes a week ... Keep it simple."
+// Now: 10 votes a week, one tap = one vote, each vote rallies 1,000 fans (the same 10,000 a week as before). Saves that used the
+// 5-taps system keep exactly what they had: each finished 5 taps = 1 vote; this week's taps used become votes used (rounded up).
 window.mvlRows=function(){const out=[];try{const sz=szGet()||{};
  S.T.forEach((t,i)=>{const W=t.w||0,L=t.l||0,gp=Math.max(1,W+L+(t.t||0)),f=Math.min(1,gp/17),rec=W+'-'+L;
   (rost('h.'+i)||[]).forEach((x,k)=>{if(!x||!x.n||k>24)return;if(i==0&&k==0)return;const z=(sz[i]||{})[x.n];if(!z||!z.g)return;const p=x.pos;let s=null,ln='';
@@ -12550,20 +12560,20 @@ window.mvlV=function(){mvlSnap();const M=mvlS(),wk=S.wk||0,R_=mvlRows().slice(0,
  const V=pbS();
  ui.innerHTML=`<div><h2>🏆 ${yrN()} MVP ladder</h2>${body}<button data-pbgo=1 onclick="pbV()">${V.closed?'🌴 Pro Bowl rosters':'🗳 Pro Bowl voting · tap to vote'}</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
 // ---------- Pro Bowl: 5 taps = one 1,000-vote ballot; the fans vote every week ----------
-window.pbT=function(){const V=pbS();if(!V.tp){V.t=V.t||{};for(const n in (V.u||{}))V.t[n]=(V.t[n]||0)+V.u[n]*PBTAPS;for(const w in (V.wk||{}))V.wk[w]=(V.wk[w]||0)*PBTAPS;V.tp=1}return V};
+window.pbT=function(){const V=pbS();if(V.tp&&!V.tp2){for(const n in (V.t||{}))V.t[n]=Math.floor(V.t[n]/5);for(const w in (V.wk||{}))V.wk[w]=Math.ceil(V.wk[w]/5);V.tp2=1}if(!V.tp)V.tp2=1;if(!V.tp){V.t=V.t||{};for(const n in (V.u||{}))V.t[n]=(V.t[n]||0)+V.u[n]*PBTAPS;for(const w in (V.wk||{}))V.wk[w]=(V.wk[w]||0)*PBTAPS;V.tp=1}return V};
 window.pbFan=function(c){return Math.round(c.fan*(40+Math.min(17,S.wk||0)*14))};
 window.pbMine=function(n){const V=pbT();return Math.floor(((V.t||{})[n]||0)/PBTAPS)*1000};
 window.pbVotes=function(c){return pbFan(c)+pbMine(c.n)};
-window.pbVote=function(n){const V=pbT();if(V.closed)return pbV();const wk='w'+(S.wk||0);V.wk[wk]=V.wk[wk]||0;if(V.wk[wk]>=PBWEEK){HM='You\'ve used all '+PBWEEK+' taps this week ('+PBWEEK/PBTAPS+' votes). Come back next week.';return pbV()}
+window.pbVote=function(n){const V=pbT();if(V.closed)return pbV();const wk='w'+(S.wk||0);V.wk[wk]=V.wk[wk]||0;if(V.wk[wk]>=PBWEEK){HM='You\'ve used all '+PBWEEK+' votes this week. Come back next week.';return pbV()}
  V.wk[wk]++;V.t[n]=(V.t[n]||0)+1;V.u[n]=Math.floor(V.t[n]/PBTAPS);clearTimeout(window._pbSv);window._pbSv=setTimeout(()=>{try{save()}catch(e){}},1200);
  try{const row=[...ui.querySelectorAll('[data-pbn]')].find(e=>e.getAttribute('data-pbn')===n);if(row){pbRow(row,n);const l=ui.querySelector('[data-pbleft]');if(l)l.innerHTML=pbLeft();return}}catch(e){}pbV()};
-window.pbLeft=function(){const V=pbT(),used=V.wk['w'+(S.wk||0)]||0,left=Math.max(0,PBWEEK-used);return `You have <b>${left}</b> tap${left==1?'':'s'} left this week (${Math.floor(left/PBTAPS)} vote${Math.floor(left/PBTAPS)==1?'':'s'}).`};
+window.pbLeft=function(){const V=pbT(),used=V.wk['w'+(S.wk||0)]||0,left=Math.max(0,PBWEEK-used);return `You have <b>${left}</b> vote${left==1?'':'s'} left this week.`};
 window.pbRow=function(el,n){const V=pbT(),t=(V.t||{})[n]||0,c=(pbBallot()[PBG]||[]).find(z=>z.n===n);if(!c)return;const sm=el.querySelector('[data-pbv2]');if(sm)sm.innerHTML=pbLine(c,t)};
-window.pbLine=function(c,t){const k=Math.round(pbVotes(c)/1000).toLocaleString(),m=pbMine(c.n)/1000,r=t%PBTAPS;return `${k}k votes${m?` · you rallied ${m}k fans`:''}${t?` · ${'●'.repeat(r)}${'○'.repeat(PBTAPS-r)}`:''}`};
+window.pbLine=function(c,t){const k=Math.round(pbVotes(c)/1000).toLocaleString(),m=pbMine(c.n)/1000,r=t%PBTAPS;return `${k}k votes${m?` · you rallied ${m}k fans`:''}${t&&PBTAPS>1?` · ${'●'.repeat(r)}${'○'.repeat(PBTAPS-r)}`:''}`};
 window.pbV=function(g){if(g)PBG=g;const V=pbT(),P=pbBallot();let body='';
  if(V.closed){body=['RFC','LFC'].map(cf=>`<div class=card><b>${cf} Pro Bowl roster</b>${Object.keys(PBSL).map(k=>`<div style="font-size:15px"><b>${k}</b> <small>${(V.r[cf][k]||[]).map(c=>(c.me?'▶ ':'')+esc(c.n)+' ('+c.tm+')'+(c.ub?' · in the Ultra Bowl':'')+(c.alt?' · replacing '+esc(c.for):'')).join(', ')}</small></div>`).join('')}</div>`).join('')+(V.g?`<div class=card><b>🌴 All-Star game</b><br>${V.g}</div>`:'')}
  else{const L=(P[PBG]||[]).sort((a,b)=>pbVotes(b)-pbVotes(a)).slice(0,24);const used=V.wk['w'+(S.wk||0)]||0,can=used<PBWEEK;
-  body=`<div class=card><small>The fans vote all season (it grows every week); voting closes after week 17. Every ${PBTAPS} taps on a player rallies 1,000 more fans to vote for him. <span data-pbleft=1>${pbLeft()}</span></small></div><p class=tabs>${Object.keys(PBSL).map(k=>`<button class="${k==PBG?'':'g'}" onclick="pbV('${k}')">${k}</button>`).join('')}</p>
+  body=`<div class=card><small>The fans vote all season (it grows every week); voting closes after week 17. You get ${PBWEEK} votes a week. Tap a player to vote; each vote brings 1,000 more fans to his side. <span data-pbleft=1>${pbLeft()}</span></small></div><p class=tabs>${Object.keys(PBSL).map(k=>`<button class="${k==PBG?'':'g'}" onclick="pbV('${k}')">${k}</button>`).join('')}</p>
   <div class=card><b>${PBG} · top ${PBSL[PBG]} per conference make it</b>${L.map((c,i)=>`<div class=row data-pbn="${esc(c.n)}" style="font-size:15px;gap:6px"><span>${i+1}. ${c.me?'▶ ':''}${esc(c.n)} <small>${c.tm} · ${c.conf}</small><br><small data-pbv2=1>${pbLine(c,(V.t||{})[c.n]||0)}</small></span>${can?`<button class=g style="width:auto;flex:none;touch-action:manipulation" onclick="pbVote('${String(c.n).replace(/\\/g,'').replace(/'/g,"\\'")}')">👆 Tap</button>`:''}</div>`).join('')}</div>`}
  ui.innerHTML=`<div><h2>🗳 ${V.y} Pro Bowl${V.closed?' rosters':' voting'}</h2>${body}<button class=g onclick="pbV()">🔄 Re-sort</button><button class=g onclick=hub()>Back</button></div>`;ui.scrollTop=0};
 // the menu: one "MVP ladder" section (Pro Bowl voting sits at its bottom)
@@ -12687,6 +12697,8 @@ window.uglFill=function(){try{if(!S||!(S.stage==='pro'||S.stage==='col'))return 
 (()=>{try{const _h=hub;hub=function(){try{if(S&&(S.stage==='pro'||S.stage==='col')){const n=uglFill();if(n)try{save()}catch(e){}}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
 // the season page totals and the box-score totals: the cache key also follows your records
 (()=>{try{const _k=window.szKey;window.szKey=function(){return _k.apply(this,arguments)+'|'+Object.keys(S.ugl||{}).length}}catch(e){}})();
+// the season totals cache also follows how many games have results (a stale partial total could otherwise be archived at season end)
+(()=>{try{const _k=window.szKey;window.szKey=function(){let n=0;try{const G=S.gr||{};for(const w in G)n+=(G[w]||[]).filter(gm=>gm&&gm.length>=4).length}catch(e){}return _k.apply(this,arguments)+'|g'+n}}catch(e){}})();
 // ===== 🎮 PLACEMENT & ACCURACY PASSING (controller) =====
 // Tyler's spec (2026-11-15/16): receiver icons; hold the receiver's button and a meter fills (tap = lob, medium = touch, full =
 // bullet); a blue accuracy window in the meter, its size from your QB's accuracy, smaller on the run or under pressure; the left
@@ -12755,6 +12767,12 @@ window.paIconY=5.9;   // button icons float above the receiver (not over his fac
 // routes run all the way to the sideline). Now an idle zone defender takes the nearest receiver nobody is guarding (within 20 yds)
 // and trails him: a step behind, closing at a speed set by his coverage against the receiver's route running, so good routes
 // still get open and passes are still completed.
+// Tyler 2026-11-16 (later): "Swipe to throw is oddly downgraded again ... I had it like 91%". Measured on his Simmons save, 600 identical
+// swipes per version: the 91% version 69-71% complete / 20-22 picks; after this module and the curl change 62-65% / 29-30 picks
+// (the picked-up defender sat in FRONT of the receiver, in the throwing lane). Now he trails a step BEHIND and reacts a beat later
+// (still guards him), and receivers run their routes the way they did in the 91% version (ROLD): 69-71% / 16-21 picks again.
+// Test swp1 holds this in every update.
+window.ZC={lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
 window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
 // Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
 // is taking off for a deep play ... they can still be caught". Measured: a 99-speed QB running wide behind the line then up the
@@ -12769,9 +12787,9 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
  if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
  if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t}}
- if(d.pk){const w=d.pk,lag=.35,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9),s_=Math.hypot(tx-d.x,ty-d.y);
+ if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*ZC.top,s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
-  d.cbB=s_>2.2?cl((w.sp||8)*(.9+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,.95,1.06):0;return [tx,ty]}
+  d.cbB=s_>2.2?cl((w.sp||8)*(ZC.k+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,ZC.lo,ZC.hi):0;return [tx,ty]}
 }catch(e){}return r}}catch(e){}})();
 // the end on the side you roll to sheds his block to set the edge (an end, or the outside rusher on that side)
 (()=>{try{const _r=rushP;rushP=function(d,b,P){const r=_r.apply(this,arguments);try{if(zcScr(P)){const q=P.qb,side=Math.sign(q.x-26.5)||1;if((d.x-26.5)*side>2)return Math.max(r,1.6*cl(((S.q&&S.q.mob)||60)-40,15,50)/50)}}catch(e){}return r}}catch(e){}})();
@@ -12833,8 +12851,8 @@ window.laFix=function(s){try{if(!s||!s.ro||s.la1)return 0;s.la1=1;const star=laS
 //    year's league draft class (you can watch him get picked). Any still-in-college prospect found on an NFL roster (every load,
 //    every menu) goes back to college and his NFL spot goes to that team's best free agent at the position (or a made-up backup).
 //    The season's NFL box scores are rebuilt from the rosters, so his snaps go to the man in his spot.
-// 2) The Nov 10 trades, for new leagues and EVERY existing pro-QB (takeover / free-agent) save, any year — only where the player is
-//    still on his original team (if he already moved or retired, nothing is undone); Tyler: "make that a permanent fix for all of them": Kirko Chainz <-> Kyle Kerr (Minnesota's QB);
+// 2) The Nov 10 trades: NEW saves only, plus Tyler's Cam save ("those trades are for future saves only. If I told you to fix it in a
+//    league, you can"); only where the player is still on his original team: Kirko Chainz <-> Kyle Kerr (Minnesota's QB);
 //    in Las Vegas, Ferb Nandolorean starts and Kerr backs him up. Jake Efficiency <-> Baltimore's backup QB. Ben Epstein <->
 //    Chicago's lowest-rated DT. Manny Escort <-> Buffalo's lowest-rated safety. Every roster stays full, nobody is invented.
 //    This season's games so far: Minnesota's QB line (Kerr's passing, receivers unchanged) is Kirko's now and his runs follow his
@@ -12859,7 +12877,7 @@ window.npxOut=function(s){try{s=s||S;if(!s||!s.tk||s.stage!=='pro'||!s.npx||!s.r
 window.trFind=function(s,pred){for(const k in s.ro){const L=s.ro[k];if(!Array.isArray(L))continue;const ti=+String(k).split('.')[1];if(!(ti>=0))continue;const t=s.T&&s.T[ti];if(!t||t.city==null)continue;for(let j=0;j<L.length;j++){const x=L[j];if(x&&pred(x,t,ti,j))return {k,L,ti,j,x,t}}}return null};
 window.trTeam=function(s,city){const ti=(s.T||[]).findIndex(t=>t&&String(t.city||'').indexOf(city)>=0);return ti>=0?{ti,L:s.ro['h.'+ti],t:s.T[ti]}:null};
 window.trSwap=function(a,b){const t=a.L[a.j];a.L[a.j]=b.L[b.j];b.L[b.j]=t};
-window.tr1110=function(s,fresh){try{if(!s||s.tr1110||s.stage!=='pro'||!s.ro||!s.T)return 0;const S0=S;S=s;let Y=0;try{Y=yrN()}finally{S=S0}if(!fresh&&Y!==2026&&!s.tk)return 0;const onT=(h,city)=>!!h&&String(h.t.city||'').indexOf(city)>=0;s.tr1110=1;const done=[];
+window.tr1110=function(s,fresh){try{if(!s||s.tr1110||s.stage!=='pro'||!s.ro||!s.T)return 0;const S0=S;S=s;let Y=0;try{Y=yrN()}finally{S=S0}if(!fresh&&!(s.seed===774428715&&s.tk==='Cameron Nugent'))return 0;   /* Tyler 2026-11-16: trades are for new saves only, plus the league he told me to fix (his Cam save) */const onT=(h,city)=>!!h&&String(h.t.city||'').indexOf(city)>=0;s.tr1110=1;const done=[];
  const at=(ti,j)=>({L:s.ro['h.'+ti],j});
  // Kirko Chainz <-> Kyle Kerr; Nandolorean starts in Las Vegas, Kerr backs him up
  const kc=trFind(s,x=>x.n==='Kirko Chainz'),mn=trTeam(s,'Minneapolis');if(kc&&mn&&mn.L&&kc.ti!==mn.ti&&onT(kc,'Las Vegas')){const ker=mn.L[0];if(ker&&ker.n!==s.name){trSwap({L:kc.L,j:kc.j},{L:mn.L,j:0});done.push('Kirko Chainz -> Minnesota');
@@ -12887,7 +12905,7 @@ window.simRs37=function(s){try{if(!s||s.rs37||s.name!=='Simothy Simmons'||s.seed
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r){simRs37(r);npxOut(r);tr1110(r)}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _h=hub;hub=function(){try{if(S&&S.tk&&S.stage==='pro'&&npxOut(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
 // new leagues get the trades as soon as their rosters exist
-(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{npxOut(S);tr1110(S,1)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _p=proStart;proStart=function(){const r=_p.apply(this,arguments);try{tr1110(S,1)}catch(e){}return r   /* college prospects are moved out on the next menu, once signing/takeover has finished placing everyone (doing it mid-signing could let the signing overwrite a player it had just placed) */}}catch(e){}})();
 // ===== 📈 RATINGS UPDATES REACH EVERY SAVE =====
 // Tyler, 2026-11-16: "None of my other player ratings that I gave you have been updated ... Kirko Chainz ... Jack Mascott. Where are
 // all those at? ... You can give Femmifer Allen a +1 on your own, as well as No Pix. I also told you to lower Drako ... Joseph Shiesty +1."
@@ -12938,11 +12956,164 @@ window.slLookBall=function(){SLV.ay=null;SLV.yo=0;SLV.po=0};
 window.slWander=function(c,t,dt){if(c.wd==null){c.wd=Math.random()<.33?1:0;c.bx=c.position.x;c.bz=c.position.z;c.tx=c.bx;c.tz=c.bz;c.nt=t+1+Math.random()*4}
  if(!c.wd){return false}
  if(t>c.nt){const sd=Math.sign(c.bx)||1;c.tx=c.bx+sd*(Math.random()*1.6-.8);c.tz=c.bz+(Math.random()*6-3);c.nt=t+3+Math.random()*6}
- const dx=c.tx-c.position.x,dz=c.tz-c.position.z,d=Math.hypot(dx,dz);if(d<.15)return false;const sp=Math.min(d,1.1*dt);c.position.x+=dx/d*sp;c.position.z+=dz/d*sp;c.rotation.y=Math.atan2(dx,dz);
+ const dx=c.tx-c.position.x,dz=c.tz-c.position.z,d=Math.hypot(dx,dz);if(d<.15)return false;const sp=Math.min(d,1.1*dt);c.position.x+=dx/d*sp;c.position.z+=dz/d*sp;c.rotation.y=Math.atan2(-dx,-dz);   /* face the way he walks (was backwards) */
  const s=Math.sin(t*9+c.ph)*.55;try{c.L[0].rotation.x=s;c.L[1].rotation.x=-s;c.A[0].rotation.x=-s*.5;c.A[1].rotation.x=s*.5}catch(e){}return true};
 (()=>{try{let lt=performance.now()/1000;const _t=slTick;window.slTick=function(){const r=_t.apply(this,arguments);try{if(!SDL.children.length)return r;const t=performance.now()/1000,dt=Math.min(.1,t-lt);lt=t;const ballZ=-(cam-3);
   SDL.children.forEach(c=>{if(c===SLV.av||c.coach||!c.A||c.position.y>.05)return;if(slWander(c,t,dt))return;   // walking
    // watching: turn toward the ball, slowly
-   const want=Math.atan2(26.5*0-c.position.x*0+(0-c.position.x),ballZ-c.position.z);let a=c.rotation.y,d=((want-a+Math.PI*3)%(Math.PI*2))-Math.PI;c.rotation.y=a+d*Math.min(1,dt*1.5);try{c.L[0].rotation.x=c.L[1].rotation.x=0}catch(e){}})}catch(e){}return r}}catch(e){}})();
+   const want=Math.atan2(c.position.x,c.position.z-ballZ);   /* face the field and the ball (was 180° off) */let a=c.rotation.y,d=((want-a+Math.PI*3)%(Math.PI*2))-Math.PI;c.rotation.y=a+d*Math.min(1,dt*1.5);try{c.L[0].rotation.x=c.L[1].rotation.x=0}catch(e){}})}catch(e){}return r}}catch(e){}})();
+
+// Tyler 2026-11-16: "when you walk up to the players, they just kind of disappear on screen. I don't think they should do that."
+// Nobody on the sideline is hidden from the camera any more.
+window.slNear=function(){try{if(SLV.hid){SLV.hid=0;[SDL,CHR].forEach(G=>G.children.forEach(c=>{c.visible=true}))}}catch(e){}};
+// ===== 📋 EVERYONE'S BOX SCORES = EVERYONE'S SEASON =====
+// Tyler, 2026-11-16: "My box score adds up to my stats, but does everyone's box score do that? That's a real question."
+// Measured: in a fresh league's full season, 20 of 191 players' recorded season lines were lower than their box scores (Jarsh Fallon
+// 2,920 vs 3,546). Cause: when a CPU player missed games hurt, the box scores still showed him playing (they didn't know which weeks
+// he was out) and the season-end writer then scaled his line down by the games missed. Now every game a player misses is logged by
+// week, the box score of that game has his backup in his place (the backup QB, or the next man at his position), and his season line
+// is exactly the sum of the games he played. Games missed before this update (no week logged) keep the old handling.
+window.gmKey=function(w){try{return grK()+'|'+w}catch(e){return '?|'+w}};
+(()=>{try{const _t=injTick;injTick=function(){const pre=new Map();try{for(const k in (S&&S.ro)||{}){if(!/^h\.\d+$/.test(k))continue;(S.ro[k]||[]).forEach(x=>{if(x)pre.set(x,x.gm||0)})}}catch(e){}
+ const r=_t.apply(this,arguments);try{const w=S.stage==='col'?(S.wk||0)-1:(S.wk||0),key=gmKey(w);pre.forEach((g0,x)=>{if((x.gm||0)>g0){x.gmW=(x.gmW||[]).slice(-60);if(!x.gmW.includes(key))x.gmW.push(key)}});if(!S.gmSys&&w<=0)S.gmSys=grK()}catch(e){}return r}}catch(e){}})();
+window.gmOut=function(x,key){if(!x)return false;if(x.gmW&&x.gmW.includes(key))return true;try{if(x.inj&&!x.inj.nw&&key===gmKey(S.stage==='col'?(S.wk||0)-1:(S.wk||0)))return true}catch(e){}return false};   // hurt right now = out of this week's game (your game's box is saved before the week ticks)
+window.gmSub=function(L,k,key){const x=L[k];if(!x)return -1;let g_='';try{g_=lgGrp(x.pos)}catch(e){g_=x.pos}
+ const ok=j=>{const y=L[j];if(!y||gmOut(y,key))return false;let gy='';try{gy=lgGrp(y.pos)}catch(e){gy=y.pos}return gy===g_};
+ if(k===0){for(const j of [23,24])if(ok(j))return j}for(let j=25;j<L.length;j++)if(ok(j))return j;if(k!==0)for(const j of [23,24])if(ok(j))return j;return -1};
+// The roster is NEVER changed while a box score is built (an earlier version swapped players in place, and a copy of the roster
+// taken mid-build could keep a blank stand-in — caught in testing, never published). The box score is built as usual, then the
+// lines of a player who was out that week are credited to the man who played in his place, by name.
+window.gmMerge=function(list,from,to){if(!Array.isArray(list))return;const a=list.findIndex(p=>p&&p.n===from);if(a<0)return;const b=list.findIndex(p=>p&&p.n===to);
+ if(b<0){list[a]={...list[a],n:to};return}const A=list[a],B={...list[b]};for(const k in A){if(k!=='n'&&k!=='p'&&typeof A[k]==='number')B[k]=(B[k]||0)+A[k]}list[b]=B;list.splice(a,1)};
+(()=>{try{const _b=bxSide;bxSide=function(ti){const R_=_b.apply(this,arguments);try{if(!R_)return R_;const L=rost('h.'+ti);if(!Array.isArray(L))return R_;
+  const key=(typeof BXW!=='undefined'&&BXW!=null)?gmKey(BXW):null;const map={};const used=new Set();
+  if(key){for(let k=0;k<=22;k++){if(ti===0&&k===0)continue;const x=L[k];if(!x||!gmOut(x,key))continue;const j=gmSub(L,k,key);const y=j>=0?L[j]:null;if(y&&!used.has(y.n)){map[x.n]=y.n;used.add(y.n)}}
+   // a hurt man on the bench never shows up either: his lines go to the starter at his position
+   for(let k=23;k<L.length;k++){const x=L[k];if(!x||!gmOut(x,key)||map[x.n])continue;let g_='';try{g_=lgGrp(x.pos)}catch(e){g_=x.pos}const st=L.slice(0,23).find(y=>y&&!gmOut(y,key)&&(()=>{try{return lgGrp(y.pos)===g_}catch(e){return y.pos===x.pos}})());if(st)map[x.n]=st.n}}
+  for(const f in map)['pass','rush','rec','def'].forEach(c=>gmMerge(R_[c],f,map[f]));
+  let st=L.slice(0,23).filter(Boolean).map(x=>map[x.n]||x.n);if(ti===0&&R_.pass&&R_.pass[0]&&R_.pass[0].n&&st[0]===S.name&&R_.pass[0].n!==S.name)st[0]=R_.pass[0].n;R_.gs=st}catch(e){}return R_};window.bxSide=bxSide}catch(e){}})();
+// season end: in a season that started with this update the box scores are the record (no scaling); a season already under way
+// when the update arrived only scales the games missed before it (not logged by week)
+(()=>{try{const _s=seasonEnd;seasonEnd=function(){const st=[];try{const pre=gmKey(0).split('|')[0],full=S.gmSys===pre;for(const k in (S&&S.ro)||{}){if(!/^h\.\d+$/.test(k))continue;(S.ro[k]||[]).forEach(x=>{if(!x||!x.gm)return;if(full){st.push([x,x.gm]);x.gm=0;return}if(!x.gmW)return;const n=x.gmW.filter(q=>q.split('|')[0]===pre).length;if(n){st.push([x,x.gm]);x.gm=Math.max(0,x.gm-n)}})}}catch(e){}
+ try{return _s.apply(this,arguments)}finally{st.forEach(([x,g])=>{x.gm=g})}};window.seasonEnd=seasonEnd}catch(e){}})();
+// a player with no box-score stats this season gets a zero line (he was on the team, he didn't play) — never a made-up line
+(()=>{try{const _a=window.szArchiveV;window.szArchiveV=function(ti,x,g){const r=_a.apply(this,arguments);if(r)return r;try{if(!S||!S.bxv||!x||!x.n)return r;const Z={q:6,r:4,w:2,d:1,b:2}[g];return Z?new Array(Z).fill(0):r}catch(e){return r}}}catch(e){}})();
+// ===== 🏈 GAMES STARTED (GS) =====
+// Tyler, 2026-11-16: "maybe add a games started stat somewhere so you can know which players are starting and then I can tell if
+// you're starting someone you shouldn't ... The games started stat can show up in league stats, and career stats."
+// Every box score records its starters (the 22 + the kicker, after a hurt starter's backup takes his place). League stats show
+// G and GS for the season so far; every player's card shows GS season by season and his career total; your career page too.
+// Box scores saved before this update get their starters from the depth chart as it is now.
+(()=>{try{const _g=bxGet;bxGet=function(w,a,b){let x=_g.apply(this,arguments);try{if(x&&x.A&&x.B){x={...x,A:{...x.A},B:{...x.B}};   /* never write into a saved box score: work on a copy */
+  [x.A,x.B].forEach(sd=>{if(!sd.gs){const L=rost('h.'+sd.ti);if(Array.isArray(L))sd.gs=L.slice(0,23).filter(Boolean).map(p=>p.n)}
+  // a game you sat: the QB who played gets the start, not you
+  if(sd.ti===0&&sd.gs&&sd.gs.includes(S.name)&&!(sd.pass||[]).some(p=>p&&p.n===S.name)){const q=(sd.pass||[])[0];sd.gs=sd.gs.map(n=>n===S.name?(q&&q.n)||'':n).filter(Boolean)}})}}catch(e){}return x};window.bxGet=bxGet}catch(e){}})();
+// season end: each player's games started for that season stay on his record
+(()=>{try{const _s=seasonEnd;seasonEnd=function(){try{if(S&&S.stage==='pro'&&S.sled!==S.py){const yr=yrN();szCache=null;const Z=szGet();
+  for(const k in S.ro){if(!/^h\.\d+$/.test(k))continue;const ti=+k.slice(2);(S.ro[k]||[]).forEach(x=>{if(!x||!x.n)return;const z=(Z[ti]||{})[x.n];if(!z)return;x.gsH=x.gsH||{};x.gsH[yr]=z.gs||0})}
+  const u=(Z[0]||{})[S.name];if(u){S.gsH=S.gsH||{};S.gsH[yr]=u.gs||0}}}catch(e){}return _s.apply(this,arguments)};window.seasonEnd=seasonEnd}catch(e){}})();
+window.gsCard=function(gsH,cur,curYr){const ys=Object.keys(gsH||{}).map(Number).sort((a,b)=>b-a);const rows=[];if(cur!=null&&!(gsH&&gsH[curYr]!=null))rows.push([curYr+' (so far)',cur]);ys.forEach(y=>rows.push([y,gsH[y]]));
+ if(!rows.length)return '';const tot=rows.reduce((a,r)=>a+(+r[1]||0),0);return `<div class=card data-gs=1><b>🏈 Games started</b>${rows.map(r=>`<div class=row style="font-size:16px"><span>${r[0]}</span><b>${r[1]} GS</b></div>`).join('')}<div class=row style="font-size:16px;border-top:1px solid #fff3"><span>Career</span><b>${tot} GS</b></div></div>`};
+(()=>{try{const _p=pCard;pCard=function(i,j){const r=_p.apply(this,arguments);try{if(S.stage!=='pro'||(i===0&&j===0))return r;const x=(rost('h.'+i)||[])[j];if(!x||ui.querySelector('[data-gs]'))return r;const z=szOne(i,x.n);const h=gsCard(x.gsH,z?z.gs||0:null,yrN());if(!h)return r;const bk=[...ui.querySelectorAll('button')].pop();if(bk)bk.insertAdjacentHTML('beforebegin',h);else (ui.firstElementChild||ui).insertAdjacentHTML('beforeend',h)}catch(e){}return r};window.pCard=pCard}catch(e){}})();
+(()=>{try{const _c=career;career=function(){const r=_c.apply(this,arguments);try{if(S.stage!=='pro'||ui.querySelector('[data-gs]'))return r;const z=szOne(0,S.name);const h=gsCard(S.gsH,z?z.gs||0:null,yrN());if(!h)return r;const bk=[...ui.querySelectorAll('button')].pop();if(bk)bk.insertAdjacentHTML('beforebegin',h);else (ui.firstElementChild||ui).insertAdjacentHTML('beforeend',h)}catch(e){}return r};window.career=career}catch(e){}})();
+// ===== 🦶 PUNTERS =====
+// Tyler, 2026-11-16: "Are there punters in the game? Is that a position? If not, it should be."
+// There weren't: the kicker (K) also punted. Now every team (pro, college, high school) has a punter (P) on its roster, in the
+// reserve spots so no starting spot moves. A team without one signs a new man (a name from Tyler's name lists, rated for his
+// level, no past seasons, so nothing is made up). The league keeps kickers AND punters (needs 2 at K/P), draft classes include
+// punters, and on punts it's the punter who comes out and kicks.
+try{LGN.K=2}catch(e){}
+try{if(!LGDP.some(x=>x[0]==='P'))LGDP.push(['P',.01])}catch(e){}
+window.pnMake=function(s,L,ti,lv){const r=rng((((s.seed||1)*131+ti*977+(L.length||0)*7))>>>0),M=myNames(),taken=new Set();for(const k in s.ro){(s.ro[k]||[]).forEach&&(s.ro[k]||[]).forEach(x=>{if(x&&x.n)taken.add(x.n)})}
+ let n,g=0;do n=NF[r()*NF.length|0]+' '+NL[r()*NL.length|0];while((M.has(n)||taken.has(n))&&g++<60);
+ const nums=new Set(L.filter(Boolean).map(x=>+x.num));let num=1+(r()*19|0),k=0;while(nums.has(num)&&k++<30)num=1+(r()*19|0);
+ const [lo,hi]=lv==='pro'?[62,84]:lv==='col'?[50,76]:[40,65];const ovr=lo+(r()*(hi-lo+1)|0),age=lv==='pro'?23+(r()*12|0):lv==='col'?18+(r()*4|0):15+(r()*3|0);
+ return {n,pos:'P',num,ovr,age,pot:Math.min(99,ovr+(r()*10|0)),cls:lv==='pro'?0:1+(r()*4|0),qp:1,qn:1,ny:0,h:[],cs:{},tm:[],aw:{},pnt:1}};
+window.pnEnsure=function(s){try{s=s||S;if(!s||!s.ro)return 0;const lv=s.stage==='pro'||s.stage==='draft'?'pro':s.stage==='col'?'col':'hs';let n=0;
+ for(const k in s.ro){if(!/^h\.\d+$/.test(k))continue;const L=s.ro[k];if(!Array.isArray(L)||L.length<23)continue;{const q=L.find(x=>x&&x.pos==='P'&&x.pnt&&!x.pid);if(q){q.pid='p'+(s.pidN=(s.pidN||0)+1);n++}}if(L.some(x=>x&&x.pos==='P'))continue;const ti=+k.slice(2);
+  const p=pnMake(s,L,ti,lv);p.pid='p'+(s.pidN=(s.pidN||0)+1);let at=-1;for(let j=25;j<L.length;j++)if(!L[j]){at=j;break}if(at<0){if(L.length<25){while(L.length<25)L.push(null)}const prev=L[L.length-1];if(prev){['dn','qn','qp'].forEach(f=>{if(prev[f]!==undefined)p[f]=prev[f]})}L.push(p)}else L[at]=p;n++}   // the roster's last player carries its 'built' markers
+ if(n)s.pnN=(s.pnN||0)+n;return n}catch(e){return 0}};
+(()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)pnEnsure(r)}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _h=hub;hub=function(){try{if(S&&S.ro)pnEnsure(S)}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== 🔑 SHORT SAVE CODES EVERYWHERE (friends' copy and off claude.ai) =====
+// Tyler, 2026-11-16: "just give me the short code for my friends away from Claude ... Turn the long code into short code ... No one's
+// gonna remember a long code. We're going off things you can remember."
+// Where claude.ai's own storage isn't available (the friends' link, the GitHub copy), "Create and copy save code" stores the long code
+// online (textdb.dev: free, no account) under the name you type (NUGENT), in pieces of up to 700 KB. Type that name under Import on any
+// phone and the save loads. A name made from another phone is refused and a free one is offered; the phone that made a code can update
+// it. Your private claude.ai copy keeps using claude.ai's storage; Import looks there first, then online.
+// Note: anyone who knows a code's name can load that save (it's a game save, nothing private), like any shared code.
+window.TXU='https://textdb.dev/api/data/';window.TXP='footballman26-';window.TXCH=700000;
+window.txGet=async function(k){try{const r=await fetch(TXU+encodeURIComponent(TXP+k),{cache:'no-store'});if(!r.ok)return null;const t=await r.text();return t&&t.length?t:null}catch(e){return null}};
+window.txPut=async function(k,v){const r=await fetch(TXU+encodeURIComponent(TXP+k),{method:'POST',headers:{'Content-Type':'text/plain'},body:v});if(!r.ok)throw new Error('online save refused ('+r.status+')');return true};
+window.txDev=function(){try{let d=localStorage.getItem('fm_dev');if(!d){d=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('fm_dev',d)}return d}catch(e){return 'nodev'}};
+window.txHead=function(t){try{if(!t||t.slice(0,5)!=='FMS1|')return null;const p=t.split('|');return {n:+p[1],tag:p[2],own:p[3],d:p.slice(4).join('|')}}catch(e){return null}};
+window.txFree=async function(base){const b=base.slice(0,9);for(let k=0;k<30;k++){const c=k?(b+(k+1)).slice(0,10):base;const h=txHead(await txGet(c));if(!h||h.own===txDev())return c}return base};
+window.txMake=async function(c){const xm=$('#xm'),xc=$('#xc'),inp=$('#scn');const say=t=>{if(xm)xm.textContent=t};
+ say('Checking "'+c+'"…');const h0=txHead(await txGet(c));if(h0&&h0.own!==txDev()){const f=await txFree(c);if(inp)inp.value=f;return say('"'+c+'" is already taken. "'+f+'" is free — tap Create again to use it.')}
+ if(h0&&!confirm('Update your code "'+c+'" to right now? It will load from this point from now on.'))return say('Kept "'+c+'" where it was.');
+ say('Saving "'+c+'"…');let full='';try{window._scNoRand=1;full=await mkCode()}finally{window._scNoRand=0}if(!full||!full.startsWith('FMZ1')){if(xc)xc.value=full||'';return say('Could not make the code right now. Your game is still saved.')}
+ const data=full.slice(4),P=[];for(let i=0;i<data.length;i+=TXCH)P.push(data.slice(i,i+TXCH));const tag=Date.now().toString(36);
+ try{for(let i=1;i<P.length;i++)await txPut(c+'~'+i,tag+'|'+P[i]);await txPut(c,'FMS1|'+P.length+'|'+tag+'|'+txDev()+'|'+P[0]);
+  const L=scNamed().filter(x=>x.c!==c);L.push({c,n:(S&&S.name)||'',t:Date.now(),y:(typeof yrN=='function'?yrN():0),wk:(S&&S.wk)||0,on:1});scNamedSet(L);
+  if(xc)xc.value=c;try{await navigator.clipboard.writeText(c)}catch(e){}say('☁️ Your code is "'+c+'". On any phone, type it under Import a save code and it loads from this point. Make it again any time to update it.');try{scList()}catch(e){}}
+ catch(e){if(xc)xc.value=full;say('Couldn\'t reach the online save ('+String(e&&e.message||e).slice(0,50)+'). Your game is safe on this phone; try again, or use the full backup code below.')}};
+window.txLoad=async function(c){const h=txHead(await txGet(c));if(!h)return null;let z=h.d;for(let i=1;i<h.n;i++){const t=await txGet(c+'~'+i);if(!t)throw new Error('Code "'+c+'" is missing a piece. Try again in a moment.');const j=t.indexOf('|');if(t.slice(0,j)!==h.tag)throw new Error('Code "'+c+'" is being updated. Try again in a moment.');z+=t.slice(j+1)}return 'FMZ1'+z};
+// Create: use claude.ai storage when this copy has it, otherwise online
+(()=>{try{const _m=scMake;window.scMake=async function(){let B=null;try{B=await scDb()}catch(e){}if(B)return _m.apply(this,arguments);const inp=$('#scn');const c=scClean(inp&&inp.value);
+ if(c.length<2)return $('#xm')&&($('#xm').textContent='Give your code a name: 2 to 10 letters or numbers.');if(c.startsWith('FM'))return $('#xm')&&($('#xm').textContent='Codes can\'t start with "FM". Try another name.');return txMake(c)}}catch(e){}})();
+// Import: claude.ai storage first (when there), then online
+(()=>{try{const _r=readCode;readCode=async function(t){const s=(t||'').trim();const short=s&&s.length>=2&&s.length<=10&&/^[A-Za-z0-9]+$/.test(s)&&!/^FM/i.test(s);
+ if(!short)return _r.apply(this,arguments);let first=null;try{const r=await _r.apply(this,arguments);if(r)return r}catch(e){first=e}
+ const full=await txLoad(s.toUpperCase());if(full)return _r.call(this,full);throw first||new Error('Code "'+s.toUpperCase()+'" not found. Check the spelling (capitals don\'t matter).')};window.readCode=readCode}catch(e){}})();
+// the name box shows a free name for this phone
+(()=>{try{const _s=settings;settings=function(){const r=_s.apply(this,arguments);try{(async()=>{let B=null;try{B=await scDb()}catch(e){}if(B)return;const i=$('#scn');if(!i)return;const d0=i.value;const f=await txFree(d0);if(i.value===d0&&f!==d0)i.value=f})()}catch(e){}return r}}catch(e){}})();
+// ===== ▶ RESUME RIGHT WHERE YOU LEFT =====
+// Tyler, 2026-11-16: "when you leave, sometimes it doesn't leave on the player on. sometimes it'll give them the ball, even though you
+// were on like a second down ... it should resume game on whatever play you were on and it shouldn't restart drives".
+// WHY: the game's resume point was only written after one of your plays finished (and not when a play ended a quarter). After the
+// other team's drive, or after a quarter change, it still said "their ball" at the old spot, so leaving then gave them the ball
+// back and re-rolled their drive. NOW: the resume point is written every time you line up to call a play (your ball, this down,
+// this spot, this clock), and when the other team gets the ball their drive is kept, so a resume shows that same drive, never a
+// new one.
+(()=>{try{const _p=pre;pre=function(){const r=_p.apply(this,arguments);try{if(g&&g.ph==='pre'&&!g.watch&&S){gsnap();save()}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _o=oppBall;oppBall=function(){const r=_o.apply(this,arguments);try{if(g&&g.ph==='opp'&&g.r&&S&&S.gsave&&S.gsave.opp){S.gsave.r=g.r;save()}}catch(e){}return r}}catch(e){}})();
+(()=>{try{const _d=simDrive;simDrive=function(){if(window._rsR){const r=window._rsR;window._rsR=null;return r}return _d.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _r=resumeG;resumeG=function(){try{const s=S&&S.gsave;window._rsR=s&&s.opp&&s.r?s.r:null}catch(e){}try{return _r.apply(this,arguments)}finally{window._rsR=null}}}catch(e){}})();
+// ===== 🏈 SWIPE AT 70-75% =====
+// Tyler, 2026-11-16: "60 was a bit low, I would say it's about 70 to 75% where I like it on swipe to throw". Measured on his save,
+// 600 swipes at every receiver: 65-68% complete before; 137 of 168 misses were pass breakups. A contested catch (defender within
+// 1.7 yds) is now a bit more often caught: 72-76% complete, picks unchanged (12-27 per 600). Test swp1 keeps it in 68-79%.
+window.CTC={r:1.7,b:.75};
+// ===== 🛌 REST THE STARTERS (the bye is locked up) =====
+// Tyler, 2026-11-16: "If you've already clinched a bye week and pro, under the play / sim game section, there should be ask coach if he
+// can rest the starters. He will say yes because y'all have a bye week anyways, and he doesn't want y'all to get hurt ... the backups
+// will be playing that game. You can still play it if you want, obviously, with the starters".
+// Clinched = no other team in your conference can reach your win total even if you lose every game left (the top seed gets the bye).
+// Resting: the game is simmed, you sit (no stats for you that week), every starter on your side sits too (his backup plays and gets
+// the line in the box score and the season totals), and none of the rested starters can get hurt that week. Nothing else changes.
+window.restLeft=function(i){let n=0;try{for(let w=S.wk;w<18;w++)if((S.psch[w]||[]).some(p=>p[0]===i||p[1]===i))n++}catch(e){}return n};
+window.byeLock=function(){try{if(!S||S.stage!=='pro'||S.pb||!(S.wk<18))return false;const T=S.T,cf=String(T[0].dv||'').slice(0,3);if(!cf)return false;
+ const me=T[0].w;for(let i=1;i<T.length;i++){if(String(T[i].dv||'').slice(0,3)!==cf)continue;if(T[i].w+restLeft(i)>=me)return false}return true}catch(e){return false}};
+window.restBtn=function(e){try{if(e&&e.t==='pro'&&byeLock()&&!(typeof gsOk=='function'&&gsOk()))return '<button class=g onclick=restAsk()>🛌 Ask coach to rest the starters</button>'}catch(x){}return ''};
+window.restAsk=function(){ovShow(`<h2>🛌 Rest the starters?</h2><p><b>Coach:</b> "Yeah, we've got the bye locked up. I don't want anybody getting hurt before the playoffs. Starters sit this one, the backups play."</p><p><small>The game is simmed with the backups. You and the starters don't play, so no stats this week and nobody on the first team gets hurt. You can still play it yourself instead.</small></p><button onclick="ovHide();restGo()">Rest the starters</button><button class=g onclick="ovHide()">Never mind, we'll play</button>`)};
+window.restGo=function(){try{const e=pevt();if(!e||e.t!=='pro'||!byeLock())return hub();const key=gmKey(S.wk);S.restK=(S.restK||[]).filter(k=>k.split('|')[0]===key.split('|')[0]);if(!S.restK.includes(key))S.restK.push(key);
+ window._restF=1;try{psim(e)}finally{window._restF=0}}catch(x){window._restF=0;try{hub()}catch(_){}}};
+// the rested starters are out of that week's game (their backups take their lines); you (slot 0), the kicker and punter are unchanged
+window.restNames=function(){try{return (rost('h.0')||[]).slice(1,22).filter(Boolean).map(x=>x.n)}catch(e){return []}};
+(()=>{try{const _o=gmOut;window.gmOut=function(x,key){try{if(x&&S&&S.restK&&S.restK.includes(key)&&restNames().includes(x.n))return true}catch(e){}return _o.apply(this,arguments)}}catch(e){}})();
+// your own line that week goes to the backup QB who played (you sat)
+(()=>{try{const _b=bxSide;bxSide=function(ti){const R_=_b.apply(this,arguments);try{if(R_&&ti===0&&S&&S.restK&&typeof BXW!=='undefined'&&BXW!=null&&S.restK.includes(gmKey(BXW))){const L=rost('h.0')||[];
+  const bq=L.slice(23).find(x=>x&&x.pos==='QB'&&x.n!==S.name)||L.find((x,k)=>k>0&&x&&x.pos==='QB'&&x.n!==S.name);if(bq){['pass','rush'].forEach(c=>gmMerge(R_[c],S.name,bq.n));if(Array.isArray(R_.gs)&&R_.gs[0]===S.name)R_.gs[0]=bq.n}
+  // a starter still on the sheet (not enough backups at his spot): his snaps go to the backups at that spot, shared out in turn
+  const rn=new Set(restNames()),grp=x=>{try{return lgGrp(x.pos)}catch(e){return x.pos}},bench=L.slice(23).filter(x=>x&&x.n!==S.name&&!rn.has(x.n)),turn={};
+  L.slice(1,22).forEach(x=>{if(!x||!rn.has(x.n))return;const G=grp(x),B=bench.filter(y=>grp(y)===G);if(!B.length)return;const i=(turn[G]=(turn[G]||0)+1)-1,to=B[i%B.length].n;
+   ['pass','rush','rec','def'].forEach(c=>gmMerge(R_[c],x.n,to));if(Array.isArray(R_.gs)){const q=R_.gs.indexOf(x.n);if(q>=0)R_.gs[q]=to}})}}catch(e){}return R_};window.bxSide=bxSide}catch(e){}})();
+// nobody on the first team gets hurt in a game he sat out
+(()=>{try{const _t=injTick;injTick=function(){if(!window._restF)return _t.apply(this,arguments);const L=(S&&S.ro&&S.ro['h.0'])||[],pre=L.map((x,k)=>k<=21&&x?!!x.inj:null),u0=S.inj;
+ const r=_t.apply(this,arguments);try{L.forEach((x,k)=>{if(k<=21&&x&&pre[k]===false&&x.inj){delete x.inj}});if(!u0&&S.inj)S.inj=null}catch(e){}return r}}catch(e){}})();
+// the defensive lines are added after the side is built: the same backups (by the starters list of that game) take them
+(()=>{try{const _m=bxMake;bxMake=function(w){const R=_m.apply(this,arguments);try{if(R&&S&&S.restK&&S.restK.includes(gmKey(w))){const sd=R.A&&R.A.ti===0?R.A:R.B&&R.B.ti===0?R.B:null;
+  if(sd&&Array.isArray(sd.gs)){const L=rost('h.0')||[],rn=new Set(restNames());for(let k=1;k<=21;k++){const x=L[k],to=sd.gs[k];if(x&&rn.has(x.n)&&to&&to!==x.n)['pass','rush','rec','def'].forEach(c=>gmMerge(sd[c],x.n,to))}}}}catch(e){}return R};window.bxMake=bxMake}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>

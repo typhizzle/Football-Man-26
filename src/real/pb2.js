@@ -4,10 +4,10 @@ const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg,errs}=await H.open({file:process.env.PB_FILE});const j=fs.readFileSync('/home/claude/specs/simothy-2037.json','utf8');
 const out=await pg.evaluate(async(j)=>{const o={};try{window.confirm=()=>true;window.alert=()=>{};S=mig(JSON.parse(j));SLOT=4;LASTJ='';
  if(typeof pbV!='function'){o.err='no Pro Bowl voting';return o}
- hub();o.A_button=[...ui.querySelectorAll('button')].some(x=>/Pro Bowl voting/.test(x.textContent));
+ hub();o.A_button=[...ui.querySelectorAll('button')].some(x=>/Pro Bowl/.test(x.textContent));   /* 2026-11-16: inside the MVP ladder section */
  // B: your votes move a player up
  const V=pbS();pbV('WR');const P=pbBallot();const wr=(P.WR||[]).filter(c=>c.conf==='RFC').sort((a,b)=>pbVotes(b)-pbVotes(a));const tgt=wr[7];const before=wr.indexOf(tgt);
- for(let i=0;i<10;i++)pbVote(tgt.n);const after=(pbBallot().WR||[]).filter(c=>c.conf==='RFC').sort((a,b)=>pbVotes(b)-pbVotes(a)).findIndex(c=>c.n===tgt.n);o.B_votesCount=after<before;pbVote(tgt.n);o.B_weeklyLimit=(V.u[tgt.n]||0)===10;
+ for(let i=0;i<50;i++)pbVote(tgt.n);const after=(pbBallot().WR||[]).filter(c=>c.conf==='RFC').sort((a,b)=>pbVotes(b)-pbVotes(a)).findIndex(c=>c.n===tgt.n);o.B_votesCount=after<before;pbVote(tgt.n);o.B_weeklyLimit=(V.u[tgt.n]||0)===10&&(V.t[tgt.n]||0)===10;   /* 2026-11-16 later: 10 votes a week, 1 tap = 1 vote = 1k */
  // C: play to the end of the regular season: voting closes, rosters per conference
  let g=0;while(g++<40&&!S.pb){const e=pevt();if(e.t=='pro')psim(e);else if(e.t=='bye')pWeek(null);else break;hub()}
  const V2=pbS();o.C_closed=!!V2.closed;o.C_rosters=['RFC','LFC'].every(cf=>Object.keys(PBSL).every(k=>(V2.r[cf][k]||[]).length>=PBSL[k]));

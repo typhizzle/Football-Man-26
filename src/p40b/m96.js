@@ -31,6 +31,12 @@ window.ubMvpFill=function(Y,ub,cur){
  // can't see the champion's roster -> keep whatever is on record rather than invent
  if(!roster.length)return blank?ubMvpMake(Y):cur;
  if(!blank&&roster.some(q=>q.n===c))return cur;        // already a champion's player
+ // Tyler 2026-11-16: "Why does it say Ultra Bowl MVP Ham Luther in 2025". The list above is the champion's QBs only, so a real
+ // non-QB MVP (2025 Kevin Sprinter, a back; 2021 Hooper Bol, a receiver) was swapped for the QB in every save. The real results
+ // (through 2025) are never replaced, and a name that isn't some other team's QB that season is kept (he may be a back,
+ // a receiver or a defender). Only a blank, or a QB of a different team, is replaced.
+ if(!blank){try{if(typeof RCH!='undefined'&&RCH[Y]&&RCH[Y].sbm===c)return cur}catch(e){}
+  let otherQB=false;try{otherQB=uPro(Y).some(x=>x.ti!==ub&&Array.isArray(x.q)&&x.q.some(q=>q&&q.n===c))}catch(e){}if(!otherQB)return cur}
  const q=roster.find(x=>!x.fill)||roster[0];           // otherwise the champion's starter
  return (q&&q.n)?q.n:(blank?ubMvpMake(Y):cur);
 };

@@ -992,7 +992,7 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 r("if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}",
   "if(edge(9)&&inGame&&typeof pause==='function'&&!g.paused){pause();CTL.prev=down;return}\n if(edge(9)&&inLR&&!root){const m_=[...lrw.querySelectorAll('button')].find(x=>/☰/.test(x.textContent));if(m_){m_.click();CTL.prev=down;return}}")
 r("['pointerdown','mousemove','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;","['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,e=>{if(ev==='mousemove'&&!(e.movementX||e.movementY))return;")
-r("aim.px=px;aim.py=py;aim.t=slt(aim)}","aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_)){aim.mm=mm_;aim.mx=px;aim.my=py}}}")
+r("aim.px=px;aim.py=py;aim.t=slt(aim)}","aim.px=px;aim.py=py;aim.t=slt(aim);{const mm_=Math.hypot(px,py);if(!(aim.mm>=mm_-1)){aim.mm=Math.max(aim.mm||0,mm_);aim.mx=px;aim.my=py}if(mm_<aim.mm*.93){if(!aim.dropT)aim.dropT=performance.now()}else aim.dropT=0}}")
 r("const a=aim;aim=null;if(!g||g.ph!='live')return;const P=g.pl,q=P.qb,c=P.car,run=","const a=aim;aim=null;if(!g||g.ph!='live')return;if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m205.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
@@ -1016,3 +1016,100 @@ r("let S,g,W,H,sc,cam=0","try{Object.defineProperty(Array.prototype,'lnPop',{val
 h=h.replace(".split(' ').pop()",".split(' ').lnPop()")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m208.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m209.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-15: "I'm thinking we should expand to 8 saves" — one setting for the number of save slots
+r("let S,g,W,H,sc,cam=0","window.NSLOT=8;window.SLOTS=()=>Array.from({length:NSLOT},(_,i)=>i+1);let S,g,W,H,sc,cam=0")
+r("function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=6;i++)","function menuMain(){PL.cvm='menu';let s='';for(let i=1;i<=NSLOT;i++)")
+r("for(let i=1;i<=6;i++){const sn=await d.doc(CL.p+'slot'+i).get()","for(let i=1;i<=NSLOT;i++){const sn=await d.doc(CL.p+'slot'+i).get()")
+r("function menuEdit(){for(let i=1;i<=5;i++)","function menuEdit(){for(let i=1;i<=NSLOT;i++)")
+r("let ok=lsSet(k,js);if(!ok)for(const s of [1,2,3,4,5])","let ok=lsSet(k,js);if(!ok)for(const s of SLOTS())")
+r("${[1,2,3,4,5].map(i=>`<button class=g onclick=\"impS(${i})\">","${SLOTS().map(i=>`<button class=g onclick=\"impS(${i})\">")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m210.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-16: a bigger sideline — the stands, wall and lights move back 11 yards; a wide team area; benches behind the team
+r("[-1,1].forEach(s=>{bx(4.4,.08,120,0xb5793f,s*28.85,-.02,-50,P);","[-1,1].forEach(s=>{bx(15.4,.08,120,0xb5793f,s*34.6,-.02,-50,P);")
+r("[-1,1].forEach(s=>{bx(1.2,1,24,0x2d3748,s*33.2,.5,-50,P);bx(1.4,.25,24,0x4a5568,s*33.4,1.1,-50,P)});","[-1,1].forEach(s=>{bx(1.2,1,30,0x2d3748,s*36.4,.5,-50,P);bx(1.4,.25,30,0x4a5568,s*36.6,1.1,-50,P)});")
+r("bx(3,t,125,0x4a5568,s*(32+k*3),t/2-.6,-50,P);for(let z=-12;z<112;z+=2.2)if(Math.random()<.8)bx(1.2,1.4,1.2,cc[Math.random()*6|0],s*(32+k*3),t-.6+.7,-z,P)","bx(3,t,125,0x4a5568,s*(43+k*3),t/2-.6,-50,P);for(let z=-12;z<112;z+=2.2)if(Math.random()<.8)bx(1.2,1.4,1.2,cc[Math.random()*6|0],s*(43+k*3),t-.6+.7,-z,P)")
+r("bx(.6,10,150,0x3a4a63,s*45,5,-50,P);for(let z=-10;z<110;z+=14)bx(.3,4,6,cc[Math.random()*6|0],s*44.6,7,-z,P);[12,-112].forEach(z=>{bx(1,24,1,0x556677,s*40,12,z,P);bx(7,3,1.2,0xfff6b0,s*40,25,z,P)})","bx(.6,10,150,0x3a4a63,s*56,5,-50,P);for(let z=-10;z<110;z+=14)bx(.3,4,6,cc[Math.random()*6|0],s*55.6,7,-z,P);[12,-112].forEach(z=>{bx(1,24,1,0x556677,s*51,12,z,P);bx(7,3,1.2,0xfff6b0,s*51,25,z,P)})")
+r("if(m.geometry&&((x>=31.9&&y>=1.25)||x>=34.5||y>=8))m.castShadow=false","if(m.geometry&&((x>=42.9&&y>=1.25)||x>=45.5||y>=8))m.castShadow=false")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m211.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m212: the slingshot release shows what happened, at your finger
+r("if(a.mm>14&&Math.hypot(a.px,a.py)<a.mm*.6){a.px=a.mx;a.py=a.my;try{a.t=slt(a)}catch(e){}}const P=g.pl,q=P.qb,c=P.car,run=",
+  "let full_=0;if(a.mm>14&&(Math.hypot(a.px,a.py)<a.mm*.6||(a.dropT&&performance.now()-a.dropT<350))){a.px=a.mx;a.py=a.my;full_=1;try{a.t=slt(a)}catch(e){}}const ex_=e.clientX,ey_=e.clientY;const P=g.pl,q=P.qb,c=P.car,run=")
+r("if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;return}","if(mg<12){g.flash='PULL BACK TO THROW';g.ft=.9;if(!run)try{slRel(ex_,ey_,'Not thrown: pull back further',0)}catch(_){}return}")
+r("if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}doThrow(b,t0,t1)}}}});",
+  "if(a.t){let t0=a.t[0],t1=a.t[1];P.wr.forEach(w=>{const d=Math.hypot(w.x-t0,w.y-t1);if(d<bd){bd=d;b=w}});if(b){const T=Math.hypot(b.x-q.x,b.y-q.y)/(16+S.q.pow*.1),ex=b.x+b.vx*T,ey=b.y+b.vy*T;{const aF=accF(),rr_=4+aF*5,bl=.5+aF*.38;if(Math.hypot(ex-t0,ey-t1)<rr_){t0=t0*(1-bl)+ex*bl;t1=t1*(1-bl)+ey*bl}}const air0_=!!P.air;doThrow(b,t0,t1);try{if(P.air&&!air0_)slRel(ex_,ey_,'🏈 '+slWho(b)+' · '+Math.max(0,Math.round(t1-g.los))+' yd'+(full_?' · full pull-back':''),1);else if(g.ft>0&&g.flash)slRel(ex_,ey_,g.flash,0)}catch(_){}}}}});")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m212.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m213: Chicago Icemen, Dallas Cattle Boys (new worlds via the base list; old saves via tmRn2 on load)
+r("Chicago|Gales","Chicago|Icemen")
+r("Dallas|Wildcatters","Dallas|Cattle Boys")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m213.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m214: your box scores add up to your real season (per-game record of your line, never dropped; old games filled from your totals)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m214.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m215: placement & accuracy passing on the controller (hold meter lob/touch/bullet, blue window, stick placement, LB high, LT low)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m215.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# the touch throw hint is hidden while you use a controller
+r("pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2){cx.globalAlpha=.9;","pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2&&!(typeof CTL!='undefined'&&CTL.mode==='pad')){cx.globalAlpha=.9;")
+# Tyler 2026-11-16: routes with no end run all the way to the sideline / back of the end zone, then work back open; curls and
+# comebacks sit in it ~2.4 s first; no more 0.6 s then wander (the stutter)
+r("if(P.passed||(P.t-w.sct<.6&&!ob_)){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else{",
+  "if(window.ROLD?(P.passed||(P.t-w.sct<.6&&!ob_)):P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!window.ROLD&&!ob_){tx=nx;ty=ny}else if(!window.ROLD&&d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<(window.RSIT||2.4)){tx=w.x;ty=w.y;sp=0}else{")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m216.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m217: a real truck (knocked down with a fall and get-up, or shrugged off with a stagger)
+r("d.x+=(c.vx||0)/vl*1.8;d.y+=(c.vy||0)/vl*1.8;d.stun=1.7;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=.35;g.flash='TRUCKED!';",
+  "d.kbFrom=[d.x,d.y];d.kdS=performance.now();d.kdF=R()<.62;d.x+=(c.vx||0)/vl*(d.kdF?2.2:1.3);d.y+=(c.vy||0)/vl*(d.kdF?2.2:1.3);d.stun=d.kdF?1.9:.95;d.kdU=d.stun;d.kd=1;d.kdr=Math.atan2(-(c.vx||0),c.vy||1);d.cd=2.2;g.sh=d.kdF?.4:.22;g.flash=d.kdF?'TRUCKED!':'SHRUGGED OFF!';")
+r("if(o.kd&&o.stun>0){m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}",
+  "if(o.kd&&o.stun>0){if(o.kdS&&typeof trkPose=='function'){trkPose(o,m);return}m.rotation.y=o.kdr||0;m.rotation.x=1.45;m.position.y=.3;return}if(o.kdS&&!(o.stun>0))o.kdS=0;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m217.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m218.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m219: the lookalike made-up players get their own random names (Tyler's call)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m219.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m220: Player Lives Matter — takeover calendar for college prospects (stay in college until drafted), Nov-10 trades, Simmons 2037 restart
+r("const npxAt=p=>{if(p.pro)return{lv:'pro'};","const npxAt=p=>{if(p.pro)return{lv:'pro'};if(typeof npxTk=='function'){const t_=npxTk(p);if(t_)return t_}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m220.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m221.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m222: name tags toggle (names+numbers / numbers / off), free look on the sideline, a living bench
+r("[...P.ol,...P.wr,P.qb,...P.def].forEach(o=>{const p=pj(o.x,o.y,3.3),t=(CAMI==1||CAMI==2)?","(S.ntag==='off'?[]:[...P.ol,...P.wr,P.qb,...P.def]).forEach(o=>{const p=pj(o.x,o.y,3.3),t=S.ntag==='num'?String(o.num):(CAMI==1||CAMI==2)?")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m222.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m223.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m224.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m225: punters — the team's punter kicks the punts (the kicker kicks field goals)
+r("try{const L_=rost(g.sw?'h.'+g.oi:'h.0'),K=L_&&L_[22];","try{const L_=rost(g.sw?'h.'+g.oi:'h.0'),K=L_&&((!fg&&L_.find(x=>x&&x.pos==='P'))||L_[22]);")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m225.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-16: a teammate walking up to talk walked in place / stuttered (start/stop at the same distance every frame).
+# Now: he walks until 2.4 away, then stays until you're clearly farther (3.4) — and only animates when he actually moves.
+r("else if(rq&&d<10&&d>2.2&&!L.tg&&L.near!==o){const s=2.6*dt;o.x+=dx/d*s;o.z+=dz/d*s;wk=true;face=[dx,dz]}",
+  "else if(rq&&d<10&&!L.tg&&(o.app?d>2.4:d>3.4)){o.app=1;const s=Math.min(d-2.35,2.6*dt);if(s>.001){o.x+=dx/d*s;o.z+=dz/d*s;wk=true}face=[dx,dz]}else if(rq&&d<10&&!L.tg){o.app=0;if(d<4)face=[dx,dz]}")
+# Tyler 2026-11-16: "You can move the version to .0011 next artifact"
+h=h.replace("V 0.0.1.0010","V 0.0.1.0011")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m226.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m227: resume exactly where you left (your ball, your down, the same opponent drive)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m227.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-16 (later): swipe "about 70 to 75% where I like it". Measured on his save: 137 of 168 incompletions were pass
+# breakups (a defender within 1.7 yds). Tunable here (CTC); the values are set in m227 after measuring.
+r("cont=sep<1.7;","cont=sep<(window.CTC?CTC.r:1.7);")
+r("(cont?.66+w.hands/600","(cont?(window.CTC?CTC.b:.66)+w.hands/600")
+# m228: rest the starters once the bye is locked up (Tyler 2026-11-16)
+r("st0=pStarter()&&!injOut(),","st0=pStarter()&&!injOut()&&!window._restF,")
+r("m=injOut()?'🚑 You sat out hurt. '+injLeft():'You sat behind '","m=window._restF?'🛌 Starters rested (the bye is locked up). The backups played.':injOut()?'🚑 You sat out hurt. '+injLeft():'You sat behind '")
+r("${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}`}","${(e.t=='pro'||e.t=='pp')&&st?'<button class=g onclick=simUser()>Sim this game</button>':''}${st&&typeof restBtn=='function'?restBtn(e):''}`}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m228.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
