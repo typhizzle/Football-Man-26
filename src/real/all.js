@@ -144,8 +144,8 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.pageErrors&&d.pageErrors.length)return 'page errors '+d.pageErrors[0];for(const k of ['H_overWild','A_ok','A_lobFloats','B_inFull','B_offEarly','C_windowMatters','D_ok','E_ok','F_auto','F_draw','F_legend','G_touch'])if(d[k]!==true)return k+' '+JSON.stringify([d.A_speed,d.C_err,d.D_place,d.E_hl]);return null}},
  {f:'wt1.js', why:"Watched drives: no stuttering tackles (2026-11-16): across 14 watched drives the ball carrier never stumbles from missed contact, and no defender hangs on him for more than half a second before the tackle",
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.maxStum>0)return 'carrier stumbling '+d.maxStum+'%';if(d.maxClose>40)return 'defender hanging on '+d.maxClose+' frames';return null}},
- {f:'ge1.js', why:"Coverage (2026-11-16): defenders stay on receivers (wide-open receivers at 2.5 s under 17%) but passes still complete (50-82% throwing to the most open man)",
-  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!(d.wideOpen25<17))return 'wide open '+d.wideOpen25+'%';if(!(d.cmpPct>=50&&d.cmpPct<=82))return 'completions '+d.cmpPct+'%';return null}},
+ {f:'ge1.js', why:"Coverage (2026-11-16): defenders stay on receivers (wide-open receivers at 2.5 s under 20%; was 17, raised when the pick-up defender was moved behind the receiver to give Tyler his swipe back) but passes still complete (50-82% throwing to the most open man)",
+  check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!(d.wideOpen25<20))return 'wide open '+d.wideOpen25+'%';if(!(d.cmpPct>=50&&d.cmpPct<=82))return 'completions '+d.cmpPct+'%';return null}},
  {f:'ge2e.js', why:"QB scrambles to the edge (2026-11-16 'QB rushing seems to be the dominant way to play'): a 99-speed QB running wide averages under 17.5 yards (was 19-24), still positive",
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!(d.avg<17.5&&d.avg>3))return 'edge scramble avg '+d.avg;return null}},
  {f:'la1.js', why:"Lookalike names (Tyler's call 2026-11-16): in his real saves, every made-up player with a star's exact name at a different position gets a new random name (14: Frank 5, Bronny 8, Murdock 1); none left; real stars untouched",
@@ -168,6 +168,7 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.bad>0)return (d.lines||[]).filter(l=>/: [1-9]/.test(l)).slice(0,2).join(' | ');return null}},
  {f:'sd3.js', why:"Sideline (Tyler 2026-11-16): dragging right turns the view right (was reversed); standing players face the field (were turned away); players who walk face where they walk; nobody near the camera disappears",
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_rightTurnsRight','B_ok','C_ok','D_visible'])if(d[k]!==true)return k+' '+JSON.stringify([d.A_dot,d.B_facing+'/'+d.B_standing]);return null}},
+ {f:'jb1.js', why:'JUMP BALL (Tyler 2026-11-16): a deep catch with the beaten defender on him is never a free walk-in: he gets a tackle try right away, tackled or broken tackle (stagger + BROKE THE TACKLE!)', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!d.A_noFreeWalkIn)return 'free walk-ins '+d.free+'/'+d.n;if(!d.B_bothHappen)return 'tackles '+d.tk+' broken '+d.brk;return null}},
  {f:'ovs1.js', why:'EXACT OVERALLS (Tyler 2026-11-16): Lamarcus Action 94, Femmifer Allen 89, Jay Copyright 89 in every save; ratings card keeps its arrows', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(!d.A_ok)return 'A_ok';if(d.B_card!==true)return 'B_card';return null}},
  {f:'ubm1.js', why:'REAL ULTRA BOWL MVPs (Tyler: "why does it say Ultra Bowl MVP Ham Luther in 2025"): every save shows 2025 Kevin Sprinter, 2021 Hooper Bol, 2022-24 as recorded, on the League stats card; a QB of another team is still never shown', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_all2025','B_all2021','C_others','D_card','E_otherQb'])if(d[k]!==true)return k;return null}},
  {f:'rst1.js', why:'REST THE STARTERS once the bye is clinched (Tyler 2026-11-16): option only when nobody in your conference can catch you, coach agrees, you can still play; the backups play (no starter or you in that box score), no stats for you, no first-teamer hurt that week, other teams still get hurt', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;if(d.pageErrors&&d.pageErrors.length)return 'page errors '+d.pageErrors[0];for(const k of ['A_clinched','A_button','A_canPlay','B_notClinched','B_noButton','B_otherConf','C_coach','C_weekDone','C_noUserStats','C_othersHurt','C_msg','D_box'])if(d[k]!==true)return k;if(d.C_noStarterHurt.length)return 'starter hurt '+d.C_noStarterHurt;if(d.D_startersIn.length)return 'starters in box '+d.D_startersIn;if(d.D_userIn)return 'you in box';if(d.D_backupsIn<8)return 'backups '+d.D_backupsIn;return null}},
@@ -276,7 +277,7 @@ const TESTS=[
    // Tyler's ratings orders 2026-11-16: the ratings update reaches every save, once. A rating change is allowed only if it is
    // exactly that player's listed amount.
    const RD={'Doobie Emmanuel':1,'Kirko Chainz':1,'Franklin Lawford':1,'Number Nine':1,'Drako September':-1,'Jack Mascott':-1,'Joseph Shiesty':1,'Femmifer Allen':1,'No Pix':1,'DaSettlement Won':1};
-   const rd=(d.changes||[]).filter(c=>{const m=/^\S+ \(([^)]+)\): rating (\d+) -> (\d+)$/.exec(c);return m&&RD[m[1]]!=null&&(+m[3]-+m[2])===RD[m[1]]}).length;d.changesToExistingData-=rd;
+   const rd=(d.changes||[]).filter(c=>{const m=/^\S+ \(([^)]+)\): rating (\d+) -> (\d+)$/.exec(c);const OV={'Lamarcus Action':94,'Femmifer Allen':89,'Jay Copyright':89};/* Tyler 2026-11-16: exact overalls */return m&&((OV[m[1]]!=null&&+m[3]===OV[m[1]])||(RD[m[1]]!=null&&(+m[3]-+m[2])===RD[m[1]]))}).length;d.changesToExistingData-=rd;
    if(d.changesToExistingData>KNOWN)
     return (d.changesToExistingData-KNOWN)+' NEW change(s) to existing data beyond the known RB backfill: '+(d.changes[0]||'');
    if(d.changesToExistingData<KNOWN)
@@ -373,7 +374,7 @@ const TESTS=[
    if(d.A_pro99!==85||d.A_pro72!==54||d.A_pro82!==59)return 'distance curve wrong '+d.A_pro99+'/'+d.A_pro82+'/'+d.A_pro72;
    if(Math.abs(d.A_hs99-72.25)>.2||Math.abs(d.A_col99-79.5)>.2)return 'level scaling wrong '+d.A_hs99+'/'+d.A_col99;
    if(String(d.B_hilton)!=='99,85'||String(d.B_fallon)!=='98,83'||String(d.B_williams)!=='96,77')return 'named QB ratings wrong';
-   if((d.B_ovrUnchanged||[]).length)return 'overall changed: '+d.B_ovrUnchanged.join(', ');
+   {const OV_=['Lamarcus Action','Femmifer Allen','Jay Copyright'];d.B_ovrUnchanged=(d.B_ovrUnchanged||[]).filter(n=>!OV_.includes(n))}/* Tyler 2026-11-16 exact overalls */if((d.B_ovrUnchanged||[]).length)return 'overall changed: '+d.B_ovrUnchanged.join(', ');
    if(d.C_mobile.mob!==3||d.C_mobile.pow!==6||d.C_deep.pow!==3||d.C_deep.mob!==6||d.C_fg.acc!==1||d.C_scr.acc!==3)return 'archetype costs wrong';
    if(Math.abs(d.F_mid-40.4)>1||d.F_full!==85)return 'swipe feel wrong: medium '+d.F_mid+' full '+d.F_full;if(d.F_slingUsesIt!==true)return 'slingshot not on the same distance rule';
    if(d.D_kept!==true)return 'power/speed cut at level change';if(d.E_card!==true)return 'QB card does not show the arm';return null}},

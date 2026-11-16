@@ -1116,3 +1116,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m229: exact overalls (Tyler 2026-11-16)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m229.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m230: the beaten defender gets a tackle try right after a downfield catch
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m230.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
