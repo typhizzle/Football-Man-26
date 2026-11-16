@@ -1136,3 +1136,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m234: Dawson Kingsley (TE, BUF, 83) in every save
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m234.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m235: permanent retirement ledger + unique names for new players (PLM audit)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m235.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
