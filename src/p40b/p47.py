@@ -1001,3 +1001,18 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m206.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 # a retiring player's roster slot becomes a NEW man: no registry id or prospect link carried over (the seal was restoring the retiree's seasons onto him)
 r("Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,","delete x.pid;delete x.npx;delete x.fa26;delete x.add26;delete x.kf26;delete x.back;delete x.prev;Object.assign(x,{n:NF[ri(0,NF.length-1)]+' '+NL[ri(0,NL.length-1)],ovr:o,age:ag,")
+# m207: Tyler's exact ratings (Cam spd 83, Manziel spd 90, Hilton III = Joe Milton), Shiesty +1
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m207.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m208 patches: Charlotte Black Cats in the base league; shop in high school; jersey swap face to face; sub out with a big lead late; kneel phase; suffix names
+r("Charlotte|Queens","Charlotte|Black Cats")
+r("(S.stage=='col'||S.stage=='pro')?'<button class=g onclick=\"shopV()\">🛍️ Shop</button>':''","'<button class=g onclick=\"shopV()\">🛍️ Shop</button>'")
+r("pm.rotation.y=Math.atan2(-ux,-uz)+Math.PI;","pm.rotation.y=Math.atan2(-ux,-uz);")
+r("o.m.rotation.y=Math.atan2(ux,uz)+Math.PI;","o.m.rotation.y=Math.atan2(ux,uz);")
+r("ok=(q4&&d>=25&&rem<=300)||(q4&&d>=17&&rem<=180)||(d>=34&&g.clk>=2580)||(d>=50&&g.clk>=1800)||(d<=-35&&g.clk>=1800);","ok=(q4&&d>=21&&rem<=600)||(q4&&d>=28)||(q4&&d>=17&&rem<=240)||(d>=34&&g.clk>=2580)||(d>=35&&g.clk>=1800)||(d<=-35&&g.clk>=1800);")
+r("nmLast=n=>{const p=String(n||'').split(' ').filter(Boolean);let l=p.pop()||'';if(/^(II|III|IV|Jr\\.?|Sr\\.?)$/i.test(l)&&p.length)l=p.pop();return l.toUpperCase().slice(0,12)};",
+  "nmLast=n=>{const p=String(n||'').split(' ').filter(Boolean);let l=p.pop()||'';if(/^(II|III|IV|V|Jr\\.?|Sr\\.?)$/i.test(l)&&p.length)l=p.pop()+' '+l;return l.toUpperCase().slice(0,14)};")
+r("let S,g,W,H,sc,cam=0","try{Object.defineProperty(Array.prototype,'lnPop',{value:function(){const l=this.pop();if(l!=null&&/^(II|III|IV|V|Jr\\.?|Sr\\.?)$/i.test(String(l))&&this.length)return this.pop()+' '+l;return l},enumerable:false,configurable:true})}catch(e){}\nlet S,g,W,H,sc,cam=0")
+h=h.replace(".split(' ').pop()",".split(' ').lnPop()")
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m208.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
