@@ -1145,3 +1145,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m237: the playable Pro Bowl (Honolulu)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m237.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m238: a finished game is never lost (saved at the final whistle; recovered on the next open)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m238.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
