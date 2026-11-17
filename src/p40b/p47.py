@@ -1193,3 +1193,5 @@ r("const mine=q&&!g.sw&&!g.injW;o.m=mk3(j,1.1,o.sk,{nm:mine?j.nm:(o.nm||''),num:
 
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m249.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m250.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m251.js').replace('__BLOB__',open('/home/claude/p40b/camfix.json').read())+"addEventListener('resize',resize);addEventListener('orientationchange'")
