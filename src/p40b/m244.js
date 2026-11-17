@@ -22,7 +22,10 @@ window.sfD=function(f){try{const d=Math.round(fans(S.pop||40)-fans((S.pop||40)-f
 // and A presses right after a redraw that lost the button are ignored (no more jumping to another screen)
 (()=>{try{const _p=ctlPress;window.ctlPress=function(){try{const el=CTL.sel;if(el&&el.isConnected){CTL.lastOcT=performance.now();const rc=el.getBoundingClientRect();CTL.lastY=rc.top;CTL.lastX=rc.left;
   if(performance.now()-(CTL.selFallT||0)<350)return;if(el.tagName==='INPUT'&&/checkbox|radio/i.test(el.type)){el.click();return}if(el.tagName==='LABEL'){el.click();return}}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
-window.ctlKeep=function(C){try{if(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)return null;const oc=CTL.lastOc||'',tx=CTL.lastTx||'';
+window.ctlKeep=function(C){try{
+ // title screen: start on your last-used save slot (not on the event button above the list), so one press of X loads it
+ const sl=C.filter(el=>/^Slot \d+: (?!New career)/.test((el.textContent||'').trim()));if(sl.length&&C.some(el=>/Delete Slot/.test(el.textContent||''))&&(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)){return sl.find(el=>new RegExp('^Slot '+(typeof SLOT!='undefined'?SLOT:0)+':').test((el.textContent||'').trim()))||sl[0]}
+ if(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)return null;const oc=CTL.lastOc||'',tx=CTL.lastTx||'';
  if(/^g\.tab=/.test(oc)){const c=C.find(el=>el.classList&&el.classList.contains('pc'));if(c)return c}
  let m=oc&&C.find(el=>(el.getAttribute('onclick')||'')===oc)||C.find(el=>(el.textContent||'').trim()===tx);if(m)return m;
  CTL.selFallT=performance.now();let b=null,bd=1e9;C.forEach(el=>{const r=el.getBoundingClientRect(),d=Math.abs(r.top-(CTL.lastY||0))*2+Math.abs(r.left-(CTL.lastX||0));if(d<bd){bd=d;b=el}});return b}catch(e){return null}};

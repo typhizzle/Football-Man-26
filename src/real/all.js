@@ -168,6 +168,7 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.bad>0)return (d.lines||[]).filter(l=>/: [1-9]/.test(l)).slice(0,2).join(' | ');return null}},
  {f:'sd3.js', why:"Sideline (Tyler 2026-11-16): dragging right turns the view right (was reversed); standing players face the field (were turned away); players who walk face where they walk; nobody near the camera disappears",
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_rightTurnsRight','B_ok','C_ok','D_visible'])if(d[k]!==true)return k+' '+JSON.stringify([d.A_dot,d.B_facing+'/'+d.B_standing]);return null}},
+ {f:'ctls1.js', why:'TITLE SCREEN: controller highlight starts on your save slot, one X press loads it', check:o=>{const d=J(o);return d&&d.ok?null:JSON.stringify(d)}},
  {f:'cam1.js', why:'CAM NUGENT: a save past the overtime game is put back at the 21-21 overtime, coin toss opens, runs once', check:o=>{const d=J(o);return d&&d.ok?null:JSON.stringify(d)}},
  {f:'bld1.js', why:'BUILD STAMP shows in the corner', check:o=>{const d=J(o);return d&&d.ok?null:'no stamp'}},
  {f:'pbl1.js', why:'PRO BOWL: every player on both teams, every quarter and substitution window, has his own roster number and his own look', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;return d.ok?null:JSON.stringify(d.bad||d.dup)}},
