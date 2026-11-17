@@ -45,7 +45,7 @@ window.PAC={lob:'#3ddc6e',touch:'#3d9bff',bullet:'#b84dff'};
 window.paIconY=5.9;   // button icons float above the receiver (not over his face or his defender)
 (()=>{try{const _d=draw;draw=function(){const r=_d.apply(this,arguments);try{if(PA.i>=0&&g&&g.ph==='live'&&g.pl&&!g.pl.air){const P=g.pl,q=P.qb,w=ctlRecv()[PA.i];if(!w)return r;
   const m=Math.min(1,paFill()),f=paWin(),s=pj(w.x,w.y,paIconY);if(!s||!isFinite(s[0]))return r;
-  cx.save();cx.setTransform(1,0,0,1,0,0);const R=30,a0=Math.PI*1.08,a1=Math.PI*1.92,A=t=>a0+(a1-a0)*t;
+  cx.save();{const d_=cv.width/W||1;cx.setTransform(d_,0,0,d_,0,0)};const R=30,a0=Math.PI*1.08,a1=Math.PI*1.92,A=t=>a0+(a1-a0)*t;
   cx.lineCap='butt';cx.lineWidth=10;cx.strokeStyle='#000b';cx.beginPath();cx.arc(s[0],s[1],R,A(0)-.04,A(1)+.04);cx.stroke();
   paZones().forEach(([k,a,b])=>{const wf=paWin(k),wa=b-(b-a)*wf;cx.lineWidth=7;cx.strokeStyle='#000';cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(wa));cx.stroke();cx.strokeStyle=PAC[k]+'66';cx.beginPath();cx.arc(s[0],s[1],R,A(wa),A(b)-.01);cx.stroke();
    if(m>a){cx.strokeStyle=PAC[k];cx.shadowColor=PAC[k];cx.shadowBlur=8;cx.beginPath();cx.arc(s[0],s[1],R,A(a)+.01,A(Math.min(m,b))-.01);cx.stroke();cx.shadowBlur=0}
