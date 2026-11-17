@@ -1171,3 +1171,14 @@ r("P.t+=dt;if(!g.ot)g.clk=Math.min(g.clk+dt*g.rate,P.qe)","P.t+=dt;if(!g.ot||g.o
 r("function preTick(dt){if(g.ph!='pre'||!g.tk||g.ot)return;","function preTick(dt){if(g.ph!='pre'||!g.tk||(g.ot&&!g.otT))return;")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m242.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m243.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-17: songs move fans by a real amount, up or down; records show ties
+r("pay=Math.round(st*.004),f=Math.round(1+q*4);","pay=Math.round(st*.004),f=Math.round((q-.55)*9);")
+r("streams · +$'+pay.toLocaleString()+' · fans +'+f);","streams · +$'+pay.toLocaleString()+' · fans '+sfD(f));")
+for a in ['t','m']:
+    h=h.replace('${'+a+'.w}-${'+a+'.l}','${'+a+'.w}-${'+a+'.l}${'+a+'.t?"-"+'+a+'.t:""}')
+for a in ['S.cs','S.ss']:
+    h=h.replace('${'+a+'.w}-${'+a+'.l}','${'+a+'.w}-${'+a+'.l}${'+a+'.t?"-"+'+a+'.t:""}')
+h=h.replace("RECORD '+T.w+'-'+T.l","RECORD '+T.w+'-'+T.l+(T.t?'-'+T.t:'')")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m244.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m245.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m246.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
