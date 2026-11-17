@@ -98,3 +98,5 @@ window.STDH='';window.stdV=function(){ui.style.display='block';ui.innerHTML=`<di
 
 // remember which save slot the highlight is on, so a redraw of the list (the cloud check finishing) doesn't throw it back to the top
 (()=>{try{const _s=window.ctlSet;window.ctlSet=function(el){try{const m=el&&/^Slot (\d+):/.exec((el.textContent||'').trim());if(m)CTL.slotMem=+m[1]}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();
+// the save list redrawing itself (cloud check finishing) must not throw you back to the top while you are moving down it
+(()=>{try{const _m=menuMain;menuMain=function(){let y=null;try{if(ui&&ui.style.display!=='none'&&[...ui.querySelectorAll('button')].some(b=>/Delete Slot/.test(b.textContent||'')))y=ui.scrollTop}catch(e){}const r=_m.apply(this,arguments);try{if(y){const f=()=>{ui.scrollTop=y};f();requestAnimationFrame(f);setTimeout(f,60);setTimeout(f,250)}}catch(e){}return r};window.menuMain=menuMain}catch(e){}})();
