@@ -29,3 +29,10 @@ window.raBackfill=function(s){try{s=s||S;if(!s||!s.seal||s.raBF)return 0;const i
   const ys=h.map(r=>r[0]).concat(hp.map(r=>r[0]));if(!ys.length)return;s.retAll.push({n:e.n,pos:e.p,a:null,o:null,id,h,hp:hp.length?hp:undefined,tm:(e.tm||[]).slice(),t:(e.tm||[]).slice(-1)[0],y:Math.max(...ys)+1,src:'seal'});n++});
  s.retAll.sort((a,b)=>a.y-b.y);s.raBF=1;return n}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r&&r.stage==='pro')raBackfill(r)}catch(e){}return r}}catch(e){}})();
+// free agents age too (PLM audit 2026-11-17: only rostered players got a birthday; a man in free agency stayed 28 for years).
+// Once per season, at the same moment everybody else ages.
+// Every player gets exactly one birthday a year, wherever he is when it happens (a free agent signed by a team that was already
+// processed missed it; a man released after his team was processed got a second one). Each birthday is marked with the year.
+(()=>{try{const _c=cpuDev;cpuDev=function(x){try{const y=window._bdY;if(x&&y!=null){if(x.bY===y)x.age=(x.age||25)-1;x.bY=y}}catch(e){}return _c.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _l=leagueDev;leagueDev=function(){window._bdY=yrN();let r;try{r=_l.apply(this,arguments)}finally{const y=window._bdY;window._bdY=null;
+ try{for(const k in S.ro){if(!(k==='fa'||/^h\.\d+$/.test(k)))continue;const L=S.ro[k];if(Array.isArray(L))L.forEach((x,i)=>{if(!x||!x.n||x.n===S.name||x.age==null)return;if(x.bY!==y){x.age++;x.bY=y}})}S.faAgeY=y}catch(e){}}return r}}catch(e){}})();

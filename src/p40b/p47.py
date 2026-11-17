@@ -1139,3 +1139,9 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m235: permanent retirement ledger + unique names for new players (PLM audit)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m235.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m236: real players carry only real seasons (no invented pre-2022 seasons)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m236.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m237: the playable Pro Bowl (Honolulu)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m237.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

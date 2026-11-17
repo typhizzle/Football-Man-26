@@ -10,7 +10,7 @@ const H=require('/home/claude/real/h.js');
  res[mode]=await pg.evaluate(async(mode)=>{const P=[],note=(t)=>{if(P.length<60)P.push(t)};const o={};try{save=()=>{};
   if(mode==='pro'){const e=tkList()[0];tkGo(e.i)}else{const L=faqList();faqGo(encodeURIComponent(L[0].n));faqSign(0)}ovHide();
   const all=()=>{const M=new Map();for(const k in S.ro){if(!/^h\.\d+$/.test(k))continue;(S.ro[k]||[]).forEach((x,j)=>{if(x&&x.n&&x.n!==S.name&&!x.pnt)(M.get(x.pid||('n:'+x.n))||M.set(x.pid||('n:'+x.n),[]).get(x.pid||('n:'+x.n))).push({x,k,j})})}return M};
-  const archived=n=>{try{return (S.retAll||[]).some(e=>e.n===n)||JSON.stringify(S.retq||[]).indexOf('"'+n+'"')>=0||Object.values(S.seal||{}).some(e=>e&&e.n===n&&e.ret)||JSON.stringify(S.retArc||[]).indexOf('"'+n+'"')>=0}catch(e){return false}};
+  const archived=n=>{try{return (S.retAll||[]).some(e=>e.n===n)||JSON.stringify(S.retd||[]).indexOf('"'+n+'"')>=0||JSON.stringify(S.retq||[]).indexOf('"'+n+'"')>=0||Object.values(S.seal||{}).some(e=>e&&e.n===n&&e.ret)||JSON.stringify(S.retArc||[]).indexOf('"'+n+'"')>=0}catch(e){return false}};
   const ok5=()=>{let bad=0;for(const k in S.ro){if(!/^h\.\d+$/.test(k))continue;const L=S.ro[k];if(!Array.isArray(L))continue;for(let j=0;j<=22;j++){const x=L[j];if(!x){bad++;note('S5 empty starter '+k+'#'+j);continue}let want=POSL[j],have=x.pos;try{if(lgGrp(want)!==lgGrp(have)){bad++;note('S5 '+k+'#'+j+' '+x.n+' is '+have+' in a '+want+' spot')}}catch(e){}}}return bad};
   let prev=null;const seasons=+o.n||4;o.years=[];
   for(let yr=0;yr<4;yr++){const Y=yrN();o.years.push(Y);
@@ -29,11 +29,11 @@ const H=require('/home/claude/real/h.js');
    if(prev){prev.forEach((p,id)=>{const now=snap.get(id);
      if(!now){if(!archived(p.n)&&!(S.ro.fa||[]).some(x=>x&&(x.pid===id||x.n===p.n))){const nowIn=(S.ro[p.k]||[])[p.j];note('S1 vanished '+p.n+' '+p.pos+' age'+p.age+' ovr'+p.ovr+' from '+p.k+'#'+p.j+' Y'+Y+' id='+id+' now there: '+(nowIn?nowIn.n+' '+nowIn.pos+' age'+nowIn.age+' pid='+nowIn.pid:'empty')+' | log:'+JSON.stringify((S.tlog||S.trx||[]).filter(t=>JSON.stringify(t).includes(p.n)).slice(-2)).slice(0,200))}return}
      if(now.n!==p.n)note('S2 renamed '+p.n+' -> '+now.n);if(now.pos!==p.pos&&lgGrp(now.pos)!==lgGrp(p.pos))note('S2 position '+p.n+' '+p.pos+' -> '+now.pos);
-     if(p.age!=null&&now.age!=null&&now.age-p.age!==1)note('S6 age '+p.n+' '+p.age+' -> '+now.age);
+     if(p.age!=null&&now.age!=null&&now.age-p.age!==1)note('S6 age '+p.n+' '+p.age+' -> '+now.age+' was '+p.k+'#'+p.j+' now '+(cur.get(id)||[{}])[0].k+' faBefore:'+(p.fa?1:0)+' retq:'+JSON.stringify(S.retq||[]).includes(p.n)+' retArc:'+JSON.stringify(S.retArc||[]).includes(p.n)+' tx:'+JSON.stringify((S.tx||[]).filter(t=>t&&t.n===p.n).slice(0,3)).slice(0,250));
      const was=JSON.parse(p.h),isNow=now.hAll.filter(r=>r[0]<Y-1);const w2=was.filter(r=>r[0]<Y-1);if(JSON.stringify(w2)!==JSON.stringify(isNow))note('S3 history changed '+p.n+' '+JSON.stringify(w2).slice(0,80)+' -> '+JSON.stringify(isNow).slice(0,80))})}
    // 8 prospects
    (S.npx||[]).forEach(p=>{const cy=(p.off|0)+1+(Y-2026);let on=null;for(const k in S.ro){if(!/^h\.\d+$/.test(k))continue;if((S.ro[k]||[]).some(x=>x&&x.n===p.n))on=k}if(on&&!p.tkDr&&cy<=4)note('S8 college player in NFL '+p.n+' class '+cy+' '+Y)});
-   prev=snap;try{pNext()}catch(e){note('pNext '+e.message);break}}
+   prev=snap;try{offStart();let gg=0;while(S.ofs&&gg++<20)offNext();if(S.ofs)pNext()}catch(e){note('offseason '+e.message);break}   /* the real offseason: free agency, the draft, camp */}
  }catch(e){note('ERR '+e.message+' | '+(e.stack||'').split('\n')[1])}o.problems=P;o.n=P.length;return o},mode);
  res[mode].pageErrors=errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,3);await b.close()}
  console.log(JSON.stringify(res,null,1))})();

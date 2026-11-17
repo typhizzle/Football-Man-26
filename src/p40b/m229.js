@@ -23,7 +23,8 @@ window.OPPX=.3;
 // Heisman and national championship. Where it at though". Real, verified ones only (college year = his playing year):
 // Cam Newton: Heisman + national title (Auburn 2010, his 4th college season); Johnny Manziel: Heisman (2012, 2nd season, redshirt
 // freshman); Robert Griffin III: Heisman (2011, 4th season). Added once to those careers' trophy cases (saves already made too).
-window.FACAW={'Cameron Nugent':['College yr 4: Heisman Trophy','College yr 4: National Champions'],'Johnny Football':['College yr 2: Heisman Trophy'],'Rob Griffith III':['College yr 4: Heisman Trophy']};
+window.FACAW={'Cameron Nugent':['College yr 4: Heisman Trophy','College yr 4: National Champions'],'Johnny Football':['College yr 2: Heisman Trophy'],'Rob Griffith III':['College yr 4: Heisman Trophy'],
+ 'Lamarcus Action':['College yr 2: Heisman Trophy'],'Femmifer Allen':['College yr 2: Heisman Trophy']};   // 2026-11-17: Lamar Jackson (Louisville 2016, his 2nd season), Caleb Williams (USC 2022, his 2nd season)
 window.faCol=function(s){try{s=s||S;if(!s||!s.tk||s.facaw===s.tk)return 0;const A=FACAW[s.tk];if(!A){s.facaw=s.tk;return 0}s.aw=s.aw||[];let n=0;A.forEach(a=>{if(!s.aw.includes(a)){s.aw.push(a);n++}});s.facaw=s.tk;return n}catch(e){return 0}};
 (()=>{try{const _m=mig;mig=function(s){const r=_m.apply(this,arguments);try{if(r)faCol(r)}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _h=hub;hub=function(){try{if(S&&faCol(S))save()}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
