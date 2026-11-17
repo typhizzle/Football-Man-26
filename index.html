@@ -12777,7 +12777,7 @@ window.paIconY=5.9;   // button icons float above the receiver (not over his fac
 // Test swp1 holds this in every update.
 // Tyler 2026-11-16 (later): "DBs are still leaving receivers wide open when they go deep. They're supposed to stay on them and play over."
 // Deep (12+ yds past the line): the man on him plays OVER the top; underneath he still trails behind (the swipe fix).
-window.ZC={lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
+window.ZC={dh:0,lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
 window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
 // Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
 // is taking off for a deep play ... they can still be caught". Measured: a 99-speed QB running wide behind the line then up the
@@ -12790,8 +12790,8 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
 (()=>{try{const _z=zoneT;zoneT=function(d,P){const r=_z.apply(this,arguments);try{
  if(zcScr(P)){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
- if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
- if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
+ if(d.pk&&d.dz&&d.pk.y<g.los+8&&P.wr.some(x=>x!==d.pk&&x.y>g.los+12))d.pk=null;   /* a deep man appears: back to depth */if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
+ if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;if(d.dz&&w.y<g.los+10&&(P.t<(ZC.dh!=null?ZC.dh:2.5)||P.wr.some(x=>x.y>g.los+12)))return;   /* Tyler 2026-11-17: a deep defender doesn't leave his depth to chase a short man while anyone is threatening deep (that left deep receivers wide open); once nobody is deep he comes up to help */const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
  if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*(w.y-g.los>12?1:ZC.top),s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
   d.cbB=s_>2.2?cl((w.sp||8)*(ZC.k+((d.cov||70)-(w.rr||w.elu||70))/260)/d.sp,ZC.lo,ZC.hi):0;return [tx,ty]}
@@ -13173,10 +13173,13 @@ const _avg6=q=>[q.acc,q.pow,q.awr,q.mob,q.sec,q.trk==null?q.sec:q.trk].reduce((a
 // recovery beat, so he couldn't tackle, and with nobody else close the receiver walked in. NOW: on a downfield catch (12+ yds) with a
 // defender right there (within 2.2 yds), that defender gets one real tackle try a quarter-second after the catch: the game's own
 // tackle (his tackling, +25 because he's already on him, vs the receiver's elusiveness; measured ~2 of 3 tackled): tackled on the spot, or he breaks it (stagger + "BROKE THE TACKLE!") and runs.
-(()=>{try{const _l=land;land=function(){const P=g.pl,a=P&&P.air,w=a&&a.tgt;const r=_l.apply(this,arguments);try{if(P&&w&&P.car===w&&!P.done&&a.ly-g.los>=12){
+(()=>{try{const _l=land;land=function(){const P=g.pl,a=P&&P.air,w=a&&a.tgt;const r=_l.apply(this,arguments);try{if(P&&w&&P.car===w&&!P.done&&a.ly-g.los>=4){
   const D=P.db.concat(P.lb).map(d=>({d,e:Math.hypot(d.x-w.x,d.y-w.y)})).sort((x,y)=>x.e-y.e)[0];if(D&&D.e<2.2)P.jbT={d:D.d,t:P.t+.25,w}}}catch(e){}return r}}catch(e){}})();
 (()=>{try{const _u=upd;upd=function(dt){const r=_u.apply(this,arguments);try{const P=g&&g.pl,J=P&&P.jbT;if(J&&g.ph==='live'&&!P.done&&P.car===J.w&&P.t>=J.t){P.jbT=null;const d=J.d;
-  if(Math.hypot(d.x-J.w.x,d.y-J.w.y)<3.2){d.cd=0;d.stun=0;d.x+=(J.w.x-d.x)*.5;d.y+=(J.w.y-d.y)*.5;const t0=d.tkl;d.tkl=(d.tkl||60)+25;try{hit(d)}finally{d.tkl=t0}if(!P.done&&P.car===J.w){g.flash='BROKE THE TACKLE!';g.ft=.8}}}else if(J&&(P.done||P.car!==J.w))P.jbT=null}catch(e){}return r}}catch(e){}})();
+  if(Math.hypot(d.x-J.w.x,d.y-J.w.y)<3.2){d.cd=0;d.stun=0;d.x+=(J.w.x-d.x)*.5;d.y+=(J.w.y-d.y)*.5;const t0=d.tkl;d.tkl=(d.tkl||60)+25;try{hit(d)}finally{d.tkl=t0}if(!P.done&&P.car===J.w){g.flash='BROKE THE TACKLE!';g.ft=.8;try{const c=J.w;d.kbFrom=[d.x,d.y];d.kdS=performance.now();d.kdF=1;d.x+=(c.x-d.x)*.6;d.y+=(c.y-d.y)*.6;d.stun=.55;d.kdU=.55;d.kd=1;d.kdr=Math.atan2(c.x-d.x,c.y-d.y);d.cd=.6}catch(e){}}   /* Tyler 2026-11-17: a missed tackle is a dive: he lays out and hits the ground */}}else if(J&&(P.done||P.car!==J.w))P.jbT=null}catch(e){}return r}}catch(e){}})();
+// after the catch the defenders close: anyone within 8 yds of the ball carrier gets up to an 8% burst, never more than the carrier's own
+// speed, so only a truly faster man pulls away (Tyler 2026-11-17: "after the catch, the defender should be able to catch up")
+(()=>{try{const _u=upd;upd=function(dt){try{const P=g&&g.pl;if(P&&g.ph==='live'&&P.passed&&!P.air&&P.car&&P.car!==P.qb&&!P.done&&!P.ir){const c=P.car;P.db.concat(P.lb).forEach(d=>{if(d.kd&&!(d.stun>0))d.kd=0;if(d.sp0==null)d.sp0=d.sp;const dd=Math.hypot(d.x-c.x,d.y-c.y);d.sp=dd<8?Math.max(d.sp0,Math.min((c.sp||d.sp0)*.99,d.sp0*1.08)):d.sp0})}}catch(e){}return _u.apply(this,arguments)}}catch(e){}})();
 // ===== 🎯 LOB · TOUCH · BULLET RATINGS =====
 // Tyler 2026-11-16: "every meter has gotta be different ... start making a bullet pass rating, lob pass rating, and touch pass rating,
 // and obviously the higher the rating, the bigger the meter and window is for it ... judge that off of their throwing attributes ...
