@@ -1195,3 +1195,4 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m250.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m251.js').replace('__BLOB__',open('/home/claude/p40b/camfix.json').read())+"addEventListener('resize',resize);addEventListener('orientationchange'")
+h=h.replace("V 0.0.1.0011","V 0.0.1.0012")
