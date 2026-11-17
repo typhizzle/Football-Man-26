@@ -12,7 +12,7 @@
 // Test swp1 holds this in every update.
 // Tyler 2026-11-16 (later): "DBs are still leaving receivers wide open when they go deep. They're supposed to stay on them and play over."
 // Deep (12+ yds past the line): the man on him plays OVER the top; underneath he still trails behind (the swipe fix).
-window.ZC={dh:0,lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=1;
+window.ZC={dh:0,lag:.7,top:-1,k:.9,lo:.95,hi:1.06,off:0};window.ROLD=0;   /* 2026-11-17: Tyler: a slant stopped after the break (interception) and receivers come open if you just wait: routes run all the way through again */
 window.zcFree=function(w,P,me){try{return !P.db.concat(P.lb).some(o=>o!==me&&(o.w===w||o.mw===w||o.pk===w||Math.hypot(o.x-w.x,o.y-w.y)<3.2))}catch(e){return false}};
 // Tyler, 2026-11-16: "Qb rushing seems to be the dominant way to play, maybe find different ways for the defense to stop it" / "If anyone
 // is taking off for a deep play ... they can still be caught". Measured: a 99-speed QB running wide behind the line then up the

@@ -1059,7 +1059,7 @@ r("pl.passed&&!aim&&g.pl.call.t!='run'&&g.pl.t<3&&!swp&&CAMI!=1&&CAMI!=2){cx.glo
 # Tyler 2026-11-16: routes with no end run all the way to the sideline / back of the end zone, then work back open; curls and
 # comebacks sit in it ~2.4 s first; no more 0.6 s then wander (the stutter)
 r("if(P.passed||(P.t-w.sct<.6&&!ob_)){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else{",
-  "if(window.ROLD?(P.passed||(P.t-w.sct<.6&&!ob_)):P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!window.ROLD&&!ob_){tx=nx;ty=ny}else if(!window.ROLD&&d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<(window.RSIT||2.4)){tx=w.x;ty=w.y;sp=0}else{")
+  "if(window.ROLD?(P.passed||(P.t-w.sct<.6&&!ob_)):P.passed){if(ob_){const s=openSpot(w,P);tx=s[0];ty=s[1];sp=w.sp*.7}else{tx=nx;ty=ny}}else if(!window.ROLD&&!ob_){tx=nx;ty=ny}else if(!window.ROLD&&d[1]<-.3&&!(nx<2||nx>51.3||ny>106)&&P.t-w.sct<(window.RSIT||1.2)){tx=w.x;ty=w.y;sp=0}else{")
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m216.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 # m217: a real truck (knocked down with a fall and get-up, or shrugged off with a stagger)
