@@ -13696,7 +13696,7 @@ window.sfD=function(f){try{const d=Math.round(fans(S.pop||40)-fans((S.pop||40)-f
   if(performance.now()-(CTL.selFallT||0)<350)return;if(el.tagName==='INPUT'&&/checkbox|radio/i.test(el.type)){el.click();return}if(el.tagName==='LABEL'){el.click();return}}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
 window.ctlKeep=function(C){try{
  // title screen: start on your last-used save slot (not on the event button above the list), so one press of X loads it
- const sl=C.filter(el=>/^Slot \d+: (?!New career)/.test((el.textContent||'').trim()));if(sl.length&&C.some(el=>/Delete Slot/.test(el.textContent||''))&&(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)){return sl.find(el=>new RegExp('^Slot '+(typeof SLOT!='undefined'?SLOT:0)+':').test((el.textContent||'').trim()))||sl[0]}
+ const sl=C.filter(el=>/^Slot \d+: (?!New career)/.test((el.textContent||'').trim()));if(sl.length&&C.some(el=>/Delete Slot/.test(el.textContent||''))&&(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)){const want=CTL.slotMem||(typeof SLOT!='undefined'?SLOT:0);const hit=sl.find(el=>new RegExp('^Slot '+want+':').test((el.textContent||'').trim()))||sl[0];try{hit.scrollIntoView({block:'center'})}catch(e){}return hit}
  if(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)return null;const oc=CTL.lastOc||'',tx=CTL.lastTx||'';
  if(/^g\.tab=/.test(oc)){const c=C.find(el=>el.classList&&el.classList.contains('pc'));if(c)return c}
  let m=oc&&C.find(el=>(el.getAttribute('onclick')||'')===oc)||C.find(el=>(el.textContent||'').trim()===tx);if(m)return m;
@@ -13767,6 +13767,9 @@ window.STDH='';window.stdV=function(){ui.style.display='block';ui.innerHTML=`<di
 // ---------- 10. PRO BOWL SIDELINE: the whole all-star roster stands on each sideline (both are conference teams, not in the league list) ----------
 (()=>{try{const _r=slRoster;window.slRoster=function(T){try{if(typeof PBGM!=='undefined'&&PBGM&&g&&g.kind==='pbg'){const cf=T===g.m?PBGM.me:T===g.o?PBGM.them:null;if(cf){const V=pbS(),R44=(V.r44||{})[cf]||{};
  return PB44.flatMap(([G,_l,n])=>(R44[G]||[]).filter(c=>!c.ub).sort((a,b)=>(a.rank||0)-(b.rank||0)).slice(0,n||99)).filter(c=>!(c.me)).map(c=>{try{return pbCopy(c)}catch(e){return {n:c.n,pos:c.pos,ovr:c.ovr}}})}}}catch(e){}return _r.apply(this,arguments)}}catch(e){}})();
+
+// remember which save slot the highlight is on, so a redraw of the list (the cloud check finishing) doesn't throw it back to the top
+(()=>{try{const _s=window.ctlSet;window.ctlSet=function(el){try{const m=el&&/^Slot (\d+):/.exec((el.textContent||'').trim());if(m)CTL.slotMem=+m[1]}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();
 // ===== ⏱ A WATCHED DRIVE'S CLOCK NEVER FREEZES · PRO BOWL WATCHED DRIVES SHOW THE SCHEDULED QB (Tyler 2026-11-17) =====
 // "I'm watching it and the clock is not moving. It needs to move just like the player clock." The watched clock ran only while
 // the ball was live and stopped once a play used its share; between plays it froze. Now: during a play it runs at game speed
