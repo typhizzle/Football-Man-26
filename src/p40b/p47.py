@@ -1165,3 +1165,4 @@ r("'Read Option':[[26.5,-5],[39,0],[46,10]]","'Read Option':[[26.5,-5],[14,0],[8
 r("'Triple Option':[[26.5,-5],[36,-2],[45,6],[48,16]]","'Triple Option':[[26.5,-5],[17,-2],[9,6],[6,16]]")
 r("['Read Option','option','go,go,stay,stay,swing'],['Speed Option','option','go,go,stay,stay,swing'],['Triple Option','option','go,go,stay,stay,swing']","['Read Option','option','go,go,stay,stay,stay'],['Speed Option','option','go,go,stay,stay,stay'],['Triple Option','option','go,go,stay,stay,stay']")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m240.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m241.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

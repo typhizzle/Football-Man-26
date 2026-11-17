@@ -34,7 +34,7 @@ window.paRelease=function(){const s={...PA};PA={i:-1};try{const P=g.pl,q=P.qb,w=
  // behind or wide; 3.5-7.5 yds, worse the deeper in the black, a little less for a better passer of that type: far enough that a receiver
  // can't just run under it); held too long = sails high and long.
  try{const A_=P.air;if(A_){const pr_=(()=>{try{const k={lob:'lob',touch:'tch',bullet:'blt'}[rd.kind];return ((ptGet()[k]||60)-40)/60}catch(e){return .4}})();
-  if(rd.over){const a=Math.atan2(A_.lx-q.x,A_.ly-q.y);A_.ly+=Math.cos(a)*(4+Math.random()*3);A_.lx+=Math.sin(a)*(4+Math.random()*3)+(Math.random()-.5)*2;A_.T*=1.12;A_.pmiss=1}
+  if(rd.over){const a=Math.atan2(A_.lx-q.x,A_.ly-q.y);A_.ly+=Math.cos(a)*(6.5+Math.random()*3);A_.lx+=Math.sin(a)*(6.5+Math.random()*3)+(Math.random()-.5)*2;A_.T*=1.12;A_.pmiss=1}
   else if(!rd.inWin){const e=(3.5+4*Math.min(1,rd.miss))*(1-.25*cl(pr_,0,1));let ang=Math.random()*Math.PI*2,ee=e;if(rd.kind==='lob'){ang=Math.atan2(q.x-A_.lx,q.y-A_.ly)+(Math.random()-.5)*1.2;ee=e*1.5}A_.lx+=Math.sin(ang)*ee;A_.ly+=Math.cos(ang)*ee;A_.pmiss=1}   /* a mistimed lob is underthrown: it floats short, where the defense gets to it */
   A_.lx=cl(A_.lx,-1,54.3)}}catch(e){}
  const A=P.air;if(A){A.T*= {lob:1.35,touch:1,bullet:.8}[rd.kind]*(s.hi?1.1:s.lo?.92:1);A.T=Math.max(.25,A.T);A.kind=rd.kind;A.hl=s.hi?'high':s.lo?'low':'';

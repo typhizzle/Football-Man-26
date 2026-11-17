@@ -17,7 +17,7 @@ const out=await pg.evaluate(async(sim)=>{const o={};try{window.confirm=()=>true;
  // C: accuracy matters: same throw 40x in the window vs off it: average miss from the planned spot
  const miss=(m)=>{let s=0,n=0;for(let i=0;i<40;i++){const r=thr(0,m);if(!r||r.none)continue;const P=g.pl;s+=Math.hypot(r.lx-P.air.lx,0)||0;n++}return n};
  const err=(m)=>{let s=0,n=0;const sv=S.q.acc;for(let i=0;i<40;i++){if(!su())continue;const P=g.pl,q=P.qb,w=ctlRecv()[0];const v=16+S.q.pow*.1;let T=Math.hypot(w.x-q.x,w.y-q.y)/v;for(let k=0;k<3;k++)T=Math.hypot(w.x+(w.vx||0)*T-q.x,w.y+(w.vy||0)*T-q.y)/v;const ex=w.x+(w.vx||0)*T,ey=w.y+(w.vy||0)*T;
-  B(0,1);ctlStep();PA.t0=performance.now()-m*1000;ctlStep();B(0,0);ctlStep();const A=P.air;if(!A)continue;s+=Math.hypot(A.lx-ex,A.ly-ey);n++}return n?s/n:null};
+  B(0,1);ctlStep();PA.t0=performance.now()-m*1000*PAFULL;ctlStep();B(0,0);ctlStep();const A=P.air;if(!A)continue;s+=Math.hypot(A.lx-ex,A.ly-ey);n++}return n?s/n:null};
  S.q.acc=70;const eIn=err(.99),eOut=err(.71);const eOver=err(1.25);o.C_err=[eIn&&+eIn.toFixed(2),eOut&&+eOut.toFixed(2),eOver&&+eOver.toFixed(2)];o.H_overWild=eOver!=null&&eIn!=null&&eOver>eIn*1.8&&eOver>eOut;o.C_windowMatters=eIn!=null&&eOut!=null&&eOut>eIn*1.3;
  // D: the stick places the ball: up = deeper, down = shorter
  const N=thr(0,.5),Up=thr(0,.5,{ax:[0,-1,0,0]}),Dn=thr(0,.5,{ax:[0,1,0,0]});o.D_place=[N&&+(N.ly-N.wy).toFixed(1),Up&&+(Up.ly-Up.wy).toFixed(1),Dn&&+(Dn.ly-Dn.wy).toFixed(1)];o.D_ok=!!(N&&Up&&Dn)&&Up.ly-Up.wy>N.ly-N.wy+1&&Dn.ly-Dn.wy<N.ly-N.wy-1;

@@ -1,4 +1,4 @@
-// CONTROLLER TAP DEFAULT + THROWAWAY + SLIDE + REAL OPTIONS + ROUTES MATCH NAMES (Tyler 2026-11-17).
+// CONTROLLER CLASSIC MADDEN DEFAULT (tap lob, hold bullet, stick leads; Tap and Placement modes) + THROWAWAY + SLIDE + REAL OPTIONS + ROUTES MATCH NAMES (Tyler 2026-11-17).
 const H=require('/home/claude/real/h.js'),fs=require('fs');
 (async()=>{const {b,pg}=await H.open({w:1366,h:768});const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');
 const r=await pg.evaluate(async(j)=>{const o={};try{
@@ -6,7 +6,7 @@ const r=await pg.evaluate(async(j)=>{const o={};try{
  const dn=i=>{PAD.buttons[i]={pressed:true,value:1};ctlStep()},up_=i=>{PAD.buttons[i]={pressed:false,value:0};ctlStep()},press=i=>{dn(i);up_(i)};
  const s=await readCode(j);S=s;SLOT=1;LASTJ='';hub();press(13);
  const play=(nm,f)=>{startGame0(1,'reg');let pp=null;for(const c in PB)PB[c].forEach((p,i)=>{if(p[0]===nm)pp=[c,i]});g.ph='pre';g.y=25;g.dn=1;g.tg=10;setup(0);g.sel=pp;snap(pp[0],pp[1]);ui.style.display='none';ov.style.display='none';for(let k=0;k<(f||20);k++){try{upd(.03)}catch(e){}}return g.pl};
- delete S.cpm;let P=play('Hitches');dn(0);o.A_tapThrowsNow=!!P.air&&PA.i<0;up_(0);
+ delete S.cpm;let P=play('Hitches');dn(0);const nb=!P.air;up_(0);o.A_classicTapLob=nb&&!!P.air&&P.air.kind==='lob'&&cpmOf()==='classic';P=play('Hitches');dn(0);CLA.t0-=300;up_(0);o.A_classicHoldBullet=!!P.air&&P.air.kind==='bullet';P=play('Hitches');PAD.axes=[0,-1,0,0];dn(0);CLA.t0-=300;up_(0);PAD.axes=[0,0,0,0];const lead=P.air&&P.air.ly;P=play('Hitches');dn(0);CLA.t0-=300;up_(0);o.A_stickLeads=lead>P.air.ly+1.5;S.cpm='tap';P=play('Hitches');dn(0);o.A_tapModeInstant=!!P.air;up_(0);delete S.cpm;
  S.cpm='meter';P=play('Hitches');dn(0);o.B_meterModeHolds=!P.air&&PA.i===0;up_(0);delete S.cpm;
  P=play('Hitches');press(11);o.C_r3ThrowAway=!!(P.air&&(P.air.lx<0||P.air.lx>53.3));
  P=play('QB Keeper',10);P.qb.y=g.los+3;P.car=P.qb;press(2);o.D_squareSlides=!!(P.done||g.ph!=='live')&&/SLIDE/.test(g.flash||'');
