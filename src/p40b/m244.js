@@ -22,6 +22,9 @@ window.sfD=function(f){try{const d=Math.round(fans(S.pop||40)-fans((S.pop||40)-f
 // and A presses right after a redraw that lost the button are ignored (no more jumping to another screen)
 (()=>{try{const _p=ctlPress;window.ctlPress=function(){try{const el=CTL.sel;if(el&&el.isConnected){CTL.lastOcT=performance.now();const rc=el.getBoundingClientRect();CTL.lastY=rc.top;CTL.lastX=rc.left;
   if(performance.now()-(CTL.selFallT||0)<350)return;if(el.tagName==='INPUT'&&/checkbox|radio/i.test(el.type)){el.click();return}if(el.tagName==='LABEL'){el.click();return}}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+// X/A on a save slot: press it, and if the game hasn't left the list after a moment, load that slot directly
+(()=>{try{const _p=window.ctlPress;window.ctlPress=function(){let n=0;try{const el=CTL.sel,m=el&&el.isConnected&&/^Slot (\d+): (?!New career)/.exec((el.textContent||'').trim());if(m)n=+m[1]}catch(e){}
+ const r=_p.apply(this,arguments);if(n)setTimeout(()=>{try{const ov=document.getElementById('ov'),onList=ui&&ui.style.display!=='none'&&[...ui.querySelectorAll('button')].some(b=>/Delete Slot/.test(b.textContent||''))&&!(ov&&ov.style.display!=='none'&&ov.innerHTML);if(onList){SLOT=n;S=load(n);LRNEXT=1;hub()}}catch(e){}},700);return r}}catch(e){}})();
 window.ctlKeep=function(C){try{
  // title screen: start on your last-used save slot (not on the event button above the list), so one press of X loads it
  const sl=C.filter(el=>/^Slot \d+: (?!New career)/.test((el.textContent||'').trim()));if(sl.length&&C.some(el=>/Delete Slot/.test(el.textContent||''))&&(!CTL.lastOcT||performance.now()-CTL.lastOcT>2500)){const want=CTL.slotMem||(typeof SLOT!='undefined'?SLOT:0);const hit=sl.find(el=>new RegExp('^Slot '+want+':').test((el.textContent||'').trim()))||sl[0];try{hit.scrollIntoView({block:'center'})}catch(e){}return hit}
