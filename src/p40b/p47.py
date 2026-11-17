@@ -1148,3 +1148,6 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m238: a finished game is never lost (saved at the final whistle; recovered on the next open)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m238.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# m239: upgrades never jump to the top (every +1, every panel)
+r("addEventListener('resize',resize);addEventListener('orientationchange'",
+  M('m239.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
