@@ -168,6 +168,7 @@ const TESTS=[
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.bad>0)return (d.lines||[]).filter(l=>/: [1-9]/.test(l)).slice(0,2).join(' | ');return null}},
  {f:'sd3.js', why:"Sideline (Tyler 2026-11-16): dragging right turns the view right (was reversed); standing players face the field (were turned away); players who walk face where they walk; nobody near the camera disappears",
   check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;for(const k of ['A_rightTurnsRight','B_ok','C_ok','D_visible'])if(d[k]!==true)return k+' '+JSON.stringify([d.A_dot,d.B_facing+'/'+d.B_standing]);return null}},
+ {f:'btn1.js', why:'MADDEN BUTTONS: □/X left WR, △/Y slot, ✕/A TE, ○/B right WR, R1/RB back, from alignment, one button each', check:o=>{const d=J(o);if(!d)return 'no JSON';return d.ok&&d.throwLeft?null:JSON.stringify(d.bad||d.err)}},
  {f:'age2.js', why:'AGES MOVE WITH THE YEARS: real players = 2026 age + seasons since, only up, yours untouched', check:o=>{const d=J(o);if(!d)return 'no JSON';if(d.err)return d.err;return d.A_gafford&&d.B_meSame&&d.C_once?null:JSON.stringify(d)}},
  {f:'wck1.js', why:'WATCHED DRIVE CLOCK: moves during and between plays, never backwards', check:o=>{const d=J(o);if(!d)return 'no JSON';return d.ok?null:'clock froze or went back'}},
  {f:'pbs1.js', why:'PRO BOWL SIDELINE + INTRO: 44 all-stars per sideline, intro says LFC vs RFC', check:o=>{const d=J(o);if(!d)return 'no JSON';return d.Z_ok?null:'sideline/intro wrong'}},

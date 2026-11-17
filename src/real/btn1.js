@@ -1,28 +1,13 @@
-// Verify: League office button ACTUALLY taps, and no blank Ultra Bowl MVPs
+// MADDEN BUTTON LAYOUT (Tyler 2026-11-17): □/X left outside WR, △/Y slot, ✕/A tight end, ○/B right outside WR, R1/RB running back,
+// from each play's alignment, one button per receiver, never two buttons on one man.
 const H=require('/home/claude/real/h.js'),fs=require('fs');
-(async()=>{
- const {b,pg,errs}=await H.open({});
- const save=fs.readFileSync('/tmp/claude-0/-home-claude/c57e6934-02ef-509f-85a1-506e72ebaaa1/scratchpad/saveX.json','utf8');
- const out=await pg.evaluate(async(j)=>{const s=await readCode(j);S=s;SLOT=1;LASTJ='';hub();
-  const btn=document.getElementById('lgob');
-  return {exists:!!btn, hasAttr:btn?btn.getAttribute('onclick'):null,
-          hasProp:btn?(typeof btn.onclick):'n/a', text:btn?btn.textContent.slice(0,30):''};},save);
- console.log('BUTTON:',JSON.stringify(out));
-
- // actually tap it like a finger would, then see if the League office screen opened
- const tapped=await pg.evaluate(()=>{const b=document.getElementById('lgob');if(!b)return 'no button';
-   b.dispatchEvent(new MouseEvent('click',{bubbles:true}));
-   return document.getElementById('ui').innerText.slice(0,60).replace(/\n/g,' | ');});
- console.log('AFTER TAP:',tapped);
- await pg.screenshot({path:'/home/claude/real/shot_lgoffice.png'});
-
- // blank MVP check across every season
- const mv=await pg.evaluate(()=>{const bad=[],all=[];const last=yrN()-1;
-   for(let Y=2026;Y<=last;Y++){try{const c=uChamp(Y);const m=(c&&c.sbm)?String(c.sbm).trim():'';
-     all.push(Y+': '+TA[c.ub]+' MVP '+(m||'(BLANK)'));if(!m||m=='-'||m=='—')bad.push(Y)}catch(e){bad.push(Y+' ERR')}}
-   return {all,bad};});
- console.log('\nMVPs:');mv.all.forEach(x=>console.log('  '+x));
- console.log('BLANK MVPs:',mv.bad.length?mv.bad:'NONE');
- console.log('ERRS:',errs.filter(e=>!/ERR_FAILED/.test(e)).slice(0,5));
- await b.close();
-})();
+(async()=>{const {b,pg}=await H.open({});const j=fs.readFileSync('/home/claude/specs/tyler-save-snapshot-2026-11-07.json','utf8');
+const r=await pg.evaluate(async(j)=>{const o={ok:true,bad:[]};try{S=await readCode(j);SLOT=1;LASTJ='';hub();
+ for(const nm of ['Hitches','Curl-Flat','Four Verts','Mesh','Smash']){startGame0(1,'reg');let pp=null;for(const c in PB)PB[c].forEach((p,i)=>{if(p[0]===nm)pp=[c,i]});g.ph='pre';g.y=25;setup(0);g.sel=pp;snap(pp[0],pp[1]);ui.style.display='none';ov.style.display='none';upd(1/30);
+  const C=ctlRecv(),P=g.pl,xs=C.map(w=>w&&(w.x0!=null?w.x0:w.x));const others=[0,1,3].map(i=>xs[i]);
+  const good=C[4]===P.rb&&xs[2]<=Math.min(...others)&&xs[1]>=Math.max(...others)&&new Set(C.filter(Boolean)).size===C.filter(Boolean).length&&C.filter(Boolean).length===Math.min(5,P.wr.filter(w=>!w.out).length)&&(!C[0]||C[0].pos==='TE'||Math.abs(xs[0]-26.65)<=Math.abs(xs[3]-26.65));
+  if(!good){o.ok=false;o.bad.push(nm+':'+JSON.stringify(C.map(w=>w&&[w.pos,Math.round(w.x0)])))}}
+ // the button for the left outside man throws to him
+ const P=g.pl,want=ctlRecv()[2];ctlThrow(2);o.throwLeft=!!(P.air&&P.air.tgt===want);
+ o.glyphs=[0,1,2,3,4].map(i=>ctlGlyph(i));
+ }catch(e){o.err=e.message;o.ok=false}return o},j);console.log(JSON.stringify(r));await b.close()})();

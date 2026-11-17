@@ -20,7 +20,7 @@ const out=await pg.evaluate(async(sim)=>{const o={};try{window.confirm=()=>true;
   B(0,1);ctlStep();PA.t0=performance.now()-m*1000*PAFULL;ctlStep();B(0,0);ctlStep();const A=P.air;if(!A)continue;s+=Math.hypot(A.lx-ex,A.ly-ey);n++}return n?s/n:null};
  S.q.acc=70;const eIn=err(.99),eOut=err(.71);const eOver=err(1.25);o.C_err=[eIn&&+eIn.toFixed(2),eOut&&+eOut.toFixed(2),eOver&&+eOver.toFixed(2)];o.H_overWild=eOver!=null&&eIn!=null&&eOver>eIn*1.8&&eOver>eOut;o.C_windowMatters=eIn!=null&&eOut!=null&&eOut>eIn*1.3;
  // D: the stick places the ball: up = deeper, down = shorter
- const N=thr(0,.5),Up=thr(0,.5,{ax:[0,-1,0,0]}),Dn=thr(0,.5,{ax:[0,1,0,0]});o.D_place=[N&&+(N.ly-N.wy).toFixed(1),Up&&+(Up.ly-Up.wy).toFixed(1),Dn&&+(Dn.ly-Dn.wy).toFixed(1)];o.D_ok=!!(N&&Up&&Dn)&&Up.ly-Up.wy>N.ly-N.wy+1&&Dn.ly-Dn.wy<N.ly-N.wy-1;
+ const N=thr(2,.5),Up=thr(2,.5,{ax:[0,-1,0,0]}),Dn=thr(2,.5,{ax:[0,1,0,0]});/* 2026-11-17 Madden layout: the left outside receiver is button 2 (□/X) now */o.D_place=[N&&+(N.ly-N.wy).toFixed(1),Up&&+(Up.ly-Up.wy).toFixed(1),Dn&&+(Dn.ly-Dn.wy).toFixed(1)];o.D_ok=!!(N&&Up&&Dn)&&Up.ly-Up.wy>N.ly-N.wy+1&&Dn.ly-Dn.wy<N.ly-N.wy-1;
  // E: LB = high, LT = low
  const Hi=thr(0,.5,{b:[4]}),Lo=thr(0,.5,{b:[6]});o.E_hl=[Hi&&Hi.hl,Lo&&Lo.hl].join(',');o.E_ok=o.E_hl==='high,low';
  // F: hold too long: it throws by itself (bullet); the meter draws without errors; the guide says it

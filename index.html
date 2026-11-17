@@ -10088,7 +10088,7 @@ window.ctlThrow=function(i){try{const P=g.pl,q=P.qb,w=ctlRecv()[i];if(!w||g.ph!=
  g.swp={p:Math.round(Math.min(1,d/Rg)*100),t:performance.now()};doThrow(w,cl(lx,1.4,51.9),ly)}catch(e){}};
 // ---------- the button over each receiver ----------
 (()=>{try{const _d=draw;draw=function(){const r=_d.apply(this,arguments);try{if(CTL.mode==='pad'&&g&&g.ph==='live'&&g.pl&&g.pl.car===g.pl.qb&&!g.pl.air){const C=ctlRecv(),cols=CTL.kind==='ps'?['#5a8dee','#e0454e','#d77bd3','#3fbfa3','#ffffff']:['#3fb950','#e5534b','#4493f8','#e8b923','#ffffff'];
-  C.forEach((w,i)=>{const s=pj(w.x,w.y,typeof paIconY!='undefined'?paIconY:2.6),s0=pj(w.x,w.y,2.4);if(!s||!isFinite(s[0]))return;const held=typeof PA!='undefined'&&PA.i>=0,sel=held&&PA.i===i,rr=sel?16:13;cx.save();{const d_=cv.width/W||1;cx.setTransform(d_,0,0,d_,0,0)};cx.globalAlpha=held&&!sel?.35:1;if(s0&&isFinite(s0[0])){cx.strokeStyle=cols[i];cx.lineWidth=2;cx.beginPath();cx.moveTo(s[0],s[1]+rr);cx.lineTo(s0[0],s0[1]);cx.stroke()}cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],rr,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=sel?4:3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
+  C.forEach((w,i)=>{if(!w)return;const s=pj(w.x,w.y,typeof paIconY!='undefined'?paIconY:2.6),s0=pj(w.x,w.y,2.4);if(!s||!isFinite(s[0]))return;const held=typeof PA!='undefined'&&PA.i>=0,sel=held&&PA.i===i,rr=sel?16:13;cx.save();{const d_=cv.width/W||1;cx.setTransform(d_,0,0,d_,0,0)};cx.globalAlpha=held&&!sel?.35:1;if(s0&&isFinite(s0[0])){cx.strokeStyle=cols[i];cx.lineWidth=2;cx.beginPath();cx.moveTo(s[0],s[1]+rr);cx.lineTo(s0[0],s0[1]);cx.stroke()}cx.fillStyle='#000c';cx.beginPath();cx.arc(s[0],s[1],rr,0,7);cx.fill();cx.strokeStyle=cols[i];cx.lineWidth=sel?4:3;cx.stroke();cx.fillStyle='#fff';cx.font='bold '+(ctlGlyph(i).length>1?11:15)+'px sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(ctlGlyph(i),s[0],s[1]+1);cx.restore()})}}catch(e){}return r}}catch(e){}})();
 (function ctlLoop(){try{ctlStep()}catch(e){}requestAnimationFrame(ctlLoop)})();
 // ===== 🏟 Home and away jerseys =====
 // Tyler, 2026-11-14: "make sure there were home and away jerseys cause sometimes teams be wearing the same
@@ -13797,5 +13797,20 @@ window.ageFix=function(s){try{if(!s||s.agefx||s.stage!=='pro'||!s.ro)return 0;co
  Object.keys(s.ro).forEach(k=>{if(!/^h\.|^fa$/.test(k))return;(s.ro[k]||[]).forEach((x,i)=>{if(!x||!x.n||(k==='h.0'&&i===0)||x.n===s.name||seen.has(x))return;seen.add(x);const a26=age26()[x.n];let want=null;if(a26!=null)want=a26+(Y-2026);else{const f=ageFirstYr(x);if(f)want=22+(Y-f)}if(want==null)return;if(want>(x.age||0)+1&&want<=55){x.age=want;n++}})});
  s.agefxN=n;return n}catch(e){return 0}};
 (()=>{try{const _h=hub;hub=function(){try{if(S&&S.stage==='pro'&&!S.agefx2){const n=ageFix(S);if(n)S.fmsg=(S.fmsg?S.fmsg+' ':'')+'🎂 League ages caught up with the calendar: '+n+' players were younger than their years in the league.'}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
+// ===== 🎮 MADDEN BUTTON LAYOUT (Tyler 2026-11-17) =====
+// □ / X = left outside receiver · △ / Y = slot · ✕ / A = tight end · ○ / B = right outside receiver · R1 / RB = running back.
+// Worked out from where the receivers line up on each play (not tied to a player or roster spot); every receiver gets one button,
+// no receiver gets two. If a spot is missing (no tight end, two slots...), the leftover buttons go to whoever is left, inside-out.
+// ctlRecv()[i] is the receiver for button CTL_RB[i] = [A/✕, B/○, X/□, Y/△, RB/R1], so icons, tap, classic and meter all follow it.
+window.ctlMapOf=function(P){const W=(P.wr||[]).filter(w=>w&&!w.out);if(!W.length)return [];const out=[null,null,null,null,null];
+ const rb=W.includes(P.rb)?P.rb:W.slice().sort((a,b)=>(a.y0!=null?a.y0:a.y)-(b.y0!=null?b.y0:b.y))[0];if(rb)out[4]=rb;
+ const X=w=>w.x0!=null?w.x0:w.x,rest=W.filter(w=>w!==rb).sort((a,b)=>X(a)-X(b));
+ if(rest.length){out[2]=rest.shift()}                                    // □ left outside
+ if(rest.length){out[1]=rest.pop()}                                      // ○ right outside
+ if(rest.length){const te=rest.find(w=>w.pos==='TE')||rest.slice().sort((a,b)=>Math.abs(X(a)-26.65)-Math.abs(X(b)-26.65))[0];out[0]=te;rest.splice(rest.indexOf(te),1)}   // ✕ tight end (or the most inside man)
+ if(rest.length){out[3]=rest.shift()}                                    // △ slot
+ for(let i=0;i<5;i++)if(!out[i]&&rest.length)out[i]=rest.shift();       // anyone left fills an empty button
+ return out};
+(()=>{try{const _r=window.ctlRecv;window.ctlRecv=function(){try{const P=g&&g.pl;if(!P||!P.wr)return [];if(!P.bmap||P.bmapN!==P.wr.length){P.wr.forEach(w=>{if(w&&w.x0==null){w.x0=w.x;w.y0=w.y}});P.bmap=ctlMapOf(P);P.bmapN=P.wr.length}return P.bmap.map(w=>w&&!w.out?w:null)}catch(e){return _r.apply(this,arguments)}}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>
