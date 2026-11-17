@@ -1155,3 +1155,13 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # If there is separation, the catch should be easier". Was: every defender within 16 yds of the landing spot sprinted to it ~0.05 s
 # after the throw. Now: only the man covering that receiver (or one already within 5 yds) plays the ball, after a real reaction beat.
 r("else if(a&&Math.hypot(a.lx-d.x,a.ly-d.y)<16&&P.t>a.t0+(100-d.cov)/650){tx=a.lx;ty=a.ly}","else if(a&&(d.w===a.tgt||d.pk===a.tgt||d.mw===a.tgt||Math.hypot(a.lx-d.x,a.ly-d.y)<5)&&Math.hypot(a.lx-d.x,a.ly-d.y)<16&&P.t>a.t0+.3+(100-d.cov)/250){tx=a.lx;ty=a.ly}")
+
+# Tyler 2026-11-17: routes that match their names
+r("flat:[[x-s*3,y+1],[x-s*9,y+4],[x-s*13,y+12]]","flat:[[x-s*3,y+1.5],[x-s*10,y+3.5],[x-s*17,y+4.5]]")
+r("out:[[x,y+9],[x-s*9,y+9],[x-s*9,y+28]]","out:[[x,y+10],[x-s*3,y+10.5],[x-s*14,y+10.5]]")
+r("whip:[[x,y+4],[x+s*7,y+4],[x+s*9,y+14]]","whip:[[x,y+4],[x+s*3.5,y+5],[x-s*6,y+5]]")
+r("['Curl-Flat','pass','curl,curl,out,drag,flat']","['Curl-Flat','pass','curl,curl,flat,drag,flat']")
+r("'Read Option':[[26.5,-5],[39,0],[46,10]]","'Read Option':[[26.5,-5],[14,0],[8,10]]")
+r("'Triple Option':[[26.5,-5],[36,-2],[45,6],[48,16]]","'Triple Option':[[26.5,-5],[17,-2],[9,6],[6,16]]")
+r("['Read Option','option','go,go,stay,stay,swing'],['Speed Option','option','go,go,stay,stay,swing'],['Triple Option','option','go,go,stay,stay,swing']","['Read Option','option','go,go,stay,stay,stay'],['Speed Option','option','go,go,stay,stay,stay'],['Triple Option','option','go,go,stay,stay,stay']")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m240.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

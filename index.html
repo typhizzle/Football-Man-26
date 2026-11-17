@@ -1302,18 +1302,18 @@ function startGame0(oi,kind){const o=S.T[oi];g={oi,kind,o,m:S.T[0],s:[0,0],clk:0
 ui.style.display='none';cv.style.display='block';hud.style.display='block';$('#camb').style.display=$('#pb').style.display='block';resize();cam=22;fxs=0;setMJ();buildEZ(g.mj.c1,g.oj.c1);cheerBuild(g.mj,g.oj);fpBuild(g.mj);scene('game');pre()}
 const PB={Run:[['Inside Run','run','stay,stay,stay,stay,stay'],['Outside Run','run','go,go,stay,stay,stay'],['Counter','run','go,go,stay,stay,stay'],['Power','run','go,go,stay,stay,stay'],['Toss Sweep','run','go,go,stay,stay,stay'],['Draw','run','go,go,go,stay,stay'],['Dive','run','stay,stay,stay,stay,stay'],['Zone Stretch','run','go,go,stay,stay,stay'],['Lead Draw','run','curl,curl,hitch,stay,stay'],['Trap','run','stay,stay,stay,stay,stay']],
 Short:[['Quick Slants','pass','slant,slant,hitch,flat,flat'],['Hitches','pass','hitch,hitch,drag,out,swing'],['Stick','pass','hitch,out5,stick,stick,swing'],['Quick Out','pass','out5,out5,hitch,drag,swing'],['Flat Combo','pass','flat,hitch,curl,flat,swing'],['Snag','pass','out5,stick,hitch,flat,swing'],['Spacing','pass','hitch,hitch,shake,stick,swing'],['Whip','pass','whip,whip,hitch,stick,swing']],
-Medium:[['Curl-Flat','pass','curl,curl,out,drag,flat'],['Mesh','pass','drag,drag,out,post,swing'],['Dagger','pass','dig,go,curl,seam,swing'],['Cross','pass','cross,cross,dig,drag,flat'],['Smash','pass','hitch,corner,hitch,curl,flat'],['Levels','pass','dig,drag,cross,dig,swing'],['China','pass','shake,post,dig,curl,flat'],['Y-Cross','pass','curl,out,cross,cross,flat']],
+Medium:[['Curl-Flat','pass','curl,curl,flat,drag,flat'],['Mesh','pass','drag,drag,out,post,swing'],['Dagger','pass','dig,go,curl,seam,swing'],['Cross','pass','cross,cross,dig,drag,flat'],['Smash','pass','hitch,corner,hitch,curl,flat'],['Levels','pass','dig,drag,cross,dig,swing'],['China','pass','shake,post,dig,curl,flat'],['Y-Cross','pass','curl,out,cross,cross,flat']],
 Deep:[['Four Verts','pass','go,go,go,seam,swing'],['Post-Corner','pass','post,corner,go,curl,swing'],['Fly','pass','fly,fly,go,seam,swing'],['Wheel','pass','go,curl,go,seam,wheel'],['Bomb','pass','fly,post,fly,go,stay'],['Hitch-N-Go','pass','hitchgo,hitchgo,go,seam,swing'],['Out-N-Up','pass','outup,go,outup,seam,swing'],['Streaks','pass','go,go,go,go,stay'],['Corner Strike','pass','corner,corner,post2,seam,swing'],['Deep Cross','pass','post2,cross,go,seam,swing']],
 Screen:[['RB Screen','screen','go,go,go,stay,screen'],['WR Screen','screen','screen,go,go,stay,flat'],['TE Screen','screen','go,go,go,screen,stay'],['Bubble Screen','screen','bubble,go,go,stay,stay'],['Slip Screen','screen','go,go,go,stay,slip'],['Quick Screen','screen','bubble,bubble,go,stay,stay']],
 'Play Action':[['PA Deep','pa','go,go,post,seam,stay'],['PA Cross','pa','cross,post,dig,drag,flat'],['PA Post','pa','post,corner,go,curl,swing'],['PA Flat','pa','flat,go,post,seam,swing'],['PA Shot','pa','fly,post2,go,seam,stay'],['PA Short','pa','hitch,out5,drag,stick,flat']],
-Option:[['Read Option','option','go,go,stay,stay,swing'],['Speed Option','option','go,go,stay,stay,swing'],['Triple Option','option','go,go,stay,stay,swing']],
+Option:[['Read Option','option','go,go,stay,stay,stay'],['Speed Option','option','go,go,stay,stay,stay'],['Triple Option','option','go,go,stay,stay,stay']],
 'QB Run':[['QB Draw','qbrun','go,go,go,stay,stay'],['QB Keeper','qbrun','go,go,go,go,stay'],['QB Sneak','qbrun','stay,stay,stay,stay,stay'],['QB Power','qbrun','go,go,go,stay,stay']],
 Special:[['Punt','st','stay,stay,stay,stay,stay'],['Field Goal','st','stay,stay,stay,stay,stay'],['QB Kneel','st','stay,stay,stay,stay,stay']]},
-RTE=(t,x,y,s)=>({go:[[x,y+40]],seam:[[x,y+40]],fly:[[x,y+55]],slant:[[x,y+2.5],[x+s*11,y+13],[x+s*19,y+21]],out:[[x,y+9],[x-s*9,y+9],[x-s*9,y+28]],out5:[[x,y+6],[x-s*10,y+6]],curl:[[x,y+13],[x+s,y+10.5]],post:[[x,y+9],[x+s*8,y+22],[x+s*11,y+45]],post2:[[x,y+14],[x+s*10,y+30],[x+s*12,y+50]],flat:[[x-s*3,y+1],[x-s*9,y+4],[x-s*13,y+12]],drag:[[x,y+5],[x+s*24,y+7]],cross:[[x,y+10],[x+s*30,y+12]],dig:[[x,y+14],[x+s*18,y+14]],hitch:[[x,y+8],[x+s*.5,y+6.5]],hitchgo:[[x,y+6],[x,y+8],[x,y+45]],outup:[[x,y+7],[x-s*6,y+7],[x-s*6,y+40]],whip:[[x,y+4],[x+s*7,y+4],[x+s*9,y+14]],shake:[[x,y+6],[x-s*4,y+9],[x+s*3,y+13]],stick:[[x,y+6],[x+s*.3,y+5]],corner:[[x,y+10],[x-s*9,y+24],[x-s*13,y+40]],stay:[[x,y]],screen:[[x-s*4,y-1],[x-s*8,y+1]],bubble:[[x-s*5,y-1.5],[x-s*9,y-.5]],slip:[[x+s*2,y-1],[x+s*5,y+4]],swing:[[x-s*8,y-3],[x-s*14,y+4]],wheel:[[x-s*5,y+2],[x-s*6,y+14],[x-s*5,y+44]]})[t]||[];
+RTE=(t,x,y,s)=>({go:[[x,y+40]],seam:[[x,y+40]],fly:[[x,y+55]],slant:[[x,y+2.5],[x+s*11,y+13],[x+s*19,y+21]],out:[[x,y+10],[x-s*3,y+10.5],[x-s*14,y+10.5]],out5:[[x,y+6],[x-s*10,y+6]],curl:[[x,y+13],[x+s,y+10.5]],post:[[x,y+9],[x+s*8,y+22],[x+s*11,y+45]],post2:[[x,y+14],[x+s*10,y+30],[x+s*12,y+50]],flat:[[x-s*3,y+1.5],[x-s*10,y+3.5],[x-s*17,y+4.5]],drag:[[x,y+5],[x+s*24,y+7]],cross:[[x,y+10],[x+s*30,y+12]],dig:[[x,y+14],[x+s*18,y+14]],hitch:[[x,y+8],[x+s*.5,y+6.5]],hitchgo:[[x,y+6],[x,y+8],[x,y+45]],outup:[[x,y+7],[x-s*6,y+7],[x-s*6,y+40]],whip:[[x,y+4],[x+s*3.5,y+5],[x-s*6,y+5]],shake:[[x,y+6],[x-s*4,y+9],[x+s*3,y+13]],stick:[[x,y+6],[x+s*.3,y+5]],corner:[[x,y+10],[x-s*9,y+24],[x-s*13,y+40]],stay:[[x,y]],screen:[[x-s*4,y-1],[x-s*8,y+1]],bubble:[[x-s*5,y-1.5],[x-s*9,y-.5]],slip:[[x+s*2,y-1],[x+s*5,y+4]],swing:[[x-s*8,y-3],[x-s*14,y+4]],wheel:[[x-s*5,y+2],[x-s*6,y+14],[x-s*5,y+44]]})[t]||[];
 function pre(){aim=null;lk=null;joy=null;try{swp=null}catch(_){}if(g.injP){injShow(pre);return}if(g.injW){injOwn();return}if(g.pc0!=null&&g.clk>g.pc0&&g.clk-g.pc0<150){g.ptS=(g.ptS||0)+g.clk-g.pc0;g.ptN=(g.ptN||0)+1}g.pc0=g.clk;g.pqe=QE();g.ph='pre';g.tk=1;g.pc=40;g.auto=(g.chew&&g.cr)?1:0;LY=0;LP=-.04;g.am=0;g.stage='call';g.sel=g.sel||['Short',0];g.tab=g.sel[0];setup();if(!g.tw1&&g.clk>=1680&&g.clk<1800){g.tw1=1;g.cr=false;g.note='TWO-MINUTE WARNING';g.flash='⏱ TWO-MINUTE WARNING';g.ft=2.6}if(!g.tw2&&g.clk>=3480){g.tw2=1;g.cr=false;g.note='TWO-MINUTE WARNING';g.flash='⏱ TWO-MINUTE WARNING';g.ft=2.6}if(!g.ot&&g.cr&&g.to[1]>0){const rem=(g.clk<1800?1800:3600)-g.clk,h2=g.clk>=1800,df=g.s[1]-g.s[0];if((h2&&rem<=150&&df<=0&&df>=-16)||(!h2&&rem<=60&&g.y<=35)){g.to[1]--;g.cr=false;g.pc=40;g.auto=0;g.note=g.o.n+' call a timeout';g.flash='⏸ TIMEOUT: '+g.o.n.toUpperCase()+' ('+g.to[1]+' left)';g.ft=2.4}}
 if(g.cr&&g.dn<4&&!g.two&&!g.ot)spkShow();if(g.dn!=4)g.d4ok=0;if(g.dn==4&&!g.two&&!g.d4ok){d4ui();return}pui()}
 const FX=[6,47,40,33.5,23],FY=[-.5,-.5,-.8,-.8,-6.2],PCOL=['#ffe93b','#ffe93b','#4fb4ff','#ff9f43','#ffffff'],
-XP={'Inside Run':[[23,-6],[26.5,-1],[26.5,12]],'Outside Run':[[23,-6],[40,0],[45,14]],'Counter':[[23,-6],[28,-3],[36,2],[41,13]],'Power':[[23,-6],[27,-2],[29,12]],'Toss Sweep':[[23,-6],[35,-5],[46,6],[48,18]],'Draw':[[23,-6],[26.5,-1],[26.5,13]],'QB Draw':[[26.5,-5],[26.5,12]],'QB Keeper':[[26.5,-5],[40,-1],[45,12]],'QB Sneak':[[26.5,-5],[26.5,3]],'Read Option':[[26.5,-5],[39,0],[46,10]],'Speed Option':[[26.5,-5],[40,-1],[48,8]],'Triple Option':[[26.5,-5],[36,-2],[45,6],[48,16]],'Dive':[[23,-6],[26.5,-1],[26.5,6]],'Zone Stretch':[[23,-6],[34,-3],[41,3],[44,14]],'Lead Draw':[[23,-6],[26.5,-1],[26.5,13]],'Trap':[[23,-6],[28,-1],[28,10]],'QB Power':[[26.5,-5],[29,2],[29,14]]},
+XP={'Inside Run':[[23,-6],[26.5,-1],[26.5,12]],'Outside Run':[[23,-6],[40,0],[45,14]],'Counter':[[23,-6],[28,-3],[36,2],[41,13]],'Power':[[23,-6],[27,-2],[29,12]],'Toss Sweep':[[23,-6],[35,-5],[46,6],[48,18]],'Draw':[[23,-6],[26.5,-1],[26.5,13]],'QB Draw':[[26.5,-5],[26.5,12]],'QB Keeper':[[26.5,-5],[40,-1],[45,12]],'QB Sneak':[[26.5,-5],[26.5,3]],'Read Option':[[26.5,-5],[14,0],[8,10]],'Speed Option':[[26.5,-5],[40,-1],[48,8]],'Triple Option':[[26.5,-5],[17,-2],[9,6],[6,16]],'Dive':[[23,-6],[26.5,-1],[26.5,6]],'Zone Stretch':[[23,-6],[34,-3],[41,3],[44,14]],'Lead Draw':[[23,-6],[26.5,-1],[26.5,13]],'Trap':[[23,-6],[28,-1],[28,10]],'QB Power':[[26.5,-5],[29,2],[29,14]]},
 AUD=[['Run',0],['Short',0],['Deep',0],['Screen',0]];
 function art(p){const rs=p[2].split(','),X=x=>(x/53.3*100).toFixed(1),Yq=y=>(76-y*1.45).toFixed(1),P2=(pts,c)=>`<polyline points="${pts.map(q=>X(q[0])+','+Yq(q[1])).join(' ')}" fill=none stroke="${c}" stroke-width=2.6 /><circle cx=${X(pts[pts.length-1][0])} cy=${Yq(pts[pts.length-1][1])} r=2.8 fill="${c}"/>`;
 let s=`<svg viewBox="0 0 100 100"><rect width=100 height=100 rx=8 fill="#1f6b36"/><line x1=0 x2=100 y1=${Yq(0)} y2=${Yq(0)} stroke="#fff8" stroke-width=1 />`;
@@ -13529,5 +13529,65 @@ window.keepScroll=function(fn){return function(){const els=[...document.querySel
  const r=fn.apply(this,arguments);const put=()=>{try{if(ui&&uy)ui.scrollTop=uy;els.forEach(([id,cl,e,y])=>{const el=(id&&document.getElementById(id))||(document.body.contains(e)?e:null);if(el&&el.scrollTop!==y)el.scrollTop=y});if(wy&&window.scrollY!==wy)window.scrollTo(0,wy)}catch(e){}};
  put();requestAnimationFrame(put);setTimeout(put,0);setTimeout(put,60);setTimeout(put,200);return r}};
 ['up','ptUp'].forEach(f=>{try{const _f=window[f]||eval(f);if(typeof _f!=='function')return;const w=keepScroll(_f);window[f]=w;try{eval(f+'=w')}catch(e){}}catch(e){}});
+// ===== 🎮 CONTROLLER: tap passing by default + throwaway + slide + option plays (Tyler 2026-11-17) =====
+// "Make the default controller option just tapping the button. No placement and accuracy right now... add different modes
+//  like Madden does." · "press down right stick for the throwaway" · "slide is square once you pass the line" ·
+// "curl flat isn't really a curl flat... the options aren't really option plays".
+// Modes (pause menu → Controller passing): TAP (default: tap a receiver's button, your QB's ratings decide the throw)
+// and METER (the placement-and-accuracy meter, unchanged, for later).
+window.cpmOf=function(){return (S&&S.cpm)||'tap'};
+window.cpmT=function(){S.cpm=cpmOf()==='tap'?'meter':'tap';try{save()}catch(e){}};
+(()=>{try{const _p=pm;pm=function(){const r=_p.apply(this,arguments);try{const ov_=document.getElementById('ov'),b=ov_&&[...ov_.querySelectorAll('button')].find(x=>/^Camera:/.test(x.textContent));
+ if(b&&!ov_.querySelector('#cpmb')){const n=document.createElement('button');n.className='g';n.id='cpmb';n.textContent='Controller passing: '+(cpmOf()==='tap'?'Tap (simple)':'Meter (placement + accuracy)');n.onclick=()=>{cpmT();pm()};b.parentNode.insertBefore(n,b)}}catch(e){}return r};window.pm=pm}catch(e){}})();
+// the field: is the QB holding the ball behind the line
+const qbHold_=()=>{const P=g&&g.pl,q=P&&P.qb;return !!(P&&q&&g.ph==='live'&&P.car===q&&!P.air&&!P.passed)};
+// throwaway: out of bounds past the receiver nearest the sideline you're facing (no catch possible)
+window.ctlAway=function(){try{const P=g.pl,q=P.qb;if(!qbHold_()||q.y>g.los+.6)return false;const side=q.x<26.65?-1:1,R=(P.wr||[]).filter(w=>w&&!w.out);
+ const w=R.sort((a,b)=>side<0?a.x-b.x:b.x-a.x)[0];if(!w)return false;const ly=Math.min(q.y+thrR()*.6,q.y+14);P.swq=1;g.swp={p:60,t:performance.now()};g.flash='THROWAWAY';g.ft=.8;doThrow(w,side<0?-3:56.5,ly);return true}catch(e){return false}};
+// slide: the QB with the ball past the line of scrimmage
+window.ctlSlide=function(){try{const P=g.pl,q=P&&P.qb,c=P&&P.car;if(!P||g.ph!=='live'||!c||c!==q||P.air||q.y<=g.los+.6)return false;g.flash='SLIDE';g.ft=.7;c.sl=1;endPlay(c.y,'SLIDE — ball secured');return true}catch(e){return false}};
+// ---------- option plays ----------
+// READ OPTION: the back dives right, the QB reads the left end. End crashes on the back → QB keeps (left). End stays home → give.
+// SPEED OPTION: QB attacks the right edge, the back trails him in pitch relationship; pitch any time before he's tackled.
+// TRIPLE OPTION: the read (give or keep), then after a keep the back loops into pitch relationship.
+// Controller: hold A/✕ through the mesh = give, hold B/○ = keep, nothing = the QB reads it. LB/L1 = pitch. Touch: swipe as before.
+window.OPTD={'Read Option':{read:1,dir:-1},'Speed Option':{read:0,dir:1},'Triple Option':{read:1,dir:-1,pitch:1}};
+window.optOf=function(P){try{return P&&P.call&&P.call.t==='option'&&OPTD[P.call.n]||null}catch(e){return null}};
+window.optPitch=function(){try{const P=g.pl,q=P&&P.qb,o=optOf(P),r=P&&P.rb;if(!o||!q||P.car!==q||P.air||P.op||!r||r.out)return false;
+ if(Math.hypot(r.x-q.x,r.y-q.y)>9||r.y>q.y+1){g.flash='No pitch man';g.ft=.7;return false}
+ P.op=1;P.car=r;P.handed=1;P.run=true;P.passed=false;P.lane=cl(r.x+(o.dir||1)*3,4,49);q.vx=q.vy=0;g.flash='PITCH';g.ft=.7;return true}catch(e){return false}};
+window.optGive=function(){const P=g.pl,q=P.qb,r=P.rb;P.op=1;P.car=r;P.handed=1;P.run=true;P.lane=cl(q.x+3,20,34);q.vx=q.vy=0;g.flash='GIVE';g.ft=.7};
+window.optStep=function(P){try{const o=optOf(P),q=P&&P.qb,r=P&&P.rb;if(!o||!q||!r||P.done)return;
+ if(o.read&&!P.ord&&P.car===q){
+  // the mesh: the back crosses the QB's face toward the right A gap
+  if(P.t<.75){r.wp=[[q.x+2.6,g.los-.6]];r.hold=false}
+  else{P.ord=1;let give;const ask=CTL&&CTL.optAsk;if(ask==='give')give=true;else if(ask==='keep')give=false;else{
+    const L=(P.dl||[]).filter(d=>d.x<q.x).sort((a,b)=>a.x-b.x)[0];give=!L||!(L.x>q.x-3.5||(L.vx||0)>.6)}
+   if(give){optGive();return}g.flash='KEEP';g.ft=.7;r.wp=[[r.x,g.los+2]]}}
+ // pitch relationship: about 4.5 yds outside and 1.5 behind the QB
+ if(P.car===q&&!P.op&&(!o.read||(o.pitch&&P.ord))){r.hold=false;r.wp=[[cl(q.x+o.dir*4.5,2,51.3),Math.min(q.y-1.5,g.los+4)]];r.sp0=r.sp0||r.sp;r.sp=Math.max(r.sp0,(q.sp||7)*1.05)}
+ }catch(e){}};
+(()=>{try{const _u=upd;upd=function(dt){try{if(g&&g.pl)optStep(g.pl)}catch(e){}return _u.apply(this,arguments)}}catch(e){}})();
+// ---------- the controller ----------
+(()=>{try{const _pa=window.ctlPA;window.ctlPA=function(down,edge,lx,ly){try{const P=g.pl,q=P&&P.qb;
+ if(q&&q.y>g.los+.6)return;                                   // past the line: no throws (Square = slide, see below)
+ if(optOf(P))return;                                           // option: buttons are give/keep/pitch, not receivers
+ if(edge(11)){ctlAway();return}                                // R3 = throwaway
+ if(cpmOf()==='tap'){if(typeof PA!=='undefined')PA={i:-1};for(let i=0;i<5;i++)if(edge(CTL_RB[i])&&ctlRecv()[i]){ctlThrow(i);break}return}
+ }catch(e){}return _pa&&_pa.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _s=window.ctlStep;let prev=[];window.ctlStep=function(){try{if(CTL.mode==='pad'&&typeof g!=='undefined'&&g&&g.ph==='live'&&g.pl&&!g.paused){
+ const p=[...((navigator.getGamepads&&navigator.getGamepads())||[])].find(x=>x&&x.connected!==false);if(p){
+  const B=i=>!!(p.buttons[i]&&(p.buttons[i].pressed||p.buttons[i].value>.5)),E=i=>B(i)&&!prev[i],P=g.pl,q=P.qb;
+  CTL.optAsk=optOf(P)?(B(0)?'give':B(1)?'keep':CTL.optAsk==null?null:CTL.optAsk):null;
+  if(E(2)&&P.car===q&&q.y>g.los+.6){ctlSlide()}
+  else if(E(4)&&optOf(P)&&P.car===q){optPitch()}
+  else if(E(11)&&qbHold_()&&!optOf(P)&&q.y<=g.los+.6&&cpmOf()!=='tap'){/* meter mode: ctlPA sees R3 too */}
+  prev=[];for(let i=0;i<17;i++)prev[i]=B(i)}}else{CTL.optAsk=null}}catch(e){}return _s.apply(this,arguments)}}catch(e){}})();
+// legend: what the buttons do right now
+(()=>{try{const _g=window.ctlLegend;window.ctlLegend=function(){_g.apply(this,arguments);try{const lg=document.getElementById('ctlleg'),P=g&&g.pl,q=P&&P.qb;if(!lg||!g||g.ph!=='live'||!P||P.car!==q||P.air||ctlRoot())return;const G=k=>ctlGlyph(k),ps=CTL.kind==='ps',pt=ps?'L1':'LB',r3=ps?'R3':'R3';let t=null;
+ if(q.y>g.los+.6)t=`${ps?'□':'X'} slide · R-stick juke/truck · ${G(1)} spin`+(optOf(P)&&!P.op?` · ${pt} pitch`:'');
+ else if(optOf(P))t=(optOf(P).read&&!P.ord?`hold ${G(0)} give · hold ${G(1)} keep · `:'')+`${pt} pitch · L-stick run`;
+ else if(cpmOf()==='tap')t=`${G(0)} ${G(1)} ${G(2)} ${G(3)} ${G(4)} tap to throw · ${r3} throw it away · L-stick move`;
+ if(t&&lg.textContent!==t)lg.textContent=t}catch(e){}}}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>
