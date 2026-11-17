@@ -30,3 +30,20 @@ window.lostSkip=function(){S.lostAsk=S.wk+'|'+yrN();save();hub()};
 (()=>{try{const _h=hub;hub=function(){try{if(!window._pendRun&&lostGame()&&lostAuto())return}catch(e){}const r=_h.apply(this,arguments);try{const L=lostGame();if(L&&ui&&ui.firstElementChild&&!ui.querySelector('[data-lost]')){const d=document.createElement('div');d.className='card';d.setAttribute('data-lost','1');
   d.innerHTML=`<b>💾 Your last game vs ${S.T[L.o].n} was played but not saved</b><br><small>An update interrupted it after the final whistle. Your stats from it are already in your season (a ${L.w?'win':'loss'}). Enter the final score and it's recorded; nothing is made up.</small><div class=row style="gap:6px;margin-top:6px"><input id=lgA type=number min=0 placeholder="You" style="width:30%"><input id=lgB type=number min=0 placeholder="${esc(S.T[L.o].n)}" style="width:30%"><button onclick="lostSave()" style="width:auto">Record it</button></div><small id=lgM></small>`;
   ui.firstElementChild.insertBefore(d,ui.firstElementChild.children[1]||null)}}catch(e){}return r}}catch(e){}})();
+// ===== a game counted twice comes off (Tyler 2026-11-17: "it says 17 games, 17 and oh ... I'm in week 18. There's a bye week") =====
+// His Cam save: the 16 game lines add up to 4,617 yds / 56 TD, but the season said 4,989 / 61 and 17 games, 17 wins: the interrupted
+// week-16 game (9/14, 372, 5 TD, 2 INT) was added twice. Rule: if the season totals equal the sum of this season's game lines PLUS
+// exactly one of those lines again (and games played is one too many), that extra copy is taken off the season and career totals.
+window.dupGameFix=function(s){try{s=s||S;if(!s||s.stage!=='pro'||!s.ugl||!s.ss)return 0;const pre='pro'+(()=>{const o=S;S=s;try{return yrN()}finally{S=o}})()+'|';const K=Object.keys(s.ugl).filter(k=>k.startsWith(pre));if(!K.length)return 0;
+ const F=[['att','att'],['cmp','cmp'],['yds','yds'],['td','td'],['int','int'],['ry','ry'],['rtd','rtd']];const sum={};F.forEach(([a,b])=>sum[a]=K.reduce((t,k)=>t+(+s.ugl[k][b]||0),0));
+ if((s.ss.g|0)!==K.length+1)return 0;const diff={};F.forEach(([a])=>diff[a]=(s.ss[a]|0)-sum[a]);let dupK=K.find(k=>F.every(([a,b])=>diff[a]===(+s.ugl[k][b]||0)));
+ // played to the end twice (the game before a reload, then again): the extra is the box score's line (the latest complete game). Keep the
+ // box score as that week; take the OTHER copy (the stored line) off the totals and store the box score's line in its place.
+ if(!dupK){for(const k of K){const x=s.bx&&s.bx[k];if(!x||!x.s)continue;const sd=x.A&&x.A.ti===0?x.A:x.B;const p=(sd.pass||[]).find(q=>q.n===s.name)||{},r=(sd.rush||[]).find(q=>q.n===s.name)||{};
+   const bl={att:p.a|0,cmp:p.c|0,yds:p.y|0,td:p.td|0,int:p.i|0,ry:r.y|0,rtd:r.td|0};if(F.every(([a])=>diff[a]===bl[a])){const old=s.ugl[k];s.ugl[k]={...old,...bl,sk:old.sk|0,fum:old.fum|0};const L0=old;
+    const w=(()=>{const m=x.A&&x.A.ti===0?x.s:[x.s[1],x.s[0]];return m[0]>m[1]})();const sub=o=>{if(!o)return;F.forEach(([a,b])=>{o[a]=Math.max(0,(o[a]|0)-(+L0[b]||0))});o.g=Math.max(0,(o.g|0)-1);const kk=w?'w':'l';o[kk]=Math.max(0,(o[kk]|0)-1)};
+    sub(s.ss);sub(s.cs);try{sub(s.cst&&s.cst.pro&&s.cst.pro.reg)}catch(e){}s.dupFixed=(s.dupFixed||[]).concat([k+'(played twice)']);try{szCache=null}catch(e){}return 1}}return 0}
+ const L=s.ugl[dupK];const w=(()=>{try{const x=s.bx&&s.bx[dupK];if(x&&x.s){const m=x.A&&x.A.ti===0?x.s:[x.s[1],x.s[0]];return m[0]>m[1]}}catch(e){}return true})();
+ const sub=o=>{if(!o)return;F.forEach(([a,b])=>{o[a]=Math.max(0,(o[a]|0)-(+L[b]||0))});o.g=Math.max(0,(o.g|0)-1);const k=w?'w':'l';o[k]=Math.max(0,(o[k]|0)-1)};
+ sub(s.ss);sub(s.cs);try{sub(s.cst&&s.cst.pro&&s.cst.pro.reg)}catch(e){}s.dupFixed=(s.dupFixed||[]).concat([dupK]);return 1}catch(e){return 0}};
+(()=>{try{const _h=hub;hub=function(){try{if(S&&!window._pendRun&&dupGameFix(S)){HM=(HM?HM+' ':'')+'🧮 A game that had been counted twice in your season totals was fixed.';save()}}catch(e){}return _h.apply(this,arguments)}}catch(e){}})();
