@@ -41,7 +41,7 @@ window.schV=function(mode,wk){const W=schOf()||[],T=S.T,G=(S.grk==grK()&&S.gr)||
 // ---------- 6. QB NEED: Tyler's 2026 baseline, re-evaluated every season and whenever a team's QB changes ----------
 window.QBG26=[2,12,4,11,12,4,6,11,7,3,6,11,12,10,9,7,9,8,10,8,12,10,11,6,5,6,8,7,12,9,3,11];
 window.qbRoom=function(pi){try{const t=S.pro[pi];let L=null;const ix=S.T.indexOf(t);if(ix>=0)L=S.ro['h.'+ix];if(!L)L=S.ro['p.'+pi];if(!L)return null;
- const Q=L.filter(x=>x&&x.pos==='QB').map(x=>x===L[0]&&ix===0&&S.stage==='pro'?{n:S.name,ovr:Math.max(qo(S.q),S.sq||0),age:S.age||25,pot:99,ny:S.py||1}:{n:x.n,ovr:x.ovr||60,age:x.age||28,pot:x.pot||x.ovr||60,ny:(x.h||[]).length});
+ const Q=L.filter(x=>x&&x.pos==='QB').map(x=>x===L[0]&&ix===0&&S.stage==='pro'?{n:S.name,ovr:Math.max(qo(S.q),S.sq||0),age:S.age||25,pot:99,ny:S.py||1,ctx:S.ct?{exp:yrN()+(S.ct.yrs||1)-1,how:'me',y:S.ct.yrs}:null}:{n:x.n,ovr:x.ovr||60,age:x.age||28,pot:x.pot||x.ovr||60,ny:(x.h||[]).length,ctx:x.ct?{exp:x.ct.exp,how:x.ct.how,y:x.ct.y}:null});
  if(!Q.length)return null;const st=Q[0],bk=Q.slice(1).sort((a,b)=>(b.pot+b.ovr)-(a.pot+a.ovr))[0]||null;return {st,bk}}catch(e){return null}};
 // what the team believes about its QB room (0 F ... 12 A+)
 window.qbgTarget=function(pi){const R_=qbRoom(pi);if(!R_){const s=qbStarter(pi);return qbgFor(s.ovr,s.age)}const {st,bk}=R_;
@@ -52,11 +52,15 @@ window.qbgTarget=function(pi){const R_=qbRoom(pi);if(!R_){const s=qbStarter(pi);
  if(st.ny<=1&&st.age<=24)g=Math.min(g,9);                                   // a rookie hasn't earned an A yet
  if(st.age<=26&&st.ovr>=86)g+=1;                                            // young franchise QB
  if(bk&&bk.ovr>=st.ovr+3&&bk.age<=30)g=Math.max(g,qbgFor(bk.ovr,bk.age)-1); // the better man takes over
+ // contract: a long, fresh deal means the team has committed; the last year of a deal (not an extension yet) means it hasn't
+ try{const c=st.ctx,Y=yrN();if(c&&c.exp!=null){const left=c.exp-Y+1;if(left<=1&&st.ovr<88)g-=1;else if(left<=1&&st.ovr>=88&&st.age>=34)g-=1;else if(left>=4&&st.ovr>=80)g+=1;if(c.how==='ext'&&left>=3)g+=1}}catch(e){}
  return cl(g,0,12)};
 window.qbgEns=function(){try{if(!S||!S.pro)return null;const y=yrN();
  if(!S.qbg||!S.qbg.v2){const old=S.qbg;S.qbg={y:2026,g:QBG26.slice(),v2:1,st:[]};if(y>2026||(old&&old.y>2026)){S.qbg.y=y;S.qbg.g=S.qbg.g.map((g0,pi)=>Math.round(g0*.25+qbgTarget(pi)*.75))}}
  const Q=S.qbg;while(Q.y<y){Q.y++;Q.g=Q.g.map((g0,pi)=>Math.round((g0+qbgTarget(pi))/2))}   // every new season: re-evaluated (moves like a reputation)
- (S.pro||[]).forEach((t,pi)=>{const R_=qbRoom(pi),n=R_&&R_.st.n;if(n&&Q.st[pi]&&Q.st[pi]!==n)Q.g[pi]=Math.round(Q.g[pi]*.3+qbgTarget(pi)*.7);if(n)Q.st[pi]=n});   // a new starter: re-evaluated now
+ Q.ck=Q.ck||{};(S.pro||[]).forEach((t,pi)=>{const R_=qbRoom(pi),n=R_&&R_.st.n,c=R_&&R_.st.ctx,key=c?c.exp+':'+(c.how||''):'';if(n&&Q.st[pi]&&Q.st[pi]!==n)Q.g[pi]=Math.round(Q.g[pi]*.3+qbgTarget(pi)*.7);
+  else if(n&&Q.ck[pi]!=null&&Q.ck[pi]!==key)Q.g[pi]=Math.round(Q.g[pi]*.5+qbgTarget(pi)*.5);   /* an extension, or the deal reaching its last year: re-evaluated */
+  if(n)Q.st[pi]=n;Q.ck[pi]=key});   // a new starter: re-evaluated now
  return Q}catch(e){return null}};
 window.qbAdj=function(pi,p){if(!p||p.pos!=='QB')return 0;const g=qbG(pi),elite=(p.ovr||0)>=95||p.gen,late=S.dr&&S.dr.pk>=32,R_=qbRoom(pi),old=R_&&R_.st.age>=33;
  if(late&&old)return 5;                                                     // a developmental QB to learn behind the vet

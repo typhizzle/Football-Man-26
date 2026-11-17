@@ -1183,3 +1183,12 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m245.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m246.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m247.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-17: out of bounds / incompletions / timeouts stop the clock in the two-minute drill (m248)
+r("sec-=lead>20||(lt&&lead>0)?ri(28,42):(lt&&lead<0)?ri(5,14):Math.round(ri(6,40)*SDT);let gn=0,tx='';","let du_=lead>20||(lt&&lead>0)?ri(28,42):(lt&&lead<0)?ri(5,14):Math.round(ri(6,40)*SDT);const pre_=sec;sec-=du_;let gn=0,tx='';")
+r("{const ky=tx=='Sack'?'sack'","let st_=null;try{st_=sdStop(du_,tx,gn,lead,pre_);if(st_&&st_.s&&st_.t<du_)sec+=du_-st_.t}catch(e){}\n{const ky=tx=='Sack'?'sack'")
+r("fum:res=='Fumble',td:!res&&y+gn>=100,s:sec})}","fum:res=='Fumble',td:!res&&y+gn>=100,s:sec,oob:st_&&st_.oob?1:0,to:st_&&st_.to?st_.to:0})}")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m248.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-17: in the Pro Bowl the QB on your side is drawn with YOUR look and number whoever he is (Lamarcus Action showed white in #25). Each QB is his own player.
+r("const mine=q&&!g.sw&&!g.injW;o.m=mk3(j,1.1,o.sk,{nm:mine?j.nm:(o.nm||''),num:mine?S.num:(o.num==null?'':o.num)},mine&&S.ap,0,q?1:0)","const pbo_=q&&g.kind==='pbg'&&o.fn&&o.fn!==S.name,mine=q&&!g.sw&&!g.injW&&!pbo_;o.m=mk3(j,1.1,o.sk,{nm:mine?j.nm:(o.nm||''),num:mine?S.num:(o.num==null?'':o.num)},mine?S.ap:(o.fn&&typeof slLook=='function'?slLook({n:o.fn,pos:o.pos}):false),0,q?1:0)")
+
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m249.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
