@@ -1166,3 +1166,8 @@ r("'Triple Option':[[26.5,-5],[36,-2],[45,6],[48,16]]","'Triple Option':[[26.5,-
 r("['Read Option','option','go,go,stay,stay,swing'],['Speed Option','option','go,go,stay,stay,swing'],['Triple Option','option','go,go,stay,stay,swing']","['Read Option','option','go,go,stay,stay,stay'],['Speed Option','option','go,go,stay,stay,stay'],['Triple Option','option','go,go,stay,stay,stay']")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m240.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
 r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m241.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-17: the clock and play clock run in pro overtime (timed OT, m242)
+r("P.t+=dt;if(!g.ot)g.clk=Math.min(g.clk+dt*g.rate,P.qe)","P.t+=dt;if(!g.ot||g.otT)g.clk=Math.min(g.clk+dt*g.rate,P.qe)")
+r("function preTick(dt){if(g.ph!='pre'||!g.tk||g.ot)return;","function preTick(dt){if(g.ph!='pre'||!g.tk||(g.ot&&!g.otT))return;")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m242.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+r("addEventListener('resize',resize);addEventListener('orientationchange'", M('m243.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")

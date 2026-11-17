@@ -48,6 +48,9 @@ window.optStep=function(P){try{const o=optOf(P),q=P&&P.qb,r=P&&P.rb;if(!o||!q||!
  const p=[...((navigator.getGamepads&&navigator.getGamepads())||[])].find(x=>x&&x.connected!==false);if(p){
   const B=i=>!!(p.buttons[i]&&(p.buttons[i].pressed||p.buttons[i].value>.5)),E=i=>B(i)&&!prev[i],P=g.pl,q=P.qb;
   CTL.optAsk=optOf(P)?(B(0)?'give':B(1)?'keep':CTL.optAsk==null?null:CTL.optAsk):null;
+  // Tyler 2026-11-17: the QB running past the line gets the right stick too (left/right juke, up truck), like any ball carrier
+  if(P.car===q&&!P.air&&q.y>g.los+.6&&!P.passed){const rx=Math.abs(p.axes[2]||0)>.28?p.axes[2]:0,ry=Math.abs(p.axes[3]||0)>.28?p.axes[3]:0;const k=(rx||ry)?(Math.abs(rx)>Math.abs(ry)?'x':'y'):'';
+   if(k&&!CTL.rsq){CTL.rsq=1;try{if(k==='x')mvmove(Math.sign(rx),0);else if(ry<0)mvmove(0,-1)}catch(e){}}if(!rx&&!ry)CTL.rsq=0;if(E(1))try{mvmove(1,-1)}catch(e){}}
   if(E(2)&&P.car===q&&q.y>g.los+.6){ctlSlide()}
   else if(E(4)&&optOf(P)&&P.car===q){optPitch()}
   else if(E(11)&&qbHold_()&&!optOf(P)&&q.y<=g.los+.6&&cpmOf()!=='tap'){/* meter mode: ctlPA sees R3 too */}

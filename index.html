@@ -1335,7 +1335,7 @@ function hut(){if(Date.now()-g.ui<400)return;if(g.chew&&g.cr&&g.tk&&g.pc>1.2){co
 function aud(c,i){g.sel=[c,i];g.tab=c;g.am=0;g.stage='line';g.pc=Math.max(3,g.pc-3);g.note='Audible: '+PB[c][i][0];if(R()>S.q.awr/100+.25){setup();g.note+=' — defense read it and shifted!'}pui()}
 function snap(c,i){ovHide();$('#spk').style.display='none';$('#lb').style.display='none';g.tk=0;g.note='';g.am=0;const P=g.pl,pl=PB[c][i],rs=pl[2].split(',');if(pl[1]=='st'){return pl[0]=='Punt'?punt():pl[0]=='QB Kneel'?kneel():fg()}P.call={n:pl[0],t:pl[1]};const LN_={'Outside Run':()=>R()<.5?13:40,'Toss Sweep':()=>R()<.5?11:42,Counter:()=>R()<.5?17:36,'Inside Run':()=>26.5+ri(-3,3),Power:()=>26.5+ri(-6,6),Draw:()=>26.5+ri(-2,2),Dive:()=>26.5+ri(-1,1),'Zone Stretch':()=>R()<.5?12:41,'Lead Draw':()=>26.5+ri(-2,2),Trap:()=>26.5+ri(-5,5)};P.lane=LN_[pl[0]]?LN_[pl[0]]():null;P.hd=pl[0]=='Draw'||pl[0]=='Lead Draw'?1.1:.5;P.wr.forEach((w,k)=>{w.wp=RTE(rs[k],w.x,w.y,w.sd).map(p=>[cl(p[0],2,51),Math.min(p[1],106)]);w.hold=rs[k]=='stay';w.ld=null});
 if(pl[1]=='run'||pl[1]=='pa'){P.rb.wp=[[P.qb.x,P.qb.y-.8]];if(pl[1]=='pa')P.pa=1}P.qe=QE();g.ph='live';P.t=0;g.flash=pl[0]+' vs '+(DCN[P.dc]||P.dc);g.ft=1.4}
-function preTick(dt){if(g.ph!='pre'||!g.tk||g.ot)return;const ch_=g.chew&&g.tk,sp=ch_?4:1;g.pc-=dt*sp;if(g.cr)g.clk=Math.min(g.clk+dt*sp,g.pqe||QE());if(ch_&&g.pc<=1.2&&(!g.cr||g.clk<(g.pqe||QE()))){g.auto=0;g.am=0;g.ui=0;hut();return}if((g.clk>=1800&&!g.half)||g.clk>=3600){g.tk=0;ovHide();if(chk(2))return}if(g.cr&&g.pqe&&g.clk>=g.pqe&&g.pqe%1800){g.tk=0;$('#lb').style.display='none';$('#spk').style.display='none';if(qchg())return}if(g.pc<=0){if(g.chew&&g.tk){g.ui=0;g.am=0;hut();return}delay()}}
+function preTick(dt){if(g.ph!='pre'||!g.tk||(g.ot&&!g.otT))return;const ch_=g.chew&&g.tk,sp=ch_?4:1;g.pc-=dt*sp;if(g.cr)g.clk=Math.min(g.clk+dt*sp,g.pqe||QE());if(ch_&&g.pc<=1.2&&(!g.cr||g.clk<(g.pqe||QE()))){g.auto=0;g.am=0;g.ui=0;hut();return}if((g.clk>=1800&&!g.half)||g.clk>=3600){g.tk=0;ovHide();if(chk(2))return}if(g.cr&&g.pqe&&g.clk>=g.pqe&&g.pqe%1800){g.tk=0;$('#lb').style.display='none';$('#spk').style.display='none';if(qchg())return}if(g.pc<=0){if(g.chew&&g.tk){g.ui=0;g.am=0;hut();return}delay()}}
 function delay(){g.tk=0;g.y=Math.max(1,g.y-5);g.tg+=5;g.note='Delay of game (-5)';pre()}
 function to(){if(g.to[0]<1){g.note='No timeouts left';pui();return}g.to[0]--;g.cr=false;g.pc=40;g.note='Timeout called';pui()}
 function chew(){g.chew=!g.chew;g.auto=g.chew&&g.cr&&g.tk?1:0;g.note=g.chew?'Chew clock ON: the play clock runs all the way down and you snap at :01 (about 39 seconds off the game clock every play). Tap HUT any time to burn it instantly.':'Chew clock OFF: normal 40-second play clock';pui()}
@@ -1360,7 +1360,7 @@ P.dl.forEach((o,i)=>{if(i<4)ap(o,LO,11+i)});P.lb.forEach((o,i)=>ap(o,LO,15+i));P
 defPost(P,y,o,r);P.def=[...P.dl,...P.db,...P.lb]}
 function openSpot(w,P){let best=[26.5,Math.min(w.y+4,106)],bs=-1;for(let k=0;k<10;k++){const a=k*Math.PI/5,x=cl(w.x+Math.cos(a)*3.5,3,50.3),y=cl(w.y+Math.sin(a)*3.5,g.los-1,106);if(Math.hypot(x-w.x,y-w.y)<2)continue;const s=Math.min(...P.def.map(d=>Math.hypot(d.x-x,d.y-y)));if(s>bs){bs=s;best=[x,y]}}return best}
 function mv(o,tx,ty,s,dt){const dx=tx-o.x,dy=ty-o.y,d=Math.hypot(dx,dy);if(d<.02){o.vx=o.vy=0;return}const k=Math.min(d,s*dt),sv=dt>0?k/dt:s;o.x+=dx/d*k;o.y+=dy/d*k;o.vx=dx/d*sv;o.vy=dy/d*sv}
-function upd(dt){const P=g.pl,q=P.qb,a=P.air;P.t+=dt;if(!g.ot)g.clk=Math.min(g.clk+dt*g.rate,P.qe);if(P.ir)return intTick(P,dt);
+function upd(dt){const P=g.pl,q=P.qb,a=P.air;P.t+=dt;if(!g.ot||g.otT)g.clk=Math.min(g.clk+dt*g.rate,P.qe);if(P.ir)return intTick(P,dt);
 if(P.call.t=='run'&&!P.handed&&P.t>(P.hd||.5)){P.handed=1;P.car=P.rb;if(P.rb.ri!=null){(g.rc=g.rc||{})[P.rb.ri]=(g.rc[P.rb.ri]||0)+1;(g.rcar=g.rcar||{})[P.rb.ri]=(g.rcar[P.rb.ri]||0)+1}P.run=true;q.vx=q.vy=0}
 const cu=P.car===q?((P.call.t=='run'&&!P.handed)?null:q):null;
 if(cu){const l=Math.hypot(inp.x,inp.y);if(l>.05){const s=cu.sp*(cu.stum>0?.55:1)*(cu.mv>0&&cu.mt=='truck'?1.25:1)*Math.min(1,l);cu.vx=inp.x/l*s;cu.vy=inp.y/l*s}else cu.vx=cu.vy=0;
@@ -12641,7 +12641,7 @@ window.slBuild=function(){try{if(!SDL.parent)scn.add(SDL);clr(SDL);SLV.av=null;c
   SLROWS.forEach((R_,row)=>{for(let k=0;k<R_.n&&i<L.length;k++){const z=-32-k*(36/R_.n)-row*.8+(Math.random()-.5)*.5,X=sd*(R_.x+(Math.random()-.5)*.35);mk(j,X,z,(sd<0?-Math.PI/2:Math.PI/2)+(Math.random()-.5)*.5,L[i]);i++}})});
  try{const cj=[{c1:'#23232f',c2:'#555555',d:0,pc:'#3a3a3a'},{c1:(g.o&&g.o.c1)||'#333333',c2:'#333333',d:0,pc:'#3a3a3a'}],ca=[{sk:1,hr:1,hcl:'#bbbbbb',fh:2,ht:1,bd:1},{sk:4,hr:3,hcl:'#777777',fh:2,ht:1,bd:1}];
   [-1,1].forEach((sd,i)=>{const m=mk3(cj[i],1.2,0,null,ca[i],1);m.position.set(sd*28.6,0,-50);m.rotation.y=sd<0?-Math.PI/2:Math.PI/2;m.coach=sd;m.ph=i*2;SDL.add(m);if(sd<0)SLV.coach=m})}catch(e){}
- const me=mk3(g.mj,1.1,S.ap&&S.ap.sk,{nm:S.nm||S.name,num:S.num},S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29;SLV.z=-50;
+ const me=mk3(g.mj,1.1,S.ap&&S.ap.sk,{nm:String(S.name||'').split(' ').lnPop().toUpperCase().slice(0,12),num:S.num}   /* Tyler 2026-11-17: your last name on your back, like everyone else */,S.ap,0,1);me.visible=false;SDL.add(me);SLV.av=me;SLV.x=-29;SLV.z=-50;
  // cheerleaders: behind each team's bench, facing the field, spread along the whole side
  try{CHR.children.forEach((c,i)=>{const home=c.position.x<0,sd=home?-1:1,k=Math.floor(i/2);c.position.x=sd*(39.4+(k%2)*.9);c.position.z=-8-((k*13.7+(home?0:6))%94);c.rotation.y=home?-Math.PI/2:Math.PI/2})}catch(e){}
 }catch(e){console.warn(e)}};
@@ -12798,7 +12798,7 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
 (()=>{try{const _z=zoneT;zoneT=function(d,P){const r=_z.apply(this,arguments);try{
  if(zcScr(P)&&(P.qb.y>g.los+.3||!P.wr.some(w=>w.y>g.los&&Math.hypot(w.x-d.x,w.y-d.y)<7))){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}   /* Tyler 2026-11-17: a zone defender with a receiver in his area stays on him while you move in the pocket; he comes up only if his area is empty or you cross the line */
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
- if(d.pk&&d.dz&&!d.pkA&&d.pk.y<g.los+8&&P.wr.some(x=>x!==d.pk&&x.y>g.los+12))d.pk=null;   /* a deep man appears: back to depth */if(d.pk&&(P.passed||!P.wr.includes(d.pk)||(!d.pkA&&!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4)))d.pk=null;
+ if(d.pk&&d.dz&&!d.pkA&&d.pk.y<g.los+8&&P.wr.some(x=>x!==d.pk&&x.y>g.los+12))d.pk=null;   /* a deep man appears: back to depth */if(d.pk&&((P.passed&&!P.air)||!P.wr.includes(d.pk)||(!d.pkA&&!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4)))d.pk=null;
  if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;if(d.dz&&w.y<g.los+10&&(P.t<(ZC.dh!=null?ZC.dh:2.5)||P.wr.some(x=>x.y>g.los+12)))return;   /* Tyler 2026-11-17: a deep defender doesn't leave his depth to chase a short man while anyone is threatening deep (that left deep receivers wide open); once nobody is deep he comes up to help */const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
  if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*(w.y-g.los>12?1:ZC.top),s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
@@ -13579,6 +13579,9 @@ window.optStep=function(P){try{const o=optOf(P),q=P&&P.qb,r=P&&P.rb;if(!o||!q||!
  const p=[...((navigator.getGamepads&&navigator.getGamepads())||[])].find(x=>x&&x.connected!==false);if(p){
   const B=i=>!!(p.buttons[i]&&(p.buttons[i].pressed||p.buttons[i].value>.5)),E=i=>B(i)&&!prev[i],P=g.pl,q=P.qb;
   CTL.optAsk=optOf(P)?(B(0)?'give':B(1)?'keep':CTL.optAsk==null?null:CTL.optAsk):null;
+  // Tyler 2026-11-17: the QB running past the line gets the right stick too (left/right juke, up truck), like any ball carrier
+  if(P.car===q&&!P.air&&q.y>g.los+.6&&!P.passed){const rx=Math.abs(p.axes[2]||0)>.28?p.axes[2]:0,ry=Math.abs(p.axes[3]||0)>.28?p.axes[3]:0;const k=(rx||ry)?(Math.abs(rx)>Math.abs(ry)?'x':'y'):'';
+   if(k&&!CTL.rsq){CTL.rsq=1;try{if(k==='x')mvmove(Math.sign(rx),0);else if(ry<0)mvmove(0,-1)}catch(e){}}if(!rx&&!ry)CTL.rsq=0;if(E(1))try{mvmove(1,-1)}catch(e){}}
   if(E(2)&&P.car===q&&q.y>g.los+.6){ctlSlide()}
   else if(E(4)&&optOf(P)&&P.car===q){optPitch()}
   else if(E(11)&&qbHold_()&&!optOf(P)&&q.y<=g.los+.6&&cpmOf()!=='tap'){/* meter mode: ctlPA sees R3 too */}
@@ -13616,5 +13619,55 @@ window.claRelease=function(h){const s={...CLA};CLA={i:-1};try{const P=g.pl,q=P.q
  CLA={i:-1}}catch(e){CLA={i:-1}}return _pa&&_pa.apply(this,arguments)}}catch(e){}})();
 (()=>{try{const _g=window.ctlLegend;window.ctlLegend=function(){_g.apply(this,arguments);try{const lg=document.getElementById('ctlleg'),P=g&&g.pl,q=P&&P.qb;if(!lg||!g||g.ph!=='live'||!P||P.car!==q||P.air||ctlRoot()||q.y>g.los+.6||optOf(P))return;
  const ps=CTL.kind==='ps';let t=null;if(cpmOf()==='classic')t=`tap = lob · hold = bullet · L-stick lead · ${ps?'L1':'LB'} high · ${ps?'L2':'LT'} low · R3 throw away`;if(t&&lg.textContent!==t)lg.textContent=t}catch(e){}}}catch(e){}})();
+// ===== ⏱ NFL OVERTIME WITH A REAL CLOCK · DELAY OF GAME · NO PASSING ON RUNS · XP % · WATCHED XP (Tyler 2026-11-17) =====
+// Pro overtime used to be untimed "modified sudden death": the play clock never ran (no delay of game), and the other team's
+// drive was simulated with 1 second on the clock, so it ended after one play ("Time expired"). Now pro OT is the NFL's:
+// a 10:00 period in the regular season (a tie when it runs out), 15:00 periods in the playoffs; the game clock and play clock run
+// exactly like regulation (same speed for both teams); both teams get the ball, then the next score wins.
+window.otLen=function(){return (g.kind==='reg'||g.kind==='pro')?600:900};
+window.otPlayoff=function(){return !(g.kind==='reg'||g.kind==='pro')};
+window.otBegin=function(){g.otT=1;g.otp=1;g.clk=3600-otLen();g.tw2=0;g.cr=false;g.to=otPlayoff()?[3,3]:[2,2];g.otq=0};
+(()=>{try{const _o=otStart;otStart=function(){const r=_o.apply(this,arguments);try{if(g.lv==='pro')otBegin()}catch(e){}return r};window.otStart=otStart}catch(e){}})();
+// a saved game paused in the old untimed pro OT (nobody has had the ball yet) carries on under the timed rules
+window.otMig=function(){try{if(g&&g.ot&&g.lv==='pro'&&!g.otT&&(g.otn||0)===0){otBegin();g.otq=0}}catch(e){}};
+// possessions in timed OT: after both teams have had it, the first score (or any lead at the end of a possession) wins
+// who had the ball: 0 you, 1 them. After the first possession only a DEFENSIVE score (pick-six, fumble return, safety) ends it.
+window.otDone=function(had){g.otq=(g.otq||0)+1;const sc=g.s[0]-g.s[1];if(g.otq>=2&&sc!==0){endGame();return 1}
+ if(g.otq===1&&sc!==0&&((had===0&&sc<0)||(had===1&&sc>0))){endGame();return 1}return 0};
+(()=>{try{const _a=otAfter;otAfter=function(t,pts){if(!g.otT)return _a.apply(this,arguments);if(otDone(0))return;if(otTime())return;
+  // your drive ended: they get it (after a score you kick off; a touchback)
+  g.nx=g.nx||25;oppBall()};window.otAfter=otAfter}catch(e){}})();
+// their drive ended (watched or simulated): count the possession, then you get the ball
+(()=>{try{const _a=applyO;applyO=function(){if(g&&g.otT)g._otAO=1;return _a.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _p=pre;pre=function(){try{if(g&&g.otT&&g._otAO){g._otAO=0;if(otDone(1))return;if(otTime())return}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+// time runs out in an OT period
+window.otTime=function(){if(!g.otT||g.clk<3600)return 0;if(g.s[0]!==g.s[1]){endGame();return 1}
+ if(!otPlayoff()){g.note='Overtime ends in a tie';endGame();return 1}
+ g.otp=(g.otp||1)+1;g.clk=3600-otLen();g.tw2=0;g.cr=false;if(g.otp%2)g.to=[3,3];g.note='End of OT period '+(g.otp-1)+': '+(g.otp)+(g.otp==2?'nd':g.otp==3?'rd':'th')+' overtime';return 0};
+(()=>{try{const _c=chk;chk=function(w){if(g&&g.otT){return otTime()}return _c.apply(this,arguments)};window.chk=chk}catch(e){}})();
+// a score in a period that isn't the first possession already counted happens inside drvEnd / applyO; a safety etc. go the same way
+// ---------- no passing on a running play (there are no RPOs in the playbook) ----------
+(()=>{try{const _d=doThrow;doThrow=function(){try{const P=g&&g.pl;if(P&&!g.watch&&P.call&&['run','qbrun','option'].includes(P.call.t)&&P.car===P.qb){g.flash='Run play: no pass';g.ft=.9;return}}catch(e){}return _d.apply(this,arguments)};window.doThrow=doThrow}catch(e){}})();
+// ---------- the kicker's chance on the extra-point button ----------
+window.xpPct=function(){try{return Math.round(fgP(g.lv=='pro'?33:20,KKt(0),g.lv)*100)}catch(e){return null}};
+(()=>{try{const _p=pat;pat=function(){const r=_p.apply(this,arguments);try{const b=[...document.querySelectorAll('#ov button')].find(x=>/^Extra point/.test(x.textContent)),p=xpPct();if(b&&p!=null)b.textContent='Extra point · '+p+'%'}catch(e){}return r};window.pat=pat}catch(e){}})();
+// ---------- a watched drive shows their extra point (it was added to the score without being shown) ----------
+(()=>{try{const _w=watchO;watchO=function(){const r_=g.r,o=r_&&r_.pl;try{if(o&&o.length){const L=o.slice(),i=L.findIndex(e=>e.td);if(i>=0&&(r_.pts===6||r_.pts===7))L.splice(i+1,0,{k:'fg',ok:r_.pts===7,y0:84,dn:0,tg:0,s:L[i].s,xp:1});r_.pl=L}}catch(e){}
+ try{return _w.apply(this,arguments)}finally{if(r_&&o)r_.pl=o}};window.watchO=watchO}catch(e){}})();
+(()=>{try{const _e=wEnd;wEnd=function(txt,k){try{const P=g.pl;if(P&&P.e&&P.e.xp)txt=P.e.ok?'EXTRA POINT IS GOOD':'EXTRA POINT NO GOOD'}catch(e){}return _e.call(this,txt,k)};window.wEnd=wEnd}catch(e){}})();
+
+// a game saved in the old untimed pro OT restarts overtime from the coin toss (Tyler 2026-11-17)
+(()=>{try{const _p=pre;pre=function(){try{if(g&&g.ot&&g.lv==='pro'&&!g.otT&&!g.otRe){g.otRe=1;g.otn=0;g.otq=0;otStart();return}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+// ===== 🌺 PRO BOWL: YOU PLAY ONLY YOUR SCHEDULED QUARTERS · WATCH OR "SIM UNTIL I'M ON THE FIELD" (Tyler 2026-11-17) =====
+// The rotation (3rd in votes Q1, 2nd Q2, 1st the 2nd half) already chose the QB, but you were handed the ball every drive
+// anyway. Now when it isn't your turn, your team's drive is one you watch or simulate; you can't put yourself in.
+window.pbMeAt=function(q){try{const c=pbLine(PBGM.me,q,0)[0];return !!(c&&(c.me||c.n===S.name))}catch(e){return true}};
+window.pbNext=function(){for(let q=pbQ();q<=4;q++)if(pbMeAt(q))return q;return 0};
+window.pbOffUI=function(){const q=pbQ(),c=(pbLine(PBGM.me,q,0)[0]||{}),nx=pbNext(),rem=Math.max(1,(g.clk<1800?1800:3600)-g.clk);
+ g.ph='opp';g.tk=0;g.sw=0;g.pl=null;g.r=simDrive(g.m.ovr,g.o.ovr,g.y,rem,g.s[0]-g.s[1],g.clk>=1800,KKt(0));
+ ovShow(`<h2>Your ball · ${esc(c.n||'QB')} at QB</h2><p>Q${q} belongs to ${esc(c.n||'him')}. ${nx?'You go in for Q'+nx+'.':'Your time is done: watch or sim the rest.'}</p><p>${g.s[0]}–${g.s[1]}</p><button onclick=watchU()>Watch drive</button><button class=g onclick=applyU()>Simulate drive</button>${nx?'<button class=g onclick=pbSimTo()>Sim until I\'m on the field</button>':''}`)};
+window.pbSimTo=function(){PBGM.auto=1;ovHide();applyU()};
+(()=>{try{const _p=pre;pre=function(){try{if(PBGM&&g&&g.kind==='pbg'&&!g.two&&!pbMeAt(pbQ())){return pbOffUI()}if(PBGM&&PBGM.auto){PBGM.auto=0;g.note="You're in: Q"+pbQ()}}catch(e){}return _p.apply(this,arguments)}}catch(e){}})();
+(()=>{try{const _o=oppBall;oppBall=function(){const r=_o.apply(this,arguments);try{if(PBGM&&g&&g.kind==='pbg'&&g.ph==='opp'){if(PBGM.auto){ovHide();return applyO()}if(pbNext()&&!pbMeAt(pbQ())){const o=document.getElementById('ov'),b=document.createElement('button');b.className='g';b.textContent="Sim until I'm on the field";b.onclick=()=>{PBGM.auto=1;ovHide();applyO()};o&&o.querySelector('button')&&o.querySelector('button').parentNode.appendChild(b)}}}catch(e){}return r};window.oppBall=oppBall}catch(e){}})();
 addEventListener('resize',resize);addEventListener('orientationchange',()=>{setTimeout(resize,150);setTimeout(resize,600)});if(window.visualViewport)visualViewport.addEventListener('resize',resize);if(ui.addEventListener)ui.addEventListener('scroll',scrH);if(typeof MutationObserver!='undefined')new MutationObserver(()=>setTimeout(scrH,40)).observe(ui,{childList:true});addEventListener('resize',()=>setTimeout(scrH,120));gfxApply();buildField();buildEZ('#c0392b','#2980b9');requestAnimationFrame(loop);menu();cloudInit();setInterval(()=>{if(S&&S.T)save()},8000);addEventListener('beforeunload',()=>{if(S&&S.T)save()});
 </script></body></html>
