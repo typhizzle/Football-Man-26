@@ -23,9 +23,9 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
  if(d.dz){if(Math.abs(d.x-q.x)>22)return null;const lead=.8;return [cl(q.x+(q.vx||0)*lead,2,51.3),Math.max(g.los+6,Math.min(d.y,q.y+10))]}
  if(lat<-8&&Math.abs(d.x-q.x)>16)return null;const dd=Math.hypot(q.x-d.x,q.y-d.y),ld=cl(dd/(d.sp+.1)*.6,.3,1.2);return [cl(q.x+(q.vx||0)*ld,1,52.3),Math.max(g.los+.5,q.y+(q.vy||0)*ld+.6)]};
 (()=>{try{const _z=zoneT;zoneT=function(d,P){const r=_z.apply(this,arguments);try{
- if(zcScr(P)){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}
+ if(zcScr(P)&&(P.qb.y>g.los+.3||!P.wr.some(w=>w.y>g.los&&Math.hypot(w.x-d.x,w.y-d.y)<7))){d.pk=null;const c=zcCut(d,P);if(c){d.cbB=1.04;return c}}   /* Tyler 2026-11-17: a zone defender with a receiver in his area stays on him while you move in the pocket; he comes up only if his area is empty or you cross the line */
  const idle=r&&Math.abs(r[0]-d.zx)<.01&&Math.abs(r[1]-d.zy)<.01;
- if(d.pk&&d.dz&&d.pk.y<g.los+8&&P.wr.some(x=>x!==d.pk&&x.y>g.los+12))d.pk=null;   /* a deep man appears: back to depth */if(d.pk&&(P.passed||!P.wr.includes(d.pk)||!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4))d.pk=null;
+ if(d.pk&&d.dz&&!d.pkA&&d.pk.y<g.los+8&&P.wr.some(x=>x!==d.pk&&x.y>g.los+12))d.pk=null;   /* a deep man appears: back to depth */if(d.pk&&(P.passed||!P.wr.includes(d.pk)||(!d.pkA&&!zcFree(d.pk,P,d)&&Math.hypot(d.pk.x-d.x,d.pk.y-d.y)>4)))d.pk=null;
  if(!d.pk&&idle&&!P.passed){let b=null,bd=20;P.wr.forEach(w=>{if(w.hold||w.y<g.los+2)return;if(d.dz&&w.y<g.los+10&&(P.t<(ZC.dh!=null?ZC.dh:2.5)||P.wr.some(x=>x.y>g.los+12)))return;   /* Tyler 2026-11-17: a deep defender doesn't leave his depth to chase a short man while anyone is threatening deep (that left deep receivers wide open); once nobody is deep he comes up to help */const dd=Math.hypot(w.x-d.x,w.y-d.y)*(w.y-g.los>12?.75:1);if(dd<bd&&zcFree(w,P,d)){bd=dd;b=w}});if(b){d.pk=b;d.pkT=P.t-(b.y-g.los>12?ZC.lag*.7:0)}   /* a deep man nobody has is seen from farther and picked up faster */}
  if(d.pk){if(ZC.off)return r;const w=d.pk,lag=ZC.lag,tx=w.x+(w.vx||0)*.3,ty=w.y+(w.vy||0)*.25+(d.dz?1.6:.9)*(w.y-g.los>12?1:ZC.top),s_=Math.hypot(tx-d.x,ty-d.y);
   if(P.t-(d.pkT||0)<lag)return r;   // a beat to react
@@ -33,3 +33,12 @@ window.zcCut=function(d,P){const q=P.qb,side=Math.sign(q.x-26.5)||1,ahead=d.y-q.
 }catch(e){}return r}}catch(e){}})();
 // the end on the side you roll to sheds his block to set the edge (an end, or the outside rusher on that side)
 (()=>{try{const _r=rushP;rushP=function(d,b,P){const r=_r.apply(this,arguments);try{if(zcScr(P)){const q=P.qb,side=Math.sign(q.x-26.5)||1;if((d.x-26.5)*side>2)return Math.max(r,1.6*cl(((S.q&&S.q.mob)||60)-40,15,50)/50)}}catch(e){}return r}}catch(e){}})();
+// ===== everyone has a man (Tyler 2026-11-17: "If they're in zone coverage, they still have to cover someone and they can't really come off
+// of it. Everyone still has their own man. They just cover a zone") =====
+// Measured at 5 s with the QB holding: 25% of receivers open, mostly with NOBODY on them (the deep defender was on one deep man while a
+// second ran free in his area). Now, once routes have declared (1.5 s), every zone defender who isn't already on someone takes the nearest
+// receiver nobody has (deepest threats first) and stays with him the way a man defender would. Receivers still win with speed and routes.
+window.zcAssign=function(P){try{if(!P||P.passed||P.air||P.t<1.5||g.ph!=='live')return;const D=P.db.concat(P.lb).filter(d=>!d.w&&!d.blz&&!d.spy&&!(d.stun>0));
+ const has=w=>P.db.concat(P.lb).some(d=>d.w===w||d.mw===w||d.pk===w);const R=P.wr.filter(w=>w&&!w.hold&&w.y>g.los+1&&!has(w)).sort((a,b)=>b.y-a.y);
+ R.forEach(w=>{const c=D.filter(d=>!d.pk&&!d.mw&&Math.hypot(d.x-w.x,d.y-w.y)<16).sort((a,b)=>Math.hypot(a.x-w.x,a.y-w.y)-Math.hypot(b.x-w.x,b.y-w.y))[0];if(c){c.pk=w;c.pkT=P.t-1;c.pkA=1}})}catch(e){}};
+(()=>{try{const _u=upd;upd=function(dt){try{if(g&&g.ph==='live'&&g.pl)zcAssign(g.pl)}catch(e){}return _u.apply(this,arguments)}}catch(e){}})();

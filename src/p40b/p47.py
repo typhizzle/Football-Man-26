@@ -1151,3 +1151,7 @@ r("addEventListener('resize',resize);addEventListener('orientationchange'",
 # m239: upgrades never jump to the top (every +1, every panel)
 r("addEventListener('resize',resize);addEventListener('orientationchange'",
   M('m239.js')+"addEventListener('resize',resize);addEventListener('orientationchange'")
+# Tyler 2026-11-17: "they'll run really fast once the passes happen, so they have a chance to break it up. That is not what I want ...
+# If there is separation, the catch should be easier". Was: every defender within 16 yds of the landing spot sprinted to it ~0.05 s
+# after the throw. Now: only the man covering that receiver (or one already within 5 yds) plays the ball, after a real reaction beat.
+r("else if(a&&Math.hypot(a.lx-d.x,a.ly-d.y)<16&&P.t>a.t0+(100-d.cov)/650){tx=a.lx;ty=a.ly}","else if(a&&(d.w===a.tgt||d.pk===a.tgt||d.mw===a.tgt||Math.hypot(a.lx-d.x,a.ly-d.y)<5)&&Math.hypot(a.lx-d.x,a.ly-d.y)<16&&P.t>a.t0+.3+(100-d.cov)/250){tx=a.lx;ty=a.ly}")
